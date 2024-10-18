@@ -1,0 +1,58 @@
+<h1>Productos</h1>
+
+<!-- Uncomment if admin functionality is needed
+<div *ngIf="isAdmin">
+  <label for="new-producto">Nombre Producto</label>
+  <input id="new-producto" #nombreProducto />
+  <button type="button" class="add-button" (click)="add(nombreProducto.value); nombreProducto.value = ''">
+    Add producto
+  </button>
+</div>
+-->
+
+<table class="product-table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Imagen</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="productoModel.productos.length > 0; else vacio">
+    <tr *ngFor="let producto of productoModel.productos; let i = index">
+      <td>
+        <a routerLink="/admin/verProducto/{{ producto.id }}">
+          <span class="badge">{{ producto.id }}</span>
+        </a>
+      </td>
+      <td>{{ producto.nombre }}</td>
+      <td>
+        <img [src]="producto.imagen" alt="{{ producto.nombre }}" class="product-image" />
+      </td>
+      <td>
+        <div *ngIf="producto.oferta; else noOferta">
+          <div class="price-container">
+            <span class="original-price">{{ calcularPrecioOriginal(producto.precio, producto.descuento) | currency:'EUR':'symbol':'1.2-2' }}</span>
+            <strong class="discounted-price">{{ producto.precio | currency:'EUR':'symbol':'1.2-2' }}</strong>
+          </div>
+        </div>
+        <ng-template #noOferta>
+          <strong>{{ producto.precio | currency:'EUR':'symbol':'1.2-2' }}</strong>
+        </ng-template>
+      </td>
+      <td>
+        <button type="button" class="delete" title="Eliminar producto" (click)="delete(producto)">
+          x
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #vacio>
+  <tr>
+    <td colspan="5">No hay productos</td>
+  </tr>
+</ng-template>

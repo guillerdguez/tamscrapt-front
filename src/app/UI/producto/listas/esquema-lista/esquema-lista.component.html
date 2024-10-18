@@ -1,0 +1,40 @@
+<div class="product-table">
+  <div *ngFor="let param of params; let i = index">
+    <div class="container2">
+      <a [routerLink]="['/ver', param.id]">
+        <div>
+          <img
+            [src]="param.imagen"
+            alt="{{ param.nombre }}"
+            class="product-image"
+          />
+        </div>
+        <div>
+          <span class="badge">{{ param.nombre }}</span>
+        </div>
+        <div>
+          <div *ngIf="param.oferta; else noOferta">
+            <div class="price-container">
+              <span class="original-price">{{
+                calcularPrecioOriginal(param.precio, param.descuento)
+                  | currency : "EUR" : "symbol" : "1.2-2"
+              }}</span>
+              <strong class="discounted-price">{{
+                param.precio | currency : "EUR" : "symbol" : "1.2-2"
+              }}</strong>
+            </div>
+          </div>
+          <ng-template #noOferta>
+            <strong>{{
+              param.precio | currency : "EUR" : "symbol" : "1.2-2"
+            }}</strong>
+          </ng-template>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <ng-template #vacio>
+    <div class="no-products" colspan="3">No hay productos</div>
+  </ng-template>
+</div>

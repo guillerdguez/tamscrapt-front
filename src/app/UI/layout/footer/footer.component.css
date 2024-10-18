@@ -1,0 +1,65 @@
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;  
+}
+
+.content {
+    flex: 1;  
+}
+
+.site-footer {
+    background-color: #8ec4c0;
+    color: #f8f9fa;
+    margin-top: auto;  
+    padding: 20px 0; /* Espaciado superior e inferior */
+    text-align: center; /* Centra el contenido */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* Espacia las secciones */
+    max-width: 1200px; /* Ancho máximo */
+    margin: 0 auto; /* Centra el footer */
+    padding: 0 20px; /* Espaciado lateral */
+}
+
+.footer-section {
+    flex: 1; /* Secciones flexibles */
+    margin: 0 20px; /* Espaciado lateral entre secciones */
+}
+
+.footer-title {
+    margin-bottom: 10px; /* Menos espacio entre título y contenido */
+    font-weight: bold; /* Negrita para títulos */
+}
+
+.footer-description {
+    margin-bottom: 20px; /* Espacio entre descripción y enlaces */
+    font-size: 0.9em; /* Tamaño de fuente más pequeño */
+}
+
+.footer-links {
+    list-style-type: none; /* Elimina el estilo de lista por defecto */
+    padding: 0; /* Elimina el padding */
+}
+
+.footer-links li {
+    margin-bottom: 10px; /* Espacio entre enlaces */
+}
+
+.footer-link {
+    color: #f8f9fa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #a8dadc;
+}
+ 

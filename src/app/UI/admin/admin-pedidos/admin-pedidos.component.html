@@ -1,0 +1,32 @@
+<!-- pedidos.component.html
+<div class="pedidos">
+    <h2>Gestión de Pedidos</h2>
+  
+    <div class="busqueda">
+      <input type="text" [(ngModel)]="filtroPedido" placeholder="Buscar pedidos" />
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>Número de Pedido</th>
+          <th>Cliente</th>
+          <th>Estado</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos | filter: filtroPedido">
+          <td>{{ pedido.id }}</td>
+          <td>{{ pedido.cliente?.username }}</td>
+          <td>{{ pedido.estado }}</td>
+          <td>{{ pedido.precio | currency }}</td>
+          <td>
+            <button (click)="verDetallesPedido(pedido)">Detalles</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+   -->

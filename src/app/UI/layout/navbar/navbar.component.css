@@ -1,0 +1,96 @@
+/* Estilos generales de la barra de navegación */
+.custom-navbar {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  position: relative;
+}
+
+/* Estilos de la marca y enlaces */
+.brand,
+.nav-link {
+  color: #9fcfd1;
+  font-size: 1.1rem;
+}
+
+.nav-link {
+  transition: color 0.3s ease;
+  padding: 0.5rem 1.5rem; /* Aumentar padding horizontal */
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: #005f73;
+}
+
+/* Estilos de la lista de navegación */
+.nav-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end; /* Alinea los elementos a la derecha */
+}
+
+/* Estilos de los elementos de la navegación */
+.nav-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0 1rem; /* Espaciado horizontal entre nav-items */
+}
+
+.nav-item svg {
+  margin-left: 30px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  transition: filter 0.3s ease;
+}
+
+.nav-item svg:hover {
+  filter: brightness(0.7);
+}
+
+/* Estilos del menú desplegable */
+.dropdown-menu {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+/* Estilos de los elementos del menú desplegable */
+.dropdown-item {
+  color: #005f73;
+  padding: 10px 20px;
+  text-decoration: none;
+  display: block;
+  margin: 0.5rem 0; /* Espaciado vertical entre dropdown-items */
+}
+
+.dropdown-item:hover {
+  background-color: #e0f7f7;
+}
+.superior {
+  padding-top: 0px;
+  background-color: #a8dadc;
+  min-height: 40px;
+}
+.brand {
+  color: #9fcfd1;  
+  font-size: 3rem;
+  font-weight: bold; 
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+  display: inline-block;
+  padding-bottom: 0 px;   margin-right: auto;
+}
+
+.brand:hover {
+  transform: scale(1.05);
+  color: #005f73;
+}
