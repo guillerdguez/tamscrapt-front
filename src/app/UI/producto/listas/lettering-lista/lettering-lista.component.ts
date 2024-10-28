@@ -5,22 +5,22 @@ import { Producto } from '../../../../Model/Domain/Producto';
 
 @Component({
   selector: 'app-lettering-lista',
-  template: ` <app-esquema-lista [params]="productos"></app-esquema-lista> `,
+  template: `
+    <app-esquema-lista [title]="title"></app-esquema-lista>
+    <app-esquema-lista [params]="productos"></app-esquema-lista>
+  `,
 })
 export class LetteringListaComponent implements OnInit {
-  productos: Producto[] = []
-
-
- 
+  title: string = 'Lettering';
+  productos: Producto[] = [];
 
   constructor(
     private productoService: ProductoService,
     public productoModel: ProductoModel
-  ) { 
-  }
+  ) {}
   ngOnInit(): void {
-    this.productos=  this.productoService.getProductosLetteringArray();
-  } 
+    this.productos = this.productoService.getProductosLetteringArray();
+  }
   add(arg0: string) {
     throw new Error('Method not implemented.');
   }

@@ -1,27 +1,16 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../../Service/Producto.service';
 import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
 import { Producto } from '../../../../Model/Domain/Producto';
 @Component({
   selector: 'app-producto-lista',
-  template: `<div class="outer" data-height="320">
-      <div class="title">
-        <div class="image"></div>
-        <div class="holder">
-          <div class="container">
-            <div class="inner">
-              <div class="subtitle">
-                <h1><span>Productos</span></h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <app-esquema-lista [params]="productos"></app-esquema-lista> `,
-  styleUrl: 'producto-lista.css',
+  template: `
+    <app-esquema-lista [title]="title"></app-esquema-lista>
+    <app-esquema-lista [params]="productos"></app-esquema-lista>
+  `,
 })
 export class ProductoListaComponent implements OnInit {
+  title: string = 'Productos';
   productos: Producto[] = [];
   constructor(
     private productoService: ProductoService,

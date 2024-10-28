@@ -5,11 +5,15 @@ import { Producto } from '../../../../Model/Domain/Producto';
 
 @Component({
   selector: 'app-scrapbooking-lista',
-  template: ` <app-esquema-lista [params]="productos"></app-esquema-lista> `,
+  template: `
+    <app-esquema-lista [title]="title"></app-esquema-lista>
+    <app-esquema-lista [params]="productos"></app-esquema-lista>
+  `,
 })
 export class ScrapbookingListaComponent implements OnInit {
+  title: string = 'Scrapbooking';
   productos: Producto[] = [];
- constructor(
+  constructor(
     private productoService: ProductoService,
     public productoModel: ProductoModel
   ) {}
@@ -18,7 +22,6 @@ export class ScrapbookingListaComponent implements OnInit {
     this.productos = this.productoService.getProductosScrapbookingArray();
   }
 
- 
   add(arg0: string) {
     throw new Error('Method not implemented.');
   }

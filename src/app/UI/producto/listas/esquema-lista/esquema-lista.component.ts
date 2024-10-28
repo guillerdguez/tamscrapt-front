@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Producto } from '../../../../Model/Domain/Producto';
 
 @Component({
@@ -8,13 +14,16 @@ import { Producto } from '../../../../Model/Domain/Producto';
 })
 export class EsquemaListaComponent implements OnInit {
   @Input() params: Producto[] = [];
-  hasItems: boolean = false; 
+  @Input() title: string = '';
+  hasItems: boolean = false;
   ngOnInit() {
     this.updateHasItems();
   }
 
-  ngOnChanges() {
-    this.updateHasItems();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['params'] || changes['title']) {
+      this.updateHasItems();
+    }
   }
 
   private updateHasItems() {
