@@ -1,4 +1,3 @@
- 
 import { Pedido } from '../Model/Domain/Pedido';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -35,24 +34,27 @@ export class PedidoDAO {
   }
   //UPDATE
   updatePedido(pedido: Pedido): Observable<any> {
-    const url2 = `${this.url}/editar/${pedido.getId()}`;
+    const url2 = `${this.url}/editar/${pedido.id}`;
     return this.http.put(url2, pedido, this.httpOptions);
   }
-  addProductos(pedidoId: number, productoIds: number[], cantidades: number[]): Observable<Pedido> {
+  addProductos(
+    pedidoId: number,
+    productoIds: number[],
+    cantidades: number[]
+  ): Observable<Pedido> {
     const url2 = `${this.url}/addProducto/${pedidoId}`;
     const body = { productoIds, cantidades };
     return this.http.post<Pedido>(url2, body, this.httpOptions);
   }
-  removeProducto(pedidoId: number, productoId: number): Observable<Pedido>  {
+  removeProducto(pedidoId: number, productoId: number): Observable<Pedido> {
     const url2 = `${this.url}/removeProducto/${pedidoId}/${productoId}`;
     const body = { pedidoId, productoId };
     return this.http.post<Pedido>(url2, body, this.httpOptions);
   }
-  
+
   //DELETE
   deletePedido(id: number): Observable<Pedido> {
     const url2 = `${this.url}/borrar/${id}`;
     return this.http.delete<Pedido>(url2, this.httpOptions);
   }
-  
 }
