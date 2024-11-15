@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProductoDAO } from '../DAO/producto.DAO';
-import { ProductoModel } from '../Model/Views/Dynamic/ProductoModel';
-import { Producto } from '../Model/Domain/Producto';
+import { AlgoModel } from '../Model/Views/Dynamic/AlgoModel';
+import { Producto } from '../Model/Domain/ProductoClass';
 import { Observable } from 'rxjs';
+import { ProductoModel } from '../Model/Views/Dynamic/ProductoModel';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +11,15 @@ import { Observable } from 'rxjs';
 export class ProductoService {
   constructor(
     private productoDAO: ProductoDAO,
-    private productoModel: ProductoModel
+    private algoModel: AlgoModel,
+    public productoModel: ProductoModel
   ) {}
   //Create
   addProducto(producto: Producto): void {
-    this.productoModel.productos.push(producto);
+    this.algoModel.algos.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: Producto) => {
-        this.productoModel.producto = producto;
+        this.algoModel.algo = producto;
       },
       error: (error) => {
         console.error(error);
@@ -29,7 +31,7 @@ export class ProductoService {
   getProductos(): void {
     this.productoDAO.getProductos().subscribe({
       next: (productos: Producto[]) => {
-        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -43,6 +45,8 @@ export class ProductoService {
     this.productoDAO.getProductos().subscribe({
       next: (productos: Producto[]) => {
         this.productos = productos;
+        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -55,7 +59,7 @@ export class ProductoService {
   getProductosLettering(): void {
     this.productoDAO.getProductosLettering().subscribe({
       next: (productos: Producto[]) => {
-        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -77,7 +81,7 @@ export class ProductoService {
   getProductosScrapbooking(): void {
     this.productoDAO.getProductosScrapbooking().subscribe({
       next: (productos: Producto[]) => {
-        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -100,7 +104,7 @@ export class ProductoService {
   getProductosOferta(): void {
     this.productoDAO.getProductosOferta().subscribe({
       next: (productos: Producto[]) => {
-        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -123,7 +127,7 @@ export class ProductoService {
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: Producto) => {
-        this.productoModel.producto = producto;
+        this.algoModel.algo = producto;
       },
       error: (error) => {
         console.error(error);
@@ -133,7 +137,7 @@ export class ProductoService {
   findByName(term: string): void {
     this.productoDAO.findByName(term).subscribe({
       next: (productos: Producto[]) => {
-        this.productoModel.productos = productos;
+        this.algoModel.algos = productos;
       },
       error: (error) => {
         console.error(error);
@@ -144,7 +148,7 @@ export class ProductoService {
   // updateProducto(producto: Producto): void {
   //   this.productoDAO.updateProducto(producto).subscribe({
   //     next: (producto: Producto) => {
-  //       this.productoModel.producto = producto;
+  //       this.algoModel.algo = producto;
   //     },
   //     error: (error) => {
   //       console.error(error);
@@ -159,7 +163,7 @@ export class ProductoService {
     );
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: Producto) => {
-        this.productoModel.producto = producto;
+        this.algoModel.algo = producto;
         console.log(
           'bieeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen'
         );
@@ -177,7 +181,7 @@ export class ProductoService {
   deleteProducto(id: number): void {
     this.productoDAO.deleteProducto(id).subscribe({
       next: (producto: Producto) => {
-        this.productoModel.producto = producto;
+        this.algoModel.algo = producto;
       },
       error: (error) => {
         console.error(error);

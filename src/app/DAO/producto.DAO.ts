@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../Model/Domain/Producto';
+import { Producto } from '../Model/Domain/ProductoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 @Injectable({

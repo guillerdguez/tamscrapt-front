@@ -1,39 +1,39 @@
-<!-- <div *ngIf="productoModel.producto">
+<!-- <div *ngIf="algoModel.algo">
   <div class="container">
-    <h2>{{ productoModel.producto.nombre | uppercase }}</h2>
+    <h2>{{ AlgoModel.algo.nombre | uppercase }}</h2>
 
     <div>
       <span><strong>id:</strong></span>
-      {{ productoModel.producto.id }}
+      {{ AlgoModel.algo.id }}
     </div>
 
     <div>
       <img
-        [src]="productoModel.producto.imagen"
+        [src]="algoModel.algo.imagen"
         alt="Imagen del producto"
         class="product-image"
       />
     </div>
 
     <div>
-      <div *ngIf="productoModel.producto.oferta; else noOferta">
+      <div *ngIf="algoModel.algo.oferta; else noOferta">
         <div class="price-container">
           <span class="original-price">
             {{
               calcularPrecioOriginal(
-                productoModel.producto.precio,
-                productoModel.producto.descuento
+                AlgoModel.algo.precio,
+                AlgoModel.algo.descuento
               )
             }}
             €
           </span>
           <strong class="discounted-price">
-            {{ productoModel.producto.precio.toFixed(2) }} €
+            {{ AlgoModel.algo.precio.toFixed(2) }} €
           </strong>
         </div>
       </div>
       <ng-template #noOferta>
-        <strong>{{ productoModel.producto.precio.toFixed(2) }} €</strong>
+        <strong>{{ AlgoModel.algo.precio.toFixed(2) }} €</strong>
       </ng-template>
     </div>
 
@@ -41,7 +41,7 @@
       <label for="producto-nombre">Producto nombre: </label>
       <input
         id="producto-nombre"
-        [(ngModel)]="productoModel.producto.nombre"
+        [(ngModel)]="algoModel.algo.nombre"
         placeholder="Producto nombre"
       />
     </div>

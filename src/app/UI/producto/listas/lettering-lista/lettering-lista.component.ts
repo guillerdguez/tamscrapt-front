@@ -1,13 +1,12 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { ProductoService } from '../../../../Service/Producto.service';
-import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
-import { Producto } from '../../../../Model/Domain/Producto';
+import { Producto } from '../../../../Model/Domain/ProductoClass';
+import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
 
 @Component({
   selector: 'app-lettering-lista',
   template: `
-    <app-esquema-lista [title]="title"></app-esquema-lista>
-    <app-esquema-lista [params]="productos"></app-esquema-lista>
+    <app-esquema-lista [title]="title" [params]="productos"></app-esquema-lista>
   `,
 })
 export class LetteringListaComponent implements OnInit {
@@ -16,7 +15,7 @@ export class LetteringListaComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    public productoModel: ProductoModel
+    public algoModel: AlgoModel
   ) {}
   ngOnInit(): void {
     this.productos = this.productoService.getProductosLetteringArray();
@@ -25,9 +24,7 @@ export class LetteringListaComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   delete(producto: Producto): void {
-    this.productoModel.productos = this.productoModel.productos.filter(
-      (h) => h !== producto
-    );
+    this.algoModel.algos = this.algoModel.algos.filter((h) => h !== producto);
     this.productoService.deleteProducto(producto.id);
   }
 }

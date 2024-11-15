@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../Service/Producto.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
+import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+
 @Component({
   selector: 'app-ver-producto',
   templateUrl: './ver-producto.component.html',
@@ -13,7 +14,7 @@ export class VerProductoComponent implements OnInit {
     private productoService: ProductoService,
     private route: ActivatedRoute,
     private location: Location,
-    public productoModel: ProductoModel
+    public algoModel: AlgoModel
   ) {}
 
   ngOnInit(): void {
@@ -24,8 +25,11 @@ export class VerProductoComponent implements OnInit {
     this.location.back();
   }
   save(): void {
-    if (this.productoModel.producto) {
-      this.productoService.updateProducto(this.productoModel.producto.id,this.productoModel.producto);
+    if (this.algoModel.algo) {
+      this.productoService.updateProducto(
+        this.algoModel.algo.id,
+        this.algoModel.algo
+      );
       this.goBack();
     }
   }

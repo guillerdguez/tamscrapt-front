@@ -5,14 +5,14 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { Producto } from '../../../../Model/Domain/Producto';
+import { Producto } from '../../../../Model/Domain/ProductoClass';
 
 @Component({
-  selector: 'app-esquema-lista',
+  selector: 'app-esquema-lista2',
   templateUrl: './esquema-lista.component.html',
   styleUrl: './esquema-lista.component.css',
 })
-export class EsquemaListaComponent implements OnInit {
+export class EsquemaListaComponent2 implements OnInit {
   @Input() params: Producto[] = [];
   @Input() title: string = '';
   hasItems: boolean = false;

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../../Service/Producto.service';
-import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
-import { Producto } from '../../../../Model/Domain/Producto';
+import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
+import { Producto } from '../../../../Model/Domain/ProductoClass';
 @Component({
   selector: 'app-producto-lista',
   template: `
-    <app-esquema-lista [title]="title"></app-esquema-lista>
-    <app-esquema-lista [params]="productos"></app-esquema-lista>
+    <app-esquema-lista [title]="title" [params]="productos"></app-esquema-lista>
   `,
 })
 export class ProductoListaComponent implements OnInit {
@@ -14,7 +13,7 @@ export class ProductoListaComponent implements OnInit {
   productos: Producto[] = [];
   constructor(
     private productoService: ProductoService,
-    public productoModel: ProductoModel
+    public algoModel: AlgoModel
   ) {}
 
   ngOnInit(): void {
@@ -25,9 +24,7 @@ export class ProductoListaComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   delete(producto: Producto): void {
-    this.productoModel.productos = this.productoModel.productos.filter(
-      (h) => h !== producto
-    );
+    this.algoModel.algos = this.algoModel.algos.filter((h) => h !== producto);
     this.productoService.deleteProducto(producto.id);
   }
 }

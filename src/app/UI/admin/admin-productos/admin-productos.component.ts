@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductoService } from '../../../Service/Producto.service';
-import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
-import { Producto } from '../../../Model/Domain/Producto';
+import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { Producto } from '../../../Model/Domain/ProductoClass';
 
 @Component({
   selector: 'app-admin-productos',
@@ -18,7 +18,7 @@ export class AdminProductosComponent {
 
   constructor(
     private productoService: ProductoService,
-    public productoModel: ProductoModel
+    public algoModel: AlgoModel
   ) {}
   ngOnInit(): void {
     this.productoService.getProductos();
@@ -28,9 +28,7 @@ export class AdminProductosComponent {
     throw new Error('Method not implemented.');
   }
   delete(producto: Producto): void {
-    this.productoModel.productos = this.productoModel.productos.filter(
-      (h) => h !== producto
-    );
+    this.algoModel.algos = this.algoModel.algos.filter((h) => h !== producto);
     this.productoService.deleteProducto(producto.id);
   }
 }

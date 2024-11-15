@@ -12,17 +12,20 @@ import { AdminClientesComponent } from './UI/admin/admin-clientes/admin-clientes
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
 import { AdminProductosComponent } from './UI/admin/admin-productos/admin-productos.component';
 import { AdminVerProductoComponent } from './UI/admin/admin-ver-producto/Admin-ver-producto.component';
+import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'productos', component: ProductoListaComponent },
+  // { path: 'productos', component: ProductoListaComponent },
   { path: 'ofertas', component: OfertaListaComponent },
   { path: 'lettering', component: LetteringListaComponent },
   { path: 'scrapbooking', component: ScrapbookingListaComponent },
   { path: 'carrito', component: CarritoComponent },
   { path: 'ver/:id', component: VerProductoComponent },
 
+  { path: 'productos', redirectTo: '/tabla/productos' },
+  { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
   //admin
   { path: 'admin', component: PanelGestionComponent },
   { path: 'admin/productos', component: AdminProductosComponent },
