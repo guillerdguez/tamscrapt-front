@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Producto } from '../../Domain/ProductoClass';
 
 @Injectable({ providedIn: 'root' })
 export class AlgoModel {
   constructor() {}
-  algos: any[] = [];
+  algos: Producto[] = [];
   algo: any ;
   algosSeleccionadas: any[] = [];
   menuItemSeleccionado!: any;

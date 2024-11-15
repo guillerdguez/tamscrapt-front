@@ -8,9 +8,6 @@ import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 @Component({
   selector: 'app-pasar-informacion-tabla',
   template: `
-    <h2 class="title">
-      {{ title }}
-    </h2>
     @if(algoModel.algos.length> 0){
     <div class="continer">
       <!-- <app-select-form
@@ -51,7 +48,6 @@ export class PasarInformacionTablaComponent {
 
       if (tipo === 'productos') {
         this.productoService.getProductosArray();
-      
         this.title = 'productos';
       } else if (tipo === 'Scrapbooking') {
         this.productoService.getProductosScrapbookingArray();

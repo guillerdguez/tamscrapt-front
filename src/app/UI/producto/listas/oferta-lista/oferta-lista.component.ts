@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../../../../Service/Producto.service';
 import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
 import { Producto } from '../../../../Model/Domain/ProductoClass';
+import { User } from '../../../../Model/Domain/User/UserClass';
 
 @Component({
   selector: 'app-oferta-lista',
@@ -24,7 +25,7 @@ export class OfertaListaComponent implements OnInit {
   add(arg0: string) {
     throw new Error('Method not implemented.');
   }
-  delete(producto: Producto): void {
+  delete(producto: Producto | User): void {
     this.algoModel.algos = this.algoModel.algos.filter((h) => h !== producto);
     this.productoService.deleteProducto(producto.id);
   }

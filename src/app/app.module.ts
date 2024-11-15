@@ -47,6 +47,7 @@ import { DialogModule } from 'primeng/dialog';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { RatingModule } from 'primeng/rating';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputSwitchComponent,
   ],
   imports: [
+    RatingModule,
     InputNumberModule,
     DialogModule,
     CardModule,

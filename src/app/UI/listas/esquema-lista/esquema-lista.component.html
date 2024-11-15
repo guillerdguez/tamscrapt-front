@@ -1,3 +1,20 @@
+<div class="outer" data-height="320">
+  <div class="title">
+    <div class="image"></div>
+    <div class="holder">
+      <div class="container">
+        <div class="inner">
+          <div class="subtitle">
+            <h1>
+              <span>{{ title }}</span>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="table-container">
   <div class="data-container">
     <p-table
@@ -5,8 +22,8 @@
       [columns]="headers"
       [value]="paramsTemporal"
       [paginator]="true"
-      [rows]="5"
-      [rowsPerPageOptions]="[5, 10]"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 20]"
       [tableStyle]="{ 'min-width': '50rem' }"
     >
       <ng-template pTemplate="header" let-columns>

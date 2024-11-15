@@ -5,6 +5,8 @@ import { Pedido } from './Pedido';
 import { ProductoService } from '../../Service/Producto.service';
 import { AlgoModel } from '../Views/Dynamic/AlgoModel';
 import { ProductoModel } from '../Views/Dynamic/ProductoModel';
+
+import { MenuItem } from 'primeng/api';
 export class Producto {
   id!: number;
   nombre!: string;
@@ -12,11 +14,11 @@ export class Producto {
   imagen!: string;
   lettering!: boolean;
   scrapbooking!: boolean;
-  oferta!: boolean;
+  oferta?: boolean;
   descuento!: number;
   precioFinal!: number;
-  pedidos!: Pedido[];
-  [key: string]: any;
+  pedidos?: Pedido[];
+  menuItems: MenuItem = this.getMenuItemOptions();
   url: string = '/newHeroes';
   constructor(
     public router: Router,
@@ -90,7 +92,9 @@ export class Producto {
   }
 
   delete(): void {
-    this.productoModel.productos = this.productoModel.productos.filter((h) => h.id !== this.id);
+    this.productoModel.productos = this.productoModel.productos.filter(
+      (h) => h.id !== this.id
+    );
     this.productoService.deleteProducto(this.id);
   }
 

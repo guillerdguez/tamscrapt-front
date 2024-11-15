@@ -20,6 +20,9 @@ import { User } from '../../../Model/Domain/User/UserClass';
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
+  addToCart(_t15: any) {
+    throw new Error('Method not implemented.');
+  }
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
   //  | User
@@ -38,6 +41,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     this.ParamsTemporal();
     this.initializeHeaders();
     this.rellenador();
+ 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -93,7 +97,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   }
 
   rellenador() {
-    while (this.paramsTemporal.length % 5 !== 0) {
+    while (this.paramsTemporal.length % 10 !== 0) {
       this.paramsTemporal.push([]);
     }
   }

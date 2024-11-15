@@ -1,51 +1,23 @@
-.centered-app {
-    text-align: center;
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenido ocupe toda la altura de la ventana */
 }
 
-.logo {
-    height: 40vmin;
-    pointer-events: none;
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Hace que el contenido ocupe el espacio disponible */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .logo {
-        animation: spin-logo infinite 20s linear;
-    }
+.content {
+  flex: 1;
+  /* overflow-y: auto;  */
 }
 
-.app-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.link {
-    color: #61dafb;
-}
-
-@keyframes spin-logo {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+.site-footer {
+  background-color: #8ec4c0;
+  color: #f8f9fa;
+  padding: 20px 0;
+  text-align: center;
 }
