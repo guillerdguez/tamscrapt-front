@@ -8,10 +8,9 @@ describe('EsquemaListaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EsquemaListaComponent]
-    })
-    .compileComponents();
-    
+      declarations: [EsquemaListaComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(EsquemaListaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

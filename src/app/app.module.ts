@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -49,6 +49,8 @@ import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
 
+import { SelectButtonModule } from 'primeng/selectbutton';
+
 @NgModule({
   declarations: [
     PasarInformacionTablaComponent,
@@ -72,6 +74,7 @@ import { RatingModule } from 'primeng/rating';
     InputSwitchComponent,
   ],
   imports: [
+    SelectButtonModule,
     RatingModule,
     InputNumberModule,
     DialogModule,
@@ -106,6 +109,7 @@ import { RatingModule } from 'primeng/rating';
     AppRoutingModule,
     HttpClientModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
 })

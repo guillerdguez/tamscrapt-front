@@ -18,14 +18,19 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   // { path: 'productos', component: ProductoListaComponent },
-  { path: 'ofertas', component: OfertaListaComponent },
-  { path: 'lettering', component: LetteringListaComponent },
-  { path: 'scrapbooking', component: ScrapbookingListaComponent },
-  { path: 'carrito', component: CarritoComponent },
-  { path: 'ver/:id', component: VerProductoComponent },
-
+  // { path: 'ofertas', component: OfertaListaComponent },
+  // { path: 'lettering', component: LetteringListaComponent },
+  // { path: 'scrapbooking', component: ScrapbookingListaComponent },
   { path: 'productos', redirectTo: '/tabla/productos' },
+  { path: 'ofertas', redirectTo: '/tabla/ofertas' },
+  { path: 'lettering', redirectTo: '/tabla/lettering' },
+  { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
+
   { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
+
+  { path: 'carrito', component: CarritoComponent },
+  { path: 'detail/producto/:id', component: VerProductoComponent },
+
   //admin
   { path: 'admin', component: PanelGestionComponent },
   { path: 'admin/productos', component: AdminProductosComponent },

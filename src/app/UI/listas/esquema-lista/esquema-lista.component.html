@@ -1,3 +1,4 @@
+<!-- Contenedor de título con imagen y subtítulo -->
 <div class="outer" data-height="320">
   <div class="title">
     <div class="image"></div>
@@ -15,73 +16,221 @@
   </div>
 </div>
 
-<div class="table-container">
-  <div class="data-container">
-    <p-table
-      class="data-table"
-      [columns]="headers"
-      [value]="paramsTemporal"
-      [paginator]="true"
-      [rows]="10"
-      [rowsPerPageOptions]="[10, 20]"
-      [tableStyle]="{ 'min-width': '50rem' }"
-    >
-      <ng-template pTemplate="header" let-columns>
-        <tr class="table-header-row" style="width: 200px; height: 70px">
-          <th
-            *ngFor="let column of columns"
-            class="table-header"
-            (contextmenu)="menu.show($event)"
-          >
-            {{ column.header }}
-          </th>
-        </tr>
-      </ng-template>
+<!-- Contenedor p-dataView -->
+<div class="card">
+  <p-dataView
+    #dv
+    [value]="paramsTemporal"
+    [layout]="layout"
+    [paginator]="true"
+    [rows]="9"
+    [rowsPerPageOptions]="[9, 20]"
+    styleClass="custom-paginator"
+  >
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-end">
+        <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
 
-      <ng-template pTemplate="body" let-item let-columns="columns">
-        <tr
-          class="table-body-row"
+    <!-- Plantilla para el formato de lista -->
+    <ng-template pTemplate="list" let-items>
+      <div class="grid grid-nogutter">
+        <div *ngFor="let item of items" class="col-12">
+          <div
+            class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3"
+            [class.selected]="algoModel.algosSeleccionadas.includes(item)"
+            (dblclick)="onselectedTable($event, item)"
+            (contextmenu)="onContextMenu($event, item)"
+          >
+            <!-- Imagen del producto -->
+            <div class="relative" style="width: 200px; height: 200px">
+              <img
+                class="block mx-auto"
+                [src]="item.imagen"
+                [alt]="item.nombre"
+                style="width: 100%; height: 100%; object-fit: contain"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Detalles del producto -->
+            <div
+              class="flex flex-column md:flex-row justify-content-between flex-1 gap-4"
+            >
+              <div>
+                <div class="font-bold text-secondary text-sm">
+                  {{ item.categoria }}
+                </div>
+                <div class="text-lg font-bold text-900 mt-2">
+                  {{ item.nombre }}
+                </div>
+              </div>
+              <div class="surface-100 p-1" style="border-radius: 30px">
+                <div
+                  class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
+                  style="
+                    border-radius: 30px;
+                    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04),
+                      0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+                  "
+                >
+                  <span class="text-900 font-bold text-sm">{{
+                    item.rating
+                  }}</span>
+                  <i class="pi pi-star-fill"></i>
+                </div>
+              </div>
+            </div>
+            <!-- Precio y acciones -->
+            <div class="flex flex-column gap-4" style="font-size: 25px">
+              <div>
+                <div *ngIf="item.oferta; else noOferta">
+                  <div class="price-container">
+                    <!-- Precio original -->
+                    <span class="original-price">
+                      {{
+                        calcularPrecioOriginal(item.precio, item.descuento)
+                          | currency : "EUR" : "symbol" : "1.2-2"
+                      }}
+                    </span>
+                    <!-- Precio con descuento -->
+                    <strong class="discounted-price">
+                      {{ item.precio | currency : "EUR" : "symbol" : "1.2-2" }}
+                    </strong>
+                  </div>
+                </div>
+                <ng-template #noOferta>
+                  <strong>
+                    {{ item.precio | currency : "EUR" : "symbol" : "1.2-2" }}
+                  </strong>
+                </ng-template>
+              </div>
+              <div class="flex gap-2">
+                <p-button
+                  icon="pi pi-heart"
+                  [outlined]="true"
+                  aria-label="Add to favorites"
+                ></p-button>
+                <p-button
+                  icon="pi pi-shopping-cart"
+                  label="Buy Now"
+                  [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+                  aria-label="Buy item"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Plantilla para el formato de cuadrícula -->
+    <ng-template pTemplate="grid" let-items>
+      <div class="grid grid-nogutter justify-content-start">
+        <div
+          class="col-12 sm:col-6 md:col-4 xl:col-4 p-2"
           [class.selected]="algoModel.algosSeleccionadas.includes(item)"
           (dblclick)="onselectedTable($event, item)"
-          style="width: 200px; height: 70px"
+          (contextmenu)="onContextMenu($event, item)"
+          *ngFor="let item of items; let last = last"
         >
-          <td
-            *ngFor="let header of columns"
-            class="table-data"
-            (contextmenu)="onContextMenu($event, item)"
-            style="width: 200px; height: 70px"
+          <div
+            class="p-4 surface-border surface-card flex flex-column align-items-center justify-content-center"
+            [ngClass]="{ 'align-items-start': last }"
           >
-            <!-- @if( header.field === 'favourite' && item.favourite !== null &&
-            item.favourite !== undefined){
-            <i
-              (click)="item.favouriteMethod()"
-              [ngClass]="item.favourite ? 'pi pi-star-fill' : 'pi pi-star'"
-              tabindex="-1"
-            ></i>
-            }   -->
-            @if ( header.field === 'id') {<span>{{ item.id }}</span
-            >} @else if(( item[header.field] || item.id !== undefined &&
-            header.field !== 'id')) {
-            <span>
-              <input
-                style="text-align: center"
-                [class.custom-input]="true"
-                [ngModel]="item[header.field]"
-                (ngModelChange)="onValueChange(item, header.field, $event)"
-                (keypress)="onKeyPress($event, header.type)"
-            /></span>
-            }
-            <!-- @else{ &nbsp;} -->
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+            <div class="surface-50 flex justify-content-center p-3">
+              <div class="relative" style="width: 300px; height: 300px">
+                <img
+                  class="block mx-auto"
+                  [src]="item.imagen"
+                  [alt]="item.nombre"
+                  style="width: 100%; height: 100%; object-fit: contain"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="pt-4">
+              <div
+                class="flex flex-row justify-content-between align-items-start gap-2"
+              >
+                <div class="text-center">
+                  <div class="font-bold text-secondary text-sm">
+                    {{ item.categoria }}
+                  </div>
+                  <div class="text-lg font-bold text-900 mt-1">
+                    {{ item.nombre }}
+                  </div>
+                </div>
+                <div class="surface-100 p-1" style="border-radius: 30px">
+                  <div
+                    class="surface-0 flex align-items-center gap-2 justify-content-center py-1 px-2"
+                    style="
+                      border-radius: 30px;
+                      box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.04),
+                        0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+                    "
+                  >
+                    <span class="text-900 font-bold text-sm">{{
+                      item.rating
+                    }}</span>
+                    <i class="pi pi-star-fill"></i>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex flex-row gap-2 mt-4 justify-content-center align-items-center"
+              >
+                <div>
+                  <div *ngIf="item.oferta; else noOfertaGrid">
+                    <div class="price-container" style="font-size: 25px">
+                      <span class="original-price">
+                        {{
+                          calcularPrecioOriginal(item.precio, item.descuento)
+                            | currency : "EUR" : "symbol" : "1.2-2"
+                        }}
+                      </span>
+                      <strong class="discounted-price">
+                        {{
+                          item.precio | currency : "EUR" : "symbol" : "1.2-2"
+                        }}
+                      </strong>
+                    </div>
+                  </div>
+                  <ng-template #noOfertaGrid>
+                    <span class="discounted-price"
+                      ><strong>
+                        {{
+                          item.precio | currency : "EUR" : "symbol" : "1.2-2"
+                        }}
+                      </strong></span
+                    >
+                  </ng-template>
+                </div>
+                <p-button
+                  icon="pi pi-shopping-cart"
+                  [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+                  aria-label="Buy item"
+                ></p-button>
+                <p-button
+                  icon="pi pi-heart"
+                  [outlined]="true"
+                  aria-label="Add to favorites"
+                ></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
 
-    <p-contextMenu
-      [model]="items"
-      [baseZIndex]="1000"
-      [appendTo]="'body'"
-      #menu
-    ></p-contextMenu>
-  </div>
+  <!-- Menú contextual solo para administradores -->
+  <p-contextMenu
+    *ngIf="admin"
+    [model]="items"
+    [baseZIndex]="1000"
+    [appendTo]="'body'"
+    #menu
+  ></p-contextMenu>
 </div>

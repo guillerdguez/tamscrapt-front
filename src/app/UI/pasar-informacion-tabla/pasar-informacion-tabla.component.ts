@@ -46,17 +46,26 @@ export class PasarInformacionTablaComponent {
     this.route.paramMap.subscribe((params) => {
       const tipo = params.get('tipo');
 
-      if (tipo === 'productos') {
-        this.productoService.getProductosArray();
-        this.title = 'productos';
-      } else if (tipo === 'Scrapbooking') {
-        this.productoService.getProductosScrapbookingArray();
-        this.title = 'Scrapbooking';
+      switch (tipo) {
+        case 'productos':
+          this.productoService.getProductosArray();
+          this.title = 'Productos';
+          break;
+        case 'scrapbooking':
+          this.productoService.getProductosScrapbookingArray();
+          this.title = 'Scrapbooking';
+          break;
+        case 'lettering':
+          this.productoService.getProductosLetteringArray();
+          this.title = 'Lettering';
+          break;
+        case 'ofertas':
+          this.productoService.getProductosOfertaArray();
+          this.title = 'Ofertas';
+          break;
+        default:
+          console.log('Tipo no válido');
       }
-      // else {
-      //   this.villainService.getVillainsArray();
-      //   this.title = 'Villains';
-      // }
     });
   }
 
@@ -66,8 +75,8 @@ export class PasarInformacionTablaComponent {
 
   onParamsChange(updatedParams: ProductoService) {
     this.route.paramMap.subscribe((params) => {
-      const tipoPersona = params.get('tipo');
-      if (tipoPersona === 'productos') {
+      const tipo = params.get('tipo');
+      if (tipo === 'productos') {
         this.algoModel.algo = updatedParams;
         this.productoService.updateProducto(
           this.algoModel.algo.id,

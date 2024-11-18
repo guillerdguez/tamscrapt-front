@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "TourOfHeroes": {
+    "Tamscrap": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/tour-of-heroes",
+            "outputPath": "dist/Tamscrap",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "TourOfHeroes:build:production"
+              "buildTarget": "Tamscrap:build:production"
             },
             "development": {
-              "buildTarget": "TourOfHeroes:build:development"
+              "buildTarget": "Tamscrap:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "TourOfHeroes:build"
+            "buildTarget": "Tamscrap:build"
           }
         },
         "test": {

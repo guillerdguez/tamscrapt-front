@@ -240,3 +240,23 @@ button {
   transform: scale(1.05);
   color: #005f73;
 }
+.p-button {
+  background-color: #a8dadc;
+}
+.p-button:hover {
+  background-color: #80aeaf;
+}
+.pi.pi-star-fill {
+  color: #a8dadc;
+}
+
+.selected {
+  background-color: #80aeaf;
+}
+/* .p-menuitem {
+ 
+  background-color: #a8dadc;
+}
+.p-menuitem:hover {
+  background-color: #80aeaf;
+} */

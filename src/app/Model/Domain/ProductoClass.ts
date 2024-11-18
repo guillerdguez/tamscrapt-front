@@ -18,13 +18,15 @@ export class Producto {
   descuento!: number;
   precioFinal!: number;
   pedidos?: Pedido[];
-  menuItems: MenuItem = this.getMenuItemOptions();
-  url: string = '/newHeroes';
+  menuItems: MenuItem[] = this.getMenuItemOptions();
+
+  // inventoryStatus?: string;
+  url: string = '/newProducto';
   constructor(
     public router: Router,
     public algoModel: AlgoModel,
     public productoModel: ProductoModel,
-    public dialogService: DialogService,
+
     public productoService: ProductoService
   ) {}
 
@@ -87,7 +89,7 @@ export class Producto {
       { field: 'scrapbooking', header: 'Scrapbooking' },
       { field: 'oferta', header: 'Oferta' },
       { field: 'descuento', header: 'Descuento', type: 'number' },
-      { field: 'precioFinal', header: 'Precio Final', type: 'number' },
+      // { field: 'precioFinal', header: 'Precio Final', type: 'number' },
     ];
   }
 
@@ -100,5 +102,18 @@ export class Producto {
 
   getUrl() {
     return this.url;
+  }
+
+  getParametros(producto: Producto) {
+    this.id = producto.id;
+    this.nombre = producto.nombre;
+    this.precio = producto.precio;
+    this.imagen = producto.imagen;
+    this.lettering = producto.lettering;
+    this.scrapbooking = producto.scrapbooking;
+    this.oferta = producto.oferta;
+    this.descuento = producto.descuento;
+    this.precioFinal = producto.precioFinal;
+    return this;
   }
 }
