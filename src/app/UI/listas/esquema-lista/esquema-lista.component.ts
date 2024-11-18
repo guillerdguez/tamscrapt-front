@@ -11,8 +11,7 @@ import {
 import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
-import { User } from '../../../Model/Domain/User/UserClass';
-import { Producto } from '../../../Model/Domain/ProductoClass';
+import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
 
 @Component({
   selector: 'app-esquema-lista',
@@ -22,42 +21,37 @@ import { Producto } from '../../../Model/Domain/ProductoClass';
 export class EsquemaListaComponent implements OnInit, OnChanges {
   admin: boolean = true;
 
-  addToCart(_t15: any) {
-    throw new Error('Method not implemented.');
-  }
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
-  //  | User
   @Input() params: any[] = [];
   @Input() title: string = '';
 
-  paramsTemporal: Producto[] = [];
-  headers: any[] = [];
+  paramsTemporal: any[] = [];
   items: MenuItem[] = [];
   layout: 'list' | 'grid' = 'list';
   @ViewChild('menu') menu!: ContextMenu;
 
-  constructor(public algoModel: AlgoModel) {}
+  // Arreglo para almacenar los encabezados
+  headers: { field: string; header: string; type?: string }[] = [];
+
+  constructor(public algoModel: AlgoModel, private productoModel: ProductoModel) {}
 
   ngOnInit() {
     this.ParamsTemporal();
     this.initializeHeaders();
-    // this.rellenador();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
       this.ParamsTemporal();
-      this.initializeHeaders();
-      // this.rellenador();
       this.algoModel.algosSeleccionadas = [];
+      this.initializeHeaders();
     }
   }
 
   ngDoCheck() {
     if (this.params !== this.paramsTemporal) {
       this.ParamsTemporal();
-      // this.rellenador();
     }
   }
 
@@ -72,7 +66,6 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
               (selected) => selected !== item
             );
         }
-        console.log(this.algoModel.algosSeleccionadas);
         this.TableSelected.emit(this.algoModel.algosSeleccionadas);
       }
     }
@@ -81,31 +74,34 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   ParamsTemporal() {
     this.paramsTemporal = [...this.params];
   }
+
+  // Inicializa los encabezados utilizando el método getHeaders() del primer elemento
   initializeHeaders() {
-    // if (this.headers.length === 0 && this.paramsTemporal.length) {
-
-    this.headers = this.paramsTemporal[0].getHeaders();
-    this.headers = [
-      // { field: 'id', header: 'Id', type: 'number' },
-      { field: 'nombre', header: 'Nombre' },
-      { field: 'precio', header: 'Precio', type: 'number' },
-      { field: 'imagen', header: 'Imagen' },
-      // { field: 'lettering', header: 'Lettering' },
-      // { field: 'scrapbooking', header: 'Scrapbooking' },
-      // { field: 'oferta', header: 'Oferta' },
-      // { field: 'descuento', header: 'Descuento', type: 'number' },
-      // { field: 'precioFinal', header: 'Precio Final', type: 'number' },
-    ];
+    if (this.paramsTemporal.length > 0) {
+      const firstItem = this.paramsTemporal[0];
+      if (typeof firstItem.getHeaders === 'function') {
+        this.headers = firstItem.getHeaders();
+      } else {
+        // Si getHeaders no está disponible, obtenemos las claves dinámicamente
+        this.headers = Object.keys(firstItem)
+          .filter((key) => key !== 'id') // Excluimos 'id' si es necesario
+          .map((key) => ({
+            field: key,
+            header: key.charAt(0).toUpperCase() + key.slice(1),
+          }));
+      }
+    } else {
+      this.headers = [];
+    }
   }
-  // rellenador() {
-  //   while (this.paramsTemporal.length % 10 !== 0) {
-  //     this.paramsTemporal.push([]);
-  //   }
-  // }
 
-  onContextMenu(event: MouseEvent, item: Producto) {
+  onContextMenu(event: MouseEvent, item: any) {
     if (this.admin) {
-      this.items = item.getMenuItemOptions();
+      if (typeof item.getMenuItemOptions === 'function') {
+        this.items = item.getMenuItemOptions();
+      } else {
+        this.items = []; // Opciones por defecto si no existe getMenuItemOptions
+      }
 
       event.preventDefault();
       this.menu.show(event);
@@ -120,8 +116,13 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   onValueChange(item: any, field: keyof any, newValue: any): void {
     item[field] = newValue;
-    this.paramsChange.emit(item.setDetails(item));
+    if (typeof item.setDetails === 'function') {
+      this.paramsChange.emit(item.setDetails(item));
+    } else {
+      this.paramsChange.emit(item);
+    }
   }
+
   onKeyPress(event: KeyboardEvent, type: string): void {
     if (type === 'number') {
       const char = event.key;
@@ -131,10 +132,39 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       }
     }
   }
+
   calcularPrecioOriginal(
     precioConDescuento: number,
     descuento: number
   ): number {
-    return parseFloat((precioConDescuento / (1 - descuento / 100)).toFixed(2));
+    return parseFloat(
+      (precioConDescuento / (1 - descuento / 100)).toFixed(2)
+    );
+  }
+
+  // Función para determinar si un campo debe mostrarse
+  headerToShow(field: string): boolean {
+    const fieldsToShow = this.productoModel.getFieldsToShow();
+    return fieldsToShow.includes(field);
+  }
+
+  // Función para formatear valores según el tipo
+  formatValue(field: string, value: any): any {
+    const header = this.headers.find((h) => h.field === field);
+    if (header) {
+      if (header.type === 'number') {
+        return value.toLocaleString('es-ES');
+      }
+      if (header.type === 'currency') {
+        return value.toLocaleString('es-ES', {
+          style: 'currency',
+          currency: 'EUR',
+        });
+      }
+      if (header.type === 'boolean') {
+        return value ? 'Sí' : 'No';
+      }
+    }
+    return value;
   }
 }

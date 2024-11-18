@@ -1,20 +1,29 @@
+*{
+  font-size: 20px;
+}
+
+
 i {
   font-size: 30px;
 }
 
 .outer {
-  height: 320px;
+  height: 200px;
 }
 
-.title {
-  height: 300px;
+.title { 
+  height: 200px;
   background-color: #a8dadc;
   color: #ffffff;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
 }
 
 .holder {
-  padding-top: 90px;
+  padding-top: 60px;
   height: 187px;
 }
 

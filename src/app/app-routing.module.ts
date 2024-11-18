@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'ofertas', redirectTo: '/tabla/ofertas' },
   { path: 'lettering', redirectTo: '/tabla/lettering' },
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
-
+  { path: 'clientes', redirectTo: '/tabla/clientes' },
   { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
 
   { path: 'carrito', component: CarritoComponent },

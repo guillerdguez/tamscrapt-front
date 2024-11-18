@@ -6,9 +6,13 @@ import { AlgoModel } from './AlgoModel';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
-  constructor(private router: Router, private algoModel: AlgoModel) {}
   productos: Producto[] = [];
   producto: Producto | undefined;
+
+  // Agregamos el arreglo de campos a mostrar
+  private fieldsToShow: string[] = ['nombre', 'categoria', 'descripcion', 'rating'];
+
+  constructor(private router: Router, private algoModel: AlgoModel) {}
 
   crearProductos(productos: Producto[], productoService: ProductoService) {
     let listaProducto: Producto[] = [];
@@ -23,5 +27,10 @@ export class ProductoModel {
       )
     );
     return listaProducto;
+  }
+
+  // Método para obtener los campos a mostrar
+  getFieldsToShow(): string[] {
+    return this.fieldsToShow;
   }
 }
