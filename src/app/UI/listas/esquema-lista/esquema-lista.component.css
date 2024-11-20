@@ -1,11 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-}
-
 /* Title Section */
 .title {
   height: 350px;
@@ -21,27 +13,14 @@
   margin-bottom: 20px;
 }
 
-/* Product Image Styling */
 img {
   width: 200px;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 12px;
   transition: transform 0.2s ease;
 }
 
-.no-image {
-  width: 200px;
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e6e6e6;
-  color: #888;
-  font-style: italic;
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-}
 
 /* Price Container */
 .price-container {
@@ -60,42 +39,6 @@ img {
 .discounted-price {
   font-size: 24px;
   font-weight: 600;
-}
-
-/* Button Styling */
-button[aria-label="Añadir a favoritos"],
-button[aria-label="Comprar artículo"] {
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  font-size: 16px;
-}
-
-button[aria-label="Añadir a favoritos"] {
-  background: #a8dadc;
-  color: #1d3557;
-}
-
-button[aria-label="Añadir a favoritos"]:hover {
-  background-color: #e63946;
-  color: #ffffff;
-}
-
-button[aria-label="Comprar artículo"] {
-  background-color: #457b9d;
-  color: #ffffff;
-  padding: 10px 20px;
-}
-
-button[aria-label="Comprar artículo"]:hover {
-  background-color: #1d3557;
-}
-
-button[aria-label="Añadir a favoritos"]:active,
-button[aria-label="Comprar artículo"]:active {
-  transform: scale(0.95);
 }
 
 /* Card Container */
@@ -148,28 +91,12 @@ button[aria-label="Comprar artículo"]:active {
   flex-direction: row;
 }
 
-.flex-equal {
-  flex: 1;
-}
-
 .justify-content-center {
   justify-content: center;
 }
 
 .align-items-center {
   align-items: center;
-}
-
-.align-items-start {
-  align-items: flex-start;
-}
-
-.align-items-stretch {
-  align-items: stretch;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
 }
 
 .gap-2 {
@@ -208,31 +135,6 @@ button[aria-label="Comprar artículo"]:active {
   padding: 8px;
 }
 
-/* Table Item Styling */
-.table-item {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 20px;
-  width: 100%;
-}
-
-.table-item > div {
-  flex: 1;
-}
-
-.table-item .detalles-producto {
-  flex-grow: 2;
-}
-
-.table-item .botones {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .title h1 {
@@ -247,10 +149,6 @@ button[aria-label="Comprar artículo"]:active {
   .discounted-price {
     font-size: 22px;
   }
-
-  .table-item {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {
@@ -263,18 +161,14 @@ button[aria-label="Comprar artículo"]:active {
     height: 120px;
   }
 
-  button[aria-label="Comprar artículo"] {
-    padding: 8px 16px;
-  }
-
   .custom-paginator {
     flex-wrap: wrap;
     gap: 5px;
   }
 }
-
-@media (min-width: 768px) {
-  .contenedor-flexible {
-    flex-direction: row;
-  }
+.informacion {
+  display: flex;
+  justify-content: center; /* Alineación horizontal */
+  align-items: center; /* Alineación vertical */
+  height: 100%; /* Asegura que el contenedor ocupe todo el espacio disponible */
 }

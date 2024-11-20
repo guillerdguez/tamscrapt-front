@@ -75,24 +75,26 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   }
 
   initializeHeaders() {
-    this.headers = this.paramsTemporal[0].getHeaders();
+    if (this.params.length > 0) {
+      this.headers = this.paramsTemporal[0].getHeaders();
+    }
   }
 
   onContextMenu(event: MouseEvent, item: Producto) {
     if (this.userModel.admin) {
       this.items = item.getMenuItemOptionsAdmin();
-      console.log(this.items);
-      event.preventDefault();
-      this.menu.show(event);
-
-      if (!this.algoModel.algosSeleccionadas.includes(item)) {
-        this.algoModel.algosSeleccionadas.push(item);
-
-        this.TableSelected.emit(this.algoModel.algosSeleccionadas);
-      }
     } else {
       this.items = item.getMenuItemOptionsUser();
       console.log(this.items);
+    }
+    console.log(this.items);
+    event.preventDefault();
+    this.menu.show(event);
+
+    if (!this.algoModel.algosSeleccionadas.includes(item)) {
+      this.algoModel.algosSeleccionadas.push(item);
+
+      this.TableSelected.emit(this.algoModel.algosSeleccionadas);
     }
   }
   onValueChange(item: any, field: keyof any, newValue: any): void {

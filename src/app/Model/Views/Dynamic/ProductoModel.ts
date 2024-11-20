@@ -11,14 +11,6 @@ export class ProductoModel {
   productos: Producto[] = [];
   producto: Producto | undefined | ProductoDetails;
 
-  // // Agregamos el arreglo de campos a mostrar
-  // private fieldsToShow: string[] = [
-  //   'nombre',
-  //   'categoria',
-  //   'descripcion',
-  //   'rating',
-  // ];
-
   constructor(
     private router: Router,
     private algoModel: AlgoModel,
@@ -40,9 +32,4 @@ export class ProductoModel {
     );
     return listaProducto;
   }
-
-  // // Método para obtener los campos a mostrar
-  // getFieldsToShow(): string[] {
-  //   return this.fieldsToShow;
-  // }
 }

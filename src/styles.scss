@@ -25,7 +25,6 @@ body {
   font-weight: bold;
   overflow-x: hidden;
 }
-
 a {
   text-decoration: none;
   color: inherit;
@@ -145,4 +144,17 @@ body {
 }
 span {
   font-size: 22px;
+}
+
+.no-image {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6e6e6;
+  color: #888;
+  font-style: italic;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
 }

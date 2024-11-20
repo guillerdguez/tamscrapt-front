@@ -20,12 +20,13 @@ import { UserService } from '../../Service/User.service';
       ></app-esquema-lista>
     </div>
     } @else {
-    <h2 class="title">Sin resultados</h2>
+
+    <app-esquema-lista [title]="title"></app-esquema-lista>
     }
   `,
 })
 export class PasarInformacionTablaComponent {
-  title!: string;
+  title: string = '';
   selectedTable: any[] = [];
 
   constructor(

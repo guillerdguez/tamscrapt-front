@@ -55,6 +55,12 @@ export class Producto {
         icon: 'pi pi-file-edit',
         command: () => this.router.navigate(['/detail/producto/', this.id]),
       },
+      {
+        label: 'oferta',
+        icon: 'pi pi-heart',
+
+        command: () => this.ofertaMethod(),
+      },
     ];
   }
 
@@ -84,16 +90,25 @@ export class Producto {
           this.algoModel.ejecutarMenuItem();
         },
       },
+      {
+        label: 'oferta',
+        icon: 'pi pi-heart',
+        command: () => {
+          console.log('Command executed: oferta');
+          this.algoModel.menuItemSeleccionado = 'oferta';
+          this.algoModel.ejecutarMenuItem();
+        },
+      },
     ];
   }
 
   getMenuItemsUser() {
     return [
       {
-        label: 'Favourite',
+        label: 'favorito',
         icon: 'pi pi-heart',
 
-        command: () => this.favouriteMethod(),
+        command: () => this.favoritoMethod(),
       },
     ];
   }
@@ -101,21 +116,31 @@ export class Producto {
   getMenuItemOptionsUser() {
     return [
       {
-        label: 'Favourite',
+        label: 'favorito',
         icon: 'pi pi-heart',
         command: () => {
-          console.log('Command executed: Favourite');
-          this.algoModel.menuItemSeleccionado = 'Favourite';
+          console.log('Command executed: favorito');
+          this.algoModel.menuItemSeleccionado = 'favorito';
           this.algoModel.ejecutarMenuItem();
         },
       },
     ];
   }
 
-  favouriteMethod() {
+  favoritoMethod() {
     console.log('llegaa');
     this.favorito = !this.favorito;
     const productoData = this.getProductoData();
+    this.productoService.updateProducto(this.id, productoData);
+  }
+
+  ofertaMethod() {
+    console.log('llegaa');
+    this.oferta = !this.oferta;
+    this.descuento = 0;
+    this.precioOriginal = undefined;
+    const productoData = this.getProductoData();
+    console.log(productoData);
     this.productoService.updateProducto(this.id, productoData);
   }
 
@@ -125,7 +150,7 @@ export class Producto {
       : this.getMenuItemOptionsUser();
   }
   //no puede ser scrap y lettering al mismo tiempo,herencia?algo disitinto en el menuItem?
-  //de donde saca realmente la informacion??????
+
   getHeaders() {
     if (this.precioOriginal == undefined) {
       return [
@@ -146,23 +171,10 @@ export class Producto {
           style: {
             'font-size': '24px',
             'font-weight': '600',
-            color: '#1d3557',
+            // color: '#1d3557',
             'margin-top': '4px',
           },
           formatter: (value: number) => `${value.toFixed(2)} €`,
-        },
-        {
-          field: 'favorito',
-          header: 'Favorito',
-          type: 'boolean',
-          class: 'pi pi-heart',
-          icon: 'pi pi-heart',
-          style: {
-            'font-size': '24px',
-            'font-weight': '600',
-            color: '#1d3557',
-            'margin-top': '4px',
-          },
         },
       ];
     } else {
@@ -184,7 +196,7 @@ export class Producto {
           style: {
             'font-size': '24px',
             'font-weight': '600',
-            color: '#1d3557',
+            // color: '#1d3557',
             'margin-top': '4px',
           },
           formatter: (value: number) => `${value.toFixed(2)} €`,
@@ -200,18 +212,6 @@ export class Producto {
             'margin-top': '4px',
           },
           formatter: (value: number) => `${value.toFixed(2)} €`,
-        },
-        {
-          field: 'favorito',
-          header: 'Favorito',
-          type: 'boolean',
-          class: 'pi pi-heart',
-          style: {
-            'font-size': '24px',
-            'font-weight': '600',
-            color: '#1d3557',
-            'margin-top': '4px',
-          },
         },
       ];
     }
