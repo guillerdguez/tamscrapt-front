@@ -1,0 +1,148 @@
+<div class="title">
+  <h1 class="text-center">{{ title }}</h1>
+</div>
+
+<div class="card">
+  <p-dataView
+    #dv
+    [value]="paramsTemporal"
+    [layout]="layout"
+    [paginator]="true"
+    [rows]="9"
+    [rowsPerPageOptions]="[9, 20]"
+    styleClass="custom-paginator"
+  >
+    <!-- Cabecera -->
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-end">
+        <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
+      </div>
+    </ng-template>
+
+    <!-- Plantilla para lista -->
+    <ng-template pTemplate="list" let-items>
+      <div class="grid grid-nogutter">
+        <div *ngFor="let item of items" class="col-12">
+          <div
+            class="flex flex-column sm:flex-row align-items-center p-4 gap-4 surface-card"
+            [class.selected]="algoModel.algosSeleccionadas.includes(item)"
+            (dblclick)="onselectedTable($event, item)"
+            (contextmenu)="onContextMenu($event, item)"
+          >
+            <!-- Contenedor de imagen -->
+            <div
+              class="relative no-image-container"
+              *ngIf="item['imagen']; else noImage"
+            >
+              <img
+                class="block mx-auto"
+                [src]="item['imagen']"
+                [alt]="item['nombre'] || 'Imagen'"
+                loading="lazy"
+              />
+            </div>
+            <ng-template #noImage>
+              <div class="no-image">Sin Imagen</div>
+            </ng-template>
+
+            <!-- Detalles y acciones -->
+            <div
+              class="flex flex-column md:flex-row justify-content-between align-items-center flex-1 gap-4 w-full"
+            >
+              <div class="detalles-producto text-center">
+                <div *ngFor="let header of headers">
+                  <ng-container *ngIf="item[header.field] !== undefined">
+                    <span [ngStyle]="header.style">
+                      {{ header.formatter ? header.formatter(item[header.field])
+                      : item[header.field] }}
+                    </span>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="flex flex-wrap justify-content-center gap-2">
+                <div *ngFor="let menuItem of item.menuItems" class="botones">
+                  <p-button
+                    [icon]="menuItem.icon"
+                    [label]="menuItem.label"
+                    (click)="algoModel.seleccionarYEjecutar(item, menuItem.label)"
+                    [outlined]="true"
+                    aria-label="{{ menuItem.label }}"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <!-- Plantilla para cuadrícula -->
+    <ng-template pTemplate="grid" let-items>
+      <div class="grid grid-nogutter justify-content-start">
+        <div
+          class="col-12 sm:col-6 md:col-4 xl:col-4 p-3 surface-card"
+          [class.selected]="algoModel.algosSeleccionadas.includes(item)"
+          (dblclick)="onselectedTable($event, item)"
+          (contextmenu)="onContextMenu($event, item)"
+          *ngFor="let item of items; let last = last"
+        >
+          <div
+            class="p-4 flex flex-column align-items-center justify-content-between gap-4"
+          >
+            <!-- Imagen -->
+            <div
+              class="surface-50 flex justify-content-center p-3 no-image-container"
+              *ngIf="item['imagen']; else noImageGrid"
+            >
+              <div class="relative">
+                <img
+                  class="block mx-auto"
+                  [src]="item['imagen']"
+                  [alt]="item['nombre'] || 'Imagen'"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <ng-template #noImageGrid>
+              <div class="no-image">Sin Imagen</div>
+            </ng-template>
+
+            <!-- Detalles y acciones -->
+            <div class="text-center">
+              <div *ngFor="let header of headers">
+                <ng-container *ngIf="item[header.field] !== undefined">
+                  <span [ngStyle]="header.style">
+                    {{ header.formatter ? header.formatter(item[header.field]) :
+                    item[header.field] }}
+                  </span>
+                </ng-container>
+              </div>
+
+              <div class="flex flex-wrap justify-content-center gap-2 mt-4">
+                <div *ngFor="let menuItem of item.menuItems" class="botones">
+                  <p-button
+                    [icon]="menuItem.icon"
+                    [label]="menuItem.label"
+                    (click)="algoModel.seleccionarYEjecutar(item, menuItem.label)"
+                    [outlined]="true"
+                    aria-label="{{ menuItem.label }}"
+                  ></p-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <!-- Menú contextual -->
+  <p-contextMenu
+    [model]="items"
+    [baseZIndex]="1000"
+    [appendTo]="'body'"
+    #menu
+  ></p-contextMenu>
+</div>

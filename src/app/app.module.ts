@@ -19,7 +19,6 @@ import { VerProductoComponent } from './UI/producto/ver-producto/ver-producto.co
 import { HomeComponent } from './UI/home/home.component';
 import { PanelGestionComponent } from './UI/admin/panel-gestion/panel-gestion.component';
 import { AdminProductosComponent } from './UI/admin/admin-productos/admin-productos.component';
-import { AdminClientesComponent } from './UI/admin/admin-clientes/admin-clientes.component';
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
 import { EsquemaListaComponent2 } from './UI/producto/listas/esquema-lista/esquema-lista.component';
 import { InputSwitchComponent } from './UI/input-switch/input-switch.component';
@@ -50,7 +49,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
 
 import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
+import { FormularioComponentProducto } from './UI/crear/formularioHeroes/formulario.component';
 @NgModule({
   declarations: [
     PasarInformacionTablaComponent,
@@ -67,11 +67,12 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     HomeComponent,
     PanelGestionComponent,
     AdminProductosComponent,
-    AdminClientesComponent,
+    AdminUsersComponent,
     AdminPedidosComponent,
     EsquemaListaComponent,
     EsquemaListaComponent2,
     InputSwitchComponent,
+    FormularioComponentProducto,
   ],
   imports: [
     SelectButtonModule,

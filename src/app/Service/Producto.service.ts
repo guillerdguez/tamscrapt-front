@@ -15,11 +15,14 @@ export class ProductoService {
     public productoModel: ProductoModel
   ) {}
   //Create
-  addProducto(producto: Producto): void {
-    this.algoModel.algos.push(producto);
+  addProducto(producto: any): void {
+    // this.algoModel.algos.push(producto);
+    this.productoModel.productos.push(producto);
+    console.log(producto, 'serviciooooooooooo');
     this.productoDAO.addProducto(producto).subscribe({
-      next: (producto: Producto) => {
-        this.algoModel.algo = producto;
+      next: (producto: any) => {
+        console.log(producto, 'serviciooooooooooo');
+        this.productoModel.producto = producto;
       },
       error: (error) => {
         console.error(error);
@@ -78,9 +81,16 @@ export class ProductoService {
   getProductosLetteringArray(): Producto[] {
     this.productoDAO.getProductosLettering().subscribe({
       next: (productos: Producto[]) => {
-        this.productos = productos;
-        this.productoModel.productos = productos;
-        this.algoModel.algos = productos;
+        this.productos = this.productoModel.crearProductos(productos, this);
+
+        this.productoModel.productos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
+        this.algoModel.algos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
       },
       error: (error) => {
         console.error(error);
@@ -104,9 +114,16 @@ export class ProductoService {
   getProductosScrapbookingArray(): Producto[] {
     this.productoDAO.getProductosScrapbooking().subscribe({
       next: (productos: Producto[]) => {
-        this.productos = productos;
-        this.productoModel.productos = productos;
-        this.algoModel.algos = productos;
+        this.productos = this.productoModel.crearProductos(productos, this);
+
+        this.productoModel.productos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
+        this.algoModel.algos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
       },
       error: (error) => {
         console.error(error);
@@ -129,9 +146,16 @@ export class ProductoService {
   getProductosOfertaArray(): Producto[] {
     this.productoDAO.getProductosOferta().subscribe({
       next: (productos: Producto[]) => {
-        this.productos = productos;
-        this.productoModel.productos = productos;
-        this.algoModel.algos = productos;
+        this.productos = this.productoModel.crearProductos(productos, this);
+
+        this.productoModel.productos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
+        this.algoModel.algos = this.productoModel.crearProductos(
+          productos,
+          this
+        );
       },
       error: (error) => {
         console.error(error);
@@ -173,10 +197,14 @@ export class ProductoService {
   //   });
   // }
   // UPDATE
-  updateProducto(id: number, producto: Producto): void {
+  updateProducto(id: number, producto: any): void {
+    console.log(id + '                ' + producto);
     this.productoDAO.updateProducto(id, producto).subscribe({
-      next: (producto: Producto) => {
-        this.algoModel.algo = producto;
+      next: (producto: any) => {
+        this.productoModel.producto = producto;
+        // this.algoModel.algos = this.algoModel.algos.filter(
+        //   (algo) => (algo as Producto).favorito === producto.favorito
+        // );
       },
       error: (error) => {
         console.error(

@@ -4,21 +4,23 @@ import { ActivatedRoute } from '@angular/router';
 import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
 import { ProductoService } from '../../Service/Producto.service';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
+import { UserModel } from '../../Model/Views/Dynamic/UserModel';
+import { UserService } from '../../Service/User.service';
 
 @Component({
   selector: 'app-pasar-informacion-tabla',
   template: `
     @if(algoModel.algos.length > 0) {
-      <div class="container">
-        <app-esquema-lista
-          [title]="title"
-          [params]="algoModel.algos"
-          (paramsChange)="onParamsChange($event)"
-          (TableSelected)="onTableSelected($event)"
-        ></app-esquema-lista>
-      </div>
+    <div class="container">
+      <app-esquema-lista
+        [title]="title"
+        [params]="algoModel.algos"
+        (paramsChange)="onParamsChange($event)"
+        (TableSelected)="onTableSelected($event)"
+      ></app-esquema-lista>
+    </div>
     } @else {
-      <h2 class="title">Sin resultados</h2>
+    <h2 class="title">Sin resultados</h2>
     }
   `,
 })
@@ -30,7 +32,9 @@ export class PasarInformacionTablaComponent {
     private route: ActivatedRoute,
     public algoModel: AlgoModel,
     public productoModel: ProductoModel,
-    public productoService: ProductoService
+    public productoService: ProductoService,
+    public userModel: UserModel,
+    public userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -54,10 +58,10 @@ export class PasarInformacionTablaComponent {
           this.productoService.getProductosOfertaArray();
           this.title = 'Ofertas';
           break;
-          case 'clientes':
-            this.productoService.getProductosOfertaArray();
-            this.title = 'Clientes';
-            break;
+        case 'users':
+          this.userService.getUsersArray();
+          this.title = 'Users';
+          break;
         default:
           console.log('Tipo no válido');
       }

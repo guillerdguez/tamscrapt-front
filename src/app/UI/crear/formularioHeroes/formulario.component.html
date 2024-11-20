@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Producto Formulario</title>
+  </head>
+  <body>
+    <div class="containerForm">
+      <h1 class="title">Formulario de Productos</h1>
+
+      <div class="form-group-nombre">
+        <label for="nombre">Nombre del Producto: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="nombre"
+          name="nombre"
+          required
+          [(ngModel)]="nombre"
+        />
+        <!-- Validación dinámica de Angular -->
+        <!-- <div *ngIf="!nombre?.trim()" class="text-danger">
+          El nombre del producto es obligatorio
+        </div> -->
+      </div>
+
+      <div class="form-group-precio">
+        <label for="precio">Precio: </label>
+        <p-inputNumber inputId="precio" [(ngModel)]="precio"></p-inputNumber>
+      </div>
+
+      <div class="form-group-imagen">
+        <label for="imagen">Imagen URL: </label>
+        <input
+          type="text"
+          class="form-control"
+          id="imagen"
+          name="imagen"
+          [(ngModel)]="imagen"
+        />
+      </div>
+
+      <div class="form-group-descuento">
+        <label for="descuento">Descuento (%): </label>
+        <p-inputNumber
+          inputId="descuento"
+          [(ngModel)]="descuento"
+        ></p-inputNumber>
+      </div>
+
+      <div class="form-group-lettering">
+        <label for="lettering">Lettering: </label>
+        <select
+          class="form-control"
+          id="lettering"
+          name="lettering"
+          [(ngModel)]="lettering"
+        >
+          <option [value]="false">No</option>
+          <option [value]="true">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-group-scrapbooking">
+        <label for="scrapbooking">Scrapbooking: </label>
+        <select
+          class="form-control"
+          id="scrapbooking"
+          name="scrapbooking"
+          [(ngModel)]="scrapbooking"
+        >
+          <option [value]="false">No</option>
+          <option [value]="true">Yes</option>
+        </select>
+      </div>
+
+      <div class="form-group-oferta">
+        <label for="oferta">Oferta: </label>
+        <select
+          class="form-control"
+          id="oferta"
+          name="oferta"
+          [(ngModel)]="oferta"
+        >
+          <option [value]="false">No</option>
+          <option [value]="true">Yes</option>
+        </select>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="
+          add(
+            nombre,
+            precio,
+            imagen,
+            descuento,
+            lettering,
+            scrapbooking,
+            oferta
+          )
+        "
+      >
+        Enviar
+      </button>
+    </div>
+  </body>
+</html>

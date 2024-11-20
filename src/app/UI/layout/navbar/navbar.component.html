@@ -1,23 +1,9 @@
-<!-- <div class="header_top clearfix" style="background-color:rgba(235, 227, 218, 1);">
-  <div class="left">
-<div class="inner">
-  <div class="header-widget widget_block header-left-widget"><div style="height:29px" aria-hidden="true" class="wp-block-spacer"></div></div><div class="header-widget widget_block header-left-widget"><h5 class="wp-block-heading has-text-align-left"> ENVÍO GRATUITO A PARTIR DE 50€</h5></div>						</div>
-</div>
-<div class="right">
-<div class="inner">
-  <div class="widget_text header-widget widget_custom_html header-right-widget"><div class="textwidget custom-html-widget"><span data-type="normal" data-hover-icon-color="#e5c480" class="qode_icon_shortcode  q_font_awsome_icon   " style=" "><a itemprop="url" href="https://www.pajaritapapeleria.com/mi-cuenta" target="_self" rel="noopener"><i class="qode_icon_font_awesome fa fa-user qode_icon_element" style="font-size: 22px; color: rgb(88, 104, 131);"></i></a></span>
-<span class="q_social_icon_holder normal_social" data-color="#586883" data-hover-color="#e5c480"><a itemprop="url" href="https://www.instagram.com/pajaritapaper" target="_blank" rel="noopener"><i class="qode_icon_font_awesome fa fa-instagram  simple_social" style="color: #586883;margin: 0 5px 0 0;font-size: 22px;color: #586883;"></i></a></span>
-<span class="q_social_icon_holder normal_social" data-color="#586883" data-hover-color="#e5c480"><a itemprop="url" href="https://www.facebook.com/pajaritapaper" target="_blank" rel="noopener"><i class="qode_icon_font_awesome fa fa-facebook  simple_social" style="color: #586883;margin: 0 5px 0 0;font-size: 22px;color: #586883;"></i></a></span></div></div>						</div>
-</div>
-</div>
- -->
-<div class="superior"></div>
-
 <nav class="navbar custom-navbar shadow-sm">
   <div class="container">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="nav-list ms-auto">
         <a class="brand" routerLink="/"> Tamscrapt </a>
+
         <li class="nav-item">
           <a class="nav-link" routerLink="/productos"> Productos </a>
         </li>
@@ -30,28 +16,73 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/scrapbooking"> Scrapbooking </a>
         </li>
-        <li class="nav-item"><app-switch class="switch"></app-switch></li>
+
+        <!-- Opciones solo para administrador -->
+        <li *ngIf="userModel.admin" class="nav-item admin-options">
+          <a class="nav-link" role="button" (click)="toggleMenu()">
+            <i class="pi pi-cog"></i> Admin
+          </a>
+          <ul
+            *ngIf="dropdownMenu"
+            class="dropdown-menu show"
+            [ngClass]="{ show: dropdownMenu }"
+          >
+            <li>
+              <a class="dropdown-item" routerLink="/tabla/users">
+                <i class="pi pi-users"></i> Gestionar Users
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/pedidos">
+                <i class="pi pi-shopping-cart"></i> Gestionar Pedidos
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/productos">
+                <i class="pi pi-tags"></i> Gestionar Productos
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Menú de usuario -->
+        @if(!userModel.admin){
+        <li class="nav-item admin-options">
+          <a class="nav-link" role="button" (click)="toggleUserMenu()">
+            <i class="pi pi-user"></i> Usuario
+          </a>
+          <ul
+            *ngIf="menuOpen"
+            class="dropdown-menu show"
+            [ngClass]="{ show: menuOpen }"
+          >
+            <li>
+              <a class="dropdown-item" routerLink="/login">
+                <i class="pi pi-sign-in"></i> Login
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/register">
+                <i class="pi pi-user-plus"></i> Sign Up
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/profile">
+                <i class="pi pi-user"></i> Profile
+              </a>
+            </li>
+          </ul>
+        </li>
+        }
+        <li class="nav-item">
+          <app-switch class="switch"></app-switch>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" routerLink="/carrito">
             <i class="pi pi-shopping-cart"></i>
           </a>
         </li>
-
-        <div class="card flex justify-content-center">
-          <p-menu #menu [model]="menuItems" [popup]="true" />
-          <p-button (onClick)="menu.toggle($event)" icon="pi pi-user" />
-        </div>
-        <!-- <div class="dropdown">
-          <button
-            pButton
-            type="button"
-            icon="pi pi-user"
-            label="User"
-            class="p-button-text"
-            (click)="menu.toggle($event)"
-          ></button>
-          <p-menu #menu [model]="menuItems"></p-menu>
-        </div> -->
       </ul>
     </div>
   </div>

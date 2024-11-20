@@ -1,54 +1,280 @@
-*{
-  font-size: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
 }
 
-
-i {
-  font-size: 30px;
-}
-
-.outer {
-  height: 200px;
-}
-
-.title { 
-  height: 200px;
-  background-color: #a8dadc;
+/* Title Section */
+.title {
+  height: 350px;
   color: #ffffff;
-  text-align: center;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
- 
 }
 
-.holder {
-  padding-top: 60px;
-  height: 187px;
+.title h1 {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
+/* Product Image Styling */
 img {
   width: 200px;
   height: 200px;
   object-fit: cover;
-}
-.p-paginator {
-  font-size: 100px;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
 }
 
+.no-image {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6e6e6;
+  color: #888;
+  font-style: italic;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+}
+
+/* Price Container */
 .price-container {
   display: flex;
   flex-direction: row;
-  gap: 5;
+  align-items: baseline;
+  gap: 8px;
 }
+
 .original-price {
   text-decoration: line-through;
-  color: red;
-  font-size: 20px;
+  color: #888;
+  font-size: 16px;
 }
 
 .discounted-price {
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 600;
 }
- 
+
+/* Button Styling */
+button[aria-label="Añadir a favoritos"],
+button[aria-label="Comprar artículo"] {
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-size: 16px;
+}
+
+button[aria-label="Añadir a favoritos"] {
+  background: #a8dadc;
+  color: #1d3557;
+}
+
+button[aria-label="Añadir a favoritos"]:hover {
+  background-color: #e63946;
+  color: #ffffff;
+}
+
+button[aria-label="Comprar artículo"] {
+  background-color: #457b9d;
+  color: #ffffff;
+  padding: 10px 20px;
+}
+
+button[aria-label="Comprar artículo"]:hover {
+  background-color: #1d3557;
+}
+
+button[aria-label="Añadir a favoritos"]:active,
+button[aria-label="Comprar artículo"]:active {
+  transform: scale(0.95);
+}
+
+/* Card Container */
+.surface-card {
+  border-radius: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.surface-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Paginator */
+.custom-paginator .p-paginator {
+  border-radius: 12px;
+  padding: 5px;
+  background-color: #ffffff;
+}
+
+.custom-paginator .p-paginator .p-paginator-page {
+  margin: 0 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.custom-paginator .p-paginator .p-paginator-page.p-highlight {
+  background-color: #457b9d;
+  color: #ffffff;
+}
+
+.custom-paginator .p-paginator .p-paginator-page:hover {
+  background-color: #a8dadc;
+}
+
+/* Utility Classes */
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-equal {
+  flex: 1;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-stretch {
+  align-items: stretch;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.mt-4 {
+  margin-top: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Selected Item Styling */
+.selected {
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+/* Grid/List Adjustments */
+.grid-nogutter > div {
+  padding: 8px;
+}
+
+/* Table Item Styling */
+.table-item {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.table-item > div {
+  flex: 1;
+}
+
+.table-item .detalles-producto {
+  flex-grow: 2;
+}
+
+.table-item .botones {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .title h1 {
+    font-size: 30px;
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .discounted-price {
+    font-size: 22px;
+  }
+
+  .table-item {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .title h1 {
+    font-size: 24px;
+  }
+
+  img {
+    width: 120px;
+    height: 120px;
+  }
+
+  button[aria-label="Comprar artículo"] {
+    padding: 8px 16px;
+  }
+
+  .custom-paginator {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  .contenedor-flexible {
+    flex-direction: row;
+  }
+}

@@ -1,30 +1,29 @@
-import { ActivatedRoute } from '@angular/router';
-import { ClienteModel } from '../../../Model/Views/Dynamic/ClienteModel';
-import { ClienteService } from '../../../Service/Cliente.service';
 import { Component, OnInit } from '@angular/core';
- 
-import { Cliente } from '../../../Model/Domain/Cliente';
+import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
+import { UserService } from '../../../Service/User.service';
+import { User } from '../../../Model/Domain/User/UserClass';
+
 @Component({
-  selector: 'app-admin-clientes',
-  templateUrl: './admin-clientes.component.html',
-  styleUrl: './admin-clientes.component.css',
+  selector: 'app-admin-users',
+  templateUrl: './admin-users.component.html',
+  styleUrl: './admin-users.component.css',
 })
-export class AdminClientesComponent implements OnInit {
+export class AdminUsersComponent implements OnInit {
   constructor(
-    private clienteService: ClienteService,
-    public clienteModel: ClienteModel
+    private userService: UserService,
+    public userModel: UserModel
   ) {}
   ngOnInit(): void {
-    this.clienteService.getClientes();
+    this.userService.getUsers();
   }
 
   add(arg0: string) {
     throw new Error('Method not implemented.');
   }
-  delete(cliente: Cliente): void {
-    this.clienteModel.clientes = this.clienteModel.clientes.filter(
-      (h) => h !== cliente
+  delete(user: User): void {
+    this.userModel.users = this.userModel.users.filter(
+      (h) => h !== user
     );
-    this.clienteService.deleteCliente(cliente.id);
+    this.userService.deleteUser(user.id);
   }
 }

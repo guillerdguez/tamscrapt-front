@@ -3,16 +3,27 @@ import { Producto } from '../../Domain/ProductoClass';
 import { Router } from '@angular/router';
 import { ProductoService } from '../../../Service/Producto.service';
 import { AlgoModel } from './AlgoModel';
+import { ProductoDetails } from '../../Domain/ProductoDetails';
+import { UserModel } from './UserModel';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
-  producto: Producto | undefined;
+  producto: Producto | undefined | ProductoDetails;
 
-  // Agregamos el arreglo de campos a mostrar
-  private fieldsToShow: string[] = ['nombre', 'categoria', 'descripcion', 'rating'];
+  // // Agregamos el arreglo de campos a mostrar
+  // private fieldsToShow: string[] = [
+  //   'nombre',
+  //   'categoria',
+  //   'descripcion',
+  //   'rating',
+  // ];
 
-  constructor(private router: Router, private algoModel: AlgoModel) {}
+  constructor(
+    private router: Router,
+    private algoModel: AlgoModel,
+    public userModel: UserModel
+  ) {}
 
   crearProductos(productos: Producto[], productoService: ProductoService) {
     let listaProducto: Producto[] = [];
@@ -22,6 +33,7 @@ export class ProductoModel {
           this.router,
           this.algoModel,
           this,
+          this.userModel,
           productoService
         ).getParametros(producto)
       )
@@ -29,8 +41,8 @@ export class ProductoModel {
     return listaProducto;
   }
 
-  // Método para obtener los campos a mostrar
-  getFieldsToShow(): string[] {
-    return this.fieldsToShow;
-  }
+  // // Método para obtener los campos a mostrar
+  // getFieldsToShow(): string[] {
+  //   return this.fieldsToShow;
+  // }
 }

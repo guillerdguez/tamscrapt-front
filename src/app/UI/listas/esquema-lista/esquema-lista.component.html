@@ -1,24 +1,7 @@
-<!-- esquema-lista.component.html -->
-
-<!-- Contenedor de título con imagen y subtítulo -->
-<div class="outer" data-height="320">
-  <div class="title">
-    <div class="image"></div>
-    <div class="holder">
-      <div class="container">
-        <div class="inner">
-          <div class="subtitle">
-            <h1>
-              <span>{{ title }}</span>
-            </h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="title">
+  <h1>{{ title }}</h1>
 </div>
 
-<!-- Contenedor p-dataView -->
 <div class="card">
   <p-dataView
     #dv
@@ -45,7 +28,6 @@
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <!-- Imagen del producto -->
             <div
               class="relative"
               style="width: 200px; height: 200px"
@@ -81,18 +63,9 @@
             >
               <div>
                 <div *ngFor="let header of headers">
-                  <ng-container *ngIf="headerToShow(header.field)">
-                    <div
-                      *ngIf="
-                        header.field !== 'precio' &&
-                        header.field !== 'imagen' &&
-                        header.field !== 'oferta' &&
-                        header.field !== 'descuento'
-                      "
-                      class="detail-row"
-                    >
-                      <span>{{ item[header.field] }}</span>
-                    </div>
+                  <ng-container>
+                    <!-- <div *ngIf="header.field == 'nombre'" class="detail-row"> </div> -->
+                    <span>{{ item[header.field] }}</span>
                   </ng-container>
                 </div>
               </div>
@@ -105,32 +78,21 @@
                   <div class="price-container">
                     <!-- Precio original -->
                     <span class="original-price">
-                      {{
-                        calcularPrecioOriginal(item['precio'], item['descuento'])
-                         
-                      }}€
+                      {{ item["precioOriginal"] }}€
                     </span>
                     <!-- Precio con descuento -->
-                     <!--como poner coma en el numero-->
+                    <!--como poner coma en el numero-->
                     <strong class="discounted-price">
-                      {{
-                        item['precio'] 
-                       
-                      }}€
+                      {{ item["precio"] }}€
                     </strong>
                   </div>
                 </div>
                 <ng-template #noOferta>
-                  <strong>
-                    {{
-                      item['precio']
-                       
-                    }}€
-                  </strong>
+                  <strong> {{ item["precio"] }}€ </strong>
                 </ng-template>
               </div>
               <div class="flex gap-2">
-                <p-button
+                <!-- <p-button
                   icon="pi pi-heart"
                   [outlined]="true"
                   aria-label="Añadir a favoritos"
@@ -140,7 +102,7 @@
                   label="Comprar"
                   [disabled]="item['inventoryStatus'] === 'OUTOFSTOCK'"
                   aria-label="Comprar artículo"
-                ></p-button>
+                ></p-button> -->
               </div>
             </div>
           </div>
@@ -162,7 +124,6 @@
             class="p-4 surface-border surface-card flex flex-column align-items-center justify-content-center"
             [ngClass]="{ 'align-items-start': last }"
           >
-            <!-- Imagen del producto -->
             <div
               class="surface-50 flex justify-content-center p-3"
               *ngIf="item['imagen']; else noImageGrid"
@@ -199,20 +160,16 @@
                 class="flex flex-row justify-content-between align-items-start gap-2"
               >
                 <div>
-                  <div *ngFor="let header of headers">
-                    <ng-container *ngIf="headerToShow(header.field)">
-                      <div
-                        *ngIf="
-                          header.field !== 'precio' &&
-                          header.field !== 'imagen' &&
-                          header.field !== 'oferta' &&
-                          header.field !== 'descuento'
-                        "
-                        class="detail-row"
-                      > 
+                  <div>
+                    <div *ngFor="let header of headers">
+                      <ng-container>
+                        <!-- <div
+                          *ngIf="header.field == 'nombre'"
+                          class="detail-row"
+                        ></div> -->
                         <span>{{ item[header.field] }}</span>
-                      </div>
-                    </ng-container>
+                      </ng-container>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -225,36 +182,20 @@
                   <div *ngIf="item['oferta']; else noOfertaGrid">
                     <div class="price-container" style="font-size: 25px">
                       <span class="original-price">
-                        {{
-                          calcularPrecioOriginal(item['precio'], item['descuento'])
-                           
-                        }}
+                        {{ item["precioOriginal"] }}
                       </span>
                       <strong class="discounted-price">
-                        {{
-                          item['precio']
-                        }}€
+                        {{ item["precio"] }}€
                       </strong>
                     </div>
                   </div>
                   <ng-template #noOfertaGrid>
                     <strong class="discounted-price">
-                        {{
-                          item['precio']
-                        }}€
-                  </strong>
+                      {{ item["precio"] }}€
+                    </strong>
                   </ng-template>
                 </div>
-                <p-button
-                  icon="pi pi-shopping-cart"
-                  [disabled]="item['inventoryStatus'] === 'OUTOFSTOCK'"
-                  aria-label="Comprar artículo"
-                ></p-button>
-                <p-button
-                  icon="pi pi-heart"
-                  [outlined]="true"
-                  aria-label="Añadir a favoritos"
-                ></p-button>
+ 
               </div>
             </div>
           </div>
@@ -263,9 +204,8 @@
     </ng-template>
   </p-dataView>
 
-  <!-- Menú contextual solo para administradores -->
   <p-contextMenu
-    *ngIf="admin"
+    *ngIf="userModel.admin"
     [model]="items"
     [baseZIndex]="1000"
     [appendTo]="'body'"

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 
 @Component({
   selector: 'app-navbar',
@@ -7,30 +7,28 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-  dropdownMenu: boolean = false;
+  dropdownMenu: boolean = false; // Estado del menú de administración
+  menuOpen: boolean = false; // Estado del menú de usuario
+
+  constructor(public userModel: UserModel) {}
 
   toggleMenu() {
+    // Al abrir/cerrar el menú de administración, aseguramos que el menú de usuario se cierre
     this.dropdownMenu = !this.dropdownMenu;
+    if (this.dropdownMenu) {
+      this.menuOpen = false; // Cerrar menú de usuario si el menú de administración se abre
+    }
   }
-  menuItems: MenuItem[] = [];
+
+  toggleUserMenu() {
+    // Al abrir/cerrar el menú de usuario, aseguramos que el menú de administración se cierre
+    this.menuOpen = !this.menuOpen;
+    if (this.menuOpen) {
+      this.dropdownMenu = false; // Cerrar menú de administración si el menú de usuario se abre
+    }
+  }
 
   ngOnInit() {
-    this.menuItems = [
-      {
-        label: 'Login',
-        icon: 'pi pi-sign-in',
-        routerLink: '/login',
-      },
-      {
-        label: 'Sign Up',
-        icon: 'pi pi-user-plus',
-        routerLink: '/register',
-      },
-      {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        routerLink: '/profile',
-      },
-    ];
+    // Aquí podrías realizar otras inicializaciones necesarias para el componente
   }
 }

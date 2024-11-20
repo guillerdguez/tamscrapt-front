@@ -10,7 +10,7 @@
       <thead>
         <tr>
           <th>Número de Pedido</th>
-          <th>Cliente</th>
+          <th>User</th>
           <th>Estado</th>
           <th>Total</th>
           <th>Acciones</th>
@@ -19,7 +19,7 @@
       <tbody>
         <tr *ngFor="let pedido of pedidos | filter: filtroPedido">
           <td>{{ pedido.id }}</td>
-          <td>{{ pedido.cliente?.username }}</td>
+          <td>{{ pedido.User?.username }}</td>
           <td>{{ pedido.estado }}</td>
           <td>{{ pedido.precio | currency }}</td>
           <td>

@@ -1,0 +1,44 @@
+<!-- users.component.html -->
+<div class="users">
+  <h2>Gestión de Users</h2>
+
+  <!-- <div class="busqueda">
+    <input
+      type="text"
+      [(ngModel)]="filtroUser"
+      placeholder="Buscar users"
+    />
+  </div> -->
+
+  <table>
+    <thead>
+      <tr>
+        <!-- <th>#</th> -->
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userModel.users">
+        <!-- <td>
+          <a routerLink="/admin/verUser/{{ user.id }}">
+            <span class="badge">{{ user.id }}</span>
+          </a>
+        </td> -->
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <button
+            type="button"
+            class="delete"
+            title="Eliminar User"
+            (click)="delete(user)"
+          >
+            x
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

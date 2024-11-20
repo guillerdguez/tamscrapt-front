@@ -12,7 +12,7 @@
 //   ejecutarMenuItem() {
 //     this.productosSeleccionadas.forEach((producto) => {
 //       if (this.menuItemSeleccionado) {
-//         let opciones = producto.getMenuItems(producto.getUrl());
+//         let opciones = producto.getMenuItemsAdmin(producto.getUrl());
 
 //         let opcion = opciones.find(
 //           (opcion) => opcion.label == this.menuItemSeleccionado

@@ -1,129 +1,128 @@
 .home-container {
-    padding: 20px;
-  }
-  
-  .hero-section {
-    background-color: #f8f9fa;
-    padding: 50px 0;
-    text-align: center;
-  }
-  
-  .hero-content h1 {
-    font-size: 2.5rem;
-    color: #343a40;
-  }
-  
-  .hero-content p {
-    font-size: 1.25rem;
-    margin-bottom: 20px;
-  }
-  
-  h2 {
-    margin-top: 30px;
-    font-size: 2rem;
-    color: #343a40;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .categoria-card,
-  .productos-populares .card {
-    border: none;
-    transition: transform 0.3s ease;
-  }
-  
-  .categoria-card:hover .card,
-  .productos-populares .card:hover {
-    transform: scale(1.05);
-  }
-  
-  .card-title {
-    font-size: 1.25rem;
-    color: #343a40;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #6c757d;
-  }
-  
-  .product-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-bottom: 15px;
-  }
-  
-  .price-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .original-price {
-    text-decoration: line-through;
-    color: red;
-  }
-  
-  .discounted-price {
-    font-weight: bold;
-  }
-  
-  .btn-custom,
-  .btn-warning {
-    font-size: 1.25rem;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.25rem;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .btn-custom {
-    background-color: #a8dadc;
-    color: #ffffff;
-  }
-  
-  .btn-custom:hover {
-    background-color: #8ec4c0;
-  }
-  
-  .btn-warning {
-    background-color: #a8dadc;
-    color: #ffffff;
-  }
-  
-  .btn-warning:hover {
-    background-color: #8ec4c0;
-    color: #ffffff;
-  }
-  
-  .testimonios-clientes blockquote {
-    background-color: #f8f9fa;
-    border-left: 5px solid #a8dadc;
-    padding: 20px;
-    font-style: italic;
-  }
-  
-  .blockquote-footer {
-    margin-top: 10px;
-    color: #6c757d;
-    font-size: 0.875rem;
-  }
-  
-  .seccion-oferta {
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .seccion-oferta p {
-    font-size: 1.25rem;
-    color: #6c757d;
-  }
-  .home-container .categorias-destacadas .card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
+  padding: 20px;
+}
+
+.producto-section {
+  background-color: #f8f9fa;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.producto-content h1 {
+  font-size: 2.5rem;
+  color: #343a40;
+}
+
+.producto-content p {
+  font-size: 1.25rem;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-top: 30px;
+  font-size: 2rem;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.categoria-card,
+.productos-populares .card {
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.categoria-card:hover .card,
+.productos-populares .card:hover {
+  transform: scale(1.05);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: #343a40;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #6c757d;
+}
+
+.product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.price-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: red;
+}
+
+.discounted-price {
+  font-weight: bold;
+}
+
+.btn-custom,
+.btn-warning {
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-custom {
+  background-color: #a8dadc;
+  color: #ffffff;
+}
+
+.btn-custom:hover {
+  background-color: #8ec4c0;
+}
+
+.btn-warning {
+  background-color: #a8dadc;
+  color: #ffffff;
+}
+
+.btn-warning:hover {
+  background-color: #8ec4c0;
+  color: #ffffff;
+}
+
+.testimonios-users blockquote {
+  background-color: #f8f9fa;
+  border-left: 5px solid #a8dadc;
+  padding: 20px;
+  font-style: italic;
+}
+
+.blockquote-footer {
+  margin-top: 10px;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.seccion-oferta {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.seccion-oferta p {
+  font-size: 1.25rem;
+  color: #6c757d;
+}
+.home-container .categorias-destacadas .card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}

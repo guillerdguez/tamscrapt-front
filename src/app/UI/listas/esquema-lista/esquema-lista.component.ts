@@ -12,15 +12,15 @@ import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
+import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
+import { Producto } from '../../../Model/Domain/ProductoClass';
 
 @Component({
   selector: 'app-esquema-lista',
-  templateUrl: './esquema-lista.component.html',
+  templateUrl: './esquema-lista.component2.html',
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
-  admin: boolean = true;
-
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
   @Input() params: any[] = [];
@@ -31,10 +31,9 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   layout: 'list' | 'grid' = 'list';
   @ViewChild('menu') menu!: ContextMenu;
 
-  // Arreglo para almacenar los encabezados
-  headers: { field: string; header: string; type?: string }[] = [];
+  headers: any[] = [];
 
-  constructor(public algoModel: AlgoModel, private productoModel: ProductoModel) {}
+  constructor(public algoModel: AlgoModel, public userModel: UserModel) {}
 
   ngOnInit() {
     this.ParamsTemporal();
@@ -56,18 +55,18 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   }
 
   onselectedTable(event: MouseEvent, item: any) {
-    if (this.admin) {
-      if (event.button !== 2 && event.button !== 1) {
-        if (!this.algoModel.algosSeleccionadas.includes(item)) {
-          this.algoModel.algosSeleccionadas.push(item);
-        } else {
-          this.algoModel.algosSeleccionadas =
-            this.algoModel.algosSeleccionadas.filter(
-              (selected) => selected !== item
-            );
-        }
-        this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+    // if (this.userModel.admin) {
+    if (event.button !== 2 && event.button !== 1) {
+      if (!this.algoModel.algosSeleccionadas.includes(item)) {
+        this.algoModel.algosSeleccionadas.push(item);
+      } else {
+        this.algoModel.algosSeleccionadas =
+          this.algoModel.algosSeleccionadas.filter(
+            (selected) => selected !== item
+          );
       }
+
+      this.TableSelected.emit(this.algoModel.algosSeleccionadas);
     }
   }
 
@@ -75,52 +74,30 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     this.paramsTemporal = [...this.params];
   }
 
-  // Inicializa los encabezados utilizando el método getHeaders() del primer elemento
   initializeHeaders() {
-    if (this.paramsTemporal.length > 0) {
-      const firstItem = this.paramsTemporal[0];
-      if (typeof firstItem.getHeaders === 'function') {
-        this.headers = firstItem.getHeaders();
-      } else {
-        // Si getHeaders no está disponible, obtenemos las claves dinámicamente
-        this.headers = Object.keys(firstItem)
-          .filter((key) => key !== 'id') // Excluimos 'id' si es necesario
-          .map((key) => ({
-            field: key,
-            header: key.charAt(0).toUpperCase() + key.slice(1),
-          }));
-      }
-    } else {
-      this.headers = [];
-    }
+    this.headers = this.paramsTemporal[0].getHeaders();
   }
 
-  onContextMenu(event: MouseEvent, item: any) {
-    if (this.admin) {
-      if (typeof item.getMenuItemOptions === 'function') {
-        this.items = item.getMenuItemOptions();
-      } else {
-        this.items = []; // Opciones por defecto si no existe getMenuItemOptions
-      }
-
+  onContextMenu(event: MouseEvent, item: Producto) {
+    if (this.userModel.admin) {
+      this.items = item.getMenuItemOptionsAdmin();
+      console.log(this.items);
       event.preventDefault();
       this.menu.show(event);
 
       if (!this.algoModel.algosSeleccionadas.includes(item)) {
         this.algoModel.algosSeleccionadas.push(item);
-      }
 
-      this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+        this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+      }
+    } else {
+      this.items = item.getMenuItemOptionsUser();
+      console.log(this.items);
     }
   }
-
   onValueChange(item: any, field: keyof any, newValue: any): void {
     item[field] = newValue;
-    if (typeof item.setDetails === 'function') {
-      this.paramsChange.emit(item.setDetails(item));
-    } else {
-      this.paramsChange.emit(item);
-    }
+    this.paramsChange.emit(item.setDetails(item));
   }
 
   onKeyPress(event: KeyboardEvent, type: string): void {
@@ -132,39 +109,8 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       }
     }
   }
-
-  calcularPrecioOriginal(
-    precioConDescuento: number,
-    descuento: number
-  ): number {
-    return parseFloat(
-      (precioConDescuento / (1 - descuento / 100)).toFixed(2)
-    );
-  }
-
-  // Función para determinar si un campo debe mostrarse
-  headerToShow(field: string): boolean {
-    const fieldsToShow = this.productoModel.getFieldsToShow();
-    return fieldsToShow.includes(field);
-  }
-
-  // Función para formatear valores según el tipo
-  formatValue(field: string, value: any): any {
-    const header = this.headers.find((h) => h.field === field);
-    if (header) {
-      if (header.type === 'number') {
-        return value.toLocaleString('es-ES');
-      }
-      if (header.type === 'currency') {
-        return value.toLocaleString('es-ES', {
-          style: 'currency',
-          currency: 'EUR',
-        });
-      }
-      if (header.type === 'boolean') {
-        return value ? 'Sí' : 'No';
-      }
-    }
-    return value;
-  }
+  // boton(item: any) {
+  //   console.log(item);
+  //   item.menuItem.command(item);
+  // }
 }

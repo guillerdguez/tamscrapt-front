@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ProductoListaComponent } from './UI/producto/listas/producto-lista/producto-lista.component';
-import { OfertaListaComponent } from './UI/producto/listas/oferta-lista/oferta-lista.component';
-import { LetteringListaComponent } from './UI/producto/listas/lettering-lista/lettering-lista.component';
-import { CarritoComponent } from './UI/carrito/carrito.component';
-import { ScrapbookingListaComponent } from './UI/producto/listas/scrapbooking-lista/scrapbooking-lista.component';
-import { VerProductoComponent } from './UI/producto/ver-producto/ver-producto.component';
-import { HomeComponent } from './UI/home/home.component';
-import { PanelGestionComponent } from './UI/admin/panel-gestion/panel-gestion.component';
-import { AdminClientesComponent } from './UI/admin/admin-clientes/admin-clientes.component';
+import { Routes, RouterModule } from '@angular/router';
+import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
 import { AdminProductosComponent } from './UI/admin/admin-productos/admin-productos.component';
 import { AdminVerProductoComponent } from './UI/admin/admin-ver-producto/Admin-ver-producto.component';
+import { PanelGestionComponent } from './UI/admin/panel-gestion/panel-gestion.component';
+import { CarritoComponent } from './UI/carrito/carrito.component';
+import { HomeComponent } from './UI/home/home.component';
 import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
+import { VerProductoComponent } from './UI/producto/ver-producto/ver-producto.component';
+import { FormularioComponentProducto } from './UI/crear/formularioHeroes/formulario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,7 +22,7 @@ const routes: Routes = [
   { path: 'ofertas', redirectTo: '/tabla/ofertas' },
   { path: 'lettering', redirectTo: '/tabla/lettering' },
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
-  { path: 'clientes', redirectTo: '/tabla/clientes' },
+  { path: 'users', redirectTo: '/tabla/users' },
   { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
 
   { path: 'carrito', component: CarritoComponent },
@@ -34,9 +31,10 @@ const routes: Routes = [
   //admin
   { path: 'admin', component: PanelGestionComponent },
   { path: 'admin/productos', component: AdminProductosComponent },
-  { path: 'admin/clientes', component: AdminClientesComponent },
+  { path: 'admin/users', component: AdminUsersComponent },
   { path: 'admin/pedidos', component: AdminPedidosComponent },
   { path: 'admin/verProducto/:id', component: AdminVerProductoComponent },
+  { path: 'newProducto', component: FormularioComponentProducto },
 ];
 
 @NgModule({

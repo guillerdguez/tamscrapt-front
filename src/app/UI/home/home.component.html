@@ -1,6 +1,6 @@
- <div class="home-container">
-  <section class="hero-section">
-    <div class="hero-content">
+<div class="home-container">
+  <section class="producto-section">
+    <div class="producto-content">
       <h1>Bienvenido a nuestra tienda</h1>
       <p>Descubre los mejores productos de Lettering y Scrapbooking</p>
       <a routerLink="/productos" class="btn btn-custom btn-lg">Ver Productos</a>
@@ -13,7 +13,11 @@
       <div class="col-md-4" *ngFor="let category of categories">
         <a [routerLink]="category.link" class="categoria-card">
           <div class="card shadow-sm">
-            <img [src]="category.image" class="card-img-top" [alt]="category.title" />
+            <img
+              [src]="category.image"
+              class="card-img-top"
+              [alt]="category.title"
+            />
             <div class="card-body">
               <h5 class="card-title">{{ category.title }}</h5>
               <p class="card-text">{{ category.description }}</p>
@@ -24,8 +28,8 @@
     </div>
   </section>
 
-  <section class="testimonios-clientes">
-    <h2>Lo que dicen nuestros clientes</h2>
+  <section class="testimonios-users">
+    <h2>Lo que dicen nuestros users</h2>
     <div class="row">
       <div class="col-md-4" *ngFor="let testimonial of testimonials">
         <blockquote class="blockquote text-center">

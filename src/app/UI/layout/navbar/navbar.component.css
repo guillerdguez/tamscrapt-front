@@ -1,26 +1,32 @@
-/* Estilos generales de la barra de navegación */
+/* Navbar Personalizada */
 .custom-navbar {
-  background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   position: relative;
 }
 
-/* Estilos de la marca y enlaces */
-.brand,
-.nav-link {
-  color: #9fcfd1;
-  font-size: 1.1rem;
-}
-
-.nav-link {
-  transition: color 0.3s ease;
-  padding: 0.5rem 1.5rem; /* Aumentar padding horizontal */
+/* Estilos de la marca */
+.brand {
+  font-size: 3rem;
+  font-weight: bold;
   text-decoration: none;
+  transition: transform 0.3s;
+  display: inline-block;
+  padding-bottom: 0;
+  margin-right: auto;
+  margin-left: 0;
 }
 
-.nav-link:hover {
-  color: #005f73;
+.brand:hover {
+  transform: scale(1.05);
+}
+
+/* Estilos de enlaces de navegación */
+.nav-link {
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  padding: 0.5rem 1.5rem;
+  text-decoration: none;
 }
 
 /* Estilos de la lista de navegación */
@@ -28,15 +34,15 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: flex-end; /* Alinea los elementos a la derecha */
+  justify-content: flex-end;
 }
 
-/* Estilos de los elementos de la navegación */
+/* Estilos de los elementos de navegación */
 .nav-item {
   display: flex;
   align-items: center;
   position: relative;
-  margin: 0 1rem; /* Espaciado horizontal entre nav-items */
+  margin: 0 1rem;
 }
 
 .nav-item svg {
@@ -47,13 +53,8 @@
   transition: filter 0.3s ease;
 }
 
-.nav-item svg:hover {
-  filter: brightness(0.7);
-}
-
 /* Estilos del menú desplegable */
 .dropdown-menu {
-  background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
@@ -65,32 +66,49 @@
 
 /* Estilos de los elementos del menú desplegable */
 .dropdown-item {
-  color: #005f73;
   padding: 10px 20px;
   text-decoration: none;
   display: block;
-  margin: 0.5rem 0; /* Espaciado vertical entre dropdown-items */
+  margin: 0.5rem 0;
+  transition: background-color 0.3s ease;
 }
 
-.dropdown-item:hover {
-  background-color: #e0f7f7;
+/* Estilos adicionales para opciones de administrador */
+.admin-options .nav-link {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
-.superior {
-  padding-top: 0px;
-  background-color: #a8dadc;
-  min-height: 40px;
+
+.admin-options .dropdown-menu {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  margin-top: 10px;
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
 }
-.brand {
-  color: #9fcfd1;  
-  font-size: 3rem;
-  font-weight: bold; 
+
+.admin-options .dropdown-menu.show {
+  display: block;
+}
+
+.admin-options .dropdown-item {
+  padding: 10px 20px;
   text-decoration: none;
-  transition: color 0.3s, transform 0.3s;
-  display: inline-block;
-  padding-bottom: 0 px;   margin-right: auto;
+  transition: background-color 0.3s ease;
 }
 
-.brand:hover {
-  transform: scale(1.05);
-  color: #005f73;
+.admin-options .pi-cog {
+  font-size: 1.2rem;
+}
+
+/* Estilos de la sección superior */
+.superior {
+  padding-top: 0;
+  min-height: 40px;
 }
