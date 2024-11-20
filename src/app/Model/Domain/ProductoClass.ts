@@ -63,7 +63,7 @@ export class Producto {
       },
     ];
   }
-
+  //cuando esta en cuadricula en oferta,queda mal alineado
   getMenuItemOptionsAdmin() {
     return [
       {
@@ -92,7 +92,7 @@ export class Producto {
       },
       {
         label: 'oferta',
-        icon: 'pi pi-heart',
+        icon: 'pi pi-euro',
         command: () => {
           console.log('Command executed: oferta');
           this.algoModel.menuItemSeleccionado = 'oferta';
@@ -137,11 +137,13 @@ export class Producto {
   ofertaMethod() {
     console.log('llegaa');
     this.oferta = !this.oferta;
-    this.descuento = 0;
-    this.precioOriginal = undefined;
-    const productoData = this.getProductoData();
-    console.log(productoData);
-    this.productoService.updateProducto(this.id, productoData);
+    if (this.oferta) {
+      this.descuento = 0;
+      this.precioOriginal = undefined;
+      const productoData = this.getProductoData();
+      console.log(productoData);
+      this.productoService.updateProducto(this.id, productoData);
+    }
   }
 
   setMenuItems() {
