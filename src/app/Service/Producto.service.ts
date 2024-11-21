@@ -136,6 +136,7 @@ export class ProductoService {
   getProductosOferta(): void {
     this.productoDAO.getProductosOferta().subscribe({
       next: (productos: Producto[]) => {
+        console.log(productos, 'no array');
         this.algoModel.algos = productos;
       },
       error: (error) => {
@@ -198,7 +199,8 @@ export class ProductoService {
   // }
   // UPDATE
   updateProducto(id: any, producto: any): void {
-    console.log(id + '                ' + producto);
+    console.log('Producto enviado:', JSON.stringify(producto, null, 2));
+
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
@@ -208,7 +210,7 @@ export class ProductoService {
         // );
       },
       error: (error) => {
-        console.error(error, 'mal');
+        console.error('Error al actualizar el producto:', error.message, error);
       },
     });
   }

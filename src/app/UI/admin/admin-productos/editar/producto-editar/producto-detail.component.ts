@@ -17,7 +17,7 @@ export class ProductoDetailComponent implements OnInit, OnChanges {
     private productoService: ProductoService,
     private location: Location,
     public algoModel: AlgoModel,
-    public userModel:UserModel
+    public userModel: UserModel
   ) {}
   ngOnChanges(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

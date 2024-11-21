@@ -4,12 +4,13 @@ import { UserAuthority } from '../UserAuthority.enum';
 import { UserModel } from '../../Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/User.service';
 import { MenuItem } from 'primeng/api';
+import { UserDeails } from '../interface/UserDetails';
 
 export class User {
-  id: number = 0;
+  id?: number;
   nombre: string = '';
   username: string = '';
-  password: string = '';
+  // password: string = '';
   email: string = '';
   authorities: Set<UserAuthority> = new Set<UserAuthority>();
   url: string = '/newUser';
@@ -37,7 +38,7 @@ export class User {
       {
         label: 'Edit',
         icon: 'pi pi-file-edit',
-        command: () => this.router.navigate(['/detail/user/', this.id]),
+        command: () => this.router.navigate(['/detail/Users/', this.id]),
       },
     ];
   }
@@ -128,13 +129,24 @@ export class User {
     return Array.from(this.authorities);
   }
 
-  getParametros(user: User): User {
+  getParametros(user: UserDeails): this {
     this.id = user.id;
     this.nombre = user.nombre;
     this.username = user.username;
-    this.password = user.password;
+
     this.email = user.email;
-    this.authorities = new Set(user.authorities);
+    this.authorities = user.authorities;
+
     return this;
+  }
+  getUserData(): UserDeails {
+    return {
+      id: this.id,
+      nombre: this.nombre,
+      username: this.username,
+
+      email: this.email,
+      authorities: this.authorities,
+    };
   }
 }

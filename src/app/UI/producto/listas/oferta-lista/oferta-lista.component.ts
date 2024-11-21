@@ -25,7 +25,7 @@ export class OfertaListaComponent implements OnInit {
   add(arg0: string) {
     throw new Error('Method not implemented.');
   }
-  delete(producto: Producto | User): void {
+  delete(producto: Producto): void {
     this.algoModel.algos = this.algoModel.algos.filter((h) => h !== producto);
     this.productoService.deleteProducto(producto.id);
   }

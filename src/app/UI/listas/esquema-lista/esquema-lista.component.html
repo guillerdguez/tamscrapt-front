@@ -10,7 +10,7 @@
     [paginator]="true"
     [rows]="9"
     [rowsPerPageOptions]="[9, 20]"
-    styleClass="custom-paginator"
+    styleClass="custom-paginator "
   >
     <!-- Cabecera -->
     <ng-template pTemplate="header">
@@ -21,7 +21,7 @@
 
     <!-- Plantilla para lista -->
     <ng-template pTemplate="list" let-items>
-      <div class="grid grid-nogutter">
+      <div class="grid grid-nogutter pt-4">
         <div *ngFor="let item of items" class="col-12">
           <div
             class="flex flex-column sm:flex-row align-items-center p-4 gap-4 surface-card"
@@ -104,24 +104,25 @@
     </ng-template>
 
     <!-- Plantilla para cuadrícula -->
+
     <ng-template pTemplate="grid" let-items>
-      <div class="grid grid-nogutter justify-content-start">
+      <div class="flex flex-wrap grid-nogutter justify-content-start pt-4">
         <div
-          class="col-12 sm:col-6 md:col-4 xl:col-4 p-3 surface-card"
+          class="item-container col-12 sm:col-6 md:col-4 xl:col-3 p-2 surface-card m-0"
           [class.selected]="algoModel.algosSeleccionadas.includes(item)"
           (dblclick)="onselectedTable($event, item)"
           (contextmenu)="onContextMenu($event, item)"
           *ngFor="let item of items; let last = last"
         >
-          <div class="p-4 flex flex-column justify-content-between gap-4">
-            <!-- Imagen -->
-            <!-- class="surface-50 flex justify-content-center p-3 no-image-container" -->
+          <div
+            class="item-content p-4 flex flex-column justify-content-between"
+          >
             <div *ngIf="item['imagen']; else noImageGrid">
               <div class="relative flex justify-content-center">
                 <a [href]="'/detail/' + title + '/' + item.id">
                   <span class="hover-text">Ver detalles</span>
                   <img
-                    class="block mx-auto justify-content-center text-center zoomable"
+                    class="item-image zoomable"
                     [src]="item['imagen']"
                     [alt]="item['nombre'] || 'Imagen'"
                     loading="lazy"
@@ -129,12 +130,11 @@
                 </a>
               </div>
             </div>
+
             <ng-template #noImageGrid>
               <div class="relative flex justify-content-center">
                 <a [href]="'/detail/' + title + '/' + item.id">
-                  <div
-                    class="no-image flex block mx-auto justify-content-center"
-                  >
+                  <div class="no-image-container">
                     <span class="hover-text">Ver detalles</span>
                     <p>Sin Imagen</p>
                   </div>
@@ -142,22 +142,28 @@
               </div>
             </ng-template>
 
-            <!-- Detalles y acciones -->
             <div>
-              <div *ngFor="let header of headers">
-                <ng-container *ngIf="item[header.field] !== undefined">
-                  <span class="informacion" [ngStyle]="header.style">
-                    {{
-                      header.formatter
-                        ? header.formatter(item[header.field])
-                        : item[header.field]
-                    }}
-                  </span>
-                </ng-container>
+              <div
+                class="flex flex-row align-items-center justify-content-center"
+              >
+                <div
+                  *ngFor="let header of headers"
+                  class="flex align-items-center justify-content-center p-4"
+                >
+                  <ng-container *ngIf="item[header.field] !== undefined">
+                    <span class="informacion" [ngStyle]="header.style">
+                      {{
+                        header.formatter
+                          ? header.formatter(item[header.field])
+                          : item[header.field]
+                      }}
+                    </span>
+                  </ng-container>
+                </div>
               </div>
 
-              <div class="flex flex-wrap justify-content-center gap-2 mt-4">
-                @if(userModel.admin){
+              @if(userModel.admin) {
+              <div class="flex justify-content-center gap-2 mt-4">
                 <div *ngFor="let menuItem of item.menuItems" class="botones">
                   <p-button
                     [icon]="menuItem.icon"
@@ -169,7 +175,9 @@
                     aria-label="{{ menuItem.label }}"
                   ></p-button>
                 </div>
-                } @else {
+              </div>
+              } @else {
+              <div class="pl-4">
                 <i
                   (click)="item.favoritoMethod()"
                   [ngClass]="
@@ -179,19 +187,21 @@
                   "
                   tabindex="-1"
                 ></i>
-                }
               </div>
+              }
             </div>
           </div>
         </div>
       </div>
     </ng-template>
-  </p-dataView>
 
-  <p-contextMenu
-    [model]="items"
-    [baseZIndex]="1000"
-    [appendTo]="'body'"
-    #menu
-  ></p-contextMenu>
+    <p-dataView>
+      <p-contextMenu
+        [model]="items"
+        [baseZIndex]="1000"
+        [appendTo]="'body'"
+        #menu
+      ></p-contextMenu>
+    </p-dataView>
+  </p-dataView>
 </div>

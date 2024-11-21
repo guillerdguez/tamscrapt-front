@@ -5,7 +5,7 @@ import { Pedido } from './Pedido';
 import { ProductoService } from '../../Service/Producto.service';
 import { AlgoModel } from '../Views/Dynamic/AlgoModel';
 import { ProductoModel } from '../Views/Dynamic/ProductoModel';
-import { ProductoDetails } from './ProductoDetails';
+import { ProductoDetails } from './interface/ProductoDetails';
 import { MenuItem } from 'primeng/api';
 import { style } from '@angular/animations';
 import { UserModel } from '../Views/Dynamic/UserModel';
@@ -62,7 +62,8 @@ export class Producto {
 
         command: () => this.ofertaMethod(),
       },
-    ];}
+    ];
+  }
   //   {
   //       label: 'oferta',
   //       icon: 'pi pi-heart', // Estado inicial
@@ -166,9 +167,10 @@ export class Producto {
 
   ofertaMethod() {
     console.log('llegaa');
-    this.oferta = !this.oferta;
+
     if (this.oferta) {
       this.descuento = 0;
+      this.oferta = !this.oferta;
       this.precioOriginal = undefined;
       const productoData = this.getProductoData();
       console.log(productoData);
@@ -283,6 +285,19 @@ export class Producto {
     return this.calcularPrecioOriginal();
   }
 
+  // setDetails(productoData: Producto): this {
+  //   this.id = productoData.id;
+  //   this.nombre = productoData.nombre;
+  //   this.precio = productoData.precio;
+  //   this.imagen = productoData.imagen;
+  //   this.lettering = productoData.lettering;
+  //   this.scrapbooking = productoData.scrapbooking;
+  //   this.oferta = productoData.oferta;
+  //   this.descuento = productoData.descuento;
+  //   this.precioOriginal = productoData.precioOriginal;
+  //   this.favorito = productoData.favorito;
+  //   return this;
+  // }
   getParametros(producto: Producto) {
     this.id = producto.id;
     this.nombre = producto.nombre;
@@ -294,19 +309,6 @@ export class Producto {
     this.descuento = producto.descuento;
     this.favorito = producto.favorito;
     this.precioOriginal = this.calcularPrecioOriginal();
-    return this;
-  }
-  setDetails(productoData: Producto): this {
-    this.id = productoData.id;
-    this.nombre = productoData.nombre;
-    this.precio = productoData.precio;
-    this.imagen = productoData.imagen;
-    this.lettering = productoData.lettering;
-    this.scrapbooking = productoData.scrapbooking;
-    this.oferta = productoData.oferta;
-    this.descuento = productoData.descuento;
-    this.precioOriginal = productoData.precioOriginal;
-    this.favorito = productoData.favorito;
     return this;
   }
   getProductoData(): ProductoDetails {

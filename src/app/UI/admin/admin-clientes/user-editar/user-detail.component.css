@@ -26,21 +26,6 @@
   border-radius: 4px;
 }
 
-.price-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.original-price {
-  text-decoration: line-through;
-  color: red;
-}
-
-.discounted-price {
-  font-weight: bold;
-  color: #28a745; /* Verde para el precio con descuento */
-}
-
 input[type="text"] {
   padding: 10px;
   border: 1px solid #ced4da;
@@ -89,17 +74,25 @@ td {
 }
 
 img {
-  min-width: 500px;
+  min-width: 500;
   min-height: 500px;
   object-fit: contain;
   border-radius: 12px;
 }
 .container {
   text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 
-.pi.pi-heart,
-.pi.pi-heart-fill {
-  font-size: 40px;
-  padding-right: 190px;
+
+.title {
+  margin-top: 0;
+}
+.no-image {
+  width: 500px;
+  height: 500px;
+}
+.izquierda {
+  padding-left: 25%;
 }

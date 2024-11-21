@@ -42,7 +42,6 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
-      console.log(this.params);
       this.ParamsTemporal();
       this.algoModel.algosSeleccionadas = [];
       this.initializeHeaders();
@@ -86,9 +85,8 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.items = item.getMenuItemOptionsAdmin();
     } else {
       this.items = item.getMenuItemOptionsUser();
-      console.log(this.items);
     }
-    console.log(this.items);
+
     event.preventDefault();
     this.menu.show(event);
 
@@ -112,8 +110,4 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       }
     }
   }
-  // boton(item: any) {
-  //   console.log(item);
-  //   item.menuItem.command(item);
-  // }
 }

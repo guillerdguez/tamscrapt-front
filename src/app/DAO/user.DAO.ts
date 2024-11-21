@@ -21,7 +21,7 @@ export class UserDAO {
     const urlMod = `${this.urlBase}/listar`;
     return this.http.get<User[]>(urlMod);
   }
-  getUser(id: number): Observable<User> {
+  getUser(id?: number): Observable<User> {
     const urlMod = `${this.urlBase}/ver/${id}`;
     return this.http.get<User>(urlMod);
   }
@@ -34,11 +34,12 @@ export class UserDAO {
   }
   //UPDATE
   updateUser(user: User): Observable<any> {
+    console.log(user.id);
     const urlMod = `${this.urlBase}/editar/${user.id}`;
-    return this.http.put(urlMod, User, this.httpOptions);
+    return this.http.put(urlMod, user, this.httpOptions);
   }
   //DELETE
-  deleteUser(id: number): Observable<User> {
+  deleteUser(id?: number): Observable<User> {
     const urlMod = `${this.urlBase}/borrar/${id}`;
     return this.http.delete<User>(urlMod, this.httpOptions);
   }

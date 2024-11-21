@@ -48,12 +48,13 @@ import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
-
+import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
-import { FormularioComponentProducto } from './UI/admin/crear/formularioHeroes/formulario.component';
+import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
 @NgModule({
   declarations: [
+    UserDetailComponent,
     ProductoDetailComponent,
     PasarInformacionTablaComponent,
     AppComponent,

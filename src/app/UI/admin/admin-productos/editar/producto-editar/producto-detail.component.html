@@ -41,10 +41,10 @@
         placeholder="Precio"
       ></p-inputNumber
       >}@else {
-      <p>{{ algoModel.algo.precio }} </p>
+      <p>{{ algoModel.algo.precio }}</p>
       }
     </div>
-
+    <!-- cambiar -->
     <div>
       <div *ngIf="algoModel.algo.oferta; else noOferta">
         <div class="price-container">
@@ -82,6 +82,17 @@
       </select>
     </div>
 
+    <div>
+      <i
+        (click)="algoModel.algo.favoritoMethod()"
+        [ngClass]="
+          algoModel.algo.favorito
+            ? 'pi pi-heart-fill corazon-icon'
+            : 'pi pi-heart corazon-icon'
+        "
+        tabindex="-1"
+      ></i>
+    </div>
     <div class="botones">
       <button class="boton" type="button" (click)="goBack()">Go Back</button>
       <button class="boton" type="button" (click)="save()">Save</button>

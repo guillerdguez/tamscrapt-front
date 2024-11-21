@@ -3,7 +3,7 @@ import { Producto } from '../../Domain/ProductoClass';
 import { Router } from '@angular/router';
 import { ProductoService } from '../../../Service/Producto.service';
 import { AlgoModel } from './AlgoModel';
-import { ProductoDetails } from '../../Domain/ProductoDetails';
+import { ProductoDetails } from '../../Domain/interface/ProductoDetails';
 import { UserModel } from './UserModel';
 
 @Injectable({ providedIn: 'root' })

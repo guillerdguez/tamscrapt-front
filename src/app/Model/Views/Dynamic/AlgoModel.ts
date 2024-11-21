@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../../Domain/ProductoClass';
 
 @Injectable({ providedIn: 'root' })
 export class AlgoModel {
@@ -8,7 +7,7 @@ export class AlgoModel {
   algo: any;
   algosSeleccionadas: any[] = [];
   menuItemSeleccionado!: any;
-  seleccionarYEjecutar(item: Producto, menuItemLabel: string) {
+  seleccionarYEjecutar(item: any, menuItemLabel: string) {
     // Seleccionar el elemento (si aún no está seleccionado)
     if (!this.algosSeleccionadas.includes(item)) {
       this.algosSeleccionadas.push(item);

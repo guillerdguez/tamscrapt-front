@@ -1,0 +1,72 @@
+<div *ngIf="algoModel.algo">
+  <div class="container flex flex-column align-content-center">
+    <h1 class="title pt-0">{{ algoModel.algo.nombre | uppercase }} Details</h1>
+    <div
+      class="flexContainer flex flex-row align-content-evenly align-items-center flex-end"
+    >
+      <div class="izquierda">
+        <div>
+          <h2><strong>id:</strong> {{ algoModel.algo.id }}</h2>
+        </div>
+
+        @if (algoModel.algo.imagen) {
+        <div>
+          <img
+            [src]="algoModel.algo.imagen"
+            alt="Imagen del user"
+            class="product-image"
+          />
+        </div>
+        }@else{
+        <div class="relative flex justify-content-center">
+          <div class="no-image flex block mx-auto justify-content-center">
+            <p>Sin Imagen</p>
+          </div>
+        </div>
+        }
+      </div>
+      <div>
+        <div class="modNombre pb-3 pt-4">
+          <label for="algo-nombre">User nombre: </label>
+          @if(userModel.admin){
+          <input
+            id="algo-nombre"
+            [(ngModel)]="algoModel.algo.username"
+            placeholder="User nombre"
+          />}@else {
+          <h3>{{ algoModel.algo.username }}</h3>
+          }
+        </div>
+        <div class="modEmail">
+          <label for="algo-email">User email: </label>
+          @if(userModel.admin){
+          <input
+            id="algo-email"
+            [(ngModel)]="algoModel.algo.email"
+            placeholder="User email"
+          />}@else {
+          <h3>{{ algoModel.algo.email }}</h3>
+          }
+        </div>
+        <!-- 
+    <div class="modPassword pb-4 pt-4">
+      <label for="algo-password">User password: </label>
+      @if(userModel.admin){
+      <input
+        id="algo-password"
+        [(ngModel)]="algoModel.algo.password"
+        placeholder="User password"
+      />}@else {
+      <h3>{{ algoModel.algo.password }}</h3>
+      }
+    </div> -->
+        <div class="botones">
+          <button class="boton" type="button" (click)="goBack()">
+            Go Back
+          </button>
+          <button class="boton" type="button" (click)="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

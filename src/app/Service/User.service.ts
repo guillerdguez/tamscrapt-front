@@ -88,22 +88,19 @@ export class UserService {
   //   });
   // }
   // UPDATE
-  updateUser(user: User): void {
+  updateUser(user: any): void {
     this.userDAO.updateUser(user).subscribe({
-      next: (user: User) => {
-        this.algoModel.algo = user;
+      next: (user: any) => {
+        this.userModel.user = user;
       },
       error: (error) => {
-        console.error(
-          error,
-          'maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal'
-        );
+        console.error(error);
       },
     });
   }
 
   //DELETE
-  deleteUser(id: number): void {
+  deleteUser(id?: number): void {
     this.userDAO.deleteUser(id).subscribe({
       next: (user: User) => {
         this.userModel.user = user;
