@@ -9,7 +9,7 @@ import { UserModel } from './UserModel';
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
-  producto: Producto | undefined | ProductoDetails;
+  producto!: Producto | ProductoDetails;
 
   constructor(
     private router: Router,

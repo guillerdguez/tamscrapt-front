@@ -197,20 +197,18 @@ export class ProductoService {
   //   });
   // }
   // UPDATE
-  updateProducto(id: number, producto: any): void {
+  updateProducto(id: any, producto: any): void {
     console.log(id + '                ' + producto);
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
+        this.algoModel.algos = this.productoModel.productos;
         // this.algoModel.algos = this.algoModel.algos.filter(
         //   (algo) => (algo as Producto).favorito === producto.favorito
         // );
       },
       error: (error) => {
-        console.error(
-          error,
-          'maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaal'
-        );
+        console.error(error, 'mal');
       },
     });
   }

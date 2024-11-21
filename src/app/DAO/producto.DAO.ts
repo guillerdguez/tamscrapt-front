@@ -52,7 +52,7 @@ export class ProductoDAO {
   //   return this.http.put<Producto>(urlMod, producto, this.httpOptions);
   // }
   // UPDATE
-  updateProducto(id: number, producto: Producto): Observable<Producto> {
+  updateProducto(id: number , producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/editar/${id}`;
     return this.http.put<Producto>(urlMod, producto, this.httpOptions);
   }

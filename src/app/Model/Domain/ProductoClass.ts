@@ -53,16 +53,33 @@ export class Producto {
       {
         label: 'Edit',
         icon: 'pi pi-file-edit',
-        command: () => this.router.navigate(['/detail/producto/', this.id]),
+        command: () => this.router.navigate(['/detail/Productos/', this.id]),
       },
+
       {
         label: 'oferta',
         icon: 'pi pi-heart',
 
         command: () => this.ofertaMethod(),
       },
-    ];
-  }
+    ];}
+  //   {
+  //       label: 'oferta',
+  //       icon: 'pi pi-heart', // Estado inicial
+  //       favorito: false, // Añadimos una propiedad para el estado de favorito
+  //       command: () => {
+  //         // Alternamos el estado del favorito
+  //         this.favorito = !this.favorito;
+
+  //         // Actualizamos el ícono según el estado del favorito
+  //         this.menuItems[0].icon = this.favorito
+  //           ? 'pi pi-heart-fill corazon-icon'
+  //           : 'pi pi-heart corazon-icon';
+
+  //         // Llamamos al método deseado (ejemplo)
+  //         this.ofertaMethod();
+  //       },
+  //     },
   //cuando esta en cuadricula en oferta,queda mal alineado
   getMenuItemOptionsAdmin() {
     return [
@@ -105,6 +122,11 @@ export class Producto {
   getMenuItemsUser() {
     return [
       {
+        label: 'Ver',
+        icon: 'pi pi-eye',
+        command: () => this.router.navigate(['/detail/Productos/', this.id]),
+      },
+      {
         label: 'favorito',
         icon: 'pi pi-heart',
 
@@ -115,6 +137,14 @@ export class Producto {
 
   getMenuItemOptionsUser() {
     return [
+      {
+        label: 'Ver',
+        icon: 'pi pi-eye',
+        command: () => {
+          this.algoModel.menuItemSeleccionado = 'Ver';
+          this.algoModel.ejecutarMenuItem();
+        },
+      },
       {
         label: 'favorito',
         icon: 'pi pi-heart',
@@ -281,6 +311,7 @@ export class Producto {
   }
   getProductoData(): ProductoDetails {
     return {
+      id: this.id,
       nombre: this.nombre,
       precio: this.precio,
       imagen: this.imagen,

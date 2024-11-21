@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
-import { ProductoService } from '../../../Service/Producto.service';
-import { ProductoDAO } from '../../../DAO/producto.DAO';
-import { Producto } from '../../../Model/Domain/ProductoClass';
+import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
+import { ProductoService } from '../../../../Service/Producto.service';
+import { ProductoDAO } from '../../../../DAO/producto.DAO';
+import { Producto } from '../../../../Model/Domain/ProductoClass';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
 import { MenuItem } from 'primeng/api';
-import { ProductoDetails } from '../../../Model/Domain/ProductoDetails';
+import { ProductoDetails } from '../../../../Model/Domain/ProductoDetails';
 //si tiene descuento automaticamente esta en
 @Component({
   selector: 'app-formulario',
@@ -63,7 +63,7 @@ export class FormularioComponentProducto implements OnInit {
       oferta,
       descuento,
       precioOriginal,
-    }; 
+    };
 
     this.productoService.addProducto(newProducto);
     this.goBack();

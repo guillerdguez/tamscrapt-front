@@ -17,7 +17,7 @@ import { Producto } from '../../../Model/Domain/ProductoClass';
 
 @Component({
   selector: 'app-esquema-lista',
-  templateUrl: './esquema-lista.component2.html',
+  templateUrl: './esquema-lista.component.html',
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
@@ -42,6 +42,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
+      console.log(this.params);
       this.ParamsTemporal();
       this.algoModel.algosSeleccionadas = [];
       this.initializeHeaders();

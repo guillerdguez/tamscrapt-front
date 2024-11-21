@@ -9,7 +9,8 @@ import { CarritoComponent } from './UI/carrito/carrito.component';
 import { HomeComponent } from './UI/home/home.component';
 import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
 import { VerProductoComponent } from './UI/producto/ver-producto/ver-producto.component';
-import { FormularioComponentProducto } from './UI/crear/formularioHeroes/formulario.component';
+import { FormularioComponentProducto } from './UI/admin/crear/formularioHeroes/formulario.component';
+import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,7 +27,7 @@ const routes: Routes = [
   { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
 
   { path: 'carrito', component: CarritoComponent },
-  { path: 'detail/producto/:id', component: VerProductoComponent },
+  { path: 'detail/Productos/:id', component: ProductoDetailComponent },
 
   //admin
   { path: 'admin', component: PanelGestionComponent },

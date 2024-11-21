@@ -1,6 +1,5 @@
-/* Title Section */
 .title {
-  height: 350px;
+  height: 320px;
   color: #ffffff;
   display: flex;
   justify-content: center;
@@ -13,32 +12,57 @@
   margin-bottom: 20px;
 }
 
+/* Estilos para imágenes */
 img {
   width: 200px;
   height: 200px;
   object-fit: contain;
   border-radius: 12px;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
-/* Price Container */
-.price-container {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  gap: 8px;
+img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.original-price {
-  text-decoration: line-through;
-  color: #888;
-  font-size: 16px;
+/* Estilos para contenedores sin imagen */
+.no-image {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.discounted-price {
-  font-size: 24px;
-  font-weight: 600;
+/* Efecto al hacer hover sobre el contenedor relativo (imagen o no imagen) */
+.relative:hover img,
+.relative:hover .no-image {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el texto "Ver detalles" */
+.hover-text {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mostrar el texto cuando se hace hover sobre el contenedor */
+.relative:hover .hover-text {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Card Container */
@@ -78,51 +102,6 @@ img {
   background-color: #a8dadc;
 }
 
-/* Utility Classes */
-.flex {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.flex-row {
-  flex-direction: row;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.align-items-center {
-  align-items: center;
-}
-
-.gap-2 {
-  gap: 8px;
-}
-
-.gap-3 {
-  gap: 12px;
-}
-
-.gap-4 {
-  gap: 16px;
-}
-
-.mt-4 {
-  margin-top: 20px;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.w-full {
-  width: 100%;
-}
-
 /* Selected Item Styling */
 .selected {
   transition: transform 0.2s ease;
@@ -141,7 +120,8 @@ img {
     font-size: 30px;
   }
 
-  img {
+  img,
+  .no-image {
     width: 150px;
     height: 150px;
   }
@@ -156,7 +136,8 @@ img {
     font-size: 24px;
   }
 
-  img {
+  img,
+  .no-image {
     width: 120px;
     height: 120px;
   }
@@ -166,9 +147,17 @@ img {
     gap: 5px;
   }
 }
+
 .informacion {
   display: flex;
-  justify-content: center; /* Alineación horizontal */
-  align-items: center; /* Alineación vertical */
-  height: 100%; /* Asegura que el contenedor ocupe todo el espacio disponible */
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.pi.pi-heart,
+.pi.pi-heart-fill {
+  font-size: 40px;
+  padding-right: 190px;
 }

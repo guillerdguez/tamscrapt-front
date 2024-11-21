@@ -24,6 +24,7 @@ import { EsquemaListaComponent2 } from './UI/producto/listas/esquema-lista/esque
 import { InputSwitchComponent } from './UI/input-switch/input-switch.component';
 import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
 import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
+import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
 // PrimeNG Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
@@ -50,9 +51,10 @@ import { RatingModule } from 'primeng/rating';
 
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
-import { FormularioComponentProducto } from './UI/crear/formularioHeroes/formulario.component';
+import { FormularioComponentProducto } from './UI/admin/crear/formularioHeroes/formulario.component';
 @NgModule({
   declarations: [
+    ProductoDetailComponent,
     PasarInformacionTablaComponent,
     AppComponent,
     NavbarComponent,

@@ -34,11 +34,15 @@
 
     <div class="form-group-precio">
       <label for="precio">Producto precio: </label>
+      @if(userModel.admin){
       <p-inputNumber
         inputId="precio"
         [(ngModel)]="algoModel.algo.precio"
         placeholder="Precio"
-      ></p-inputNumber>
+      ></p-inputNumber
+      >}@else {
+      <p>{{ algoModel.algo.precio }} </p>
+      }
     </div>
 
     <div>
