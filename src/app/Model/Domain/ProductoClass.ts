@@ -112,7 +112,6 @@ export class Producto {
         label: 'oferta',
         icon: 'pi pi-euro',
         command: () => {
-          console.log('Command executed: oferta');
           this.algoModel.menuItemSeleccionado = 'oferta';
           this.algoModel.ejecutarMenuItem();
         },
@@ -128,11 +127,17 @@ export class Producto {
         command: () => this.router.navigate(['/detail/Productos/', this.id]),
       },
       {
-        label: 'favorito',
+        label: 'Favorito',
         icon: 'pi pi-heart',
 
         command: () => this.favoritoMethod(),
       },
+      // {
+      //   label: 'Carrito',
+      //   icon: 'pi-cart-plus',
+
+      //   command: () => this.favoritoMethod(),
+      // },
     ];
   }
 
@@ -147,33 +152,37 @@ export class Producto {
         },
       },
       {
-        label: 'favorito',
+        label: 'Favorito',
         icon: 'pi pi-heart',
         command: () => {
-          console.log('Command executed: favorito');
-          this.algoModel.menuItemSeleccionado = 'favorito';
+          this.algoModel.menuItemSeleccionado = 'Favorito';
           this.algoModel.ejecutarMenuItem();
         },
       },
+      // {
+      //   label: 'Carrito',
+      //   icon: 'pi-cart-plus',
+      //   command: () => {
+      //     this.algoModel.menuItemSeleccionado = 'Carrito';
+      //     this.algoModel.ejecutarMenuItem();
+      //   },
+      // },
     ];
   }
 
   favoritoMethod() {
-    console.log('llegaa');
     this.favorito = !this.favorito;
     const productoData = this.getProductoData();
     this.productoService.updateProducto(this.id, productoData);
   }
 
   ofertaMethod() {
-    console.log('llegaa');
-
     if (this.oferta) {
       this.descuento = 0;
       this.oferta = !this.oferta;
       this.precioOriginal = undefined;
       const productoData = this.getProductoData();
-      console.log(productoData);
+
       this.productoService.updateProducto(this.id, productoData);
     }
   }

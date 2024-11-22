@@ -46,11 +46,7 @@ export class ProductoDAO {
     }
     return this.http.get<Producto[]>(`${this.urlBase}/?name=${term}`);
   }
-  // //UPDATE
-  // updateProducto(producto: Producto): Observable<Producto> {
-  //   const urlMod = `${this.urlBase}/editar/${producto.id}`;
-  //   return this.http.put<Producto>(urlMod, producto, this.httpOptions);
-  // }
+ 
   // UPDATE
   updateProducto(id: number , producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/editar/${id}`;

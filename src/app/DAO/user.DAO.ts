@@ -34,7 +34,7 @@ export class UserDAO {
   }
   //UPDATE
   updateUser(user: User): Observable<any> {
-    console.log(user.id);
+ 
     const urlMod = `${this.urlBase}/editar/${user.id}`;
     return this.http.put(urlMod, user, this.httpOptions);
   }

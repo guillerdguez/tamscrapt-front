@@ -31,7 +31,6 @@ export class UserDetailComponent implements OnInit, OnChanges {
   }
   save(): void {
     if (this.algoModel.algo) {
-      console.log(this.algoModel.algo);
       this.userService.updateUser(this.algoModel.algo);
       this.goBack();
     }

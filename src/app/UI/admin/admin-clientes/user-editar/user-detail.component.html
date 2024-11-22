@@ -1,72 +1,99 @@
-<div *ngIf="algoModel.algo">
-  <div class="container flex flex-column align-content-center">
-    <h1 class="title pt-0">{{ algoModel.algo.nombre | uppercase }} Details</h1>
-    <div
-      class="flexContainer flex flex-row align-content-evenly align-items-center flex-end"
-    >
-      <div class="izquierda">
-        <div>
-          <h2><strong>id:</strong> {{ algoModel.algo.id }}</h2>
-        </div>
+<div *ngIf="algoModel.algo" class="flex flex-column align-items-center p-4">
+  <!-- Título -->
+  <h1 class="text-center text-3xl font-bold mb-5">
+    {{ algoModel.algo.nombre | uppercase }} Details
+  </h1>
 
-        @if (algoModel.algo.imagen) {
-        <div>
-          <img
-            [src]="algoModel.algo.imagen"
-            alt="Imagen del user"
-            class="product-image"
-          />
-        </div>
-        }@else{
-        <div class="relative flex justify-content-center">
-          <div class="no-image flex block mx-auto justify-content-center">
-            <p>Sin Imagen</p>
-          </div>
-        </div>
-        }
-      </div>
-      <div>
-        <div class="modNombre pb-3 pt-4">
-          <label for="algo-nombre">User nombre: </label>
-          @if(userModel.admin){
-          <input
-            id="algo-nombre"
-            [(ngModel)]="algoModel.algo.username"
-            placeholder="User nombre"
-          />}@else {
-          <h3>{{ algoModel.algo.username }}</h3>
-          }
-        </div>
-        <div class="modEmail">
-          <label for="algo-email">User email: </label>
-          @if(userModel.admin){
-          <input
-            id="algo-email"
-            [(ngModel)]="algoModel.algo.email"
-            placeholder="User email"
-          />}@else {
-          <h3>{{ algoModel.algo.email }}</h3>
-          }
-        </div>
-        <!-- 
-    <div class="modPassword pb-4 pt-4">
-      <label for="algo-password">User password: </label>
-      @if(userModel.admin){
-      <input
-        id="algo-password"
-        [(ngModel)]="algoModel.algo.password"
-        placeholder="User password"
-      />}@else {
-      <h3>{{ algoModel.algo.password }}</h3>
-      }
-    </div> -->
-        <div class="botones">
-          <button class="boton" type="button" (click)="goBack()">
-            Go Back
-          </button>
-          <button class="boton" type="button" (click)="save()">Save</button>
+  <!-- Contenedor principal -->
+  <div
+    class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+  >
+    <!-- Columna izquierda -->
+    <div class="flex flex-column align-items-start w-full md:w-5">
+      <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
+
+      <!-- Imagen -->
+      <div
+        class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
+      >
+        <img
+          *ngIf="algoModel.algo.imagen"
+          [src]="algoModel.algo.imagen"
+          alt="Imagen del user"
+          class="w-14rem h-14rem border-round shadow-2"
+        />
+        <div
+          *ngIf="!algoModel.algo.imagen"
+          class="no-image w-14rem h-14rem shadow-2"
+        >
+          <p class="text-center font-bold">Sin Imagen</p>
         </div>
       </div>
     </div>
+
+    <!-- Columna derecha -->
+    <h3 class="flex flex-column align-items-start w-full md:w-5">
+      <!-- Modificar nombre -->
+      <div class="mb-4 w-full">
+        <label for="algo-nombre" class="block text-lg font-medium mb-2"
+          >User nombre:</label
+        >
+        <input
+          *ngIf="userModel.admin"
+          id="algo-nombre"
+          [(ngModel)]="algoModel.algo.username"
+          placeholder="User nombre"
+          class="p-inputtext w-full"
+        />
+        <h3 *ngIf="!userModel.admin" class="text-lg font-bold">
+          {{ algoModel.algo.username }}
+        </h3>
+      </div>
+
+      <!-- Modificar email -->
+      <div class="mb-4 w-full">
+        <label for="algo-email" class="block text-lg font-medium mb-2"
+          >User email:</label
+        >
+        <input
+          *ngIf="userModel.admin"
+          id="algo-email"
+          [(ngModel)]="algoModel.algo.email"
+          placeholder="User email"
+          class="p-inputtext w-full"
+        />
+        <h3 *ngIf="!userModel.admin" class="text-lg font-bold">
+          {{ algoModel.algo.email }}
+        </h3>
+      </div>
+      <div>
+        <h1 class="block text-lg font-medium mb-2">User Authorities:</h1>
+        <h3
+          *ngFor="let aut of algoModel.algo.authorities"
+          class="flex justify-content-center m-0"
+        >
+          <h3 class="text-xs font-bold">
+            {{ aut }}
+          </h3>
+        </h3>
+      </div>
+      <!-- Botones -->
+      <div class="flex gap-3 mt-4">
+        <button
+          type="button"
+          class="p-button p-button-secondary"
+          (click)="goBack()"
+        >
+          Go Back
+        </button>
+        <button
+          type="button"
+          class="p-button p-button-success"
+          (click)="save()"
+        >
+          Save
+        </button>
+      </div>
+    </h3>
   </div>
 </div>

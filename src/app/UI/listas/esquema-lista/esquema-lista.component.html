@@ -29,12 +29,10 @@
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <!-- Contenedor de imagen -->
+            <!-- Contenedor de imagen *ngIf="item['imagen']; else noImage"-->
             <a [href]="'/detail/' + title + '/' + item.id">
-              <div
-                class="relative no-image-container"
-                *ngIf="item['imagen']; else noImage"
-              >
+              @if (item['imagen']) {
+              <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
                 <img
                   class="block mx-auto"
@@ -43,12 +41,12 @@
                   loading="lazy"
                 />
               </div>
-              <ng-template #noImage>
-                <div class="relative no-image-container">
-                  <span class="hover-text">Ver detalles</span>
-                  <div class="no-image">Sin Imagen</div>
-                </div>
-              </ng-template>
+              }@else {
+              <div class="relative no-image-container">
+                <span class="hover-text">Ver detalles</span>
+                <div class="no-image">Sin Imagen</div>
+              </div>
+              }
             </a>
 
             <!-- Detalles y acciones -->
@@ -104,104 +102,78 @@
     </ng-template>
 
     <!-- Plantilla para cuadrícula -->
-
     <ng-template pTemplate="grid" let-items>
-      <div class="flex flex-wrap grid-nogutter justify-content-start pt-4">
+      <div class="grid justify-content-around gap-3 pt-4 align-content-center">
         <div
-          class="item-container col-12 sm:col-6 md:col-4 xl:col-3 p-2 surface-card m-0"
+          class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container"
+          *ngFor="let item of items"
           [class.selected]="algoModel.algosSeleccionadas.includes(item)"
           (dblclick)="onselectedTable($event, item)"
           (contextmenu)="onContextMenu($event, item)"
-          *ngFor="let item of items; let last = last"
         >
-          <div
-            class="item-content p-4 flex flex-column justify-content-between"
-          >
-            <div *ngIf="item['imagen']; else noImageGrid">
-              <div class="relative flex justify-content-center">
-                <a [href]="'/detail/' + title + '/' + item.id">
-                  <span class="hover-text">Ver detalles</span>
-                  <img
-                    class="item-image zoomable"
-                    [src]="item['imagen']"
-                    [alt]="item['nombre'] || 'Imagen'"
-                    loading="lazy"
-                  />
-                </a>
+          <div class="card flex flex-column align-items-center h-full">
+            <a [href]="'/detail/' + title + '/' + item.id">
+              @if (item['imagen']) {
+              <div class="relative no-image-container">
+                <span class="hover-text">Ver detalles</span>
+                <img
+                  class="block mx-auto"
+                  [src]="item['imagen']"
+                  [alt]="item['nombre'] || 'Imagen'"
+                  loading="lazy"
+                />
               </div>
-            </div>
-
-            <ng-template #noImageGrid>
-              <div class="relative flex justify-content-center">
-                <a [href]="'/detail/' + title + '/' + item.id">
-                  <div class="no-image-container">
-                    <span class="hover-text">Ver detalles</span>
-                    <p>Sin Imagen</p>
-                  </div>
-                </a>
-              </div>
-            </ng-template>
-
-            <div>
-              <div
-                class="flex flex-row align-items-center justify-content-center"
-              >
-                <div
-                  *ngFor="let header of headers"
-                  class="flex align-items-center justify-content-center p-4"
-                >
-                  <ng-container *ngIf="item[header.field] !== undefined">
-                    <span class="informacion" [ngStyle]="header.style">
-                      {{
-                        header.formatter
-                          ? header.formatter(item[header.field])
-                          : item[header.field]
-                      }}
-                    </span>
-                  </ng-container>
-                </div>
-              </div>
-
-              @if(userModel.admin) {
-              <div class="flex justify-content-center gap-2 mt-4">
-                <div *ngFor="let menuItem of item.menuItems" class="botones">
-                  <p-button
-                    [icon]="menuItem.icon"
-                    [label]="menuItem.label"
-                    (click)="
-                      algoModel.seleccionarYEjecutar(item, menuItem.label)
-                    "
-                    [outlined]="true"
-                    aria-label="{{ menuItem.label }}"
-                  ></p-button>
-                </div>
-              </div>
-              } @else {
-              <div class="pl-4">
-                <i
-                  (click)="item.favoritoMethod()"
-                  [ngClass]="
-                    item.favorito
-                      ? 'pi pi-heart-fill corazon-icon'
-                      : 'pi pi-heart corazon-icon'
-                  "
-                  tabindex="-1"
-                ></i>
+              }@else {
+              <div class="relative no-image-container">
+                <span class="hover-text">Ver detalles</span>
+                <div class="no-image">Sin Imagen</div>
               </div>
               }
+            </a>
+            <h3 class="text-center font-medium text-lg">{{ item.nombre }}</h3>
+
+            <p class="price text-primary font-bold mt-1">{{ item.precio }} €</p>
+
+            @if (userModel.admin) {
+            <div
+              class="flex justify-content-center gap-2 mt-3 flex flex-wrap justify-content-around"
+            >
+              <p-button
+                class="boton"
+                *ngFor="let menuItem of item.menuItems"
+                [icon]="menuItem.icon"
+                [label]="menuItem.label"
+                (click)="algoModel.seleccionarYEjecutar(item, menuItem.label)"
+                [outlined]="true"
+                aria-label="{{ menuItem.label }}"
+              ></p-button>
             </div>
+            } @else {
+
+            <div class="icon-container mt-3 flex flex-row">
+              <i
+                class="pi"
+                [ngClass]="
+                  item.favorito ? 'pi-heart-fill text-danger' : 'pi-heart'
+                "
+                (click)="item.favoritoMethod()"
+                tabindex="0"
+              ></i>
+
+              <div class="icon-container mt-3">
+                <i class="pi pi-cart-plus" tabindex="0"></i>
+              </div>
+            </div>
+            }
           </div>
         </div>
       </div>
     </ng-template>
-
-    <p-dataView>
-      <p-contextMenu
-        [model]="items"
-        [baseZIndex]="1000"
-        [appendTo]="'body'"
-        #menu
-      ></p-contextMenu>
-    </p-dataView>
   </p-dataView>
+  <p-contextMenu
+    [model]="items"
+    [baseZIndex]="1000"
+    [appendTo]="'body'"
+    #menu
+  ></p-contextMenu>
 </div>
