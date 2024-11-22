@@ -173,3 +173,6 @@ img:hover {
 /* .pi-cart-plus:active {
   transform: scale(1.2);
 } */
+.card {
+  min-width: 455;
+}

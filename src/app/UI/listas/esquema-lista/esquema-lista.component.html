@@ -130,9 +130,19 @@
               </div>
               }
             </a>
-            <h3 class="text-center font-medium text-lg">{{ item.nombre }}</h3>
-
-            <p class="price text-primary font-bold mt-1">{{ item.precio }} €</p>
+            <div class="detalles-producto align-left">
+              <div *ngFor="let header of headers">
+                <ng-container *ngIf="item[header.field] !== undefined">
+                  <span [ngStyle]="header.style">
+                    {{
+                      header.formatter
+                        ? header.formatter(item[header.field])
+                        : item[header.field]
+                    }}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
 
             @if (userModel.admin) {
             <div
