@@ -76,17 +76,7 @@ export class UserService {
       },
     });
   }
-  //UPDATE
-  // updateUser(user: User): void {
-  //   this.userDAO.updateUser(User).subscribe({
-  //     next: (user: User) => {
-  //       this.algoModel.algo = User;
-  //     },
-  //     error: (error) => {
-  //       console.error(error);
-  //     },
-  //   });
-  // }
+  
   // UPDATE
   updateUser(user: any): void {
     this.userDAO.updateUser(user).subscribe({

@@ -28,7 +28,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   paramsTemporal: any[] = [];
   items: MenuItem[] = [];
-  layout: 'list' | 'grid' = 'list';
+  layout!: 'list' | 'grid'
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
@@ -38,6 +38,11 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.ParamsTemporal();
     this.initializeHeaders();
+    if(this.userModel.admin){
+      this.layout = 'list';
+    }else{
+      this.layout = 'grid';
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

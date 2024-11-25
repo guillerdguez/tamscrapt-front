@@ -17,9 +17,9 @@ export class ProductoService {
   //Create
   addProducto(producto: any): void {
     // this.algoModel.algos.push(producto);
-    this.productoModel.productos.push(producto); 
+    this.productoModel.productos.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
-      next: (producto: any) => { 
+      next: (producto: any) => {
         this.productoModel.producto = producto;
       },
       error: (error) => {
@@ -133,7 +133,7 @@ export class ProductoService {
 
   getProductosOferta(): void {
     this.productoDAO.getProductosOferta().subscribe({
-      next: (productos: Producto[]) => { 
+      next: (productos: Producto[]) => {
         this.algoModel.algos = productos;
       },
       error: (error) => {
@@ -183,23 +183,13 @@ export class ProductoService {
       },
     });
   }
-  //UPDATE
-  // updateProducto(producto: Producto): void {
-  //   this.productoDAO.updateProducto(producto).subscribe({
-  //     next: (producto: Producto) => {
-  //       this.algoModel.algo = producto;
-  //     },
-  //     error: (error) => {
-  //       console.error(error);
-  //     },
-  //   });
-  // }
+
   // UPDATE
-  updateProducto(id: any, producto: any): void { 
+  updateProducto(id: any, producto: any): void {
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
-        this.algoModel.algos = this.productoModel.productos;
+        // this.algoModel.algos = this.productoModel.productos;
         // this.algoModel.algos = this.algoModel.algos.filter(
         //   (algo) => (algo as Producto).favorito === producto.favorito
         // );

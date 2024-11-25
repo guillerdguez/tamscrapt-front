@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class AlgoModel {
+ 
   constructor() {}
   algos: any[] = [];
   algo: any;

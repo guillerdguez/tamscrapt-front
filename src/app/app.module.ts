@@ -4,27 +4,31 @@ import {
   provideClientHydration,
 } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+
+// Componentes principales
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './UI/layout/navbar/navbar.component';
 import { FooterComponent } from './UI/layout/footer/footer.component';
-import { ProductoListaComponent } from './UI/producto/listas/producto-lista/producto-lista.component';
-import { PedidoListaComponent } from './UI/pedido/pedido-lista/pedido-lista.component';
-import { OfertaListaComponent } from './UI/producto/listas/oferta-lista/oferta-lista.component';
-import { LetteringListaComponent } from './UI/producto/listas/lettering-lista/lettering-lista.component';
-import { CarritoComponent } from './UI/carrito/carrito.component';
-import { ScrapbookingListaComponent } from './UI/producto/listas/scrapbooking-lista/scrapbooking-lista.component';
-import { HttpClientModule } from '@angular/common/http';
-import { VerProductoComponent } from './UI/producto/ver-producto/ver-producto.component';
 import { HomeComponent } from './UI/home/home.component';
+import { CarritoComponent } from './UI/carrito/carrito.component';
+
+// Componentes de administración
 import { PanelGestionComponent } from './UI/admin/panel-gestion/panel-gestion.component';
 import { AdminProductosComponent } from './UI/admin/admin-productos/admin-productos.component';
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
-import { EsquemaListaComponent2 } from './UI/producto/listas/esquema-lista/esquema-lista.component';
+import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
+import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
+import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
+import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
+import { OfertaDialogComponent } from './UI/admin/admin-productos/oferta-dialog /oferta-dialog.component';
+
+// Otros componentes
 import { InputSwitchComponent } from './UI/input-switch/input-switch.component';
 import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
 import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
-import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
+
 // PrimeNG Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
@@ -41,59 +45,49 @@ import { ToastModule } from 'primeng/toast';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { CascadeSelectModule } from 'primeng/cascadeselect';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DynamicDialogModule, DialogService } from 'primeng/dynamicdialog';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { SpeedDialModule } from 'primeng/speeddial';
 import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
-import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
-import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
+
 @NgModule({
   declarations: [
-    UserDetailComponent,
-    ProductoDetailComponent,
-    PasarInformacionTablaComponent,
+    // Componentes principales
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    ProductoListaComponent,
-    PedidoListaComponent,
-    OfertaListaComponent,
-    LetteringListaComponent,
-    CarritoComponent,
-    ScrapbookingListaComponent,
-    VerProductoComponent,
     HomeComponent,
+    CarritoComponent,
+
+    // Componentes de administración
     PanelGestionComponent,
     AdminProductosComponent,
-    AdminUsersComponent,
     AdminPedidosComponent,
-    EsquemaListaComponent,
-    EsquemaListaComponent2,
-    InputSwitchComponent,
+    AdminUsersComponent,
+    ProductoDetailComponent,
+    UserDetailComponent,
     FormularioComponentProducto,
+    OfertaDialogComponent,
+
+    // Otros componentes
+    InputSwitchComponent,
+    EsquemaListaComponent,
+    PasarInformacionTablaComponent,
   ],
   imports: [
-    SelectButtonModule,
-    RatingModule,
-    InputNumberModule,
-    DialogModule,
-    CardModule,
-    ToastModule,
-    CascadeSelectModule,
-    ReactiveFormsModule,
-    ContextMenuModule,
-
-    FormsModule,
+    // Angular Core Modules
+    BrowserModule,
+    AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
 
     // PrimeNG Modules
-    MenuModule,
     DropdownModule,
     ButtonModule,
     PanelModule,
@@ -106,15 +100,19 @@ import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/fo
     ToolbarModule,
     ToastModule,
     SplitButtonModule,
+    ContextMenuModule,
+    CascadeSelectModule,
     DynamicDialogModule,
+    CardModule,
+    DialogModule,
     SpeedDialModule,
-
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
+    MenuModule,
+    InputNumberModule,
+    RatingModule,
+    SelectButtonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [provideClientHydration()],
+  providers: [provideClientHydration(), DialogService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

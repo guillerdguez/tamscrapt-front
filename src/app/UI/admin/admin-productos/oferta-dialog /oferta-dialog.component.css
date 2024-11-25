@@ -1,0 +1,15 @@
+* {
+  background-color: aqua;
+}
+.table-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.container {
+  max-width: 400px;
+  width: 100%;
+  max-height: 600px;
+}

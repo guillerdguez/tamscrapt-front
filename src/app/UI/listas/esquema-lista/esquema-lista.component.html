@@ -12,14 +12,12 @@
     [rowsPerPageOptions]="[9, 20]"
     styleClass="custom-paginator "
   >
-    <!-- Cabecera -->
     <ng-template pTemplate="header">
       <div class="flex justify-content-end">
         <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
       </div>
     </ng-template>
 
-    <!-- Plantilla para lista -->
     <ng-template pTemplate="list" let-items>
       <div class="grid grid-nogutter pt-4">
         <div *ngFor="let item of items" class="col-12">
@@ -29,7 +27,6 @@
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <!-- Contenedor de imagen *ngIf="item['imagen']; else noImage"-->
             <a [href]="'/detail/' + title + '/' + item.id">
               @if (item['imagen']) {
               <div class="relative no-image-container">
@@ -49,7 +46,6 @@
               }
             </a>
 
-            <!-- Detalles y acciones -->
             <div
               class="flex flex-column md:flex-row justify-content-between align-items-start flex-1 gap-4 w-full"
             >
@@ -83,16 +79,20 @@
                   ></p-button>
                 </div>
                 } @else {
-
-                <i
-                  (click)="item.favoritoMethod()"
-                  [ngClass]="
-                    item.favorito
-                      ? 'pi pi-heart-fill corazon-icon'
-                      : 'pi pi-heart corazon-icon'
-                  "
-                  tabindex="-1"
-                ></i>
+                <div class="cart">
+                  <i class="pi pi-cart-plus" tabindex="0"></i>
+                </div>
+                <div class="heart pr-8 pl-7">
+                  <i
+                    (click)="item.favoritoMethod()"
+                    [ngClass]="
+                      item.favorito
+                        ? 'pi pi-heart-fill corazon-icon'
+                        : 'pi pi-heart corazon-icon'
+                    "
+                    tabindex="-1"
+                  ></i>
+                </div>
                 }
               </div>
             </div>
@@ -111,7 +111,9 @@
           (dblclick)="onselectedTable($event, item)"
           (contextmenu)="onContextMenu($event, item)"
         >
-          <div class="card flex flex-column align-items-center h-full">
+          <div
+            class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
+          >
             <a [href]="'/detail/' + title + '/' + item.id">
               @if (item['imagen']) {
               <div class="relative no-image-container">
@@ -130,7 +132,7 @@
               </div>
               }
             </a>
-            <div class="detalles-producto align-left">
+            <div class="detalles-producto align-left mt-3">
               <div *ngFor="let header of headers">
                 <ng-container *ngIf="item[header.field] !== undefined">
                   <span [ngStyle]="header.style">
@@ -160,17 +162,20 @@
             </div>
             } @else {
 
-            <div class="icon-container mt-3 flex flex-row">
-              <i
-                class="pi"
-                [ngClass]="
-                  item.favorito ? 'pi-heart-fill text-danger' : 'pi-heart'
-                "
-                (click)="item.favoritoMethod()"
-                tabindex="0"
-              ></i>
-
-              <div class="icon-container mt-3">
+            <div
+              class="icon-container mt-3 flex flex-row justify-content-around align-content-center gap-7"
+            >
+              <div class="heart">
+                <i
+                  class="pi"
+                  [ngClass]="
+                    item.favorito ? 'pi-heart-fill text-danger' : 'pi-heart'
+                  "
+                  (click)="item.favoritoMethod()"
+                  tabindex="0"
+                ></i>
+              </div>
+              <div class="cart">
                 <i class="pi pi-cart-plus" tabindex="0"></i>
               </div>
             </div>

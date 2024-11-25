@@ -164,7 +164,6 @@ img:hover {
 .pi.pi-heart-fill,
 .pi-cart-plus {
   font-size: 40px;
-  padding-right: 190px;
 }
 .pi-cart-plus {
   /* transition: transform 0.2s ease;   transform-origin: center;*/
@@ -173,6 +172,6 @@ img:hover {
 /* .pi-cart-plus:active {
   transform: scale(1.2);
 } */
-.card {
-  min-width: 455;
+.surface-card {
+  min-width: 455px;
 }
