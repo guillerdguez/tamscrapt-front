@@ -49,16 +49,11 @@
             <div
               class="flex flex-column md:flex-row justify-content-between align-items-start flex-1 gap-4 w-full"
             >
-              <!-- Alineación a la izquierda -->
               <div class="detalles-producto align-left">
                 <div *ngFor="let header of headers">
                   <ng-container *ngIf="item[header.field] !== undefined">
                     <span [ngStyle]="header.style">
-                      {{
-                        header.formatter
-                          ? header.formatter(item[header.field])
-                          : item[header.field]
-                      }}
+                      {{ item[header.field] }}
                     </span>
                   </ng-container>
                 </div>
@@ -102,8 +97,11 @@
     </ng-template>
 
     <!-- Plantilla para cuadrícula -->
+
     <ng-template pTemplate="grid" let-items>
-      <div class="grid justify-content-around gap-3 pt-4 align-content-center">
+      <div
+        class="grid justify-content-around gap-3 pt-4 align-content-center fondo-card"
+      >
         <div
           class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container"
           *ngFor="let item of items"
@@ -114,6 +112,7 @@
           <div
             class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
           >
+            <!-- mal -->
             <a [href]="'/detail/' + title + '/' + item.id">
               @if (item['imagen']) {
               <div class="relative no-image-container">
@@ -160,6 +159,7 @@
                 aria-label="{{ menuItem.label }}"
               ></p-button>
             </div>
+
             } @else {
 
             <div

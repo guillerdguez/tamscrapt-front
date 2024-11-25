@@ -1,5 +1,4 @@
 /* @import "primeng/resources/themes/lara-light-blue/theme.css"; */
-
 .custom-navbar {
   background-color: #ffffff;
 }
@@ -63,10 +62,10 @@
   color: #005f73;
 }
 .p-button {
-  background-color: #a8dadc;
+  background-color: #c7c7c7;
 }
 .p-button:hover {
-  background-color: #80aeaf;
+  background-color: #d8d8d8;
 }
 .pi.pi-star-fill,
 .pi.pi-sun {
@@ -173,4 +172,18 @@ select:focus {
 
 .p-contextmenu .p-submenu-list .p-menuitem {
   padding: 8px 16px;
+}
+ 
+
+.grid,
+.card,
+.p-paginator {
+  background-color: white;
+}
+.p-dataview .p-dataview-header {
+  border: none !important;
+  background-color: white;
+}
+.card .fondo-card {
+  background-color: white;
 }

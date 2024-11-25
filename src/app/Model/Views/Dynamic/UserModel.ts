@@ -8,14 +8,7 @@ import { UserService } from '../../../Service/User.service';
 export class UserModel {
   users: User[] = [];
   user: User | undefined;
-  admin: boolean = false;
-  // Agregamos el arreglo de campos a mostrar
-  // private fieldsToShow: string[] = [
-  //   'nombre',
-  //   'categoria',
-  //   'descripcion',
-  //   'rating',
-  // ];
+  admin: boolean = true;
 
   constructor(private router: Router, private algoModel: AlgoModel) {}
 

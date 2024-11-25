@@ -13,8 +13,7 @@ import { OfertaDialogComponent } from '../../UI/admin/admin-productos/oferta-dia
 // que tengan p-tag
 // es Injectable por el DynamicDialogRef
 
-@Injectable({ providedIn: 'root' })
-export class Producto implements OnDestroy {
+export class Producto {
   id!: number;
   nombre!: string;
   precio!: number;
@@ -37,22 +36,10 @@ export class Producto implements OnDestroy {
     public algoModel: AlgoModel,
     public productoModel: ProductoModel,
     public userModel: UserModel,
-    public productoService: ProductoService,
-    public dialogService: DialogService
+    public productoService: ProductoService
   ) {
     this.precioOriginal = this.getprecioOriginal();
     this.setMenuItems();
-  }
-
-  setDialogService(dialogService: DialogService) {
-    this.dialogService = dialogService;
-    return this;
-  }
-
-  ngOnDestroy() {
-    if (this.ref) {
-      this.ref.close();
-    }
   }
 
   getMenuItemsAdmin(url: string) {
@@ -76,7 +63,7 @@ export class Producto implements OnDestroy {
       {
         label: 'oferta',
         icon: 'pi pi-heart',
-        command: () => this.showDialogOferta(),
+        command: () => this.ofertaMethod(),
       },
     ];
   }
@@ -176,9 +163,18 @@ export class Producto implements OnDestroy {
 
   ofertaMethod() {
     if (this.oferta) {
+      this.precio = this.precioOriginal || this.precio; // Restablece el precio original
       this.descuento = 0;
-      this.oferta = !this.oferta;
+      this.oferta = false;
       this.precioOriginal = undefined;
+      const productoData = this.getProductoData();
+      this.productoService.updateProducto(this.id, productoData);
+    } else {
+      this.oferta = true;
+      this.descuento = 50;
+      this.precioOriginal = this.precio;
+      this.precio = this.precioOriginal! * (1 - 50 / 100);
+
       const productoData = this.getProductoData();
       this.productoService.updateProducto(this.id, productoData);
     }
@@ -255,30 +251,6 @@ export class Producto implements OnDestroy {
     }
   }
 
-  showDialogOferta() {
-    this.ref = this.dialogService.open(OfertaDialogComponent, {});
-    if (this.ref) {
-      let copiaLista: Producto[] = this.algoModel.algosSeleccionadas;
-      console.log(copiaLista);
-      this.ref.onClose.subscribe((descuento: number) => {
-        if (copiaLista.length === 0) {
-          this.changeOferta(descuento);
-        } else {
-          copiaLista.forEach((producto) => {
-            producto.changeOferta(descuento);
-          });
-        }
-      });
-    }
-  }
-
-  changeOferta(descuento: number): void {
-    if (this.oferta !== false) {
-      this.descuento = descuento;
-      // this.descuentoModel.descuentoGlobal = this.oferta;
-    }
-  }
-
   delete(): void {
     this.productoModel.productos = this.productoModel.productos.filter(
       (h) => h.id !== this.id
@@ -311,7 +283,7 @@ export class Producto implements OnDestroy {
     this.oferta = producto.oferta;
     this.descuento = producto.descuento;
     this.favorito = producto.favorito;
-    this.precioOriginal = this.calcularPrecioOriginal();
+    this.precioOriginal = this.getprecioOriginal();
     return this;
   }
 

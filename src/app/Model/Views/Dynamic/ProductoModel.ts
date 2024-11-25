@@ -28,8 +28,7 @@ export class ProductoModel {
           this.algoModel,
           this,
           this.userModel,
-          productoService,
-          this.dialogService
+          productoService
         ).getParametros(producto)
       )
     );

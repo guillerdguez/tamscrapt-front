@@ -15,10 +15,6 @@ import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  // { path: 'productos', component: ProductoListaComponent },
-  // { path: 'ofertas', component: OfertaListaComponent },
-  // { path: 'lettering', component: LetteringListaComponent },
-  // { path: 'scrapbooking', component: ScrapbookingListaComponent },
   { path: 'productos', redirectTo: '/tabla/productos' },
   { path: 'ofertas', redirectTo: '/tabla/ofertas' },
   { path: 'lettering', redirectTo: '/tabla/lettering' },

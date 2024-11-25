@@ -189,7 +189,7 @@ export class ProductoService {
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
-        // this.algoModel.algos = this.productoModel.productos;
+        this.algoModel.algo = producto;
         // this.algoModel.algos = this.algoModel.algos.filter(
         //   (algo) => (algo as Producto).favorito === producto.favorito
         // );

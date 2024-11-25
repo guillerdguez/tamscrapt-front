@@ -8,6 +8,7 @@ export class AlgoModel {
   algo: any;
   algosSeleccionadas: any[] = [];
   menuItemSeleccionado!: any;
+  
   seleccionarYEjecutar(item: any, menuItemLabel: string) {
     // Seleccionar el elemento (si aún no está seleccionado)
     if (!this.algosSeleccionadas.includes(item)) {

@@ -1,53 +1,77 @@
-<div *ngIf="algoModel.algo">
-  <div class="container">
-    <h2 class="nombre">{{ algoModel.algo.nombre | uppercase }} Details</h2>
+<div *ngIf="algoModel.algo" class="flex flex-column align-items-center p-4">
+  <!-- Título -->
+  <h1 class="text-center text-3xl font-bold mb-5">
+    {{ algoModel.algo.nombre | uppercase }} Details
+  </h1>
 
-    <div>
-      <span><strong>id:</strong></span>
-      {{ algoModel.algo.id }}
-    </div>
+  <!-- Contenedor principal -->
+  <div
+    class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+  >
+    <!-- Columna izquierda -->
+    <div class="flex flex-column align-items-start w-full md:w-5">
+      <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
 
-    <div class="modNombre">
-      <label for="algo-nombre">Producto nombre: </label>
-      <input
-        id="algo-nombre"
-        [(ngModel)]="algoModel.algo.nombre"
-        placeholder="Producto nombre"
-      />
-    </div>
-
-    @if (algoModel.algo.imagen) {
-    <div>
-      <img
-        [src]="algoModel.algo.imagen"
-        alt="Imagen del producto"
-        class="product-image"
-      />
-    </div>
-    }@else{
-    <div class="relative flex justify-content-center">
-      <div class="no-image flex block mx-auto justify-content-center">
-        <p>Sin Imagen</p>
+      <!-- Imagen -->
+      <div
+        class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
+      >
+        <img
+          *ngIf="algoModel.algo.imagen"
+          [src]="algoModel.algo.imagen"
+          alt="Imagen del producto"
+          class="w-14rem h-14rem border-round shadow-2"
+        />
+        <div
+          *ngIf="!algoModel.algo.imagen"
+          class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
+        >
+          <p class="text-center font-bold">Sin Imagen</p>
+        </div>
       </div>
     </div>
-    }
 
-    <div class="form-group-precio">
-      <label for="precio">Producto precio: </label>
-      @if(userModel.admin){
-      <p-inputNumber
-        inputId="precio"
-        [(ngModel)]="algoModel.algo.precio"
-        placeholder="Precio"
-      ></p-inputNumber
-      >}@else {
-      <p>{{ algoModel.algo.precio }}</p>
-      }
-    </div>
-    <!-- cambiar -->
-    <div>
-      <div *ngIf="algoModel.algo.oferta; else noOferta">
-        <div class="price-container">
+    <!-- Columna derecha -->
+    <div class="flex flex-column align-items-start w-full md:w-5">
+      <!-- Modificar nombre -->
+      <div class="mb-4 w-full">
+        <label for="algo-nombre" class="block text-lg font-medium mb-2">
+          Producto Nombre:
+        </label>
+        <input
+          id="algo-nombre"
+          [(ngModel)]="algoModel.algo.nombre"
+          placeholder="Producto nombre"
+          class="p-inputtext w-full"
+        />
+      </div>
+
+      <!-- Precio -->
+      <div class="mb-4 w-full">
+        <label for="precio" class="block text-lg font-medium mb-2">
+          Producto Precio:
+        </label>
+        <div *ngIf="userModel.admin" class="w-full">
+          <p-inputNumber
+            inputId="precio"
+            [(ngModel)]="algoModel.algo.precio"
+            placeholder="Precio"
+            class="w-full"
+          ></p-inputNumber>
+        </div>
+        <div *ngIf="!userModel.admin" class="w-full">
+          <p class="text-lg font-bold">
+            {{ algoModel.algo.precio.toFixed(2) }} €
+          </p>
+        </div>
+      </div>
+
+      <!-- Oferta -->
+      <div class="mb-4 w-full">
+        <div
+          *ngIf="algoModel.algo.oferta; else noOferta"
+          class="price-container"
+        >
           <span class="original-price">
             {{
               calcularPrecioOriginal(
@@ -61,41 +85,57 @@
             {{ algoModel.algo.precio.toFixed(2) }} €
           </strong>
         </div>
+        <ng-template #noOferta>
+          <strong>{{ algoModel.algo.precio.toFixed(2) }} €</strong>
+        </ng-template>
       </div>
-      <ng-template #noOferta>
-        <strong>{{ algoModel.algo.precio.toFixed(2) }} €</strong>
-      </ng-template>
-    </div>
 
-    <div class="form-group-favorito">
-      <label for="favorito">Favourite: </label>
-      <select
-        class="form-control"
-        id="favorito"
-        [(ngModel)]="algoModel.algo.favorito"
-        required
-        nombre="favorito"
-        #favorito="ngModel"
-      >
-        <option [ngValue]="false">No</option>
-        <option [ngValue]="true">Yes</option>
-      </select>
-    </div>
+      <!-- @if(!userModel.admin){
+  
+      <div class="mb-4 w-full">
+        <label for="favorito" class="block text-lg font-medium mb-2">
+          Favorito:
+        </label>
+        <select
+          class="form-control w-full"
+          id="favorito"
+          [(ngModel)]="algoModel.algo.favorito"
+          required
+        >
+          <option [ngValue]="false">No</option>
+          <option [ngValue]="true">Sí</option>
+        </select>
+      </div>  
 
-    <div>
-      <i
-        (click)="algoModel.algo.favoritoMethod()"
-        [ngClass]="
-          algoModel.algo.favorito
-            ? 'pi pi-heart-fill corazon-icon'
-            : 'pi pi-heart corazon-icon'
-        "
-        tabindex="-1"
-      ></i>
-    </div>
-    <div class="botones">
-      <button class="boton" type="button" (click)="goBack()">Go Back</button>
-      <button class="boton" type="button" (click)="save()">Save</button>
+      <div class="mb-4">
+        <i
+          (click)="algoModel.algo.favoritoMethod()"
+          [ngClass]="
+            algoModel.algo.favorito
+              ? 'pi pi-heart-fill corazon-icon'
+              : 'pi pi-heart corazon-icon'
+          "
+          tabindex="-1"
+        ></i>
+      </div>
+      } -->
+      <!-- Botones -->
+      <div class="flex gap-3 mt-4">
+        <button
+          type="button"
+          class="p-button p-button-secondary"
+          (click)="goBack()"
+        >
+          Go Back
+        </button>
+        <button
+          type="button"
+          class="p-button p-button-success"
+          (click)="save()"
+        >
+          Save
+        </button>
+      </div>
     </div>
   </div>
 </div>
