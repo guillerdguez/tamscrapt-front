@@ -15,10 +15,7 @@ import { HomeComponent } from './UI/home/home.component';
 import { CarritoComponent } from './UI/carrito/carrito.component';
 
 // Componentes de administración
-import { PanelGestionComponent } from './UI/admin/panel-gestion/panel-gestion.component';
-import { AdminProductosComponent } from './UI/admin/admin-productos/admin-productos.component';
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
-import { AdminUsersComponent } from './UI/admin/admin-clientes/admin-clientes.component';
 import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
 import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
@@ -64,10 +61,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     CarritoComponent,
 
     // Componentes de administración
-    PanelGestionComponent,
-    AdminProductosComponent,
     AdminPedidosComponent,
-    AdminUsersComponent,
     ProductoDetailComponent,
     UserDetailComponent,
     FormularioComponentProducto,

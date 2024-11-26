@@ -3,16 +3,14 @@
   <h1 class="text-center text-3xl font-bold mb-5">
     {{ algoModel.algo.nombre | uppercase }} Details
   </h1>
-
-  <!-- Contenedor principal -->
+ 
   <div
     class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
-  >
-    <!-- Columna izquierda -->
+  > 
     <div class="flex flex-column align-items-start w-full md:w-5">
       <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
 
-      <!-- Imagen -->
+   
       <div
         class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
       >
@@ -30,10 +28,9 @@
         </div>
       </div>
     </div>
-
-    <!-- Columna derecha -->
+ 
     <div class="flex flex-column align-items-start w-full md:w-5">
-      <!-- Modificar nombre -->
+ 
       <div class="mb-4 w-full">
         <label for="algo-nombre" class="block text-lg font-medium mb-2">
           Producto Nombre:
@@ -45,8 +42,7 @@
           class="p-inputtext w-full"
         />
       </div>
-
-      <!-- Precio -->
+ 
       <div class="mb-4 w-full">
         <label for="precio" class="block text-lg font-medium mb-2">
           Producto Precio:
@@ -128,13 +124,14 @@
         >
           Go Back
         </button>
+        @if(userModel.admin){
         <button
           type="button"
           class="p-button p-button-success"
           (click)="save()"
         >
-          Save
-        </button>
+          Save</button
+        >}
       </div>
     </div>
   </div>

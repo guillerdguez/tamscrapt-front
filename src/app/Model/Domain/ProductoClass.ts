@@ -144,7 +144,7 @@ export class Producto {
           this.algoModel.ejecutarMenuItem();
         },
       },
-      // {
+      // {MOdel
       //   label: 'Carrito',
       //   icon: 'pi-cart-plus',
       //   command: () => {
@@ -230,7 +230,6 @@ export class Producto {
           style: {
             'font-size': '24px',
             'font-weight': '600',
-            // color: '#1d3557',
             'margin-top': '4px',
           },
           formatter: (value: number) => `${value.toFixed(2)} €`,
