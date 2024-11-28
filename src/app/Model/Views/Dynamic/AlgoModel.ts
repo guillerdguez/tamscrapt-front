@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class AlgoModel {
   constructor() {}
   algos: any[] = [];
@@ -19,24 +21,21 @@ export class AlgoModel {
   }
 
   ejecutarMenuItem() {
-    this.algosSeleccionadas.forEach((algo) => {
-      if (this.menuItemSeleccionado) {
-        let opciones;
+    if (this.menuItemSeleccionado) {
+      this.algosSeleccionadas.forEach((producto) => {
+        const opciones = producto.getMenuItems(
+          this.algosSeleccionadas,
+          producto.menuStrategyFactory.getStrategy()
+        );
 
-        if (algo.userModel.admin) {
-          opciones = algo.getMenuItemsAdmin(algo.getUrl());
-        } else {
-          opciones = algo.getMenuItemsUser();
-        }
-
-        let opcion = opciones.find(
+        const opcion = opciones.find(
           (opcion: { label: string }) =>
             opcion.label === this.menuItemSeleccionado
         );
 
         opcion?.command();
-      }
-    });
+      });
+    }
 
     this.algosSeleccionadas = [];
   }

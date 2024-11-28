@@ -3,10 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
 import { CarritoComponent } from './UI/carrito/carrito.component';
 import { HomeComponent } from './UI/home/home.component';
-import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
 import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
 import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
+ import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'lettering', redirectTo: '/tabla/lettering' },
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
   { path: 'users', redirectTo: '/tabla/users' },
-  { path: 'tabla/:tipo', component: PasarInformacionTablaComponent },
+  { path: 'tabla/:tipo', component: EsquemaListaComponent },
 
   { path: 'carrito', component: CarritoComponent },
   { path: 'detail/Productos/:id', component: ProductoDetailComponent },

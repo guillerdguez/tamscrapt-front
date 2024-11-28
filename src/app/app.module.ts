@@ -24,7 +24,7 @@ import { OfertaDialogComponent } from './UI/admin/admin-productos/oferta-dialog 
 // Otros componentes
 import { InputSwitchComponent } from './UI/input-switch/input-switch.component';
 import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
-import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
+// import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
 
 // PrimeNG Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -50,6 +50,14 @@ import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { LetteringHandler } from './Service/handler/LetteringHandler';
+import { OfertasHandler } from './Service/handler/OfertasHandler';
+import { ProductosHandler } from './Service/handler/ProductosHandler';
+import { ScrapbookingHandler } from './Service/handler/ScrapbookingHandler';
+import { UsersHandler } from './Service/handler/UsersHandler';
+import { ProductoService } from './Service/Producto.service';
+import { UserService } from './Service/User.service';
+import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
 
 @NgModule({
   declarations: [
@@ -66,11 +74,10 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     UserDetailComponent,
     FormularioComponentProducto,
     OfertaDialogComponent,
-
     // Otros componentes
     InputSwitchComponent,
     EsquemaListaComponent,
-    PasarInformacionTablaComponent,
+    // PasarInformacionTablaComponent,
   ],
   imports: [
     // Angular Core Modules
@@ -106,7 +113,18 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     SelectButtonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [provideClientHydration(), DialogService],
+  providers: [
+    provideClientHydration(),
+    DialogService,
+    TipoFactory,
+    ProductosHandler,
+    ScrapbookingHandler,
+    LetteringHandler,
+    OfertasHandler,
+    UsersHandler,
+    ProductoService,
+    UserService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

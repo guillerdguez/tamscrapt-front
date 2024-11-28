@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
 import { UserModel } from '../../../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../../../Service/User.service';
@@ -15,7 +15,8 @@ export class UserDetailComponent implements OnInit, OnChanges {
     private userService: UserService,
     private location: Location,
     public algoModel: AlgoModel,
-    public userModel: UserModel
+    public userModel: UserModel,
+    public router: Router
   ) {}
   ngOnChanges(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -28,6 +29,7 @@ export class UserDetailComponent implements OnInit, OnChanges {
 
   goBack(): void {
     this.location.back();
+    this.router.navigateByUrl(this.router.url);
   }
   save(): void {
     if (this.algoModel.algo) {

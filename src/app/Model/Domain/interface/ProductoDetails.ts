@@ -2,6 +2,7 @@ export interface ProductoDetails {
   id?: number;
   nombre: string;
   precio: number;
+  cantidad: number;
   imagen: string;
   lettering?: boolean;
   scrapbooking?: boolean;

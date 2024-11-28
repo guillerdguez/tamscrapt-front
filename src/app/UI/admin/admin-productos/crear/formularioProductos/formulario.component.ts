@@ -24,6 +24,7 @@ export class FormularioComponentProducto implements OnInit {
   scrapbooking?: boolean;
   oferta?: boolean;
   ref?: DynamicDialogRef;
+  cantidad!: number;
 
   constructor(
     private productoService: ProductoService,
@@ -40,6 +41,7 @@ export class FormularioComponentProducto implements OnInit {
     precio: number,
     imagen: string,
     descuento: number,
+    cantidad: number,
     lettering?: boolean,
     scrapbooking?: boolean,
     oferta?: boolean
@@ -61,6 +63,7 @@ export class FormularioComponentProducto implements OnInit {
       lettering,
       scrapbooking,
       oferta,
+      cantidad,
       descuento,
       precioOriginal,
     };
@@ -70,6 +73,7 @@ export class FormularioComponentProducto implements OnInit {
   }
   goBack(): void {
     this.router.navigate(['/productos']);
+    this.router.navigateByUrl(this.router.url);
   }
 
   openDialog(): void {
@@ -87,6 +91,7 @@ export class FormularioComponentProducto implements OnInit {
           producto.precio,
           producto.imagen,
           producto.descuento,
+          producto.cantidad,
           producto.lettering,
           producto.scrapbooking,
           producto.oferta

@@ -1,88 +1,60 @@
-// pasar-informacion-tabla.component.ts
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
 import { ProductoService } from '../../Service/Producto.service';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { UserModel } from '../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../Service/User.service';
+import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
+import { TipoFactory } from './TipoFactory';
 
-@Component({
-  selector: 'app-pasar-informacion-tabla',
-  template: `
-    @if(algoModel.algos.length > 0) {
-    <div class="container">
-      <app-esquema-lista
-        [title]="title"
-        [params]="algoModel.algos"
-        (paramsChange)="onParamsChange($event)"
-        (TableSelected)="onTableSelected($event)"
-      ></app-esquema-lista>
-    </div>
-    } @else {
-
-    <app-esquema-lista [title]="title"></app-esquema-lista>
-    }
-  `,
+@Injectable({
+  providedIn: 'root',
 })
-export class PasarInformacionTablaComponent {
-  title: string = '';
-  selectedTable: any[] = [];
+export class PasarInformacionTablaService {
+  public title$ = new BehaviorSubject<string>('');
+  public selectedTable$ = new BehaviorSubject<any[]>([]);
 
   constructor(
-    private route: ActivatedRoute,
     public algoModel: AlgoModel,
     public productoModel: ProductoModel,
     public productoService: ProductoService,
     public userModel: UserModel,
-    public userService: UserService
-  ) {}
-
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const tipo = params.get('tipo');
-
-      switch (tipo) {
-        case 'productos':
-          this.productoService.getProductosArray();
-          this.title = 'Productos';
-          break;
-        case 'scrapbooking':
-          this.productoService.getProductosScrapbookingArray();
-          this.title = 'Scrapbooking';
-          break;
-        case 'lettering':
-          this.productoService.getProductosLetteringArray();
-          this.title = 'Lettering';
-          break;
-        case 'ofertas':
-          this.productoService.getProductosOfertaArray();
-          this.title = 'Ofertas';
-          break;
-        case 'users':
-          this.userService.getUsersArray();
-          this.title = 'Users';
-          break;
-        default:
-          console.log('Tipo no válido');
-      }
+    public userService: UserService,
+    private tipoFactory: TipoFactory
+  ) {
+    this.productoService.productos$.subscribe((productos) => {
+      const productosConEstrategia =
+        this.productoModel.crearProductos(productos);
+      this.algoModel.algos = productosConEstrategia;
     });
   }
+  initialize(tipo: string | null): void {
+    if (!tipo) {
+      console.error('Tipo no válido');
+      return;
+    }
 
-  onTableSelected(selectedTables: any) {
-    this.selectedTable = [...selectedTables];
+    const handler: TipoHandler | null = this.tipoFactory.getHandler(tipo);
+    if (handler) {
+      handler.execute();  
+      this.title$.next(handler.getTitle());  
+    } else {
+      console.error('Tipo no encontrado en la factory');
+    }
   }
 
-  onParamsChange(updatedParams: any) {
-    this.route.paramMap.subscribe((params) => {
-      const tipo = params.get('tipo');
-      if (tipo === 'productos') {
-        this.algoModel.algo = updatedParams;
-        this.productoService.updateProducto(
-          this.algoModel.algo.id,
-          this.algoModel.algo
-        );
-      }
-    });
+  onTableSelected(selectedTables: any[]): void {
+    this.selectedTable$.next([...selectedTables]);
+  }
+
+  onParamsChange(updatedParams: any): void {
+    if (updatedParams) {
+      this.algoModel.algo = updatedParams;
+      this.productoService.updateProducto(
+        this.algoModel.algo.id,
+        this.algoModel.algo
+      );
+    }
   }
 }

@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-weight: bold;
 }
 
 .title {
@@ -25,6 +26,10 @@ img {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+img img[alt] {
+  padding: 50%;
+}
+
 img:hover {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -40,10 +45,23 @@ img:hover {
 }
 
 /* Efecto al hacer hover sobre el contenedor relativo (imagen o no imagen) */
+.relative img,
+.relative .no-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .relative:hover img,
 .relative:hover .no-image {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.relative p-tag {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.relative:hover p-tag {
+  transform: scale(1.05);
 }
 
 /* Estilo para el texto "Ver detalles" */
@@ -75,11 +93,11 @@ img:hover {
   padding: 15px;
   background-color: #ffffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .surface-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Paginator */
@@ -108,8 +126,8 @@ img:hover {
 
 /* Selected Item Styling */
 .selected {
-  transition: transform 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.9s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.534);
   border-radius: 20px;
 }
 
@@ -128,10 +146,6 @@ img:hover {
   .no-image {
     width: 150px;
     height: 150px;
-  }
-
-  .discounted-price {
-    font-size: 22px;
   }
 }
 
@@ -163,15 +177,18 @@ img:hover {
 .pi.pi-heart,
 .pi.pi-heart-fill,
 .pi-cart-plus {
+  cursor: pointer;
   font-size: 40px;
 }
+
 .pi-cart-plus {
-  /* transition: transform 0.2s ease;   transform-origin: center;*/
   cursor: pointer;
 }
+
 /* .pi-cart-plus:active {
   transform: scale(1.2);
 } */
+
 .surface-card {
   min-width: 455px;
 }

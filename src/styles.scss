@@ -142,9 +142,6 @@ body {
   width: 200px;
   height: 50px;
 }
-span {
-  font-size: 22px;
-}
 
 .no-image {
   width: 200px;
@@ -176,4 +173,21 @@ input {
   display: block;
   margin: 0 auto;
   text-align: center;
+}
+.p-tag {
+  font-size: 0.8rem;
+  filter: brightness(1.2) saturate(0.8);
+}
+.pi {
+  font-weight: bold;
+}
+.p-button {
+  font-size: 22px;
+  pointer-events: auto;
+  font-weight: bold;
+}
+.p-button:focus {
+  outline: none;
+  color: inherit;
+  cursor: default;
 }

@@ -8,12 +8,14 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
-import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
-import { Producto } from '../../../Model/Domain/ProductoClass';
+import { PasarInformacionTablaService } from '../../pasar-informacion-tabla/pasar-informacion-tabla.component';
+import { CallbacksService } from '../../../Service/CallbacksService';
+import { ProductoService } from '../../../Service/Producto.service';
 
 @Component({
   selector: 'app-esquema-lista',
@@ -21,28 +23,45 @@ import { Producto } from '../../../Model/Domain/ProductoClass';
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
+  // sobran @?
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
-  @Input() params: any[] = [];
   @Input() title: string = '';
 
   paramsTemporal: any[] = [];
   items: MenuItem[] = [];
-  layout!: 'list' | 'grid'
+  layout!: 'list' | 'grid';
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
 
-  constructor(public algoModel: AlgoModel, public userModel: UserModel) {}
-
+  constructor(
+    private route: ActivatedRoute,
+    public algoModel: AlgoModel,
+    public userModel: UserModel,
+    public pasarInformacionTablaService: PasarInformacionTablaService,
+    public callbacksService: CallbacksService,
+    public productoService: ProductoService
+  ) {}
   ngOnInit() {
     this.ParamsTemporal();
-    this.initializeHeaders();
-    if(this.userModel.admin){
-      this.layout = 'list';
-    }else{
-      this.layout = 'grid';
-    }
+
+    this.route.paramMap.subscribe((params) => {
+      const tipo = params.get('tipo');
+      this.pasarInformacionTablaService.initialize(tipo);
+    });
+
+    this.pasarInformacionTablaService.title$.subscribe((title) => {
+      this.title = title;
+    });
+
+    this.pasarInformacionTablaService.selectedTable$.subscribe(
+      (selectedTables) => {
+        this.algoModel.algosSeleccionadas = [...selectedTables];
+      }
+    );
+
+    this.layout = this.userModel.admin ? 'list' : 'grid';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -54,13 +73,27 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   }
 
   ngDoCheck() {
-    if (this.params !== this.paramsTemporal) {
+    if (this.algoModel.algos !== this.paramsTemporal) {
       this.ParamsTemporal();
+      this.initializeHeaders();
+      console.log(this.paramsTemporal[0].getSeverity().toString());
     }
   }
+  // algoss = {
+  //   tag: 'Ejemplo de etiqueta',
+  //   getSeverity: ():
+  //     | 'success'
+  //     | 'secondary'
+  //     | 'info'
+  //     | 'warning'
+  //     | 'danger'
+  //     | 'contrast'
+  //     | undefined => {
+  //     return 'success'; // Cambiar según las condiciones
+  //   },
+  // };
 
   onselectedTable(event: MouseEvent, item: any) {
-    // if (this.userModel.admin) {
     if (event.button !== 2 && event.button !== 1) {
       if (!this.algoModel.algosSeleccionadas.includes(item)) {
         this.algoModel.algosSeleccionadas.push(item);
@@ -70,49 +103,46 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
             (selected) => selected !== item
           );
       }
+      this.pasarInformacionTablaService.onTableSelected(
+        this.algoModel.algosSeleccionadas
+      );
 
       this.TableSelected.emit(this.algoModel.algosSeleccionadas);
     }
   }
 
-  ParamsTemporal() {
-    this.paramsTemporal = [...this.params];
-  }
-
-  initializeHeaders() {
-    if (this.params.length > 0) {
-      this.headers = this.paramsTemporal[0].getHeaders();
-    }
-  }
-
-  onContextMenu(event: MouseEvent, item: Producto) {
-    if (this.userModel.admin) {
-      this.items = item.getMenuItemOptionsAdmin();
-    } else {
-      this.items = item.getMenuItemOptionsUser();
-    }
-
+  onContextMenu(event: MouseEvent, item: any) {
     event.preventDefault();
-    this.menu.show(event);
+    if (this.userModel.admin) {
+      if (!this.algoModel.algosSeleccionadas.includes(item)) {
+        this.algoModel.algosSeleccionadas.push(item);
 
-    if (!this.algoModel.algosSeleccionadas.includes(item)) {
-      this.algoModel.algosSeleccionadas.push(item);
+        this.pasarInformacionTablaService.onTableSelected(
+          this.algoModel.algosSeleccionadas
+        );
 
-      this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+        this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+      }
+
+      this.items = item.getMenuItems(
+        this.algoModel.algosSeleccionadas,
+        this.callbacksService
+      );
+      this.menu.show(event);
     }
   }
+
   onValueChange(item: any, field: keyof any, newValue: any): void {
     item[field] = newValue;
+    this.pasarInformacionTablaService.onParamsChange(item);
+
     this.paramsChange.emit(item.setDetails(item));
   }
 
-  onKeyPress(event: KeyboardEvent, type: string): void {
-    if (type === 'number') {
-      const char = event.key;
-
-      if (!/[0-9]/.test(char)) {
-        event.preventDefault();
-      }
-    }
+  ParamsTemporal() {
+    this.paramsTemporal = this.algoModel.algos;
+  }
+  initializeHeaders() {
+    this.headers = this.algoModel.algos[0].getHeaders();
   }
 }

@@ -23,7 +23,7 @@ export class AdminPedidosComponent {
     // this.isAdmin = this.checkIfUserIsAdmin();
   }
   ngOnInit(): void {
-    this.productoService.getProductos();
+    // this.productoService.getProductos();
   }
 
   add(arg0: string) {
