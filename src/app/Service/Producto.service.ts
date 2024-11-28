@@ -4,7 +4,7 @@ import { AlgoModel } from '../Model/Views/Dynamic/AlgoModel';
 import { Producto } from '../Model/Domain/ProductoClass';
 import { BehaviorSubject } from 'rxjs';
 import { ProductoModel } from '../Model/Views/Dynamic/ProductoModel';
-import { CallbacksService } from './CallbacksService';
+import { CallbacksService } from './Callbacks/CallbacksService';
 import { Router } from '@angular/router';
 import { copyFileSync } from 'fs';
 

@@ -1,59 +1,62 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { User } from '../Model/Domain/User/UserClass';
 import { AlgoModel } from '../Model/Views/Dynamic/AlgoModel';
 import { UserModel } from '../Model/Views/Dynamic/UserModel';
 import { UserDAO } from '../DAO/user.DAO';
+import { CallbackUserService } from './Callbacks/CallbackUserService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private usersSubject = new BehaviorSubject<User[]>([]);
+  public users$ = this.usersSubject.asObservable();
+  private users: User[] = [];
+
   constructor(
     private userDAO: UserDAO,
     private algoModel: AlgoModel,
-    public userModel: UserModel
-  ) {}
-  //Create
+    public userModel: UserModel,
+    private callbacksService: CallbackUserService
+  ) {
+    // Suscribirse a los eventos emitidos por CallbackUserService
+    this.callbacksService.deleteUsers$.subscribe((selectedItems) => {
+      this.deleteMultipleUsers(selectedItems);
+    });
+  }
+
+  deleteMultipleUsers(selectedItems: any[]): void {
+    selectedItems.forEach((user) => this.deleteUser(user.id));
+  }
+  // Create
   addUser(user: User): void {
-    this.algoModel.algos.push(User);
     this.userDAO.addUser(user).subscribe({
-      next: (user: User) => {
-        this.algoModel.algo = User;
+      next: (newUser: User) => {
+        this.userModel.users.push(newUser);
+        this.algoModel.algos.push(newUser);
+        this.users.push(newUser);
+        this.usersSubject.next(this.users);
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al agregar el usuario:', error);
       },
     });
   }
 
-  //READ
+  // Read
   getUsers(): void {
     this.userDAO.getUsers().subscribe({
       next: (users: User[]) => {
-        this.algoModel.algos = users;
+        const usersCreados = this.userModel.crearUsers(users);
+        this.algoModel.algos = usersCreados;
+        this.users = usersCreados;
+        this.usersSubject.next(usersCreados);
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al obtener usuarios:', error);
       },
     });
-  }
-
-  private users: User[] = [];
-
-  getUsersArray(): User[] {
-    this.userDAO.getUsers().subscribe({
-      next: (users: User[]) => {
-        this.users = this.userModel.crearUsers(users, this);
-
-        this.userModel.users = this.userModel.crearUsers(users, this);
-        this.algoModel.algos = this.userModel.crearUsers(users, this);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-
-    return this.users;
   }
 
   getUser(id: number): void {
@@ -62,45 +65,53 @@ export class UserService {
         this.algoModel.algo = user;
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al obtener el usuario:', error);
       },
     });
   }
+
   findByName(term: string): void {
     this.userDAO.findByName(term).subscribe({
       next: (users: User[]) => {
-        this.algoModel.algos = users;
+        const usersCreados = this.userModel.crearUsers(users);
+        this.algoModel.algos = usersCreados;
+        this.usersSubject.next(usersCreados);
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al buscar usuarios:', error);
       },
     });
   }
 
-  // UPDATE
-  updateUser(user: any): void {
+  // Update
+  updateUser(user: User): void {
     this.userDAO.updateUser(user).subscribe({
-      next: (user: any) => {
-        this.userModel.user = user;
-        this.algoModel.algo = user;
+      next: (updatedUser: User) => {
+        const index = this.users.findIndex((u) => u.id === updatedUser.id);
+        if (index !== -1) {
+          this.users[index] = updatedUser;
+          this.userModel.users[index] = updatedUser;
+          this.algoModel.algos[index] = updatedUser;
+          this.usersSubject.next(this.users);
+        }
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al actualizar el usuario:', error);
       },
     });
   }
 
-  //DELETE
-  deleteUser(id?: number): void {
+  // Delete
+  deleteUser(id: number): void {
     this.userDAO.deleteUser(id).subscribe({
-      next: (user: User) => {
-        this.userModel.user = user;
-        this.algoModel.algos = this.userModel.users.filter(
-          (User) => User.id !== id
-        );
+      next: () => {
+        this.users = this.users.filter((user) => user.id !== id);
+        this.userModel.users = this.users;
+        this.algoModel.algos = this.users;
+        this.usersSubject.next(this.users);
       },
       error: (error) => {
-        console.error(error);
+        console.error('Error al eliminar el usuario:', error);
       },
     });
   }

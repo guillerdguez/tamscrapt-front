@@ -17,25 +17,7 @@
   margin-bottom: 20px;
 }
 
-/* Estilos para imágenes */
-img {
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-img img[alt] {
-  padding: 50%;
-}
-
-img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Estilos para contenedores sin imagen */
+img,
 .no-image {
   width: 200px;
   height: 200px;
@@ -44,16 +26,16 @@ img:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto al hacer hover sobre el contenedor relativo (imagen o no imagen) */
-.relative img,
-.relative .no-image {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
+img:hover,
 .relative:hover img,
 .relative:hover .no-image {
   transform: scale(1.05);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.relative img,
+.relative .no-image {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .relative p-tag {
@@ -64,7 +46,6 @@ img:hover {
   transform: scale(1.05);
 }
 
-/* Estilo para el texto "Ver detalles" */
 .hover-text {
   position: absolute;
   bottom: 10px;
@@ -81,26 +62,24 @@ img:hover {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Mostrar el texto cuando se hace hover sobre el contenedor */
 .relative:hover .hover-text {
   opacity: 1;
   visibility: visible;
 }
 
-/* Card Container */
 .surface-card {
   border-radius: 20px;
   padding: 15px;
   background-color: #ffffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  min-width: 455px;
 }
 
 .surface-card:hover {
   transform: translateY(-3px);
 }
 
-/* Paginator */
 .custom-paginator .p-paginator {
   border-radius: 12px;
   padding: 5px;
@@ -124,19 +103,16 @@ img:hover {
   background-color: #a8dadc;
 }
 
-/* Selected Item Styling */
 .selected {
   transition: transform 0.9s ease;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.534);
   border-radius: 20px;
 }
 
-/* Grid/List Adjustments */
 .grid-nogutter > div {
   padding: 8px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .title h1 {
     font-size: 30px;
@@ -179,16 +155,4 @@ img:hover {
 .pi-cart-plus {
   cursor: pointer;
   font-size: 40px;
-}
-
-.pi-cart-plus {
-  cursor: pointer;
-}
-
-/* .pi-cart-plus:active {
-  transform: scale(1.2);
-} */
-
-.surface-card {
-  min-width: 455px;
 }

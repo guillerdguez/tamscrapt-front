@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Producto } from '../Model/Domain/ProductoClass';
+import { Producto } from '../../Model/Domain/ProductoClass';
 
 @Injectable({
   providedIn: 'root',

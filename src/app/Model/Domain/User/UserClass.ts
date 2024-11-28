@@ -5,6 +5,9 @@ import { UserModel } from '../../Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/User.service';
 import { MenuItem } from 'primeng/api';
 import { UserDeails } from '../interface/UserDetails';
+import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
+import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
+import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 
 export class User {
   id?: number;
@@ -13,104 +16,16 @@ export class User {
   // password: string = '';
   email: string = '';
   authorities: Set<UserAuthority> = new Set<UserAuthority>();
-  url: string = '/newUser';
-  menuItems: MenuItem[] = this.getMenuItemOptionsAdmin();
+  menuItems!: MenuItem[];
+  tag!: string;
+  private menuStrategy!: MenuStrategy;
 
   constructor(
-    public router: Router,
-    public algoModel: AlgoModel,
-    public userModel: UserModel,
-    public userService: UserService
+    public menuStrategyFactory: MenuStrategyFactory,
+    public productoModel: UserModel
   ) {}
-
-  getMenuItemsAdmin(url: string) {
-    return [
-      {
-        label: 'Create',
-        icon: 'pi pi-plus',
-        command: () => this.router.navigate([url]),
-      },
-      {
-        label: 'Delete',
-        icon: 'pi pi-trash',
-        command: () => this.delete(),
-      },
-      {
-        label: 'Edit',
-        icon: 'pi pi-file-edit',
-        command: () => this.router.navigate(['/detail/Users/', this.id]),
-      },
-    ];
-  }
-
-  getMenuItemOptionsAdmin() {
-    return [
-      {
-        label: 'Create',
-        icon: 'pi pi-plus',
-        command: () => {
-          this.algoModel.menuItemSeleccionado = 'Create';
-          this.algoModel.ejecutarMenuItem();
-        },
-      },
-      {
-        label: 'Delete',
-        icon: 'pi pi-trash',
-        command: () => {
-          this.algoModel.menuItemSeleccionado = 'Delete';
-          this.algoModel.ejecutarMenuItem();
-        },
-      },
-      {
-        label: 'Edit',
-        icon: 'pi pi-file-edit',
-        command: () => {
-          this.algoModel.menuItemSeleccionado = 'Edit';
-          this.algoModel.ejecutarMenuItem();
-        },
-      },
-    ];
-  }
-
-  delete(): void {
-    this.userModel.users = this.userModel.users.filter((h) => h.id !== this.id);
-    this.userService.deleteUser(this.id);
-  }
-
-  getUrl() {
-    return this.url;
-  }
-
   getHeaders() {
-    return [
-      {
-        field: 'username',
-        header: 'Username',
-        style: {
-          'font-weight': 'bold',
-          'font-size': '18px',
-          'margin-bottom': '8px',
-        },
-      },
-      {
-        field: 'email',
-        header: 'Email',
-        style: {
-          'font-weight': 'bold',
-          'font-size': '18px',
-          'margin-bottom': '8px',
-        },
-      },
-      //   {
-      //     field: 'authorities',
-      //     header: 'Authorities',
-      //     style: {
-      //       'font-weight': 'bold',
-      //       'font-size': '18px',
-      //       'margin-bottom': '8px',
-      //     },
-      //   },
-    ];
+    this.menuStrategy = this.menuStrategyFactory.getStrategy();
   }
 
   tienePermiso(permiso: UserAuthority): boolean {
@@ -148,5 +63,8 @@ export class User {
       email: this.email,
       authorities: this.authorities,
     };
+  }
+  getMenuItems(selectedItems: User[], callbacks: CallbacksService): MenuItem[] {
+    return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
   }
 }

@@ -14,7 +14,7 @@ import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 import { PasarInformacionTablaService } from '../../pasar-informacion-tabla/pasar-informacion-tabla.component';
-import { CallbacksService } from '../../../Service/CallbacksService';
+import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { ProductoService } from '../../../Service/Producto.service';
 
 @Component({

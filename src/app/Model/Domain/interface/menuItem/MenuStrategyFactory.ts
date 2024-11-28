@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CallbacksService } from '../../../../Service/CallbacksService';
+import { CallbacksService } from '../../../../Service/Callbacks/CallbacksService';
 import { UserModel } from '../../../Views/Dynamic/UserModel';
-import { AdminMenuStrategy } from './AdminMenuStrategy';
+import { AdminMenuStrategy } from './menuItemProductos/AdminMenuStrategy';
+import { UserMenuStrategy } from './menuItemProductos/UserMenuStrategy';
 import { MenuStrategy } from './MenuStrategy';
-import { UserMenuStrategy } from './UserMenuStrategy';
 
 @Injectable({
   providedIn: 'root',

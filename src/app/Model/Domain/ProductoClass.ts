@@ -3,7 +3,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Pedido } from './Pedido';
 import { MenuStrategy } from './interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from './interface/menuItem/MenuStrategyFactory';
-import { CallbacksService } from '../../Service/CallbacksService';
+import { CallbacksService } from '../../Service/Callbacks/CallbacksService';
 import { ProductoModel } from '../Views/Dynamic/ProductoModel';
 import { ProductoDetails } from './interface/ProductoDetails';
 
@@ -18,31 +18,40 @@ export class Producto {
   cantidad!: number;
   descuento: number = 0;
   precioOriginal?: number;
-  tag!: string;
   pedidos?: Pedido[];
   favorito?: boolean;
   menuItems!: MenuItem[];
   ref!: DynamicDialogRef;
+  tag!: string;
   private menuStrategy!: MenuStrategy;
+
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public productoModel: ProductoModel
   ) {
     this.menuStrategy = this.menuStrategyFactory.getStrategy();
   }
-  //esta bien?
+
+  // Métodos
+
+  // Devuelve los encabezados
   getHeaders() {
     return this.productoModel.getHeaders();
   }
+
+  // Devuelve el nivel de severidad según el modelo del producto
   getSeverity() {
     return this.productoModel.getSeverity(this);
   }
+
+  // Calcula el precio original en base al descuento
   calcularPrecioOriginal(): number | undefined {
     return this.descuento > 0
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
   }
 
+  // Actualiza los parámetros del producto
   getParametros(producto: Producto) {
     this.id = producto.id;
     this.nombre = producto.nombre;
@@ -59,6 +68,7 @@ export class Producto {
     return this;
   }
 
+  // Devuelve los detalles del producto
   getProductoData(): ProductoDetails {
     return {
       id: this.id,
@@ -75,6 +85,7 @@ export class Producto {
     };
   }
 
+  // Devuelve los elementos del menú basados en la estrategia del menú
   getMenuItems(
     selectedItems: Producto[],
     callbacks: CallbacksService

@@ -163,7 +163,9 @@
               </div>
               }
             </a>
-            <div class="detalles-producto align-left mt-3">
+            <div
+              class="detalles-producto flex flex-column align-items-start mt-3"
+            >
               <div *ngFor="let header of headers">
                 <ng-container *ngIf="item[header.field] !== undefined">
                   <span [ngStyle]="header.style">

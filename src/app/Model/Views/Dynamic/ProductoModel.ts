@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { CallbacksService } from '../../../Service/CallbacksService';
+import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
 import { ProductoDetails } from '../../Domain/interface/ProductoDetails';
 import { Producto } from '../../Domain/ProductoClass';
@@ -22,26 +22,20 @@ export class ProductoModel {
   }
   getTag(producto: Producto): string {
     if (this.userModel.admin) {
-      switch (true) {
-        case producto.descuento >= 50:
-          return 'HIGH_DISCOUNT';
-        case producto.descuento >= 20:
-          return 'MEDIUM_DISCOUNT';
-        case producto.descuento > 0:
-          return 'LOW_DISCOUNT';
-        default:
-          return 'NO_DISCOUNT';
-      }
-    } else {
-      switch (true) {
-        case producto.cantidad > 20:
-          return 'INSTOCK';
-        case producto.cantidad > 0 && producto.cantidad <= 20:
-          return 'LOWSTOCK';
-        default:
-          return 'OUTOFSTOCK';
-      }
+      return producto.descuento >= 50
+        ? 'HIGH_DISCOUNT'
+        : producto.descuento >= 20
+        ? 'MEDIUM_DISCOUNT'
+        : producto.descuento > 0
+        ? 'LOW_DISCOUNT'
+        : 'NO_DISCOUNT';
     }
+
+    return producto.cantidad > 20
+      ? 'INSTOCK'
+      : producto.cantidad > 0
+      ? 'LOWSTOCK'
+      : 'OUTOFSTOCK';
   }
 
   getSeverity(producto: Producto): string | null {
