@@ -88,23 +88,30 @@
         </select>
       </div>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="
-          add(
-            nombre,
-            precio,
-            imagen,
-            descuento,cantidad,
-            lettering,
-            scrapbooking,
-            oferta
-          )
-        "
-      >
-        Enviar
-      </button>
+      <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
+        <button type="button" class="btn btn-primary" (click)="goBack()">
+          Go Back
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="
+            add(
+              nombre,
+              precio,
+              imagen,
+              descuento,
+              cantidad,
+              lettering,
+              scrapbooking,
+              oferta
+            )
+          "
+        >
+          Enviar
+        </button>
+      </div>
     </div>
   </body>
 </html>

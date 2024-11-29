@@ -1,7 +1,16 @@
 @import "primeng/resources/primeng.css";
 @import "primeflex/primeflex.scss";
 @import "primeicons/primeicons.css";
-
+// @font-face {
+//   font-family: "Inter var";
+//   src: local("Arial");
+// }
+// :root {
+//   --font-family: "Arial", sans-serif;
+// }
+// body {
+//   font-family: var(--font-family);
+// }
 *,
 *::before,
 *::after {
@@ -18,7 +27,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Montserrat;
+  // font-family: Montserrat;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
@@ -36,12 +45,12 @@ a:hover {
   background-color: transparent;
 }
 
-html body {
-  font-size: 14px !important;
-}
+// html body {
+//   font-size: 14px !important;
+// }
 
 body {
-  font-family: var(--font-family) !important;
+  // font-family: var(--font-family) !important;
   background: var(--surface-ground) !important;
   color: var(--text-color) !important;
   -webkit-font-smoothing: antialiased !important;
@@ -59,7 +68,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 50px;
-  font-family: "Roboto", sans-serif;
+  // font-family: "Roboto", sans-serif;
   font-size: 20px;
   padding-top: 30px;
   padding-bottom: 10px;
@@ -161,7 +170,7 @@ input {
   border: none;
   outline: none;
   padding: 0;
-  font-family: inherit;
+  // font-family: inherit;
   font-size: inherit;
   color: inherit;
   text-align: center;

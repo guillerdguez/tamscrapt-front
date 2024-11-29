@@ -7,12 +7,12 @@ export class AlgoModel {
   constructor() {}
   algos: any[] = [];
   algo: any;
-  algosSeleccionadas: any[] = [];
+  algosSeleccionados: any[] = [];
   menuItemSeleccionado!: any;
 
   seleccionarYEjecutar(item: any, menuItemLabel: string) {
-    if (!this.algosSeleccionadas.includes(item)) {
-      this.algosSeleccionadas.push(item);
+    if (!this.algosSeleccionados.includes(item)) {
+      this.algosSeleccionados.push(item);
     }
 
     this.menuItemSeleccionado = menuItemLabel;
@@ -22,9 +22,9 @@ export class AlgoModel {
 
   ejecutarMenuItem() {
     if (this.menuItemSeleccionado) {
-      this.algosSeleccionadas.forEach((producto) => {
+      this.algosSeleccionados.forEach((producto) => {
         const opciones = producto.getMenuItems(
-          this.algosSeleccionadas,
+          this.algosSeleccionados,
           producto.menuStrategyFactory.getStrategy()
         );
 
@@ -37,6 +37,6 @@ export class AlgoModel {
       });
     }
 
-    this.algosSeleccionadas = [];
+    this.algosSeleccionados = [];
   }
 }

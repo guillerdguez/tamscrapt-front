@@ -5,6 +5,8 @@ import { ProductoModel } from '../../../../../Model/Views/Dynamic/ProductoModel'
 import { ProductoService } from '../../../../../Service/Producto.service';
 import { AlgoModel } from '../../../../../Model/Views/Dynamic/AlgoModel';
 import { UserModel } from '../../../../../Model/Views/Dynamic/UserModel';
+import { User } from '../../../../../Model/Domain/User/UserClass';
+import { AuthService } from '../../../../../Service/AuthService.service';
 
 @Component({
   selector: 'app-producto-detail',
@@ -12,12 +14,13 @@ import { UserModel } from '../../../../../Model/Views/Dynamic/UserModel';
   styleUrls: ['./producto-detail.component.css'],
 })
 export class ProductoDetailComponent implements OnInit {
+  params?: any[];
   constructor(
     private route: ActivatedRoute,
     private productoService: ProductoService,
     private location: Location,
     public algoModel: AlgoModel,
-    public userModel: UserModel,
+    public user: AuthService,
     public productModel: ProductoModel,
     public router: Router
   ) {}
@@ -26,6 +29,11 @@ export class ProductoDetailComponent implements OnInit {
   //   this.productoService.getProducto(id);
   // }
   ngOnInit(): void {
+    console.log(this.algoModel.algosSeleccionados);
+    if (this.algoModel.algosSeleccionados.length > 1) {
+      this.params = this.algoModel.algosSeleccionados || [];
+      console.log(this.algoModel.algosSeleccionados);
+    }
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.productoService.getProducto(id);
   }
@@ -34,13 +42,10 @@ export class ProductoDetailComponent implements OnInit {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
-  save(): void {
-    if (this.algoModel.algo) {
-      this.productoService.updateProducto(
-        this.algoModel.algo.id,
-        this.algoModel.algo.getProductoData()
-      );
-      this.goBack(); 
+  save(param: any): void {
+    if (param) {
+      this.productoService.updateProducto(param.id, param); // Actualización del producto
+      console.log('Producto actualizado:', param);
     }
   }
   calcularPrecioOriginal(

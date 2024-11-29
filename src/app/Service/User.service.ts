@@ -59,6 +59,21 @@ export class UserService {
     });
   }
 
+  getUsersArray(): void {
+    this.userDAO.getUsers().subscribe({
+      next: (users: User[]) => {
+        const usersCreados = this.userModel.crearUsers(users);
+        this.usersSubject.next(usersCreados);
+        this.userModel.users = usersCreados;
+        this.algoModel.algos = usersCreados;
+      },
+      error: (error) => {
+        console.error('Error al obtener usuarios:', error);
+      },
+    });
+  }
+  
+
   getUser(id: number): void {
     this.userDAO.getUser(id).subscribe({
       next: (user: User) => {

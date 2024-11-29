@@ -12,10 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
-import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 import { PasarInformacionTablaService } from '../../pasar-informacion-tabla/pasar-informacion-tabla.component';
 import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { ProductoService } from '../../../Service/Producto.service';
+import { User } from '../../../Model/Domain/User/UserClass';
+import { AuthService } from '../../../Service/AuthService.service';
+import { Producto } from '../../../Model/Domain/ProductoClass';
 
 @Component({
   selector: 'app-esquema-lista',
@@ -27,10 +29,12 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
   @Input() title: string = '';
-
-  paramsTemporal: any[] = [];
+  itemsCopy: MenuItem[] = [];
+  firstItem: any[] = [];
+  paramsTemporal: User[] | Producto[] = [];
   items: MenuItem[] = [];
   layout!: 'list' | 'grid';
+
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
@@ -38,7 +42,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   constructor(
     private route: ActivatedRoute,
     public algoModel: AlgoModel,
-    public userModel: UserModel,
+    public user: AuthService,
     public pasarInformacionTablaService: PasarInformacionTablaService,
     public callbacksService: CallbacksService,
     public productoService: ProductoService
@@ -51,81 +55,68 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.pasarInformacionTablaService.initialize(tipo);
     });
 
-    this.pasarInformacionTablaService.title$.subscribe((title) => {
-      this.title = title;
-    });
+    // this.pasarInformacionTablaService.title$.subscribe((title) => {
+    //   this.title = title;
+    // });
 
-    this.pasarInformacionTablaService.selectedTable$.subscribe(
-      (selectedTables) => {
-        this.algoModel.algosSeleccionadas = [...selectedTables];
-      }
-    );
+    // this.pasarInformacionTablaService.selectedTable$.subscribe(
+    //   (selectedTables) => {
+    //     this.algoModel.algosSeleccionados = [...selectedTables];
+    //   }
+    // );
 
-    this.layout = this.userModel.admin ? 'list' : 'grid';
+    this.layout = this.user.admin ? 'list' : 'grid';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
       this.ParamsTemporal();
-      this.algoModel.algosSeleccionadas = [];
-      this.initializeHeaders();
+      // this.getButtons();
+
+      this.algoModel.algosSeleccionados = [];
+      // this.initializeHeaders();
     }
   }
 
   ngDoCheck() {
     if (this.algoModel.algos !== this.paramsTemporal) {
       this.ParamsTemporal();
-      this.initializeHeaders();
-      console.log(this.paramsTemporal[0].getSeverity().toString());
     }
   }
-  // algoss = {
-  //   tag: 'Ejemplo de etiqueta',
-  //   getSeverity: ():
-  //     | 'success'
-  //     | 'secondary'
-  //     | 'info'
-  //     | 'warning'
-  //     | 'danger'
-  //     | 'contrast'
-  //     | undefined => {
-  //     return 'success'; // Cambiar según las condiciones
-  //   },
-  // };
 
   onselectedTable(event: MouseEvent, item: any) {
     if (event.button !== 2 && event.button !== 1) {
-      if (!this.algoModel.algosSeleccionadas.includes(item)) {
-        this.algoModel.algosSeleccionadas.push(item);
+      if (!this.algoModel.algosSeleccionados.includes(item)) {
+        this.algoModel.algosSeleccionados.push(item);
       } else {
-        this.algoModel.algosSeleccionadas =
-          this.algoModel.algosSeleccionadas.filter(
+        this.algoModel.algosSeleccionados =
+          this.algoModel.algosSeleccionados.filter(
             (selected) => selected !== item
           );
       }
-      this.pasarInformacionTablaService.onTableSelected(
-        this.algoModel.algosSeleccionadas
-      );
+      // this.pasarInformacionTablaService.onTableSelected(
+      //   this.algoModel.algosSeleccionados
+      // );
 
-      this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+      this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
   }
 
   onContextMenu(event: MouseEvent, item: any) {
     event.preventDefault();
-    if (this.userModel.admin) {
-      if (!this.algoModel.algosSeleccionadas.includes(item)) {
-        this.algoModel.algosSeleccionadas.push(item);
+    if (this.user.admin) {
+      if (!this.algoModel.algosSeleccionados.includes(item)) {
+        this.algoModel.algosSeleccionados.push(item);
 
-        this.pasarInformacionTablaService.onTableSelected(
-          this.algoModel.algosSeleccionadas
-        );
+        // this.pasarInformacionTablaService.onTableSelected(
+        //   this.algoModel.algosSeleccionados
+        // );
 
-        this.TableSelected.emit(this.algoModel.algosSeleccionadas);
+        this.TableSelected.emit(this.algoModel.algosSeleccionados);
       }
 
       this.items = item.getMenuItems(
-        this.algoModel.algosSeleccionadas,
+        this.algoModel.algosSeleccionados,
         this.callbacksService
       );
       this.menu.show(event);
@@ -134,7 +125,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   onValueChange(item: any, field: keyof any, newValue: any): void {
     item[field] = newValue;
-    this.pasarInformacionTablaService.onParamsChange(item);
+    // this.pasarInformacionTablaService.onParamsChange(item);
 
     this.paramsChange.emit(item.setDetails(item));
   }
@@ -142,7 +133,23 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   ParamsTemporal() {
     this.paramsTemporal = this.algoModel.algos;
   }
-  initializeHeaders() {
-    this.headers = this.algoModel.algos[0].getHeaders();
+  // initializeHeaders() {
+  //   this.headers = this.algoModel.algos[0].getHeaders();
+  // }
+
+  // getButtons() {
+  //   this.itemsCopy = [...this.items];
+  //   this.firstItem = [this.itemsCopy[0]];
+  //   this.onSelectDefaultItem();
+  //   this.itemsCopy.shift();
+  // }
+  getCreate() {
+    this.items = this.paramsTemporal[0].getMenuItems(
+      this.algoModel.algosSeleccionados,
+      this.callbacksService
+    );
+    this.itemsCopy = [...this.items];
+    this.firstItem = [this.itemsCopy[0]];
+    this.firstItem[0].command();
   }
 }

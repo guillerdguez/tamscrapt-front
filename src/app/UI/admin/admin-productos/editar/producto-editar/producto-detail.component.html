@@ -1,142 +1,97 @@
-<div *ngIf="algoModel.algo" class="flex flex-column align-items-center p-4">
-  <!-- Título -->
-  <h1 class="text-center text-3xl font-bold mb-5">
-    {{ algoModel.algo.nombre | uppercase }} Details
-  </h1>
+<div class="card">
+  <p-stepper [linear]="true">
+    <div *ngFor="let param of params; let i = index">
+      <p-stepperPanel [header]="'Paso ' + (i + 1)">
+        <div class="flex flex-column align-items-center p-4">
+          <!-- Título dinámico -->
+          <h1 class="text-center text-3xl font-bold mb-5">
+            {{ param.nombre | uppercase }} Details
+          </h1>
 
-  <div
-    class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
-  >
-    <div class="flex flex-column align-items-start w-full md:w-5">
-      <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
+          <!-- Contenedor principal -->
+          <div
+            class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+          >
+            <!-- Información de producto -->
+            <div class="flex flex-column align-items-start w-full md:w-5">
+              <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2>
+              <div
+                class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
+              >
+                <!-- Imagen -->
+                <img
+                  *ngIf="param.imagen"
+                  [src]="param.imagen"
+                  alt="Imagen del producto"
+                  class="w-14rem h-14rem border-round shadow-2"
+                />
+                <div
+                  *ngIf="!param.imagen"
+                  class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
+                >
+                  <p class="text-center font-bold">Sin Imagen</p>
+                </div>
+              </div>
+            </div>
 
-      <div
-        class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
-      >
-        <img
-          *ngIf="algoModel.algo.imagen"
-          [src]="algoModel.algo.imagen"
-          alt="Imagen del producto"
-          class="w-14rem h-14rem border-round shadow-2"
-        /><p-tag
-          [value]="algoModel.algo.tag"
-          [severity]="algoModel.algo.getSeverity()"
-          class="absolute"
-          [style.left.px]="4"
-          [style.top.px]="4"
-        />
-        <div
-          *ngIf="!algoModel.algo.imagen"
-          class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
-        >
-          <p class="text-center font-bold">Sin Imagen</p>
+            <!-- Detalles editables -->
+            <div class="flex flex-column align-items-start w-full md:w-5">
+              <div class="mb-4 w-full">
+                <label
+                  for="producto-nombre-{{ i }}"
+                  class="block text-lg font-medium mb-2"
+                  >Producto Nombre:</label
+                >
+                <input
+                  id="producto-nombre-{{ i }}"
+                  [(ngModel)]="param.nombre"
+                  placeholder="Producto nombre"
+                  class="p-inputtext w-full"
+                />
+              </div>
+              <div class="mb-4 w-full">
+                <label
+                  for="precio-{{ i }}"
+                  class="block text-lg font-medium mb-2"
+                  >Producto Precio:</label
+                >
+                <div *ngIf="user.admin" class="w-full">
+                  <p-inputNumber
+                    inputId="precio-{{ i }}"
+                    [(ngModel)]="param.precio"
+                    placeholder="Precio"
+                    class="w-full"
+                  ></p-inputNumber>
+                </div>
+                <div *ngIf="!user.admin" class="w-full">
+                  <p class="text-lg font-bold">
+                    {{ param.precio.toFixed(2) }} €
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex gap-3 mt-4">
+            <button
+              type="button"
+              class="p-button p-button-secondary"
+              (click)="goBack()"
+            >
+              Go Back
+            </button>
+            <button
+              *ngIf="user.admin"
+              type="button"
+              class="p-button p-button-success"
+              (click)="save(param)"
+            >
+              Save
+            </button>
+          </div>
         </div>
-      </div>
+      </p-stepperPanel>
     </div>
-
-    <div class="flex flex-column align-items-start w-full md:w-5">
-      <div class="mb-4 w-full">
-        <label for="algo-nombre" class="block text-lg font-medium mb-2">
-          Producto Nombre:
-        </label>
-        <input
-          id="algo-nombre"
-          [(ngModel)]="algoModel.algo.nombre"
-          placeholder="Producto nombre"
-          class="p-inputtext w-full"
-        />
-      </div>
-      <!-- Modifica precio antiguo -->
-      <div class="mb-4 w-full">
-        <label for="precio" class="block text-lg font-medium mb-2">
-          Producto Precio:
-        </label>
-        <div *ngIf="userModel.admin" class="w-full">
-          <p-inputNumber
-            inputId="precio"
-            [(ngModel)]="algoModel.algo.precio"
-            placeholder="Precio"
-            class="w-full"
-          ></p-inputNumber>
-        </div>
-        <div *ngIf="!userModel.admin" class="w-full">
-          <p class="text-lg font-bold">
-            {{ algoModel.algo.precio.toFixed(2) }} €
-          </p>
-        </div>
-      </div>
-
-      <!-- Oferta -->
-      <div class="mb-4 w-full">
-        <div
-          *ngIf="algoModel.algo.oferta; else noOferta"
-          class="price-container"
-        >
-          <span class="original-price">
-            {{
-              calcularPrecioOriginal(
-                algoModel.algo.precio,
-                algoModel.algo.descuento
-              )
-            }}
-            €
-          </span>
-          <strong class="discounted-price">
-            {{ algoModel.algo.precio.toFixed(2) }} €
-          </strong>
-        </div>
-        <ng-template #noOferta>
-          <strong>{{ algoModel.algo.precio.toFixed(2) }} €</strong>
-        </ng-template>
-      </div>
-
-      <!-- @if(!userModel.admin){
-  
-      <div class="mb-4 w-full">
-        <label for="favorito" class="block text-lg font-medium mb-2">
-          Favorito:
-        </label>
-        <select
-          class="form-control w-full"
-          id="favorito"
-          [(ngModel)]="algoModel.algo.favorito"
-          required
-        >
-          <option [ngValue]="false">No</option>
-          <option [ngValue]="true">Sí</option>
-        </select>
-      </div>  
-
-      <div class="mb-4">
-        <i
-          (click)="algoModel.algo.favoritoMethod()"
-          [ngClass]="
-            algoModel.algo.favorito
-              ? 'pi pi-heart-fill corazon-icon'
-              : 'pi pi-heart corazon-icon'
-          "
-          tabindex="-1"
-        ></i>
-      </div>
-      } -->
-      <!-- Botones -->
-      <div class="flex gap-3 mt-4">
-        <button
-          type="button"
-          class="p-button p-button-secondary"
-          (click)="goBack()"
-        >
-          Go Back
-        </button>
-        @if(userModel.admin){
-        <button
-          type="button"
-          class="p-button p-button-success"
-          (click)="save()"
-        >
-          Save</button
-        >}
-      </div>
-    </div>
-  </div>
+  </p-stepper>
 </div>

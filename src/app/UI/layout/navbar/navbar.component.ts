@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
+import { User } from '../../../Model/Domain/User/UserClass';
+import { AuthService } from '../../../Service/AuthService.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,7 @@ export class NavbarComponent {
   dropdownMenu: boolean = false; // Estado del menú de administración
   menuOpen: boolean = false; // Estado del menú de usuario
 
-  constructor(public userModel: UserModel) {}
+  constructor(public user: AuthService) {}
 
   toggleMenu() {
     // Al abrir/cerrar el menú de administración, aseguramos que el menú de usuario se cierre

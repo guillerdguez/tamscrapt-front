@@ -58,6 +58,8 @@ import { UsersHandler } from './Service/handler/UsersHandler';
 import { ProductoService } from './Service/Producto.service';
 import { UserService } from './Service/User.service';
 import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
+import { StepperModule } from 'primeng/stepper';
+import { StepsModule } from 'primeng/steps';
 
 @NgModule({
   declarations: [
@@ -111,6 +113,8 @@ import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
     InputNumberModule,
     RatingModule,
     SelectButtonModule,
+    StepperModule,
+    StepsModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

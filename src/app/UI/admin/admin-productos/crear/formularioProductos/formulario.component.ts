@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoModel } from '../../../../../Model/Views/Dynamic/ProductoModel';
 import { ProductoService } from '../../../../../Service/Producto.service';
-import { ProductoDAO } from '../../../../../DAO/producto.DAO';
 import { Producto } from '../../../../../Model/Domain/ProductoClass';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
-import { AlgoModel } from '../../../../../Model/Views/Dynamic/AlgoModel';
-import { MenuItem } from 'primeng/api';
 import { ProductoDetails } from '../../../../../Model/Domain/interface/ProductoDetails';
+import { Location } from '@angular/common';
 //si tiene descuento automaticamente esta en
 @Component({
   selector: 'app-formulario',
@@ -29,10 +27,9 @@ export class FormularioComponentProducto implements OnInit {
   constructor(
     private productoService: ProductoService,
     public productoModel: ProductoModel,
-    private productoDao: ProductoDAO,
     private router: Router,
     private dialogService: DialogService,
-    private algoModel: AlgoModel
+    private location: Location
   ) {}
 
   ngOnInit(): void {}
@@ -72,7 +69,7 @@ export class FormularioComponentProducto implements OnInit {
     this.goBack();
   }
   goBack(): void {
-    this.router.navigate(['/productos']);
+    this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
 

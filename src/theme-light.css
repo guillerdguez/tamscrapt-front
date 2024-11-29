@@ -1,4 +1,5 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
+
 .custom-navbar {
   background-color: #ffffff;
 }
@@ -13,7 +14,7 @@
   align-items: center !important;
   justify-content: center !important;
   padding: 10px 20px !important;
-  font-size: 16px !important;
+  /* font-size: 16px !important; */
   font-weight: bold !important;
   border: 2px solid transparent !important;
   border-radius: 8px !important;
@@ -143,6 +144,74 @@ select:focus {
 .btn:hover {
   background-color: #457b9d;
 }
+
+.grid,
+.card,
+.p-paginator {
+  background-color: white;
+}
+.p-dataview .p-dataview-header {
+  border: none !important;
+  background-color: white;
+}
+.card .fondo-card {
+  background-color: white;
+}
+/* colors.css */
+
+/* Fondo del Body */
+body {
+  background: linear-gradient(
+    to bottom,
+    #f0f4f8,
+    #d9e6f2
+  ); /* Degradado más claro para modo claro */
+}
+
+/* Fondo del formulario */
+.containerForm {
+  background: #a8dadc; /* Blanco para un look limpio y claro */
+}
+
+/* Título */
+.title {
+  color: #2c3e50; /* Azul oscuro para un buen contraste */
+}
+
+/* Etiquetas de los campos */
+label {
+  color: #34495e; /* Gris oscuro para legibilidad */
+}
+
+/* Inputs y Selects */
+input[type="text"],
+input[type="number"],
+select {
+  border: 1px solid #3498db;
+  background-color: #f9fcff;
+}
+p-inputNumber {
+  border: 1px solid #3498db;
+  background-color: #f9fcff;
+}
+
+/* input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+p-inputNumber :focus {
+  box-shadow: 0 0 10px #4bf4fa;
+} */
+
+/* Botones */
+.btn {
+  background-color: #68a3a5;
+  color: #ffffff;
+}
+
+.btn:hover {
+  background-color: #627a7a;
+}
+
 .p-contextmenu {
   background-color: #ffffff;
   border-radius: 8px;
@@ -164,6 +233,7 @@ select:focus {
   color: #333;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 .p-contextmenu .p-menuitem:hover {
@@ -184,9 +254,9 @@ select:focus {
   font-size: 16px;
 }
 
-.p-contextmenu .p-menuitem-icon:hover {
+/* .p-contextmenu .p-menuitem-icon:hover {
   color: #1d3557;
-}
+} */
 
 /* Submenús (opciones anidadas) */
 .p-contextmenu .p-submenu-list {
@@ -198,17 +268,4 @@ select:focus {
 
 .p-contextmenu .p-submenu-list .p-menuitem {
   padding: 8px 16px;
-}
-
-.grid,
-.card,
-.p-paginator {
-  background-color: white;
-}
-.p-dataview .p-dataview-header {
-  border: none !important;
-  background-color: white;
-}
-.card .fondo-card {
-  background-color: white;
 }

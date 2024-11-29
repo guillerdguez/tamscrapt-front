@@ -5,23 +5,25 @@ import { ProductoDetails } from '../../Domain/interface/ProductoDetails';
 import { Producto } from '../../Domain/ProductoClass';
 import { AlgoModel } from './AlgoModel';
 import { UserModel } from './UserModel';
+import { User } from '../../Domain/User/UserClass';
+import { AuthService } from '../../../Service/AuthService.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
-  producto!: Producto | ProductoDetails;
+  producto!: Producto;
   private callbacksService!: CallbacksService;
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private algoModel: AlgoModel,
     private injector: Injector,
-    public userModel: UserModel
+    public user: AuthService
   ) {
     this.callbacksService = this.injector.get(CallbacksService);
   }
   getTag(producto: Producto): string {
-    if (this.userModel.admin) {
+    if (this.user.admin) {
       return producto.descuento >= 50
         ? 'HIGH_DISCOUNT'
         : producto.descuento >= 20
@@ -61,7 +63,6 @@ export class ProductoModel {
         style: {
           'font-weight': 'bold',
           'font-size': '24px',
-          'font-family': "'Poppins', sans-serif",
           color: '#333',
         },
       },
@@ -113,7 +114,7 @@ export class ProductoModel {
       newProducto.tag = this.getTag(newProducto);
 
       newProducto.menuItems = newProducto.getMenuItems(
-        this.algoModel.algosSeleccionadas,
+        this.algoModel.algosSeleccionados,
         this.callbacksService
       );
 

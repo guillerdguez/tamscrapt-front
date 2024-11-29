@@ -10,22 +10,30 @@ import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 
 export class User {
+  // password: string = '';
   id?: number;
   nombre: string = '';
   username: string = '';
-  // password: string = '';
   email: string = '';
   authorities: Set<UserAuthority> = new Set<UserAuthority>();
   menuItems!: MenuItem[];
   tag!: string;
   private menuStrategy!: MenuStrategy;
+  admin: boolean = true;
 
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
-    public productoModel: UserModel
-  ) {}
-  getHeaders() {
+    public userModel: UserModel
+  ) {
     this.menuStrategy = this.menuStrategyFactory.getStrategy();
+  }
+
+  getHeaders() {
+    return this.userModel.getHeaders();
+  }
+
+  getSeverity() {
+    return this.userModel.getSeverity(this);
   }
 
   tienePermiso(permiso: UserAuthority): boolean {
@@ -48,22 +56,25 @@ export class User {
     this.id = user.id;
     this.nombre = user.nombre;
     this.username = user.username;
-
     this.email = user.email;
-    this.authorities = user.authorities;
 
+    // Aseguramos que authorities siempre sea un Set<UserAuthority>
+    this.authorities = new Set(user.authorities);
+
+    this.tag = 'UNKNOWN';
     return this;
   }
+
   getUserData(): UserDeails {
     return {
       id: this.id,
       nombre: this.nombre,
       username: this.username,
-
       email: this.email,
       authorities: this.authorities,
     };
   }
+
   getMenuItems(selectedItems: User[], callbacks: CallbacksService): MenuItem[] {
     return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
   }

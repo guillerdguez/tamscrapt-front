@@ -4,6 +4,8 @@ import { AlgoModel } from '../../../../Model/Views/Dynamic/AlgoModel';
 import { UserModel } from '../../../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../../../Service/User.service';
 import { Location } from '@angular/common';
+import { User } from '../../../../Model/Domain/User/UserClass';
+import { AuthService } from '../../../../Service/AuthService.service';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -15,7 +17,7 @@ export class UserDetailComponent implements OnInit, OnChanges {
     private userService: UserService,
     private location: Location,
     public algoModel: AlgoModel,
-    public userModel: UserModel,
+    public user: AuthService,
     public router: Router
   ) {}
   ngOnChanges(): void {

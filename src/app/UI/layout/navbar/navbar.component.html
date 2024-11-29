@@ -18,7 +18,7 @@
         </li>
 
         <!-- Opciones solo para administrador -->
-        <li *ngIf="userModel.admin" class="nav-item admin-options">
+        <li *ngIf="user.admin" class="nav-item admin-options">
           <a class="nav-link" role="button" (click)="toggleMenu()">
             <i class="pi pi-cog"></i> Admin
           </a>
@@ -46,7 +46,7 @@
         </li>
 
         <!-- Menú de usuario -->
-        @if(!userModel.admin){
+        @if(!user.admin){
         <li class="nav-item admin-options">
           <a class="nav-link" role="button" (click)="toggleUserMenu()">
             <i class="pi pi-user"></i> Usuario

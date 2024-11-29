@@ -6,6 +6,7 @@ import { AlgoModel } from '../Views/Dynamic/AlgoModel';
 import { ProductoModel } from '../Views/Dynamic/ProductoModel';
 import { UserModel } from '../Views/Dynamic/UserModel';
 import { User } from './User/UserClass';
+import { AuthService } from '../../Service/AuthService.service';
 
 export class Pedido {
   id!: number;
@@ -19,7 +20,7 @@ export class Pedido {
     public router: Router,
     public algoModel: AlgoModel,
     public productoModel: ProductoModel,
-    public userModel: UserModel,
+    public user: AuthService,
     public productoService: ProductoService
   ) {
     this.fechaCreacion = new Date();
@@ -85,7 +86,7 @@ export class Pedido {
 
   // Configura los elementos del menú
   setMenuItems(): void {
-    this.menuItems = this.userModel.admin
+    this.menuItems = this.user.admin
       ? this.getMenuItemOptionsAdmin()
       : this.getMenuItemOptionsUser();
   }

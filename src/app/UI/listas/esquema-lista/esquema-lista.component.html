@@ -3,6 +3,7 @@
 </div>
 
 <div class="card">
+  <p-button (click)="getCreate()" label="+ Create"></p-button>
   <p-dataView
     #dv
     [value]="paramsTemporal"
@@ -23,7 +24,7 @@
         <div *ngFor="let item of items" class="col-12">
           <div
             class="flex flex-column sm:flex-row align-items-center p-4 gap-4 surface-card"
-            [class.selected]="algoModel.algosSeleccionadas.includes(item)"
+            [class.selected]="algoModel.algosSeleccionados.includes(item)"
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
@@ -64,7 +65,7 @@
               class="flex flex-column md:flex-row justify-content-between align-items-start flex-1 gap-4 w-full"
             >
               <div class="detalles-producto align-left">
-                <div *ngFor="let header of headers">
+                <div *ngFor="let header of item.getHeaders()">
                   <ng-container *ngIf="item[header.field] !== undefined">
                     <span [ngStyle]="header.style">
                       {{
@@ -79,8 +80,11 @@
 
               <!-- Botones -->
               <div class="flex flex-wrap justify-content-center gap-2">
-                @if(userModel.admin){
-                <div *ngFor="let menuItem of item.menuItems" class="botones">
+                @if(user.admin){
+                <div
+                  *ngFor="let menuItem of item.menuItems.slice(1)"
+                  class="botones"
+                >
                   <p-button
                     [icon]="menuItem.icon"
                     [label]="menuItem.label"
@@ -123,7 +127,7 @@
         <div
           class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container"
           *ngFor="let item of items"
-          [class.selected]="algoModel.algosSeleccionadas.includes(item)"
+          [class.selected]="algoModel.algosSeleccionados.includes(item)"
           (dblclick)="onselectedTable($event, item)"
           (contextmenu)="onContextMenu($event, item)"
         >
@@ -166,7 +170,7 @@
             <div
               class="detalles-producto flex flex-column align-items-start mt-3"
             >
-              <div *ngFor="let header of headers">
+              <div *ngFor="let header of item.getHeaders()">
                 <ng-container *ngIf="item[header.field] !== undefined">
                   <span [ngStyle]="header.style">
                     {{
@@ -179,13 +183,13 @@
               </div>
             </div>
 
-            @if (userModel.admin) {
+            @if (user.admin) {
             <div
               class="flex justify-content-center gap-2 mt-3 flex flex-wrap justify-content-around"
             >
               <p-button
                 class="boton"
-                *ngFor="let menuItem of item.menuItems"
+                *ngFor="let menuItem of item.menuItems.slice(1)"
                 [icon]="menuItem.icon"
                 [label]="menuItem.label"
                 (click)="algoModel.seleccionarYEjecutar(item, menuItem.label)"

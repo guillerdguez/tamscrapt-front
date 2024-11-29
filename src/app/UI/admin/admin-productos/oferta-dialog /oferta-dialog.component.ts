@@ -23,8 +23,8 @@ export class OfertaDialogComponent implements OnInit {
     // Inicializamos el formulario y los valores
     this.descuentos = [
       {
-        nombre: this.algoModel.algosSeleccionadas[0].nombre,
-        descuento: this.algoModel.algosSeleccionadas[0].descuento || 0,
+        nombre: this.algoModel.algosSeleccionados[0].nombre,
+        descuento: this.algoModel.algosSeleccionados[0].descuento || 0,
       },
     ];
     this.oferta = this.algoModel.algo.oferta || false;

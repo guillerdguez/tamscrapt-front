@@ -39,13 +39,13 @@
           >User nombre:</label
         >
         <input
-          *ngIf="userModel.admin"
+          *ngIf="user.admin"
           id="algo-nombre"
           [(ngModel)]="algoModel.algo.username"
           placeholder="User nombre"
           class="p-inputtext w-full"
         />
-        <h3 *ngIf="!userModel.admin" class="text-lg font-bold">
+        <h3 *ngIf="!user.admin" class="text-lg font-bold">
           {{ algoModel.algo.username }}
         </h3>
       </div>
@@ -56,13 +56,13 @@
           >User email:</label
         >
         <input
-          *ngIf="userModel.admin"
+          *ngIf="user.admin"
           id="algo-email"
           [(ngModel)]="algoModel.algo.email"
           placeholder="User email"
           class="p-inputtext w-full"
         />
-        <h3 *ngIf="!userModel.admin" class="text-lg font-bold">
+        <h3 *ngIf="!user.admin" class="text-lg font-bold">
           {{ algoModel.algo.email }}
         </h3>
       </div>
