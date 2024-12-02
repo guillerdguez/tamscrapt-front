@@ -1,53 +1,51 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ProductoModel } from '../../../../../Model/Views/Dynamic/ProductoModel';
 import { ProductoService } from '../../../../../Service/Producto.service';
 import { AlgoModel } from '../../../../../Model/Views/Dynamic/AlgoModel';
-import { UserModel } from '../../../../../Model/Views/Dynamic/UserModel';
-import { User } from '../../../../../Model/Domain/User/UserClass';
 import { AuthService } from '../../../../../Service/AuthService.service';
-
+import { CallbacksService } from '../../../../../Service/Callbacks/CallbacksService';
+import { Producto } from '../../../../../Model/Domain/ProductoClass';
 @Component({
   selector: 'app-producto-detail',
   templateUrl: './producto-detail.component.html',
   styleUrls: ['./producto-detail.component.css'],
 })
 export class ProductoDetailComponent implements OnInit {
-  params?: any[];
+  params: any[] = [];
+
   constructor(
-    private route: ActivatedRoute,
     private productoService: ProductoService,
     private location: Location,
     public algoModel: AlgoModel,
     public user: AuthService,
-    public productModel: ProductoModel,
-    public router: Router
+    public router: Router,
+    public route: ActivatedRoute,
+    public callbacksService: CallbacksService
   ) {}
-  // ngOnChanges(): void {
-  //   const id = Number(this.route.snapshot.paramMap.get('id'));
-  //   this.productoService.getProducto(id);
-  // }
-  ngOnInit(): void {
-    console.log(this.algoModel.algosSeleccionados);
-    if (this.algoModel.algosSeleccionados.length > 1) {
-      this.params = this.algoModel.algosSeleccionados || [];
-      console.log(this.algoModel.algosSeleccionados);
-    }
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.productoService.getProducto(id);
+
+  ngOnInit(): void { 
+    this.params = [...this.algoModel.algosSeleccionados];
+    //borra los seleccionados si dan para atrás sin guardar
+    this.location.subscribe(() => {
+      this.algoModel.algosSeleccionados.length = 0;
+    });
+    
   }
 
-  goBack(): void {
+  // goBack(): void {
+  //   this.location.back();
+  //   this.router.navigateByUrl(this.router.url);
+  //   this.algoModel.algosSeleccionados.length = 0;
+  // }
+
+     
+  save(): void {
+    this.productoService.editMultipleProductos(this.params);
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
-  save(param: any): void {
-    if (param) {
-      this.productoService.updateProducto(param.id, param); // Actualización del producto
-      console.log('Producto actualizado:', param);
-    }
-  }
+
   calcularPrecioOriginal(
     precioConDescuento: number,
     descuento: number

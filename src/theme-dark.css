@@ -1,7 +1,5 @@
 @import "primeng/resources/themes/lara-dark-blue/theme.css";
- 
 
- 
 /* * {
   color: #eceff4;
 }
@@ -117,7 +115,7 @@ button {
 .p-highlight {
   border: 1px solid;
   background-color: #2e3440;
-  font-weight: bold;
+font-weight: bold;
 }
 .p-inputwrapper * {
   background-color: #434c5e;

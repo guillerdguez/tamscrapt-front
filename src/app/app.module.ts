@@ -27,6 +27,7 @@ import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.c
 // import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
 
 // PrimeNG Modules
+import { CheckboxModule } from 'primeng/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
@@ -60,6 +61,8 @@ import { UserService } from './Service/User.service';
 import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
 import { StepperModule } from 'primeng/stepper';
 import { StepsModule } from 'primeng/steps';
+import { MessageService } from 'primeng/api';
+import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +82,7 @@ import { StepsModule } from 'primeng/steps';
     // Otros componentes
     InputSwitchComponent,
     EsquemaListaComponent,
+    DialagoOfertaComponent,
     // PasarInformacionTablaComponent,
   ],
   imports: [
@@ -91,6 +95,7 @@ import { StepsModule } from 'primeng/steps';
     BrowserAnimationsModule,
 
     // PrimeNG Modules
+    CheckboxModule,
     DropdownModule,
     ButtonModule,
     PanelModule,
@@ -128,6 +133,7 @@ import { StepsModule } from 'primeng/steps';
     UsersHandler,
     ProductoService,
     UserService,
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

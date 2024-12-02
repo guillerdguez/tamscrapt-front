@@ -3,7 +3,6 @@
 </div>
 
 <div class="card">
-  <p-button (click)="getCreate()" label="+ Create"></p-button>
   <p-dataView
     #dv
     [value]="paramsTemporal"
@@ -14,7 +13,10 @@
     styleClass="custom-paginator "
   >
     <ng-template pTemplate="header">
-      <div class="flex justify-content-end">
+      <!-- <div class="flex align-items-center justify-content-between mb-3"> -->
+      <div class="flex align-items-center justify-content-end mb-3">
+        <p-button (click)="getCreate()" label="+ Create"></p-button>
+
         <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
       </div>
     </ng-template>
@@ -28,7 +30,7 @@
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <a [href]="'/detail/' + title + '/' + item.id">
+            <a (click)="algoModel.seleccionarYEjecutar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
@@ -135,7 +137,7 @@
             class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
           >
             <!-- mal -->
-            <a [href]="'/detail/' + title + '/' + item.id">
+            <a (click)="algoModel.seleccionarYEjecutar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>

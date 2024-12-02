@@ -55,9 +55,9 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.pasarInformacionTablaService.initialize(tipo);
     });
 
-    // this.pasarInformacionTablaService.title$.subscribe((title) => {
-    //   this.title = title;
-    // });
+    this.pasarInformacionTablaService.title$.subscribe((title) => {
+      this.title = title;
+    });
 
     // this.pasarInformacionTablaService.selectedTable$.subscribe(
     //   (selectedTables) => {
@@ -85,6 +85,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   }
 
   onselectedTable(event: MouseEvent, item: any) {
+    // if (this.user.admin) {
     if (event.button !== 2 && event.button !== 1) {
       if (!this.algoModel.algosSeleccionados.includes(item)) {
         this.algoModel.algosSeleccionados.push(item);
@@ -97,30 +98,28 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       // this.pasarInformacionTablaService.onTableSelected(
       //   this.algoModel.algosSeleccionados
       // );
-
       this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
   }
 
   onContextMenu(event: MouseEvent, item: any) {
     event.preventDefault();
-    if (this.user.admin) {
-      if (!this.algoModel.algosSeleccionados.includes(item)) {
-        this.algoModel.algosSeleccionados.push(item);
+    // if (this.user.admin) {
+    if (!this.algoModel.algosSeleccionados.includes(item)) {
+      this.algoModel.algosSeleccionados.push(item);
 
-        // this.pasarInformacionTablaService.onTableSelected(
-        //   this.algoModel.algosSeleccionados
-        // );
+      // this.pasarInformacionTablaService.onTableSelected(
+      //   this.algoModel.algosSeleccionados
+      // );
 
-        this.TableSelected.emit(this.algoModel.algosSeleccionados);
-      }
-
-      this.items = item.getMenuItems(
-        this.algoModel.algosSeleccionados,
-        this.callbacksService
-      );
-      this.menu.show(event);
+      this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
+
+    this.items = item.getMenuItems(
+      this.algoModel.algosSeleccionados,
+      this.callbacksService
+    );
+    this.menu.show(event);
   }
 
   onValueChange(item: any, field: keyof any, newValue: any): void {

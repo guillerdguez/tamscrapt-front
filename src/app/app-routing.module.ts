@@ -6,7 +6,8 @@ import { HomeComponent } from './UI/home/home.component';
 import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
 import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
- import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
+import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
+import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

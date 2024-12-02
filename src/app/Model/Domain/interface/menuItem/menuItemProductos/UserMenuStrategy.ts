@@ -12,15 +12,15 @@ export class UserMenuStrategy implements MenuStrategy {
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [
       {
-        label: 'Ver',
+        label: 'Editar',
         icon: 'pi pi-eye',
-        command: () => this.callbacks.viewProducto(context),
+        command: () => this.callbacks.editProducto(context),
       },
       {
         label: 'Favorito',
         icon: 'pi pi-heart',
         command: () => this.callbacks.toggleFavorito(selectedItems),
-        disabled: selectedItems.length === 0,
+       
       },
     ];
   }

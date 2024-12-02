@@ -5,8 +5,7 @@ import { Producto } from '../Model/Domain/ProductoClass';
 import { BehaviorSubject } from 'rxjs';
 import { ProductoModel } from '../Model/Views/Dynamic/ProductoModel';
 import { CallbacksService } from './Callbacks/CallbacksService';
-import { Router } from '@angular/router';
-import { copyFileSync } from 'fs';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
@@ -16,21 +15,26 @@ export class ProductoService {
   public productos$ = this.productosSubject.asObservable();
   private productos: Producto[] = [];
 
+  private mensajeMostrado = false;
+  private tiempoEspera = 2000;
   constructor(
     private productoDAO: ProductoDAO,
     private algoModel: AlgoModel,
     public productoModel: ProductoModel,
     private callbacksService: CallbacksService,
-    private router: Router
+    private messageService: MessageService
   ) {
     // Suscribirse a los eventos emitidos por CallbacksService
 
     this.callbacksService.deleteProductos$.subscribe((selectedItems) => {
       this.deleteMultipleProductos(selectedItems);
     });
+    this.callbacksService.editProductos$.subscribe((selectedItems) => {
+      this.editMultipleProductos(selectedItems);
+    });
 
-    this.callbacksService.toggleOferta$.subscribe((selectedItems) => {
-      this.toggleOferta(selectedItems);
+    this.callbacksService.toggleOfertas$.subscribe((selectedItems) => {
+      this.toggleOfertas(selectedItems);
     });
 
     this.callbacksService.toggleFavorito$.subscribe((selectedItems) => {
@@ -39,78 +43,51 @@ export class ProductoService {
   }
 
   // Implementación de los métodos suscritos
-
+  editMultipleProductos(selectedItems: Producto[]) {
+    selectedItems.forEach((item) => {
+      if (!item.oferta) {
+        console.log(item);
+        //  this.toggleOferta(item, item.descuento);
+        item.precioOriginal = undefined;
+        item.descuento = 0;
+      }
+      this.updateProducto(item.id, item.getProductoData());
+    });
+    this.algoModel.algosSeleccionados.length = 0;
+  }
+  
+  toggleOfertas(selectedItems: Producto[]) {
+    selectedItems.forEach((item) => {
+      this.toggleOferta(item, item.descuento);
+    });
+  }
   deleteMultipleProductos(selectedItems: any[]) {
     selectedItems.forEach((item) => this.deleteProducto(item.id));
   }
   //cambia lo que muestra,boton no permite editar barios,acortar y necesita uno para
-  toggleOferta(selectedItems: Producto[]) {
-    console.log('Inicio de toggleOferta');
-    console.log(
-      'Cantidad de elementos en selectedItems:',
-      selectedItems.length
-    );
 
-    const items = [...selectedItems]; // Copia del arreglo para evitar mutaciones accidentales
-    let contador = 0;
+  toggleOferta(item: any, descuento: number) {
+    console.log('llama?');
+    if (item.oferta) {
+      item.precio = item.precioOriginal || item.precio;
+      item.descuento = 0;
+      item.oferta = false;
+      item.precioOriginal = undefined;
 
-    items.forEach((oferta) => {
-      console.log(`Iteración ${contador}`);
-      console.log('Procesando producto:', oferta.getProductoData().nombre);
-      console.log('Estado inicial del producto:', {
-        oferta: oferta.oferta,
-        precio: oferta.precio,
-        precioOriginal: oferta.precioOriginal,
-        descuento: oferta.descuento,
-      });
+      const productoData = item.getProductoData();
 
-      if (oferta.oferta) {
-        console.log('Se desactivará la oferta');
-        oferta.precio = oferta.precioOriginal || oferta.precio;
-        oferta.descuento = 0;
-        oferta.oferta = false;
-        oferta.precioOriginal = undefined;
+      this.updateProducto(item.id, productoData);
+    } else {
+      item.oferta = true;
+      item.descuento = descuento;
+      item.precioOriginal = item.precio;
+      item.precio = item.precioOriginal! * (1 - descuento / 100);
 
-        console.log('Estado después de desactivar la oferta:', {
-          oferta: oferta.oferta,
-          precio: oferta.precio,
-          precioOriginal: oferta.precioOriginal,
-          descuento: oferta.descuento,
-        });
+      const productoData = item.getProductoData();
 
-        const productoData = oferta.getProductoData();
-        console.log(
-          'Datos del producto que se enviarán para actualización:',
-          productoData
-        );
-        this.updateProducto(oferta.id, productoData);
-      } else {
-        console.log('Se activará la oferta');
-        oferta.oferta = true;
-        oferta.descuento = 50;
-        oferta.precioOriginal = oferta.precio;
-        oferta.precio = oferta.precioOriginal! * (1 - 50 / 100);
-
-        console.log('Estado después de activar la oferta:', {
-          oferta: oferta.oferta,
-          precio: oferta.precio,
-          precioOriginal: oferta.precioOriginal,
-          descuento: oferta.descuento,
-        });
-
-        const productoData = oferta.getProductoData();
-        console.log(
-          'Datos del producto que se enviarán para actualización:',
-          productoData
-        );
-        this.updateProducto(oferta.id, productoData);
-      }
-      contador++;
-    });
-
-    console.log('Fin de toggleOferta');
+      this.updateProducto(item.id, productoData);
+    }
   }
-
   toggleFavorito(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
       item.favorito = !item.favorito;
@@ -124,6 +101,11 @@ export class ProductoService {
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Created',
+        });
       },
       error: (error) => {
         console.error(error);
@@ -204,6 +186,7 @@ export class ProductoService {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: Producto) => {
         const productosCreados = this.productoModel.crearProductos([producto]);
+        // this.algoModel.algo.clear();
         this.algoModel.algo = productosCreados[0];
       },
       error: (error) => {
@@ -226,7 +209,6 @@ export class ProductoService {
   }
 
   updateProducto(id: any, producto: any): void {
-    // producto = (producto as Producto).getProductoData();
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
@@ -248,6 +230,18 @@ export class ProductoService {
         this.productoModel.productos = productosActualizados;
         this.algoModel.algos = productosActualizados;
         this.productosSubject.next(productosActualizados);
+        if (!this.mensajeMostrado) {
+          this.mensajeMostrado = true;
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Deleted',
+          });
+
+          setTimeout(() => {
+            this.mensajeMostrado = false;
+          }, this.tiempoEspera);
+        }
       },
       error: (error) => {
         console.error(error);

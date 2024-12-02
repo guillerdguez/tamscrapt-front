@@ -1,16 +1,7 @@
 @import "primeng/resources/primeng.css";
 @import "primeflex/primeflex.scss";
 @import "primeicons/primeicons.css";
-// @font-face {
-//   font-family: "Inter var";
-//   src: local("Arial");
-// }
-// :root {
-//   --font-family: "Arial", sans-serif;
-// }
-// body {
-//   font-family: var(--font-family);
-// }
+
 *,
 *::before,
 *::after {
@@ -195,4 +186,9 @@ input {
 .pi-cart-plus {
   cursor: pointer;
   font-size: 40px;
+}
+button {
+  font-weight: normal;
+  font-size: 1rem !important;
+  font-stretch: condensed !important;
 }

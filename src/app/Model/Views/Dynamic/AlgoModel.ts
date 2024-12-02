@@ -34,9 +34,10 @@ export class AlgoModel {
         );
 
         opcion?.command();
+        // if (opcion.label !== 'Editar') {
+        //   this.algosSeleccionados = [];
+        // }
       });
     }
-
-    this.algosSeleccionados = [];
   }
 }
