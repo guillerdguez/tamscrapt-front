@@ -50,6 +50,7 @@ export class Producto {
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
   }
+//Que hacen exactamente?
 
   // Actualiza los parámetros del producto
   getParametros(producto: Producto) {

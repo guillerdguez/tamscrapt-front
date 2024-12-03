@@ -68,12 +68,12 @@
             >
               <div class="detalles-producto align-left">
                 <div *ngFor="let header of item.getHeaders()">
-                  <ng-container *ngIf="item[header.field] !== undefined">
-                    <span [ngStyle]="header.style">
+                  <ng-container *ngIf="item[header.class] !== undefined">
+                    <span [ngClass]="header.class">
                       {{
                         header.formatter
-                          ? header.formatter(item[header.field])
-                          : item[header.field]
+                          ? header.formatter(item[header.class])
+                          : item[header.class]
                       }}
                     </span>
                   </ng-container>
@@ -173,12 +173,12 @@
               class="detalles-producto flex flex-column align-items-start mt-3"
             >
               <div *ngFor="let header of item.getHeaders()">
-                <ng-container *ngIf="item[header.field] !== undefined">
-                  <span [ngStyle]="header.style">
+                <ng-container *ngIf="item[header.class] !== undefined">
+                  <span [ngClass]="header.class">
                     {{
                       header.formatter
-                        ? header.formatter(item[header.field])
-                        : item[header.field]
+                        ? header.formatter(item[header.class])
+                        : item[header.class] 
                     }}
                   </span>
                 </ng-container>

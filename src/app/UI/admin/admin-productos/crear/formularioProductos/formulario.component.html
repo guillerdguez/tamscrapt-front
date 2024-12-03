@@ -1,117 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Producto Formulario</title>
-  </head>
-  <body>
-    <div class="containerForm">
-      <h1 class="title">Formulario de Productos</h1>
+<div class="containerForm">
+  <h1 class="title">Formulario de Productos</h1>
 
-      <div class="form-group-nombre">
-        <label for="nombre">Nombre del Producto: </label>
-        <input
-          type="text"
-          class="form-control"
-          id="nombre"
-          name="nombre"
-          required
-          [(ngModel)]="nombre"
-        />
-        <!-- Validación dinámica de Angular -->
-        <!-- <div *ngIf="!nombre?.trim()" class="text-danger">
-          El nombre del producto es obligatorio
-        </div> -->
-      </div>
-
-      <div class="form-group-precio">
-        <label for="precio">Precio: </label>
-        <p-inputNumber inputId="precio" [(ngModel)]="precio"></p-inputNumber>
-      </div>
-
-      <div class="form-group-imagen">
-        <label for="imagen">Imagen URL: </label>
-        <input
-          type="text"
-          class="form-control"
-          id="imagen"
-          name="imagen"
-          [(ngModel)]="imagen"
-        />
-      </div>
-
-      <div class="form-group-descuento">
-        <label for="descuento">Descuento (%): </label>
-        <p-inputNumber
-          inputId="descuento"
-          [(ngModel)]="descuento"
-        ></p-inputNumber>
-      </div>
-
-      <div class="form-group-lettering">
-        <label for="lettering">Lettering: </label>
-        <select
-          class="form-control"
-          id="lettering"
-          name="lettering"
-          [(ngModel)]="lettering"
-        >
-          <option [value]="false">No</option>
-          <option [value]="true">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group-scrapbooking">
-        <label for="scrapbooking">Scrapbooking: </label>
-        <select
-          class="form-control"
-          id="scrapbooking"
-          name="scrapbooking"
-          [(ngModel)]="scrapbooking"
-        >
-          <option [value]="false">No</option>
-          <option [value]="true">Yes</option>
-        </select>
-      </div>
-
-      <div class="form-group-oferta">
-        <label for="oferta">Oferta: </label>
-        <select
-          class="form-control"
-          id="oferta"
-          name="oferta"
-          [(ngModel)]="oferta"
-        >
-          <option [value]="false">No</option>
-          <option [value]="true">Yes</option>
-        </select>
-      </div>
-
-      <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
-        <button type="button" class="btn btn-primary" (click)="goBack()">
-          Go Back
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="
-            add(
-              nombre,
-              precio,
-              imagen,
-              descuento,
-              cantidad,
-              lettering,
-              scrapbooking,
-              oferta
-            )
-          "
-        >
-          Enviar
-        </button>
-      </div>
+  <!-- Nombre del Producto -->
+  <div class="form-group">
+    <label for="nombre">Nombre del Producto: </label>
+    <input
+      type="text"
+      class="form-control"
+      id="nombre"
+      name="nombre"
+      required
+      [(ngModel)]="nombre"
+    />
+    <div *ngIf="!nombre?.trim()" class="text-danger">
+      El nombre del producto es obligatorio.
     </div>
-  </body>
-</html>
+  </div>
+
+  <!-- Precio -->
+  <div class="form-group">
+    <label for="precio">Precio: </label>
+    <p-inputNumber
+      inputId="precio"
+      [(ngModel)]="precio"
+      min="0"
+      required
+    ></p-inputNumber>
+    <div *ngIf="precio <= 0" class="text-danger">
+      El precio del producto es obligatorio.
+    </div>
+  </div>
+
+  <!-- Imagen URL -->
+  <div class="form-group">
+    <label for="imagen">Imagen URL: </label>
+    <input
+      type="text"
+      class="form-control"
+      id="imagen"
+      name="imagen"
+      [(ngModel)]="imagen"
+    />
+  </div>
+
+  <!-- Oferta -->
+  <div class="form-group">
+    <label for="oferta">¿Está en oferta?</label>
+    <p-checkbox [(ngModel)]="oferta" binary="true" class="w-full"></p-checkbox>
+  </div>
+
+  <!-- Descuento -->
+  <div class="form-group" *ngIf="oferta">
+    <label for="descuento">Descuento (%): </label>
+    <p-inputNumber
+      inputId="descuento"
+      [(ngModel)]="descuento"
+      [min]="0"
+      [max]="100"
+      placeholder="Descuento (%)"
+      class="w-full"
+    ></p-inputNumber>
+    <div *ngIf="descuento < 0 || descuento > 100" class="text-danger">
+      El descuento debe estar entre 0% y 100%.
+    </div>
+  </div>
+
+  <!-- Lettering -->
+  <div class="form-group">
+    <label for="lettering">¿Incluye Lettering?</label>
+
+    <p-checkbox
+      [(ngModel)]="lettering"
+      binary="true"
+      class="w-full"
+    ></p-checkbox>
+  </div>
+
+  <!-- Scrapbooking -->
+  <div class="form-group">
+    <label for="scrapbooking">¿Incluye Scrapbooking?</label>
+
+    <p-checkbox
+      [(ngModel)]="scrapbooking"
+      binary="true"
+      class="w-full"
+    ></p-checkbox>
+  </div>
+
+  <!-- Cantidad -->
+  <div class="form-group">
+    <label for="cantidad">Cantidad: </label>
+    <p-inputNumber
+      inputId="cantidad"
+      [(ngModel)]="cantidad"
+      min="1"
+      required
+    ></p-inputNumber>
+    <div *ngIf="cantidad <= 0" class="text-danger">
+      La cantidad del producto es obligatorio.
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
+    <button type="button" class="btn btn-primary" (click)="goBack()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="
+        add(
+          nombre,
+          precio,
+          imagen,
+          descuento,
+          cantidad,
+          lettering,
+          scrapbooking,
+          oferta
+        )
+      "
+    >
+      Enviar
+    </button>
+  </div>
+</div>

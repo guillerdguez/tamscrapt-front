@@ -43,7 +43,6 @@ export class CallbacksService {
     this.editProducto$.next(producto);
   }
   toggleOferta(selectedItems: Producto[]) {
-    console.log('Emitiendo evento para abrir el diálogo:', selectedItems); // Agrega un log
     this.openOfertaDialog$.next(selectedItems);
   }
 

@@ -21,17 +21,11 @@ export class UserModel {
   }
 
   getTag(user: User): string {
-    if (user.authorities.has(UserAuthority.ADMIN)) {
-      return 'ADMIN_USER';
-    } else if (user.authorities.has(UserAuthority.USER)) {
-      return 'REGULAR_USER';
-    } else if (user.authorities.has(UserAuthority.ANONYMOUS)) {
-      return 'GUEST_USER';
-    }
-
-    return 'UNKNOWN_USER';
+    return user.authorities.has(UserAuthority.ADMIN) ? 'ADMIN_USER' :
+           user.authorities.has(UserAuthority.USER) ? 'REGULAR_USER' :
+           user.authorities.has(UserAuthority.ANONYMOUS) ? 'GUEST_USER' : 'UNKNOWN_USER';
   }
-
+  
   getSeverity(user: User): string | null {
     const severityMap: { [key: string]: string } = {
       ADMIN_USER: 'success',
@@ -44,28 +38,7 @@ export class UserModel {
   }
 
   getHeaders() {
-    const commonHeaders = [
-      {
-        field: 'username',
-        header: 'Username',
-        style: {
-          'font-weight': 'bold',
-          'font-size': '18px',
-          'margin-bottom': '8px',
-        },
-      },
-      {
-        field: 'email',
-        header: 'Email',
-        style: {
-          'font-weight': 'bold',
-          'font-size': '18px',
-          'margin-bottom': '8px',
-        },
-      } as any,
-    ];
-
-    return commonHeaders;
+    return [{ class: 'username' }, { class: 'email' }];
   }
 
   crearUsers(users: User[]): User[] {

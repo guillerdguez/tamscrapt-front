@@ -67,7 +67,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
     this.layout = this.user.admin ? 'list' : 'grid';
   }
-
+  // suaviza el cambio?
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
       this.ParamsTemporal();
@@ -82,6 +82,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     if (this.algoModel.algos !== this.paramsTemporal) {
       this.ParamsTemporal();
     }
+    // console.log(this.paramsTemporal);
   }
 
   onselectedTable(event: MouseEvent, item: any) {

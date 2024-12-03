@@ -22,13 +22,12 @@ export class FormularioComponentProducto implements OnInit {
   scrapbooking?: boolean;
   oferta?: boolean;
   ref?: DynamicDialogRef;
-  cantidad!: number;
+  cantidad: number = 1;
 
   constructor(
     private productoService: ProductoService,
     public productoModel: ProductoModel,
     private router: Router,
-    private dialogService: DialogService,
     private location: Location
   ) {}
 
@@ -64,8 +63,10 @@ export class FormularioComponentProducto implements OnInit {
       descuento,
       precioOriginal,
     };
+    console.log('Cantidad recibida:', cantidad);
+console.log('Objeto mandado a crear:', newProducto);
+    this.productoService.addProducto(newProducto);    
 
-    this.productoService.addProducto(newProducto);
     this.goBack();
   }
   goBack(): void {
@@ -73,27 +74,27 @@ export class FormularioComponentProducto implements OnInit {
     this.router.navigateByUrl(this.router.url);
   }
 
-  openDialog(): void {
-    this.ref = this.dialogService.open(FormularioComponentProducto, {
-      header: 'Nuevo Producto',
-      width: '50%',
-      contentStyle: { 'max-height': '500px', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
+  // openDialog(): void {
+  //   this.ref = this.dialogService.open(FormularioComponentProducto, {
+  //     header: 'Nuevo Producto',
+  //     width: '50%',
+  //     contentStyle: { 'max-height': '500px', overflow: 'auto' },
+  //     baseZIndex: 10000,
+  //   });
 
-    this.ref.onClose.subscribe((producto: Producto) => {
-      if (producto) {
-        this.add(
-          producto.nombre,
-          producto.precio,
-          producto.imagen,
-          producto.descuento,
-          producto.cantidad,
-          producto.lettering,
-          producto.scrapbooking,
-          producto.oferta
-        );
-      }
-    });
-  }
+  //   this.ref.onClose.subscribe((producto: Producto) => {
+  //     if (producto) {
+  //       this.add(
+  //         producto.nombre,
+  //         producto.precio,
+  //         producto.imagen,
+  //         producto.descuento,
+  //         producto.cantidad,
+  //         producto.lettering,
+  //         producto.scrapbooking,
+  //         producto.oferta
+  //       );
+  //     }
+  //   });
+  // }
 }

@@ -156,3 +156,33 @@ img:hover,
   cursor: pointer;
   font-size: 40px;
 }
+/* formato datos */
+.nombre {
+  font-weight: bold;
+  font-size: 24px;
+  color: #333;
+}
+.cantidad {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+.cantidad::before {
+  content: "Quedan: ";
+}
+.precio {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+.precio::after {
+  content: " €";
+}
+.precioOriginal {
+  font-size: 17px;
+  color: #888;
+  text-decoration: line-through;
+}
+.precioOriginal::after {
+  content: " €";
+}

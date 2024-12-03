@@ -13,4 +13,7 @@ export class LetteringHandler implements TipoHandler {
   getTitle(): string {
     return 'Lettering';
   }
+  getContextType(): string {
+    return 'producto';
+  }
 }

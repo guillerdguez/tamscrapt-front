@@ -13,4 +13,7 @@ export class ProductosHandler implements TipoHandler {
   getTitle(): string {
     return 'Productos';
   }
+  getContextType(): string {
+    return 'producto';
+  }
 }

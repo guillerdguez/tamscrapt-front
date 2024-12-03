@@ -1,11 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
-import { ProductoDetails } from '../../Domain/interface/ProductoDetails';
 import { Producto } from '../../Domain/ProductoClass';
 import { AlgoModel } from './AlgoModel';
-import { UserModel } from './UserModel';
-import { User } from '../../Domain/User/UserClass';
 import { AuthService } from '../../../Service/AuthService.service';
 
 @Injectable({ providedIn: 'root' })
@@ -24,86 +21,45 @@ export class ProductoModel {
   }
   getTag(producto: Producto): string {
     if (this.user.admin) {
-      return producto.descuento >= 50
-        ? 'HIGH_DISCOUNT'
-        : producto.descuento >= 20
-        ? 'MEDIUM_DISCOUNT'
-        : producto.descuento > 0
-        ? 'LOW_DISCOUNT'
-        : 'NO_DISCOUNT';
+      return producto.descuento >= 50 ? 'HIGH_DISCOUNT' :
+             producto.descuento >= 20 ? 'MEDIUM_DISCOUNT' :
+             producto.descuento > 0  ? 'LOW_DISCOUNT' : 'NO_DISCOUNT';
     }
-
-    return producto.cantidad > 20
-      ? 'INSTOCK'
-      : producto.cantidad > 0
-      ? 'LOWSTOCK'
-      : 'OUTOFSTOCK';
+  
+    return producto.cantidad > 20 ? 'INSTOCK' :
+           producto.cantidad > 0  ? 'LOWSTOCK' : 'OUTOFSTOCK';
   }
-
+  
   getSeverity(producto: Producto): string | null {
-    const severityMap: { [key: string]: string } = {
-      INSTOCK: 'success',
-      HIGH_DISCOUNT: 'success',
-      LOWSTOCK: 'warning',
-      MEDIUM_DISCOUNT: 'warning',
-      LOW_DISCOUNT: 'secondary',
-      OUTOFSTOCK: 'danger',
-      NO_DISCOUNT: 'danger',
-    };
-
-    return severityMap[producto.tag] || null;
+    return (
+      {
+        INSTOCK: 'success',
+        HIGH_DISCOUNT: 'success',
+        LOWSTOCK: 'warning',
+        MEDIUM_DISCOUNT: 'warning',
+        LOW_DISCOUNT: 'secondary',
+        OUTOFSTOCK: 'danger',
+        NO_DISCOUNT: 'danger',
+      }[producto.tag] || null
+    );
   }
+  // getSeverity(producto: Producto): string | null {
+  //   const tag = producto.tag;
+  //   return ['INSTOCK', 'HIGH_DISCOUNT'].includes(tag)
+  //     ? 'success'
+  //     : ['LOWSTOCK', 'MEDIUM_DISCOUNT'].includes(tag)
+  //     ? 'warning'
+  //     : ['LOW_DISCOUNT'].includes(tag)
+  //     ? 'secondary'
+  //     : ['OUTOFSTOCK', 'NO_DISCOUNT'].includes(tag)
+  //     ? 'danger'
+  //     : null;
+  // }
 
   // porque en cards queda desplazado a la derecha
   getHeaders() {
-    const commonHeaders = [
-      {
-        field: 'nombre',
-        header: 'Producto',
-        style: {
-          'font-weight': 'bold',
-          'font-size': '24px',
-          color: '#333',
-        },
-      },
-      {
-        field: 'cantidad',
-        header: 'Disponibilidad',
-        formatter: (value: number) => `Quedan: ${value}`,
-        style: {
-          'font-size': '20px',
-          color: '#333',
-          'font-weight': 'bold',
-        },
-      },
-      {
-        field: 'precio',
-        header: 'Precio Actual',
-        formatter: (value: number) => `${value.toFixed(2)} €`,
-        style: {
-          'font-size': '20px',
-          color: '#333',
-          'font-weight': 'bold',
-        },
-      } as any,
+    return [{ class: 'nombre' }, { class: 'cantidad' }, { class: 'precio' }, { class: 'precioOriginal' },
     ];
-
-    if (
-      this.productos.some((producto) => producto.precioOriginal !== undefined)
-    ) {
-      commonHeaders.push({
-        field: 'precioOriginal',
-        header: 'Precio Original',
-        style: {
-          'font-size': '17px',
-          color: '#888',
-          'text-decoration': 'line-through',
-        },
-        formatter: (value: number) => `${value.toFixed(2)} €`,
-      });
-    }
-
-    return commonHeaders;
   }
 
   crearProductos(productos: Producto[]): Producto[] {

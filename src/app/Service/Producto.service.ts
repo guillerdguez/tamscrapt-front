@@ -46,7 +46,6 @@ export class ProductoService {
   editMultipleProductos(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
       if (!item.oferta) {
-        console.log(item);
         //  this.toggleOferta(item, item.descuento);
         item.precioOriginal = undefined;
         item.descuento = 0;
@@ -55,7 +54,7 @@ export class ProductoService {
     });
     this.algoModel.algosSeleccionados.length = 0;
   }
-  
+
   toggleOfertas(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
       this.toggleOferta(item, item.descuento);
@@ -98,8 +97,10 @@ export class ProductoService {
 
   addProducto(producto: any): void {
     this.productoModel.productos.push(producto);
+    this.algoModel.algos.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
+        console.log('servicio', producto);
         this.productoModel.producto = producto;
         this.messageService.add({
           severity: 'success',
@@ -108,7 +109,24 @@ export class ProductoService {
         });
       },
       error: (error) => {
-        console.error(error);
+        let detalleError = '';
+
+        // Personalizar el mensaje según el código de estado
+        if (error.status === 500) {
+          detalleError =
+            'Error del servidor. Por favor, verifica los logs del backend o intenta nuevamente más tarde.';
+        } else if (error.status === 400) {
+          detalleError =
+            'Error en la solicitud. Por favor, revisa los datos enviados.';
+        } else if (error.status) {
+          detalleError = `Ocurrió un error inesperado. Código de estado: ${error.status}.`;
+        }
+        // Agregar el mensaje al sistema de notificaciones
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: detalleError,
+        });
       },
     });
   }
@@ -125,7 +143,7 @@ export class ProductoService {
       },
     });
   }
-
+  //es necesario o solo con los model vale?
   getProductosArray(): void {
     this.productoDAO.getProductos().subscribe({
       next: (productos: Producto[]) => {
@@ -184,10 +202,12 @@ export class ProductoService {
 
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
-      next: (producto: Producto) => {
-        const productosCreados = this.productoModel.crearProductos([producto]);
-        // this.algoModel.algo.clear();
-        this.algoModel.algo = productosCreados[0];
+      next: () => {
+        // const productosCreados = this.productoModel.crearProductos([producto]);
+
+        this.algoModel.algo = this.productoModel.productos.find(
+          (p) => p.id === id
+        );
       },
       error: (error) => {
         console.error(error);
@@ -209,8 +229,17 @@ export class ProductoService {
   }
 
   updateProducto(id: any, producto: any): void {
+    // const productosFiltrados = this.productoModel.productos.map((p) => {
+    //   if (p.id === id) {
+    //     this.getProducto(id);
+    //   }
+    //   this.getProducto(p.id);
+    //   return this.algoModel.algo;
+    // });
+
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
+        console.log(producto);
         this.productoModel.producto = producto;
         this.algoModel.algo = producto;
       },
@@ -221,15 +250,14 @@ export class ProductoService {
   }
 
   deleteProducto(id: number): void {
+    const productosFiltrados = this.productoModel.productos.filter(
+      (p) => p.id !== id
+    );
+    this.productoModel.productos = productosFiltrados;
+    this.algoModel.algos = productosFiltrados;
+
     this.productoDAO.deleteProducto(id).subscribe({
-      next: (producto: Producto) => {
-        this.productoModel.producto = producto;
-        const productosActualizados = this.productoModel.crearProductos(
-          this.productoModel.productos.filter((prod) => prod.id !== id)
-        );
-        this.productoModel.productos = productosActualizados;
-        this.algoModel.algos = productosActualizados;
-        this.productosSubject.next(productosActualizados);
+      next: () => {
         if (!this.mensajeMostrado) {
           this.mensajeMostrado = true;
           this.messageService.add({
