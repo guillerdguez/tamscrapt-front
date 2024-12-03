@@ -20,12 +20,12 @@ export class User {
   tag!: string;
   private menuStrategy!: MenuStrategy;
   admin: boolean = true;
-
+strategia:string="user"
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public userModel: UserModel
   ) {
-    this.menuStrategy = this.menuStrategyFactory.getStrategy();
+    this.menuStrategy = this.menuStrategyFactory.getStrategy(this.strategia);
   }
 
   getHeaders() {

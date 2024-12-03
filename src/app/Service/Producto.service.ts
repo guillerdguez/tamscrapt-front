@@ -66,7 +66,7 @@ export class ProductoService {
   //cambia lo que muestra,boton no permite editar barios,acortar y necesita uno para
 
   toggleOferta(item: any, descuento: number) {
-    console.log('llama?');
+ 
     if (item.oferta) {
       item.precio = item.precioOriginal || item.precio;
       item.descuento = 0;
@@ -258,6 +258,7 @@ export class ProductoService {
 
     this.productoDAO.deleteProducto(id).subscribe({
       next: () => {
+        this.algoModel.algosSeleccionados.length = 0;
         if (!this.mensajeMostrado) {
           this.mensajeMostrado = true;
           this.messageService.add({

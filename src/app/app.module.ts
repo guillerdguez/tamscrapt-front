@@ -58,7 +58,7 @@ import { ScrapbookingHandler } from './Service/handler/ScrapbookingHandler';
 import { UsersHandler } from './Service/handler/UsersHandler';
 import { ProductoService } from './Service/Producto.service';
 import { UserService } from './Service/User.service';
-import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
+// import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
 import { StepperModule } from 'primeng/stepper';
 import { StepsModule } from 'primeng/steps';
 import { MessageService } from 'primeng/api';
@@ -125,7 +125,7 @@ import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.compo
   providers: [
     provideClientHydration(),
     DialogService,
-    TipoFactory,
+    // TipoFactory,
     ProductosHandler,
     ScrapbookingHandler,
     LetteringHandler,

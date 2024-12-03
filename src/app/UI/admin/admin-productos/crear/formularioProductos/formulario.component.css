@@ -1,85 +1,95 @@
-/* styles.css */
+* {
+  box-sizing: border-box;
+}
 
-/* Estilo del Body */
+html,
 body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  overflow: hidden; 
 }
-
-/* Estilo del formulario */
+ 
 .containerForm {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  min-width: 500px;
-  padding: 30px;
+  justify-content: center;
+  align-items: stretch;
+  width: 90%;  
+  max-width: 600px; 
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Título del formulario */
+  overflow-y: auto;  
+} 
 .title {
   text-align: center;
-  font-size: 28px;
-  margin-bottom: 25px;
-}
-
-/* Grupo de formulario */
-.form-group {
+  font-size: 1.8rem;  
   margin-bottom: 20px;
 }
-
-/* Estilo de las etiquetas */
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
+ 
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
-/* Inputs y Selects */
+ 
+label {
+  font-size: 1rem;
+  font-weight: bold;
+} 
 input[type="text"],
 input[type="number"],
 p-inputNumber,
 select {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
   border-radius: 5px;
-  box-sizing: border-box;
-  transition: box-shadow 0.3s ease;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border 0.3s ease;
 }
-
-p-inputNumber {
-  padding: 0;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  display: block;
-  margin: 0 auto;
+ 
+input:focus,
+p-inputNumber:focus {
+  border-color: #007bff;
+  outline: none;
 }
-/* Texto de error */
+ 
 .text-danger {
-  font-size: 14px;
-  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #dc3545;
 }
 
 /* Botones */
-.buttons {
-  text-align: center;
-  margin-top: 25px;
+.flex {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .btn {
-  padding: 10px 25px;
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  flex: 1 0 45%;  
+  max-width: 150px;  
+  text-align: center;
 }
 
-button {
-  margin-top: 10px;
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
 }

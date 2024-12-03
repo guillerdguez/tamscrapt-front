@@ -12,7 +12,5 @@ export class ScrapbookingHandler implements TipoHandler {
   getTitle(): string {
     return 'Scrapbooking';
   }
-  getContextType(): string {
-    return 'producto';
-  }
+  
 }

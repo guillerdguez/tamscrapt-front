@@ -37,8 +37,8 @@ export class PasarInformacionTablaService {
 
     const handler: TipoHandler | null = this.tipoFactory.getHandler(tipo);
     if (handler) {
-      handler.execute();  
-      this.title$.next(handler.getTitle());  
+      handler.execute();
+      this.title$.next(handler.getTitle());
     } else {
       console.error('Tipo no encontrado en la factory');
     }

@@ -13,7 +13,4 @@ export class UsersHandler implements TipoHandler {
   getTitle(): string {
     return 'Users';
   }
-  getContextType(): string {
-    return 'user';
-  }
 }

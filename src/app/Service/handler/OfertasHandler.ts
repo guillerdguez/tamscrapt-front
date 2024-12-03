@@ -13,7 +13,5 @@ export class OfertasHandler implements TipoHandler {
   getTitle(): string {
     return 'Ofertas';
   }
-  getContextType(): string {
-    return 'producto';
-  }
+  
 }

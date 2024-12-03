@@ -24,12 +24,13 @@ export class Producto {
   ref!: DynamicDialogRef;
   tag!: string;
   private menuStrategy!: MenuStrategy;
+  strategia: string = 'producto';
 
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public productoModel: ProductoModel
   ) {
-    this.menuStrategy = this.menuStrategyFactory.getStrategy();
+    this.menuStrategy = this.menuStrategyFactory.getStrategy(this.strategia);
   }
 
   // Métodos
@@ -50,7 +51,7 @@ export class Producto {
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
   }
-//Que hacen exactamente?
+  //Que hacen exactamente?
 
   // Actualiza los parámetros del producto
   getParametros(producto: Producto) {

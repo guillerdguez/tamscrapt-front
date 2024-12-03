@@ -10,7 +10,7 @@ export class AlgoModel {
   algosSeleccionados: any[] = [];
   menuItemSeleccionado!: any;
 
-  seleccionarYEjecutar(item: any, menuItemLabel: string) {
+  seleccionar(item: any, menuItemLabel: string) {
     if (!this.algosSeleccionados.includes(item)) {
       this.algosSeleccionados.push(item);
     }
@@ -25,7 +25,9 @@ export class AlgoModel {
       this.algosSeleccionados.forEach((producto) => {
         const opciones = producto.getMenuItems(
           this.algosSeleccionados,
-          producto.menuStrategyFactory.getStrategy()
+          producto.menuStrategyFactory.getStrategy(
+            this.algosSeleccionados[0].strategia
+          )
         );
 
         const opcion = opciones.find(

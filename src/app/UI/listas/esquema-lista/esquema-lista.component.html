@@ -30,7 +30,7 @@
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <a (click)="algoModel.seleccionarYEjecutar(item, 'Editar')">
+            <a (click)="algoModel.seleccionar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
@@ -90,9 +90,7 @@
                   <p-button
                     [icon]="menuItem.icon"
                     [label]="menuItem.label"
-                    (click)="
-                      algoModel.seleccionarYEjecutar(item, menuItem.label)
-                    "
+                    (click)="algoModel.seleccionar(item, menuItem.label)"
                     [outlined]="true"
                     aria-label="{{ menuItem.label }}"
                   ></p-button>
@@ -137,7 +135,7 @@
             class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
           >
             <!-- mal -->
-            <a (click)="algoModel.seleccionarYEjecutar(item, 'Editar')">
+            <a (click)="algoModel.seleccionar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
@@ -178,7 +176,7 @@
                     {{
                       header.formatter
                         ? header.formatter(item[header.class])
-                        : item[header.class] 
+                        : item[header.class]
                     }}
                   </span>
                 </ng-container>
@@ -194,7 +192,7 @@
                 *ngFor="let menuItem of item.menuItems.slice(1)"
                 [icon]="menuItem.icon"
                 [label]="menuItem.label"
-                (click)="algoModel.seleccionarYEjecutar(item, menuItem.label)"
+                (click)="algoModel.seleccionar(item, menuItem.label)"
                 [outlined]="true"
                 aria-label="{{ menuItem.label }}"
               ></p-button>
