@@ -1,36 +1,36 @@
-import { Component } from '@angular/core';
-import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
-import { User } from '../../../Model/Domain/User/UserClass';
-import { AuthService } from '../../../Service/AuthService.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../Service/seguridad/AuthService.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent {
-  dropdownMenu: boolean = false; // Estado del menú de administración
-  menuOpen: boolean = false; // Estado del menú de usuario
+export class NavbarComponent implements OnInit {
+  dropdownMenu: boolean = false;
+  menuOpen: boolean = false;
+  userId: number | null = null; // Propiedad para almacenar el ID del usuario
 
-  constructor(public user: AuthService) {}
+  constructor(public authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    // Obtener el ID del usuario actual al inicializar el componente
+    this.userId = this.authService.getCurrentUserId();
+  }
 
   toggleMenu() {
-    // Al abrir/cerrar el menú de administración, aseguramos que el menú de usuario se cierre
     this.dropdownMenu = !this.dropdownMenu;
-    if (this.dropdownMenu) {
-      this.menuOpen = false; // Cerrar menú de usuario si el menú de administración se abre
-    }
+    if (this.dropdownMenu) this.menuOpen = false;
   }
 
   toggleUserMenu() {
-    // Al abrir/cerrar el menú de usuario, aseguramos que el menú de administración se cierre
     this.menuOpen = !this.menuOpen;
-    if (this.menuOpen) {
-      this.dropdownMenu = false; // Cerrar menú de administración si el menú de usuario se abre
-    }
+    if (this.menuOpen) this.dropdownMenu = false;
   }
 
-  ngOnInit() {
-    // Aquí podrías realizar otras inicializaciones necesarias para el componente
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 }

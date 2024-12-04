@@ -1,0 +1,37 @@
+<div class="cart">
+  <h2>Tu Carrito</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems">
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.product.price | currency }}</td>
+        <td>
+          <!-- <input
+            type="number"
+            [value]="item.quantity"
+            (change)="updateQuantity(item, $event.target.value)"
+          /> -->
+        </td>
+        <td>{{ item.product.price * item.quantity | currency }}</td>
+        <td>
+          <button (click)="removeItem(item)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="totals">
+    <p>Subtotal: {{ subtotal | currency }}</p>
+    <p>Impuestos: {{ tax | currency }}</p>
+    <p>Total: {{ total | currency }}</p>
+  </div>
+  <button routerLink="/checkout">Proceder al Pago</button>
+</div>

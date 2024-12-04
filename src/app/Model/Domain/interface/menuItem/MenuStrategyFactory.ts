@@ -1,5 +1,5 @@
 // // import { Injectable } from '@angular/core';
-// // import { CallbacksService } from '../../../../Service/Callbacks/CallbacksService';
+// // import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksProductoService';
 // // import { UserModel } from '../../../Views/Dynamic/UserModel';
 // // import { AdminMenuStrategy } from './menuItemProductos/AdminMenuStrategy';
 // // import { UserMenuStrategy } from './menuItemProductos/UserMenuStrategy';
@@ -13,8 +13,8 @@
 // // export class MenuStrategyFactory {
 // //   constructor(
 // //     // private userModel: UserModel,
-// //     private user: AuthService,
-// //     private callbacksService: CallbacksService
+// //     private authService: AuthService,
+// //     private callbacksService: CallbacksProductoService
 // //   ) {}
 
 // //   getStrategy(): MenuStrategy {
@@ -26,7 +26,7 @@
 // import { Injectable } from '@angular/core';
 // import { MenuStrategy } from './MenuStrategy';
 // import { AuthService } from '../../../../Service/AuthService.service';
-// import { CallbacksService } from '../../../../Service/Callbacks/CallbacksService';
+// import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksProductoService';
 // import { CallbackUserService } from '../../../../Service/Callbacks/CallbackUserService';
 // import { AdminMenuStrategy } from './menuItemProductos/AdminMenuStrategy';
 // import { UserMenuStrategy } from './menuItemProductos/UserMenuStrategy';
@@ -37,8 +37,8 @@
 // })
 // export class MenuStrategyFactory {
 //   constructor(
-//     private user: AuthService,
-//     private callbacksService: CallbacksService,
+//     private authService: AuthService,
+//     private callbacksService: CallbacksProductoService,
 //     private callbackUserService: CallbackUserService
 //   ) {}
 //   getStrategy(handler: string): MenuStrategy {
@@ -59,12 +59,15 @@
 // }
 import { Injectable } from '@angular/core';
 import { MenuStrategy } from './MenuStrategy';
-import { AuthService } from '../../../../Service/AuthService.service';
-import { CallbacksService } from '../../../../Service/Callbacks/CallbacksService';
+import { AuthService } from '../../../../Service/seguridad/AuthService.service';
 import { CallbackUserService } from '../../../../Service/Callbacks/CallbackUserService';
 import { AdminMenuStrategy } from './menuItemProductos/AdminMenuStrategy';
 import { UserMenuStrategy } from './menuItemProductos/UserMenuStrategy';
 import { AdminUserMenuStrategy } from './menuItemUsers/AdminUserMenuStrategy';
+import { CallbacksPedidoService } from '../../../../Service/Callbacks/CallbacksPedidoService';
+import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksService';
+import { AdminPedidoMenuStrategy } from './menuItemPedidos/AdminPedidoMenuStrategy';
+import { UserPedidoMenuStrategy } from './menuItemPedidos/UserPedidoMenuStrategy';
 
 @Injectable({
   providedIn: 'root',
@@ -73,17 +76,22 @@ export class MenuStrategyFactory {
   private strategyRegistry: { [key: string]: () => MenuStrategy };
 
   constructor(
-    private user: AuthService,
-    private callbacksService: CallbacksService,
-    private callbackUserService: CallbackUserService
+    private authService: AuthService,
+    private callbacksProductoService: CallbacksProductoService,
+    private callbackUserService: CallbackUserService,
+    private callbackPedidoService: CallbacksPedidoService
   ) {
     // Registro dinámico de estrategias
     this.strategyRegistry = {
       producto: () =>
-        this.user.admin
-          ? new AdminMenuStrategy(this.callbacksService)
-          : new UserMenuStrategy(this.callbacksService),
+        this.authService.hasAuthority('ADMIN')
+          ? new AdminMenuStrategy(this.callbacksProductoService)
+          : new UserMenuStrategy(this.callbacksProductoService),
       user: () => new AdminUserMenuStrategy(this.callbackUserService),
+      pedido: () =>
+        this.authService.hasAuthority('ADMIN')
+          ? new AdminPedidoMenuStrategy(this.callbackPedidoService)
+          : new UserPedidoMenuStrategy(this.callbackPedidoService),
     };
   }
 

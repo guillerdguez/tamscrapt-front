@@ -1,0 +1,102 @@
+<div class="checkout">
+  <h2>Proceso de Pago</h2>
+
+  <!-- Paso 1: Información de Envío -->
+  <div *ngIf="step === 1">
+    <h3>Paso 1: Información de Envío</h3>
+    <form #shippingForm="ngForm">
+      <label
+        >Nombre:
+        <input
+          type="text"
+          [(ngModel)]="shippingInfo.name"
+          name="name"
+          required
+        />
+      </label>
+      <label
+        >Dirección:
+        <input
+          type="text"
+          [(ngModel)]="shippingInfo.address"
+          name="address"
+          required
+        />
+      </label>
+      <!-- Otros campos de envío -->
+      <button (click)="nextStep()" [disabled]="!shippingForm.valid">
+        Siguiente
+      </button>
+    </form>
+  </div>
+
+  <!-- Paso 2: Método de Pago -->
+  <div *ngIf="step === 2">
+    <h3>Paso 2: Método de Pago</h3>
+    <form #paymentForm="ngForm">
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="paymentMethod"
+          name="paymentMethod"
+          value="creditCard"
+          required
+        />
+        Tarjeta de Crédito
+      </label>
+      <label>
+        <input
+          type="radio"
+          [(ngModel)]="paymentMethod"
+          name="paymentMethod"
+          value="paypal"
+        />
+        PayPal
+      </label>
+      <!-- Otros métodos de pago -->
+      <button (click)="previousStep()">Anterior</button>
+      <button (click)="nextStep()" [disabled]="!paymentForm.valid">
+        Siguiente
+      </button>
+    </form>
+  </div>
+
+  <!-- Paso 3: Revisión del Pedido -->
+  <div *ngIf="step === 3">
+    <h3>Paso 3: Revisión del Pedido</h3>
+    <div>
+      <h4>Información de Envío</h4>
+      <p>{{ shippingInfo.name }}</p>
+      <p>{{ shippingInfo.address }}</p>
+      <!-- Mostrar otros datos de envío -->
+    </div>
+    <div>
+      <h4>Método de Pago</h4>
+      <p>{{ paymentMethod }}</p>
+    </div>
+    <div>
+      <h4>Productos</h4>
+      <ul>
+        <li *ngFor="let item of cartItems">
+          {{ item.product.name }} - {{ item.quantity }} x
+          {{ item.product.price | currency }}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4>Total</h4>
+      <p>Subtotal: {{ orderSummary.subtotal | currency }}</p>
+      <p>Impuestos: {{ orderSummary.tax | currency }}</p>
+      <p>Total: {{ orderSummary.total | currency }}</p>
+    </div>
+    <button (click)="previousStep()">Anterior</button>
+    <button (click)="confirmOrder()">Confirmar Pedido</button>
+  </div>
+
+  <!-- Confirmación -->
+  <div *ngIf="step === 4">
+    <h3>Confirmación</h3>
+    <p>¡Gracias por tu compra! Tu pedido ha sido recibido.</p>
+    <button routerLink="/">Volver a la tienda</button>
+  </div>
+</div>

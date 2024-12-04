@@ -1,31 +1,35 @@
 import { Injectable, Injector } from '@angular/core';
 
-import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
 import { AlgoModel } from './AlgoModel';
 import { User } from '../../Domain/User/UserClass';
-import { UserAuthority } from '../../Domain/UserAuthority.enum';
+import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
 
 @Injectable({ providedIn: 'root' })
 export class UserModel {
   users: User[] = [];
   user!: User;
-  private callbacksService!: CallbacksService;
+  private callbacksService!: CallbacksProductoService;
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private algoModel: AlgoModel,
     private injector: Injector
   ) {
-    this.callbacksService = this.injector.get(CallbacksService);
+    this.callbacksService = this.injector.get(CallbacksProductoService);
   }
 
   getTag(user: User): string {
-    return user.authorities.has(UserAuthority.ADMIN) ? 'ADMIN_USER' :
-           user.authorities.has(UserAuthority.USER) ? 'REGULAR_USER' :
-           user.authorities.has(UserAuthority.ANONYMOUS) ? 'GUEST_USER' : 'UNKNOWN_USER';
+    return user.authorities.has(UserAuthority.ADMIN)
+      ? 'ADMIN_USER'
+      : user.authorities.has(UserAuthority.USER)
+      ? 'REGULAR_USER'
+      : user.authorities.has(UserAuthority.ANONYMOUS)
+      ? 'GUEST_USER'
+      : 'UNKNOWN_USER';
   }
-  
+
   getSeverity(user: User): string | null {
     const severityMap: { [key: string]: string } = {
       ADMIN_USER: 'success',

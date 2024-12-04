@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { Producto } from '../../Model/Domain/ProductoClass';
+import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CallbacksService {
+export class CallbacksProductoService {
   createProducto$ = new Subject<void>();
   deleteProductos$ = new Subject<Producto[]>();
   editProductos$ = new Subject<Producto[]>();

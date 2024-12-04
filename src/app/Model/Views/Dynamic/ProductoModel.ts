@@ -1,35 +1,42 @@
 import { Injectable, Injector } from '@angular/core';
-import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
-import { Producto } from '../../Domain/ProductoClass';
+import { Producto } from '../../Domain/Producto/ProductoClass';
 import { AlgoModel } from './AlgoModel';
-import { AuthService } from '../../../Service/AuthService.service';
+import { AuthService } from '../../../Service/seguridad/AuthService.service';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
   producto!: Producto;
-  private callbacksService!: CallbacksService;
+  private callbacksService!: CallbacksProductoService;
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private algoModel: AlgoModel,
     private injector: Injector,
-    public user: AuthService
+    public authService: AuthService
   ) {
-    this.callbacksService = this.injector.get(CallbacksService);
+    this.callbacksService = this.injector.get(CallbacksProductoService);
   }
   getTag(producto: Producto): string {
-    if (this.user.admin) {
-      return producto.descuento >= 50 ? 'HIGH_DISCOUNT' :
-             producto.descuento >= 20 ? 'MEDIUM_DISCOUNT' :
-             producto.descuento > 0  ? 'LOW_DISCOUNT' : 'NO_DISCOUNT';
+    if (this.authService.hasAuthority('ADMIN')) {
+      return producto.descuento >= 50
+        ? 'HIGH_DISCOUNT'
+        : producto.descuento >= 20
+        ? 'MEDIUM_DISCOUNT'
+        : producto.descuento > 0
+        ? 'LOW_DISCOUNT'
+        : 'NO_DISCOUNT';
     }
-  
-    return producto.cantidad > 20 ? 'INSTOCK' :
-           producto.cantidad > 0  ? 'LOWSTOCK' : 'OUTOFSTOCK';
+
+    return producto.cantidad > 20
+      ? 'INSTOCK'
+      : producto.cantidad > 0
+      ? 'LOWSTOCK'
+      : 'OUTOFSTOCK';
   }
-  
+
   getSeverity(producto: Producto): string | null {
     return (
       {
@@ -58,7 +65,11 @@ export class ProductoModel {
 
   // porque en cards queda desplazado a la derecha
   getHeaders() {
-    return [{ class: 'nombre' }, { class: 'cantidad' }, { class: 'precio' }, { class: 'precioOriginal' },
+    return [
+      { class: 'nombre' },
+      { class: 'cantidad' },
+      { class: 'precio' },
+      { class: 'precioOriginal' },
     ];
   }
 

@@ -1,13 +1,13 @@
 import { MenuItem } from 'primeng/api';
 import { Injectable } from '@angular/core';
-import { CallbacksService } from '../../../../../Service/Callbacks/CallbacksService';
 import { MenuStrategy } from '../MenuStrategy';
+import { CallbacksProductoService } from '../../../../../Service/Callbacks/CallbacksService';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserMenuStrategy implements MenuStrategy {
-  constructor(private callbacks: CallbacksService) {}
+  constructor(private callbacks: CallbacksProductoService) {}
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [
@@ -20,7 +20,6 @@ export class UserMenuStrategy implements MenuStrategy {
         label: 'Favorito',
         icon: 'pi pi-heart',
         command: () => this.callbacks.toggleFavorito(selectedItems),
-       
       },
     ];
   }

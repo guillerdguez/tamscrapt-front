@@ -4,7 +4,7 @@ import {
   provideClientHydration,
 } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
 // Componentes principales
@@ -12,19 +12,17 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './UI/layout/navbar/navbar.component';
 import { FooterComponent } from './UI/layout/footer/footer.component';
 import { HomeComponent } from './UI/home/home.component';
-import { CarritoComponent } from './UI/carrito/carrito.component';
 
 // Componentes de administración
-import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
-import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
-import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
-import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
-import { OfertaDialogComponent } from './UI/admin/admin-productos/oferta-dialog /oferta-dialog.component';
+import { AdminPedidosComponent } from './UI/compra/pedido/admin-pedidos/admin-pedidos.component';
+import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
+import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
+import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
+import { OfertaDialogComponent } from './UI/productos/oferta-dialog /oferta-dialog.component';
 
 // Otros componentes
-import { InputSwitchComponent } from './UI/input-switch/input-switch.component';
-import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
-// import { PasarInformacionTablaComponent } from './UI/pasar-informacion-tabla/pasar-informacion-tabla.component';
+import { InputSwitchComponent } from './UI/layout/input-switch/input-switch.component';
+import { EsquemaListaComponent } from './UI/esquema-lista/esquema-lista.component';
 
 // PrimeNG Modules
 import { CheckboxModule } from 'primeng/checkbox';
@@ -56,14 +54,17 @@ import { OfertasHandler } from './Service/handler/OfertasHandler';
 import { ProductosHandler } from './Service/handler/ProductosHandler';
 import { ScrapbookingHandler } from './Service/handler/ScrapbookingHandler';
 import { UsersHandler } from './Service/handler/UsersHandler';
-import { ProductoService } from './Service/Producto.service';
-import { UserService } from './Service/User.service';
-// import { TipoFactory } from './UI/pasar-informacion-tabla/TipoFactory';
+import { ProductoService } from './Service/producto/Producto.service';
+import { UserService } from './Service/user/User.service';
 import { StepperModule } from 'primeng/stepper';
 import { StepsModule } from 'primeng/steps';
 import { MessageService } from 'primeng/api';
-import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.component';
-
+import { DialagoOfertaComponent } from './UI/productos/dialago-oferta/dialago-oferta.component';
+import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
+import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
+import { CartComponent } from './UI/compra/cart/cart.component';
+import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
+import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -71,8 +72,6 @@ import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.compo
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    CarritoComponent,
-
     // Componentes de administración
     AdminPedidosComponent,
     ProductoDetailComponent,
@@ -83,7 +82,11 @@ import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.compo
     InputSwitchComponent,
     EsquemaListaComponent,
     DialagoOfertaComponent,
-    // PasarInformacionTablaComponent,
+    LoginComponent,
+    RegisterComponent,
+
+    CheckoutComponent,
+    CartComponent,
   ],
   imports: [
     // Angular Core Modules
@@ -125,7 +128,6 @@ import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.compo
   providers: [
     provideClientHydration(),
     DialogService,
-    // TipoFactory,
     ProductosHandler,
     ScrapbookingHandler,
     LetteringHandler,
@@ -134,6 +136,7 @@ import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.compo
     ProductoService,
     UserService,
     MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

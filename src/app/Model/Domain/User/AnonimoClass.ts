@@ -1,4 +1,4 @@
-import { UserAuthority } from '../UserAuthority.enum';
+import { UserAuthority } from './UserAuthority.enum';
 import { User } from './UserClass';
 
 export class Anonimo extends User {

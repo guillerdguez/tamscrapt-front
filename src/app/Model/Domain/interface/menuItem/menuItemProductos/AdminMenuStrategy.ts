@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { CallbacksService } from '../../../../../Service/Callbacks/CallbacksService';
 import { MenuStrategy } from '../MenuStrategy';
-
+import { CallbacksProductoService } from '../../../../../Service/Callbacks/CallbacksService';
+ 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminMenuStrategy implements MenuStrategy {
   url: string = '/newProducto';
-  constructor(private callbacks: CallbacksService) {}
+  constructor(private callbacks: CallbacksProductoService) {}
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [

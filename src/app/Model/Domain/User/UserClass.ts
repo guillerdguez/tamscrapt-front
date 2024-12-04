@@ -1,13 +1,13 @@
 import { Router } from '@angular/router';
 import { AlgoModel } from '../../Views/Dynamic/AlgoModel';
-import { UserAuthority } from '../UserAuthority.enum';
+import { UserAuthority } from './UserAuthority.enum';
 import { UserModel } from '../../Views/Dynamic/UserModel';
-import { UserService } from '../../../Service/User.service';
+import { UserService } from '../../../Service/user/User.service';
 import { MenuItem } from 'primeng/api';
 import { UserDeails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
-import { CallbacksService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
 
 export class User {
   // password: string = '';
@@ -20,7 +20,7 @@ export class User {
   tag!: string;
   private menuStrategy!: MenuStrategy;
   admin: boolean = true;
-strategia:string="user"
+  strategia: string = 'user';
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public userModel: UserModel
@@ -75,7 +75,10 @@ strategia:string="user"
     };
   }
 
-  getMenuItems(selectedItems: User[], callbacks: CallbacksService): MenuItem[] {
+  getMenuItems(
+    selectedItems: User[],
+    callbacks: CallbacksProductoService
+  ): MenuItem[] {
     return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
   }
 }

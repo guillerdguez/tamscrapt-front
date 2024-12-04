@@ -1,4 +1,4 @@
-import { UserAuthority } from '../UserAuthority.enum';
+import { UserAuthority } from '../User/UserAuthority.enum';
 
 export interface UserDeails {
   id?: number;

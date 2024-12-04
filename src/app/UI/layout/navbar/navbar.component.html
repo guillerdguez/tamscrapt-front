@@ -1,5 +1,5 @@
 <nav class="navbar custom-navbar shadow-sm">
-  <div class="container">
+  <div class="container ">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="nav-list ms-auto">
         <a class="brand" routerLink="/"> Tamscrapt </a>
@@ -18,15 +18,14 @@
         </li>
 
         <!-- Opciones solo para administrador -->
-        <li *ngIf="user.admin" class="nav-item admin-options">
+        <li
+          *ngIf="authService.hasAuthority('ADMIN')"
+          class="nav-item admin-options"
+        >
           <a class="nav-link" role="button" (click)="toggleMenu()">
             <i class="pi pi-cog"></i> Admin
           </a>
-          <ul
-            *ngIf="dropdownMenu"
-            class="dropdown-menu show"
-            [ngClass]="{ show: dropdownMenu }"
-          >
+          <ul *ngIf="dropdownMenu" class="dropdown-menu show">
             <li>
               <a class="dropdown-item" routerLink="/tabla/users">
                 <i class="pi pi-users"></i> Gestionar Users
@@ -45,43 +44,39 @@
           </ul>
         </li>
 
+        <!-- login -->
+        <li *ngIf="!authService.isAuthenticated()" class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+
         <!-- Menú de usuario -->
-        @if(!user.admin){
-        <li class="nav-item admin-options">
+
+        <li *ngIf="authService.isAuthenticated()" class="nav-item">
           <a class="nav-link" role="button" (click)="toggleUserMenu()">
             <i class="pi pi-user"></i> Usuario
           </a>
-          <ul
-            *ngIf="menuOpen"
-            class="dropdown-menu show"
-            [ngClass]="{ show: menuOpen }"
-          >
+          <ul *ngIf="menuOpen" class="dropdown-menu show">
             <li>
-              <a class="dropdown-item" routerLink="/login">
-                <i class="pi pi-sign-in"></i> Login
+              <a class="dropdown-item" [routerLink]="['/detail/Users', userId]">
+                <i class="pi pi-user"></i> Perfil
               </a>
             </li>
             <li>
-              <a class="dropdown-item" routerLink="/register">
-                <i class="pi pi-user-plus"></i> Sign Up
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" routerLink="/profile">
-                <i class="pi pi-user"></i> Profile
+              <a class="dropdown-item" (click)="logout()">
+                <i class="pi pi-sign-out"></i> Cerrar Sesión
               </a>
             </li>
           </ul>
         </li>
-        }
-        <li class="nav-item">
-          <app-switch class="switch"></app-switch>
-        </li>
-
+        @if(!authService.hasAuthority('ADMIN')){
         <li class="nav-item">
           <a class="nav-link" routerLink="/carrito">
             <i class="pi pi-shopping-cart"></i>
           </a>
+        </li>
+        }
+        <li class="nav-item">
+          <app-switch class="switch"></app-switch>
         </li>
       </ul>
     </div>

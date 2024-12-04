@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AdminPedidosComponent } from './UI/admin/admin-pedidos/admin-pedidos.component';
-import { CarritoComponent } from './UI/carrito/carrito.component';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './UI/home/home.component';
-import { FormularioComponentProducto } from './UI/admin/admin-productos/crear/formularioProductos/formulario.component';
-import { ProductoDetailComponent } from './UI/admin/admin-productos/editar/producto-editar/producto-detail.component';
-import { UserDetailComponent } from './UI/admin/admin-clientes/user-editar/user-detail.component';
-import { EsquemaListaComponent } from './UI/listas/esquema-lista/esquema-lista.component';
-import { DialagoOfertaComponent } from './UI/dialago-oferta/dialago-oferta.component';
+import { EsquemaListaComponent } from './UI/esquema-lista/esquema-lista.component';
+import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
+import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
+import { AdminPedidosComponent } from './UI/compra/pedido/admin-pedidos/admin-pedidos.component';
+import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
+import { authGuard } from './Service/seguridad/AuthGuard';
+import { roleGuard } from './Service/seguridad/RoleGuard';
+import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
+import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
+import { CartComponent } from './UI/compra/cart/cart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -18,14 +21,32 @@ const routes: Routes = [
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
   { path: 'users', redirectTo: '/tabla/users' },
   { path: 'tabla/:tipo', component: EsquemaListaComponent },
+  { path: 'carrito', component: CartComponent, canMatch: [authGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
-  { path: 'carrito', component: CarritoComponent },
-  { path: 'detail/Productos/:id', component: ProductoDetailComponent },
-  { path: 'detail/Users/:id', component: UserDetailComponent },
+  {
+    path: 'detail/Productos/:id',
+    component: ProductoDetailComponent,
+    canMatch: [authGuard],
+  },
+  {
+    path: 'detail/Users/:id',
+    component: UserDetailComponent,
+    canMatch: [authGuard],
+  },
 
-  //admin
-  { path: 'admin/pedidos', component: AdminPedidosComponent },
-  { path: 'newProducto', component: FormularioComponentProducto },
+  // Rutas de Administrador
+  {
+    path: 'admin/pedidos',
+    component: AdminPedidosComponent,
+    canMatch: [authGuard, () => roleGuard('ADMIN')],
+  },
+  {
+    path: 'newProducto',
+    component: FormularioComponentProducto,
+    canMatch: [authGuard, () => roleGuard('ADMIN')],
+  },
 ];
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../Model/Domain/ProductoClass';
+import { Producto } from '../Model/Domain/Producto/ProductoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 @Injectable({
@@ -46,9 +46,9 @@ export class ProductoDAO {
     }
     return this.http.get<Producto[]>(`${this.urlBase}/?name=${term}`);
   }
- 
+
   // UPDATE
-  updateProducto(id: number , producto: Producto): Observable<Producto> {
+  updateProducto(id: number, producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/editar/${id}`;
     return this.http.put<Producto>(urlMod, producto, this.httpOptions);
   }
