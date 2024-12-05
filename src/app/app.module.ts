@@ -18,7 +18,7 @@ import { AdminPedidosComponent } from './UI/compra/pedido/admin-pedidos/admin-pe
 import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
-import { OfertaDialogComponent } from './UI/productos/oferta-dialog /oferta-dialog.component';
+// import { OfertaDialogComponent } from './UI/productos/oferta-dialog /oferta-dialog.component';
 
 // Otros componentes
 import { InputSwitchComponent } from './UI/layout/input-switch/input-switch.component';
@@ -77,7 +77,7 @@ import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
     ProductoDetailComponent,
     UserDetailComponent,
     FormularioComponentProducto,
-    OfertaDialogComponent,
+    // OfertaDialogComponent,
     // Otros componentes
     InputSwitchComponent,
     EsquemaListaComponent,

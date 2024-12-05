@@ -5,7 +5,7 @@ import { ProductoService } from '../../../Service/producto/Producto.service';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 @Component({
   selector: 'app-producto-detail',
   templateUrl: './producto-detail.component.html',

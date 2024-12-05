@@ -5,7 +5,7 @@ import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { BehaviorSubject } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
-import { CallbacksProductoService } from '../Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +14,9 @@ export class ProductoService {
   private productosSubject = new BehaviorSubject<Producto[]>([]);
   public productos$ = this.productosSubject.asObservable();
   private productos: Producto[] = [];
-
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
+
   constructor(
     private productoDAO: ProductoDAO,
     private algoModel: AlgoModel,
@@ -24,8 +24,6 @@ export class ProductoService {
     private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
   ) {
-    // Suscribirse a los eventos emitidos por CallbacksProductoService
-
     this.callbacksProductoService.deleteProductos$.subscribe(
       (selectedItems) => {
         this.deleteMultipleProductos(selectedItems);
@@ -35,23 +33,13 @@ export class ProductoService {
       this.editMultipleProductos(selectedItems);
     });
 
-    this.callbacksProductoService.toggleOfertas$.subscribe((selectedItems) => {
-      this.toggleOfertas(selectedItems);
-    });
-
     this.callbacksProductoService.toggleFavorito$.subscribe((selectedItems) => {
       this.toggleFavorito(selectedItems);
     });
   }
 
-  // Implementación de los métodos suscritos
   editMultipleProductos(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
-      if (!item.oferta) {
-        //  this.toggleOferta(item, item.descuento);
-        item.precioOriginal = undefined;
-        item.descuento = 0;
-      }
       this.updateProducto(item.id, item.getProductoData());
     });
     this.algoModel.algosSeleccionados.length = 0;
@@ -59,35 +47,54 @@ export class ProductoService {
 
   toggleOfertas(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
-      this.toggleOferta(item, item.descuento);
+      if (!item.oferta) {
+        this.toggleOferta(item, 0);
+        item.precioOriginal = undefined;
+      } else {
+        this.toggleOferta(item, item.descuento);
+
+        // item.precioOriginal = item.precioOriginal;
+      }
+
+      this.updateProducto(item.id, item.getProductoData());
     });
+    this.algoModel.algosSeleccionados.length = 0;
   }
+
   deleteMultipleProductos(selectedItems: any[]) {
     selectedItems.forEach((item) => this.deleteProducto(item.id));
   }
-  //cambia lo que muestra,boton no permite editar barios,acortar y necesita uno para
 
-  toggleOferta(item: any, descuento: number) {
+  toggleOferta(item: Producto, descuento: number) {
+    if (descuento < 0 || descuento > 100) {
+      throw new Error('El descuento debe estar entre 0 y 100.');
+    }
+    console.log(item.oferta);
     if (item.oferta) {
       item.precio = item.precioOriginal || item.precio;
-      item.descuento = 0;
-      item.oferta = false;
-      item.precioOriginal = undefined;
-
-      const productoData = item.getProductoData();
-
-      this.updateProducto(item.id, productoData);
-    } else {
-      item.oferta = true;
+      item.precioOriginal = item.precioOriginal || item.precio;
       item.descuento = descuento;
-      item.precioOriginal = item.precio;
-      item.precio = item.precioOriginal! * (1 - descuento / 100);
-
-      const productoData = item.getProductoData();
-
-      this.updateProducto(item.id, productoData);
+      item.precio = parseFloat(
+        (item.precioOriginal - item.precioOriginal * (descuento / 100)).toFixed(
+          2
+        )
+      );
+      item.oferta = true;
+    } else {
+      if (!item.precioOriginal) {
+        item.precioOriginal = item.precio;
+      }
+      item.precio = parseFloat(
+        (item.precioOriginal * (1 - descuento / 100)).toFixed(2)
+      );
+      item.descuento = descuento;
+      item.oferta = false;
     }
+
+    const productoData = item.getProductoData();
+    this.updateProducto(item.id, productoData);
   }
+
   toggleFavorito(selectedItems: Producto[]) {
     selectedItems.forEach((item) => {
       item.favorito = !item.favorito;
@@ -101,7 +108,6 @@ export class ProductoService {
     this.algoModel.algos.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
-        console.log('servicio', producto);
         this.productoModel.producto = producto;
         this.messageService.add({
           severity: 'success',
@@ -111,8 +117,6 @@ export class ProductoService {
       },
       error: (error) => {
         let detalleError = '';
-
-        // Personalizar el mensaje según el código de estado
         if (error.status === 500) {
           detalleError =
             'Error del servidor. Por favor, verifica los logs del backend o intenta nuevamente más tarde.';
@@ -122,7 +126,6 @@ export class ProductoService {
         } else if (error.status) {
           detalleError = `Ocurrió un error inesperado. Código de estado: ${error.status}.`;
         }
-        // Agregar el mensaje al sistema de notificaciones
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -144,7 +147,7 @@ export class ProductoService {
       },
     });
   }
-  //es necesario o solo con los model vale?
+
   getProductosArray(): void {
     this.productoDAO.getProductos().subscribe({
       next: (productos: Producto[]) => {
@@ -204,8 +207,6 @@ export class ProductoService {
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: () => {
-        // const productosCreados = this.productoModel.crearProductos([producto]);
-
         this.algoModel.algo = this.productoModel.productos.find(
           (p) => p.id === id
         );

@@ -11,6 +11,7 @@ import { roleGuard } from './Service/seguridad/RoleGuard';
 import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
 import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
 import { CartComponent } from './UI/compra/cart/cart.component';
+import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'carrito', component: CartComponent, canMatch: [authGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'checkout', component: CheckoutComponent },
 
   {
     path: 'detail/Productos/:id',

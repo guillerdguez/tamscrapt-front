@@ -3,7 +3,7 @@ import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrateg
 import { Producto } from '../../Domain/Producto/ProductoClass';
 import { AlgoModel } from './AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {

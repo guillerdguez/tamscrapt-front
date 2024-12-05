@@ -65,7 +65,7 @@ import { AdminMenuStrategy } from './menuItemProductos/AdminMenuStrategy';
 import { UserMenuStrategy } from './menuItemProductos/UserMenuStrategy';
 import { AdminUserMenuStrategy } from './menuItemUsers/AdminUserMenuStrategy';
 import { CallbacksPedidoService } from '../../../../Service/Callbacks/CallbacksPedidoService';
-import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksProductoService';
 import { AdminPedidoMenuStrategy } from './menuItemPedidos/AdminPedidoMenuStrategy';
 import { UserPedidoMenuStrategy } from './menuItemPedidos/UserPedidoMenuStrategy';
 

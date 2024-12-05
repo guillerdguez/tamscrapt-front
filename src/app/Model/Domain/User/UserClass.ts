@@ -7,7 +7,7 @@ import { MenuItem } from 'primeng/api';
 import { UserDeails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 
 export class User {
   // password: string = '';

@@ -1,31 +1,29 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "express";
-import { Pedido } from "../../../Model/Domain/Pedido/PedidoClass";
-import { Producto } from "../../../Model/Domain/Producto/ProductoClass";
-import { CartService } from "../../../Service/carrito/CartService";
-import { PedidoService } from "../../../Service/pedido/Pedido.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from 'express';
+import { Pedido } from '../../../Model/Domain/Pedido/PedidoClass';
+import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
+import { CartService } from '../../../Service/carrito/CartService';
+import { PedidoService } from '../../../Service/pedido/Pedido.service';
 
- 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent {
   step: number = 1;
   shippingInfo: any = {};
   paymentMethod: string = '';
   cartItems: any[] = [];
   orderSummary: any = {};
 
-  constructor(
-    private cartService: CartService,
-    private pedidoService: PedidoService,
-    private router: Router
-  ) {}
+  constructor() // private cartService: CartService,
+  // private pedidoService: PedidoService,
+  // private router: Router
+  {}
 
   ngOnInit(): void {
-    this.cartItems = this.cartService.getCartItems();
+    // this.cartItems = this.cartService.getCartItems();
     this.calculateOrderSummary();
   }
 
@@ -53,26 +51,25 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    const productos: Producto[] = this.cartItems.map((item) => ({
-      id: item.product.id,
-      nombre: item.product.name,
-      precio: item.product.price,
-      cantidad: item.quantity,
-    }));
+    // const productos: Producto[] = this.cartItems.map((item) => ({
+    //   id: item.product.id,
+    //   nombre: item.product.name,
+    //   precio: item.product.price,
+    //   cantidad: item.quantity,
+    // }));
 
     // Crear el pedido
-    const pedido: Pedido = {
-      id: 0, // El ID será generado por el backend
-      fecha: new Date().toISOString(),
-      cliente: { id: 1 },
-      productos: productos,
-      total: this.orderSummary.total,
-      estado: 'Pendiente', // Estado inicial del pedido
-      direccionEnvio: this.shippingInfo.address,
-      metodoPago: this.paymentMethod,
-    };
+    // const pedido: Pedido = {
+    //   id: 0, // El ID será generado por el backend
+    //   fecha: new Date().toISOString(),
+    //   cliente: { id: 1 },
+    //   productos: productos,
+    //   total: this.orderSummary.total,
+    //   estado: 'Pendiente', // Estado inicial del pedido
+    //   direccionEnvio: this.shippingInfo.address,
+    //   metodoPago: this.paymentMethod,
+    // };
 
-    // Llamar al servicio para agregar el pedido
-    this.pedidoService.addPedido(pedido);
+    // this.pedidoService.addPedido(pedido);
   }
 }

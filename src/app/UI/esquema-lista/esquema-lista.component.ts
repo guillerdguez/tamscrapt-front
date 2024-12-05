@@ -17,7 +17,7 @@ import { ProductoService } from '../../Service/producto/Producto.service';
 import { User } from '../../Model/Domain/User/UserClass';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../../Service/seguridad/AuthService.service';
-import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
 
 @Component({
   selector: 'app-esquema-lista',

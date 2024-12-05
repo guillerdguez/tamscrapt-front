@@ -1,12 +1,12 @@
 import { MenuItem } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
- import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
+import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { ProductoModel } from '../../Views/Dynamic/ProductoModel';
 import { ProductoDetails } from '../interface/ProductoDetails';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { Pedido } from '../Pedido/PedidoClass';
- 
+
 export class Producto {
   id!: number;
   nombre!: string;

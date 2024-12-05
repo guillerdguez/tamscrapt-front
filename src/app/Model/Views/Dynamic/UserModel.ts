@@ -4,7 +4,7 @@ import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrateg
 import { AlgoModel } from './AlgoModel';
 import { User } from '../../Domain/User/UserClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 
 @Injectable({ providedIn: 'root' })
 export class UserModel {

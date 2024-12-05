@@ -2,11 +2,8 @@ import { Component } from '@angular/core';
 import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { ProductoService } from '../../../Service/producto/Producto.service';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksService';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 
 @Component({
   selector: 'app-dialago-oferta',
@@ -32,7 +29,7 @@ export class DialagoOfertaComponent {
   }
 
   save(): void {
-    this.productoService.editMultipleProductos(this.params);
+    this.productoService.toggleOfertas(this.params);
 
     this.isDialogVisible = false;
     this.algoModel.algosSeleccionados.length = 0;
