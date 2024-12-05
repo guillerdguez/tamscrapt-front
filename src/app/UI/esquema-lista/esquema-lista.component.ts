@@ -25,19 +25,22 @@ import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProdu
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
-  // sobran @?
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
   @Input() title: string = '';
   itemsCopy: MenuItem[] = [];
   firstItem: any[] = [];
-  paramsTemporal: User[] | Producto[] = [];
   items: MenuItem[] = [];
   layout!: 'list' | 'grid';
 
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
+
+  // Getter para paramsTemporal
+  get paramsTemporal(): User[] | Producto[] {
+    return this.algoModel.algos;
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -47,9 +50,8 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     public callbacksProductoService: CallbacksProductoService,
     public productoService: ProductoService
   ) {}
-  ngOnInit() {
-    this.ParamsTemporal();
 
+  ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const tipo = params.get('tipo');
       this.pasarInformacionTablaService.initialize(tipo);
@@ -59,34 +61,16 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.title = title;
     });
 
-    // this.pasarInformacionTablaService.selectedTable$.subscribe(
-    //   (selectedTables) => {
-    //     this.algoModel.algosSeleccionados = [...selectedTables];
-    //   }
-    // );
-
     this.layout = this.authService.hasAuthority('ADMIN') ? 'list' : 'grid';
   }
-  // suaviza el cambio?
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
-      this.ParamsTemporal();
-      // this.getButtons();
-
       this.algoModel.algosSeleccionados = [];
-      // this.initializeHeaders();
     }
-  }
-
-  ngDoCheck() {
-    if (this.algoModel.algos !== this.paramsTemporal) {
-      this.ParamsTemporal();
-    }
-    // console.log(this.paramsTemporal);
   }
 
   onselectedTable(event: MouseEvent, item: any) {
-    // if (this.authService.hasAuthority('ADMIN') ) {
     if (event.button !== 2 && event.button !== 1) {
       if (!this.algoModel.algosSeleccionados.includes(item)) {
         this.algoModel.algosSeleccionados.push(item);
@@ -96,23 +80,14 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
             (selected) => selected !== item
           );
       }
-      // this.pasarInformacionTablaService.onTableSelected(
-      //   this.algoModel.algosSeleccionados
-      // );
       this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
   }
 
   onContextMenu(event: MouseEvent, item: any) {
     event.preventDefault();
-    // if (this.authService.hasAuthority('ADMIN') ) {
     if (!this.algoModel.algosSeleccionados.includes(item)) {
       this.algoModel.algosSeleccionados.push(item);
-
-      // this.pasarInformacionTablaService.onTableSelected(
-      //   this.algoModel.algosSeleccionados
-      // );
-
       this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
 
@@ -125,24 +100,9 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   onValueChange(item: any, field: keyof any, newValue: any): void {
     item[field] = newValue;
-    // this.pasarInformacionTablaService.onParamsChange(item);
-
     this.paramsChange.emit(item.setDetails(item));
   }
 
-  ParamsTemporal() {
-    this.paramsTemporal = this.algoModel.algos;
-  }
-  // initializeHeaders() {
-  //   this.headers = this.algoModel.algos[0].getHeaders();
-  // }
-
-  // getButtons() {
-  //   this.itemsCopy = [...this.items];
-  //   this.firstItem = [this.itemsCopy[0]];
-  //   this.onSelectDefaultItem();
-  //   this.itemsCopy.shift();
-  // }
   getCreate() {
     this.items = this.paramsTemporal[0].getMenuItems(
       this.algoModel.algosSeleccionados,

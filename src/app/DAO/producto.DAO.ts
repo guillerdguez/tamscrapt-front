@@ -57,4 +57,23 @@ export class ProductoDAO {
     const urlMod = `${this.urlBase}/borrar/${id}`;
     return this.http.delete<Producto>(urlMod, this.httpOptions);
   }
+  //Favoritos
+
+  // Método para agregar un producto a favoritos
+  agregarFavorito(clienteId: number, productoId: number): Observable<string> {
+    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
+    return this.http.post<string>(urlMod, {}, this.httpOptions);
+  }
+
+  // Método para eliminar un producto de favoritos
+  eliminarFavorito(clienteId: number, productoId: number): Observable<string> {
+    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
+    return this.http.delete<string>(urlMod, this.httpOptions);
+  }
+
+  // Método para obtener la lista de favoritos de un cliente
+  obtenerFavoritos(clienteId: number): Observable<Producto[]> {
+    const urlMod = `${this.urlBase}/${clienteId}/favoritos`;
+    return this.http.get<Producto[]>(urlMod);
+  }
 }

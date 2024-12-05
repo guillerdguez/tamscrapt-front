@@ -22,7 +22,7 @@ export class Producto {
   favorito?: boolean;
   ref!: DynamicDialogRef;
   menuItems!: MenuItem[];
-
+  severity!: string;
   tag!: string;
   private menuStrategy!: MenuStrategy;
   strategia: string = 'producto';
@@ -35,15 +35,15 @@ export class Producto {
   }
 
   // Métodos
+  private updateTagAndSeverity(): void {
+    const { tag, severity } = this.productoModel.getTagSeverity(this);
+    this.tag = tag;
+    this.severity = severity;
+  }
 
   // Devuelve los encabezados
   getHeaders() {
     return this.productoModel.getHeaders();
-  }
-
-  // Devuelve el nivel de severidad según el modelo del producto
-  getSeverity() {
-    return this.productoModel.getSeverity(this);
   }
 
   // Calcula el precio original en base al descuento
@@ -67,7 +67,6 @@ export class Producto {
     this.favorito = producto.favorito;
     this.cantidad = producto.cantidad;
     this.precioOriginal = this.calcularPrecioOriginal();
-    this.tag = 'UNKNOWN';
     return this;
   }
 

@@ -4,6 +4,7 @@ import { Producto } from '../../Domain/Producto/ProductoClass';
 import { AlgoModel } from './AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { TagSeverity } from '../../Domain/interface/type-tag-severity';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
@@ -19,50 +20,40 @@ export class ProductoModel {
   ) {
     this.callbacksService = this.injector.get(CallbacksProductoService);
   }
-  getTag(producto: Producto): string {
-    if (this.authService.hasAuthority('ADMIN')) {
-      return producto.descuento >= 50
-        ? 'HIGH_DISCOUNT'
-        : producto.descuento >= 20
-        ? 'MEDIUM_DISCOUNT'
-        : producto.descuento > 0
-        ? 'LOW_DISCOUNT'
-        : 'NO_DISCOUNT';
-    }
 
-    return producto.cantidad > 20
-      ? 'INSTOCK'
-      : producto.cantidad > 0
-      ? 'LOWSTOCK'
-      : 'OUTOFSTOCK';
+  getTagSeverity(producto: Producto): TagSeverity {
+    const isAdmin = this.authService.hasAuthority('ADMIN');
+    const conditions = isAdmin
+      ? [
+          producto.descuento >= 50,
+          producto.descuento >= 20,
+          producto.descuento > 0,
+          true,
+        ]
+      : [producto.cantidad > 20, producto.cantidad > 0, true];
+    const tagArray = isAdmin ? this.discountArray : this.stockArray;
+
+    return this.evaluateConditions(conditions, tagArray);
   }
+  discountArray = [
+    { tag: 'HIGH_DISCOUNT', severity: 'success' },
+    { tag: 'MEDIUM_DISCOUNT', severity: 'warning' },
+    { tag: 'LOW_DISCOUNT', severity: 'secondary' },
+    { tag: 'NO_DISCOUNT', severity: 'danger' },
+  ];
 
-  getSeverity(producto: Producto): string | null {
-    return (
-      {
-        INSTOCK: 'success',
-        HIGH_DISCOUNT: 'success',
-        LOWSTOCK: 'warning',
-        MEDIUM_DISCOUNT: 'warning',
-        LOW_DISCOUNT: 'secondary',
-        OUTOFSTOCK: 'danger',
-        NO_DISCOUNT: 'danger',
-      }[producto.tag] || null
-    );
+  stockArray = [
+    { tag: 'INSTOCK', severity: 'success' },
+    { tag: 'LOWSTOCK', severity: 'warning' },
+    { tag: 'OUTOFSTOCK', severity: 'danger' },
+  ];
+
+  private evaluateConditions(
+    conditions: boolean[],
+    tagArray: TagSeverity[]
+  ): TagSeverity {
+    return tagArray[conditions.findIndex(Boolean)];
   }
-  // getSeverity(producto: Producto): string | null {
-  //   const tag = producto.tag;
-  //   return ['INSTOCK', 'HIGH_DISCOUNT'].includes(tag)
-  //     ? 'success'
-  //     : ['LOWSTOCK', 'MEDIUM_DISCOUNT'].includes(tag)
-  //     ? 'warning'
-  //     : ['LOW_DISCOUNT'].includes(tag)
-  //     ? 'secondary'
-  //     : ['OUTOFSTOCK', 'NO_DISCOUNT'].includes(tag)
-  //     ? 'danger'
-  //     : null;
-  // }
-
   // porque en cards queda desplazado a la derecha
   getHeaders() {
     return [
@@ -78,14 +69,16 @@ export class ProductoModel {
     productos.forEach((producto) => {
       const newProducto = new Producto(this.menuStrategyFactory, this);
       newProducto.getParametros(producto);
-      newProducto.tag = this.getTag(newProducto);
+
+      const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
+      newProducto.tag = tag;
+      newProducto.severity = severity;
 
       newProducto.menuItems = newProducto.getMenuItems(
         this.algoModel.algosSeleccionados,
         this.callbacksService
       );
 
-      this.getSeverity(newProducto);
       listaProducto.push(newProducto);
     });
     return listaProducto;

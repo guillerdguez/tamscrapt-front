@@ -4,11 +4,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AlgoModel {
-  constructor() {}
-  algos: any[] = [];
+  private _algos: any[] = [];
   algo: any;
   algosSeleccionados: any[] = [];
   menuItemSeleccionado!: any;
+
+  // Getter y Setter para `algos`
+  get algos(): any[] {
+    return this._algos;
+  }
+
+  set algos(value: any[]) {
+    this._algos = [...value]; // Crea una nueva referencia del array
+  }
 
   seleccionar(item: any, menuItemLabel: string) {
     if (!this.algosSeleccionados.includes(item)) {
@@ -16,7 +24,6 @@ export class AlgoModel {
     }
 
     this.menuItemSeleccionado = menuItemLabel;
-
     this.ejecutarMenuItem();
   }
 
@@ -36,9 +43,6 @@ export class AlgoModel {
         );
 
         opcion?.command();
-        // if (opcion.label !== 'Editar') {
-        //   this.algosSeleccionados = [];
-        // }
       });
     }
   }

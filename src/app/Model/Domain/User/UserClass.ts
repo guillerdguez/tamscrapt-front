@@ -21,6 +21,8 @@ export class User {
   private menuStrategy!: MenuStrategy;
   admin: boolean = true;
   strategia: string = 'user';
+  severity!:string
+  
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public userModel: UserModel
@@ -32,10 +34,7 @@ export class User {
     return this.userModel.getHeaders();
   }
 
-  getSeverity() {
-    return this.userModel.getSeverity(this);
-  }
-
+ 
   tienePermiso(permiso: UserAuthority): boolean {
     return this.authorities.has(permiso);
   }
@@ -61,7 +60,6 @@ export class User {
     // Aseguramos que authorities siempre sea un Set<UserAuthority>
     this.authorities = new Set(user.authorities);
 
-    this.tag = 'UNKNOWN';
     return this;
   }
 

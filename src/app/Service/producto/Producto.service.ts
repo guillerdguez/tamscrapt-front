@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
+import { TagSeverity } from '../../Model/Domain/interface/type-tag-severity';
+import { AuthService } from '../seguridad/AuthService.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +18,10 @@ export class ProductoService {
   private productos: Producto[] = [];
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
+  private userId: number | null = this.authService.getCurrentUserId();
 
   constructor(
+    public authService: AuthService,
     private productoDAO: ProductoDAO,
     private algoModel: AlgoModel,
     public productoModel: ProductoModel,
@@ -69,7 +73,7 @@ export class ProductoService {
     if (descuento < 0 || descuento > 100) {
       throw new Error('El descuento debe estar entre 0 y 100.');
     }
-    console.log(item.oferta);
+    item.descuento = descuento;
     if (item.oferta) {
       item.precio = item.precioOriginal || item.precio;
       item.precioOriginal = item.precioOriginal || item.precio;
@@ -95,14 +99,131 @@ export class ProductoService {
     this.updateProducto(item.id, productoData);
   }
 
-  toggleFavorito(selectedItems: Producto[]) {
+  toggleFavorito(selectedItems: Producto[]): void {
+    if (this.userId === null) {
+      console.error('Usuario no autenticado. No se puede gestionar favoritos.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se puede gestionar favoritos sin un usuario autenticado.',
+      });
+      return;
+    }
+
     selectedItems.forEach((item) => {
-      item.favorito = !item.favorito;
-      const productoData = item.getProductoData();
-      this.updateProducto(item.id, productoData);
+      if (item.favorito) {
+        this.eliminarDeFavoritos(item);
+      } else {
+        this.agregarAFavoritos(item);
+      }
     });
   }
 
+  // Nuevo método para agregar a favoritos
+  // agregarAFavoritos(producto: Producto): void {
+  //   this.productoDAO.agregarFavorito(this.userId, producto.id).subscribe({
+  //     next: () => {
+  //       producto.favorito = true;
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Favorito agregado',
+  //         detail: `${producto.nombre} se ha añadido a favoritos.`,
+  //       });
+  //     },
+  //     error: (error) => {
+  //       console.error('Error al agregar a favoritos:', error);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: `No se pudo agregar ${producto.nombre} a favoritos.`,
+  //       });
+  //     },
+  //   });
+  // }
+  agregarAFavoritos(producto: Producto): void {
+    if (this.userId === null) {
+      console.error('Usuario no autenticado. No se puede agregar a favoritos.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe estar autenticado para agregar productos a favoritos.',
+      });
+      return;
+    }
+
+    this.productoDAO.agregarFavorito(this.userId, producto.id).subscribe({
+      next: () => {
+        producto.favorito = true;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Favorito agregado',
+          detail: `${producto.nombre} se ha añadido a favoritos.`,
+        });
+      },
+      error: (error) => {
+        console.error('Error al agregar a favoritos:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `No se pudo agregar ${producto.nombre} a favoritos.`,
+        });
+      },
+    });
+  }
+
+  // Nuevo método para eliminar de favoritos
+  // eliminarDeFavoritos(producto: Producto): void {
+  //   this.productoDAO.eliminarFavorito(this.userId, producto.id).subscribe({
+  //     next: () => {
+  //       producto.favorito = false;
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Favorito eliminado',
+  //         detail: `${producto.nombre} se ha eliminado de favoritos.`,
+  //       });
+  //     },
+  //     error: (error) => {
+  //       console.error('Error al eliminar de favoritos:', error);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Error',
+  //         detail: `No se pudo eliminar ${producto.nombre} de favoritos.`,
+  //       });
+  //     },
+  //   });
+  // }
+  eliminarDeFavoritos(producto: Producto): void {
+    if (this.userId === null) {
+      console.error(
+        'Usuario no autenticado. No se puede eliminar de favoritos.'
+      );
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe estar autenticado para eliminar productos de favoritos.',
+      });
+      return;
+    }
+
+    this.productoDAO.eliminarFavorito(this.userId, producto.id).subscribe({
+      next: () => {
+        producto.favorito = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Favorito eliminado',
+          detail: `${producto.nombre} se ha eliminado de favoritos.`,
+        });
+      },
+      error: (error) => {
+        console.error('Error al eliminar de favoritos:', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: `No se pudo eliminar ${producto.nombre} de favoritos.`,
+        });
+      },
+    });
+  }
   addProducto(producto: any): void {
     this.productoModel.productos.push(producto);
     this.algoModel.algos.push(producto);
@@ -231,17 +352,26 @@ export class ProductoService {
   }
 
   updateProducto(id: any, producto: any): void {
-    // const productosFiltrados = this.productoModel.productos.map((p) => {
-    //   if (p.id === id) {
-    //     this.getProducto(id);
-    //   }
-    //   this.getProducto(p.id);
-    //   return this.algoModel.algo;
-    // });
+    let listaActualizada: Producto[] = this.productoModel.productos.map(
+      (product) => {
+        if (product.id === producto.id) {
+          const { tag, severity }: TagSeverity =
+            this.productoModel.getTagSeverity(producto);
 
+          product.tag = tag;
+          product.severity = severity;
+
+          return product;
+        }
+
+        return product;
+      }
+    );
+
+    this.productoModel.productos = listaActualizada;
+    this.algoModel.algos = listaActualizada;
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: any) => {
-        console.log(producto);
         this.productoModel.producto = producto;
         this.algoModel.algo = producto;
       },
