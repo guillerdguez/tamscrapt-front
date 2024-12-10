@@ -13,6 +13,8 @@ export class CallbacksProductoService {
   editProducto$ = new Subject<any>();
   viewProducto$ = new Subject<Producto>();
   toggleFavorito$ = new Subject<Producto[]>();
+  toggleCart$ = new Subject<Producto[]>();
+
   openOfertaDialog$ = new Subject<Producto[]>();
 
   url: string = '/newProducto';
@@ -51,5 +53,9 @@ export class CallbacksProductoService {
 
   toggleFavorito(selectedItems: Producto[]) {
     this.toggleFavorito$.next(selectedItems);
+  }
+  toggleCart(selectedItems: Producto[]): void {
+    console.log('Emitiendo toggleCart con:', selectedItems);
+    this.toggleCart$.next(selectedItems);
   }
 }

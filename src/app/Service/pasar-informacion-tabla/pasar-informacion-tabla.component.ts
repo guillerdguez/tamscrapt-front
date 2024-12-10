@@ -22,7 +22,7 @@ export class PasarInformacionTablaService {
     public userModel: UserModel,
     public userService: UserService,
     private tipoFactory: TipoFactory
-  ) {
+  ) {//mejorar
     this.productoService.productos$.subscribe((productos) => {
       const productosConEstrategia =
         this.productoModel.crearProductos(productos);

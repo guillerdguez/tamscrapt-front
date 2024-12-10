@@ -21,6 +21,11 @@ export class UserMenuStrategy implements MenuStrategy {
         icon: 'pi pi-heart',
         command: () => this.callbacks.toggleFavorito(selectedItems),
       },
+      {
+        label: 'Carrito',
+        icon: 'pi pi-shopping-cart',
+        command: () => this.callbacks.toggleCart(selectedItems),
+      },
     ];
   }
 }

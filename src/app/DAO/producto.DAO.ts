@@ -1,45 +1,45 @@
+// producto.DAO.ts
 import { Injectable } from '@angular/core';
 import { Producto } from '../Model/Domain/Producto/ProductoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ProductoDAO {
   private urlBase = 'http://localhost:8082/api/producto';
+  private urlBaseCliente = 'http://localhost:8082/api/clientes';
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+
   constructor(private http: HttpClient) {}
-  //CREATE
+
+  // CREATE
   addProducto(producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/addProducto`;
     return this.http.post<Producto>(urlMod, producto, this.httpOptions);
   }
-  //READ
-  getProductos(): Observable<Producto[]> {
+
+  // READ
+  getProductos(categoria?: string): Observable<Producto[]> {
+    if (categoria) {
+      const urlMod = `${this.urlBase}/listar?categoria=${encodeURIComponent(
+        categoria
+      )}`;
+      return this.http.get<Producto[]>(urlMod);
+    }
     const urlMod = `${this.urlBase}/listar`;
     return this.http.get<Producto[]>(urlMod);
   }
-
   getProducto(id: number): Observable<Producto> {
     const urlMod = `${this.urlBase}/ver/${id}`;
     return this.http.get<Producto>(urlMod);
   }
 
-  getProductosLettering(): Observable<Producto[]> {
-    const urlMod = `${this.urlBase}/lettering`;
-    return this.http.get<Producto[]>(urlMod);
-  }
-  getProductosScrapbooking(): Observable<Producto[]> {
-    const urlMod = `${this.urlBase}/scrapbooking`;
-    return this.http.get<Producto[]>(urlMod);
-  }
-  getProductosOferta(): Observable<Producto[]> {
-    const urlMod = `${this.urlBase}/ofertas`;
-    return this.http.get<Producto[]>(urlMod);
-  }
-  //falta implementar en back
+  // BUSCAR POR NOMBRE
   findByName(term: string): Observable<Producto[]> {
     if (!term.trim()) {
       return of([]);
@@ -52,28 +52,16 @@ export class ProductoDAO {
     const urlMod = `${this.urlBase}/editar/${id}`;
     return this.http.put<Producto>(urlMod, producto, this.httpOptions);
   }
-  //DELETE
+
+  // DELETE
   deleteProducto(id: number): Observable<Producto> {
     const urlMod = `${this.urlBase}/borrar/${id}`;
     return this.http.delete<Producto>(urlMod, this.httpOptions);
   }
-  //Favoritos
 
-  // Método para agregar un producto a favoritos
-  agregarFavorito(clienteId: number, productoId: number): Observable<string> {
-    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
-    return this.http.post<string>(urlMod, {}, this.httpOptions);
-  }
-
-  // Método para eliminar un producto de favoritos
-  eliminarFavorito(clienteId: number, productoId: number): Observable<string> {
-    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
-    return this.http.delete<string>(urlMod, this.httpOptions);
-  }
-
-  // Método para obtener la lista de favoritos de un cliente
+  // FAVORITOS
   obtenerFavoritos(clienteId: number): Observable<Producto[]> {
-    const urlMod = `${this.urlBase}/${clienteId}/favoritos`;
+    const urlMod = `${this.urlBaseCliente}/${clienteId}/favoritos`;
     return this.http.get<Producto[]>(urlMod);
   }
 }

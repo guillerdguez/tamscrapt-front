@@ -62,9 +62,7 @@ export class FormularioComponentProducto implements OnInit {
       cantidad,
       descuento,
       precioOriginal,
-    };
-    console.log('Cantidad recibida:', cantidad);
-    console.log('Objeto mandado a crear:', newProducto);
+    }; 
     this.productoService.addProducto(newProducto);
 
     this.goBack();

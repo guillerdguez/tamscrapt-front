@@ -152,10 +152,12 @@ img:hover,
 
 .pi.pi-heart,
 .pi.pi-heart-fill,
-.pi-cart-plus {
+.pi-cart-plus,
+.pi-cart-minus {
   cursor: pointer;
   font-size: 40px;
 }
+
 /* formato datos */
 .nombre {
   font-weight: bold;

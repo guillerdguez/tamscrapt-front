@@ -12,18 +12,20 @@ export class Producto {
   nombre!: string;
   precio!: number;
   imagen!: string;
-  lettering?: boolean;
-  scrapbooking?: boolean;
-  oferta?: boolean;
   cantidad!: number;
   descuento: number = 0;
   precioOriginal?: number;
-  pedidos?: Pedido[];
+  tag!: string;
+  lettering?: boolean;
+  scrapbooking?: boolean;
+  oferta?: boolean;
   favorito?: boolean;
+  pedidos?: Pedido[];
+  enCarrito: boolean = false;
+  cantidadCarrito: number = 0;
   ref!: DynamicDialogRef;
   menuItems!: MenuItem[];
   severity!: string;
-  tag!: string;
   private menuStrategy!: MenuStrategy;
   strategia: string = 'producto';
 
@@ -35,11 +37,6 @@ export class Producto {
   }
 
   // Métodos
-  private updateTagAndSeverity(): void {
-    const { tag, severity } = this.productoModel.getTagSeverity(this);
-    this.tag = tag;
-    this.severity = severity;
-  }
 
   // Devuelve los encabezados
   getHeaders() {
@@ -51,8 +48,7 @@ export class Producto {
     return this.descuento > 0
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
-  }
-  //Que hacen exactamente?
+  } 
 
   // Actualiza los parámetros del producto
   getParametros(producto: Producto) {
@@ -65,6 +61,7 @@ export class Producto {
     this.oferta = producto.oferta;
     this.descuento = producto.descuento;
     this.favorito = producto.favorito;
+    this.enCarrito = producto.enCarrito;
     this.cantidad = producto.cantidad;
     this.precioOriginal = this.calcularPrecioOriginal();
     return this;
@@ -84,6 +81,7 @@ export class Producto {
       cantidad: this.cantidad,
       precioOriginal: this.calcularPrecioOriginal(),
       favorito: this.favorito,
+      enCarrito: this.enCarrito,
     };
   }
 

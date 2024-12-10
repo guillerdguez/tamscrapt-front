@@ -2,6 +2,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { User } from '../Model/Domain/User/UserClass';
+import { Producto } from '../Model/Domain/Producto/ProductoClass';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,7 +35,6 @@ export class UserDAO {
   }
   //UPDATE
   updateUser(user: User): Observable<any> {
- 
     const urlMod = `${this.urlBase}/editar/${user.id}`;
     return this.http.put(urlMod, user, this.httpOptions);
   }
@@ -42,5 +42,22 @@ export class UserDAO {
   deleteUser(id?: number): Observable<User> {
     const urlMod = `${this.urlBase}/borrar/${id}`;
     return this.http.delete<User>(urlMod, this.httpOptions);
+  }
+  // Método para agregar un producto a favoritos
+  agregarFavorito(clienteId: number, productoId: number): Observable<string> {
+    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
+    return this.http.post<string>(urlMod, {}, this.httpOptions);
+  }
+
+  // Método para eliminar un producto de favoritos
+  eliminarFavorito(clienteId: number, productoId: number): Observable<string> {
+    const urlMod = `${this.urlBase}/${clienteId}/favorito/${productoId}`;
+    return this.http.delete<string>(urlMod, this.httpOptions);
+  }
+
+  // Método para obtener la lista de favoritos de un cliente
+  obtenerFavoritos(clienteId: number): Observable<Producto[]> {
+    const urlMod = `${this.urlBase}/${clienteId}/favoritos`;
+    return this.http.get<Producto[]>(urlMod);
   }
 }

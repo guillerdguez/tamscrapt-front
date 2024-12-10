@@ -36,8 +36,7 @@ export class CallbackUserService {
     this.viewUser$.next(user);
   }
   toggleOferta(selectedItems: User[]) {
-    console.log('toggleOferta emitido con:', selectedItems);
-    this.toggleOferta$.next(selectedItems);
+     this.toggleOferta$.next(selectedItems);
   }
 
   toggleFavorito(selectedItems: User[]) {

@@ -10,4 +10,5 @@ export interface ProductoDetails {
   descuento?: number;
   precioOriginal?: number;
   favorito?: boolean;
+  enCarrito?: boolean;
 }

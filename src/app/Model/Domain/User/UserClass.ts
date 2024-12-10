@@ -8,6 +8,7 @@ import { UserDeails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { Producto } from '../Producto/ProductoClass';
 
 export class User {
   // password: string = '';
@@ -21,8 +22,9 @@ export class User {
   private menuStrategy!: MenuStrategy;
   admin: boolean = true;
   strategia: string = 'user';
-  severity!:string
-  
+  severity!: string;
+  favorito?: Producto[];
+
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public userModel: UserModel
@@ -34,7 +36,6 @@ export class User {
     return this.userModel.getHeaders();
   }
 
- 
   tienePermiso(permiso: UserAuthority): boolean {
     return this.authorities.has(permiso);
   }
@@ -52,12 +53,13 @@ export class User {
   }
 
   getParametros(user: UserDeails): this {
+    
     this.id = user.id;
     this.nombre = user.nombre;
     this.username = user.username;
     this.email = user.email;
+    this.favorito = user.favorito;
 
-    // Aseguramos que authorities siempre sea un Set<UserAuthority>
     this.authorities = new Set(user.authorities);
 
     return this;
@@ -70,6 +72,7 @@ export class User {
       username: this.username,
       email: this.email,
       authorities: this.authorities,
+      favorito: this.favorito,
     };
   }
 

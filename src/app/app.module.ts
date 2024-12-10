@@ -65,6 +65,8 @@ import { RegisterComponent } from './UI/clientes/seguridad/register/register.com
 import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
+import { CartService } from './Service/carrito/CartService';
+import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoService';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -136,6 +138,8 @@ import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
     ProductoService,
     UserService,
     MessageService,
+    CartService,
+    CallbacksProductoService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

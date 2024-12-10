@@ -8,6 +8,7 @@ import { User } from '../../Model/Domain/User/User.interface';
 @Injectable({
   providedIn: 'root',
 })
+//separar DAO y service
 export class AuthService {
   private apiUrl = 'http://localhost:8082/api';
   private currentUserSubject: BehaviorSubject<User | null>;

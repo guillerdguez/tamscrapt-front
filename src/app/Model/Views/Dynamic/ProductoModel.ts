@@ -1,3 +1,4 @@
+// producto-model.ts
 import { Injectable, Injector } from '@angular/core';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
 import { Producto } from '../../Domain/Producto/ProductoClass';
@@ -5,20 +6,69 @@ import { AlgoModel } from './AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { TagSeverity } from '../../Domain/interface/type-tag-severity';
+import { ProductoDAO } from '../../../DAO/producto.DAO';
+import { CarritoDAO } from '../../../DAO/carrito.DAO';
+import { BehaviorSubject } from 'rxjs';
+import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
   producto!: Producto;
   private callbacksService!: CallbacksProductoService;
+  favoritosCliente: Producto[] = [];
+  cartItems: any[] = [];
+  private cartItemsSubject = new BehaviorSubject<any[]>([]);
+
+  // Observable para componentes que deseen suscribirse a cambios en el carrito
+  cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private algoModel: AlgoModel,
     private injector: Injector,
-    public authService: AuthService
+    public authService: AuthService,
+    private productoDAO: ProductoDAO,
+    private carritoDAO: CarritoDAO,
+    private messageService: MessageService
   ) {
     this.callbacksService = this.injector.get(CallbacksProductoService);
+    const userId = this.authService.getCurrentUserId();
+    if (userId) {
+      this.cargarFavoritos(userId);
+      this.cargarCarrito(userId);
+    }
+  }
+
+  actualizarFavoritosCliente(favoritos: Producto[]): void {
+    this.favoritosCliente = favoritos;
+  }
+
+  actualizarCartItemsCliente(cartItems: any[]): void {
+    this.cartItems = cartItems;
+    this.cartItemsSubject.next(this.cartItems);
+  }
+
+  private cargarFavoritos(clienteId: number): void {
+    this.productoDAO.obtenerFavoritos(clienteId).subscribe({
+      next: (favoritos: Producto[]) => {
+        this.actualizarFavoritosCliente(favoritos);
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos:', error);
+      },
+    });
+  }
+
+  private cargarCarrito(clienteId: number): void {
+    this.carritoDAO.getCarrito().subscribe({
+      next: (cartItems: any[]) => {
+        this.actualizarCartItemsCliente(cartItems);
+      },
+      error: (error) => {
+        console.error('Error al cargar el carrito:', error);
+      },
+    });
   }
 
   getTagSeverity(producto: Producto): TagSeverity {
@@ -35,6 +85,7 @@ export class ProductoModel {
 
     return this.evaluateConditions(conditions, tagArray);
   }
+
   discountArray = [
     { tag: 'HIGH_DISCOUNT', severity: 'success' },
     { tag: 'MEDIUM_DISCOUNT', severity: 'warning' },
@@ -54,7 +105,7 @@ export class ProductoModel {
   ): TagSeverity {
     return tagArray[conditions.findIndex(Boolean)];
   }
-  // porque en cards queda desplazado a la derecha
+
   getHeaders() {
     return [
       { class: 'nombre' },
@@ -69,6 +120,12 @@ export class ProductoModel {
     productos.forEach((producto) => {
       const newProducto = new Producto(this.menuStrategyFactory, this);
       newProducto.getParametros(producto);
+      newProducto.favorito = !!this.favoritosCliente.find(
+        (fav) => fav.id === producto.id
+      );
+      newProducto.enCarrito = !!this.cartItems.find(
+        (item) => item.id === producto.id
+      );
 
       const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
       newProducto.tag = tag;

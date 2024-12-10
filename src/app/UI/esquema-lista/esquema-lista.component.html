@@ -98,7 +98,14 @@
                 </div>
                 } @else {
                 <div class="cart">
-                  <i class="pi pi-cart-plus" tabindex="0"></i>
+                  <i
+                    [ngClass]="
+                      item.favorito ? 'pi pi-cart-minus' : 'pi pi-cart-plus'
+                    "
+                    class="pi pi-cart-plus"
+                    (click)="callbacksProductoService.toggleCart([item])"
+                    tabindex="-1"
+                  ></i>
                 </div>
                 <div class="heart pr-8 pl-7">
                   <i
@@ -206,16 +213,23 @@
             >
               <div class="heart">
                 <i
-                  class="pi"
                   [ngClass]="
-                    item.favorito ? 'pi-heart-fill text-danger' : 'pi-heart'
+                    item.favorito
+                      ? 'pi pi-heart-fill text-danger'
+                      : 'pi pi-heart'
                   "
                   (click)="callbacksProductoService.toggleFavorito([item])"
                   tabindex="0"
                 ></i>
               </div>
               <div class="cart">
-                <i class="pi pi-cart-plus" tabindex="0"></i>
+                <i
+                  [ngClass]="
+                    item.enCarrito ? 'pi pi-cart-minus' : 'pi pi-cart-plus'
+                  "
+                  (click)="callbacksProductoService.toggleCart([item])"
+                  tabindex="0"
+                ></i>
               </div>
             </div>
             }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-// import { Carrito } from '../Model/Domain/CarritoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,9 +14,10 @@ export class CarritoDAO {
   constructor(private http: HttpClient) {}
 
   // ADD PRODUCT TO CART
-  addProductoCarrito(id: number, carrito: any): Observable<any> {
-    const urlMod = `${this.urlBase}/addProducto/${id}`;
-    return this.http.post<any>(urlMod, carrito, this.httpOptions);
+  addProductoCarrito(id: number, cantidad: number = 1): Observable<any> {
+ 
+    const urlMod = `${this.urlBase}/addProducto/${id}/${cantidad}`;
+    return this.http.post<any>(urlMod, null, this.httpOptions); // No se necesita enviar un carrito completo
   }
   //READ
   getCarrito(): Observable<any[]> {
