@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { User } from '../../Model/Domain/User/User.interface';
+import { UserDeails } from '../../Model/Domain/interface/UserDetails';
+import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,28 +12,26 @@ import { User } from '../../Model/Domain/User/User.interface';
 //separar DAO y service
 export class AuthService {
   private apiUrl = 'http://localhost:8082/api';
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser$: Observable<User | null>;
+  private currentUserSubject: BehaviorSubject<UserDeails | null>;
+  public currentUser$: Observable<UserDeails | null>;
 
   constructor(private http: HttpClient, private router: Router) {
     const storedUser = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<User | null>(
+    this.currentUserSubject = new BehaviorSubject<UserDeails | null>(
       storedUser ? JSON.parse(storedUser) : null
     );
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User | null {
+  public get currentUserValue(): UserDeails | null {
     return this.currentUserSubject.value;
   }
-
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string): Observable<UserDeails> {
     return this.http
       .post<any>(`${this.apiUrl}/auth/login`, { username, password })
       .pipe(
         map((response) => {
           if (response && response.token) {
-            // Almacena token y usuario en localStorage
             localStorage.setItem('token', response.token);
             localStorage.setItem('currentUser', JSON.stringify(response.user));
             this.currentUserSubject.next(response.user);
@@ -58,7 +57,7 @@ export class AuthService {
     return !!token;
   }
 
-  hasAuthority(authority: string): boolean {
+  hasAuthority(authority: UserAuthority): boolean {
     const user = this.currentUserValue;
     return user ? user.authorities.includes(authority) : false;
   }
@@ -67,14 +66,14 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  getClients(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/clientes/listar`, {
+  getClients(): Observable<UserDeails[]> {
+    return this.http.get<UserDeails[]>(`${this.apiUrl}/clientes/listar`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  getClientById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/clientes/ver/${id}`, {
+  getClientById(id: number): Observable<UserDeails> {
+    return this.http.get<UserDeails>(`${this.apiUrl}/clientes/ver/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -84,15 +83,19 @@ export class AuthService {
       headers: this.getAuthHeaders(),
     });
   }
-  getCurrentUserId(): number | null {
+  getCurrentUserId(): number | undefined {
     const currentUser = this.currentUserValue;
-    return currentUser ? currentUser.id : null;
+    return currentUser ? currentUser.id : undefined;
   }
 
-  updateClient(id: number, user: any): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/clientes/editar/${id}`, user, {
-      headers: this.getAuthHeaders(),
-    });
+  updateClient(id: number, user: any): Observable<UserDeails> {
+    return this.http.put<UserDeails>(
+      `${this.apiUrl}/clientes/editar/${id}`,
+      user,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   private getAuthHeaders(): HttpHeaders {

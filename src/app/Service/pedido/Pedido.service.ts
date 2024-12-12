@@ -9,10 +9,11 @@ import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
 export class PedidoService {
   constructor(private pedidoDAO: PedidoDAO, private pedidoModel: PedidoModel) {}
   //Create
-  addPedido(pedido: Pedido): void {
+  addPedido(pedido: any): void {
+    console.log(pedido);
     this.pedidoModel.pedidos.push(pedido);
     this.pedidoDAO.addPedido(pedido).subscribe({
-      next: (pedido: Pedido) => {
+      next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;
       },
       error: (error) => {

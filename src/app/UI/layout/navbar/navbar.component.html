@@ -1,5 +1,5 @@
 <nav class="navbar custom-navbar shadow-sm">
-  <div class="container ">
+  <div class="container">
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="nav-list ms-auto">
         <a class="brand" routerLink="/"> Tamscrapt </a>
@@ -19,7 +19,7 @@
 
         <!-- Opciones solo para administrador -->
         <li
-          *ngIf="authService.hasAuthority('ADMIN')"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
           class="nav-item admin-options"
         >
           <a class="nav-link" role="button" (click)="toggleMenu()">
@@ -68,7 +68,7 @@
             </li>
           </ul>
         </li>
-        @if(!authService.hasAuthority('ADMIN')){
+        @if(!authService.hasAuthority(userAuthority.ADMIN)){
         <li class="nav-item">
           <a class="nav-link" routerLink="/carrito">
             <i class="pi pi-shopping-cart"></i>

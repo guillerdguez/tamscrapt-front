@@ -32,7 +32,7 @@ export class UserModel {
   //   }
   // }
   getTagSeverity(user: User): TagSeverity {
-    return user.authorities.has(UserAuthority.ADMIN)
+    return user.authorities.includes(UserAuthority.ADMIN)
       ? { tag: 'ADMIN_USER', severity: 'success' }
       : { tag: 'REGULAR_USER', severity: 'warning' };
   }

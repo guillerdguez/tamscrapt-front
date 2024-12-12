@@ -15,14 +15,13 @@ export class CarritoDAO {
 
   // ADD PRODUCT TO CART
   addProductoCarrito(id: number, cantidad: number = 1): Observable<any> {
- 
     const urlMod = `${this.urlBase}/addProducto/${id}/${cantidad}`;
-    return this.http.post<any>(urlMod, null, this.httpOptions); // No se necesita enviar un carrito completo
+    return this.http.post<any>(urlMod, null, this.httpOptions);
   }
-  //READ
-  getCarrito(): Observable<any[]> {
-    const urlMod = `${this.urlBase}/productos`;
-    return this.http.get<any[]>(urlMod);
+  //READ 
+  getCarrito(userId: number | undefined): Observable<any[]> {
+    const urlMod = `${this.urlBase}/productos/${userId}`;
+    return this.http.get<any[]>(urlMod, this.httpOptions);
   }
 
   // UPDATE
@@ -32,7 +31,7 @@ export class CarritoDAO {
   }
   //DELETE
   deleteCarrito(id: number): Observable<any> {
-    const urlMod = `${this.urlBase}/removeProducto/{id}`;
+    const urlMod = `${this.urlBase}/removeProducto/${id}`;
     return this.http.delete<any>(urlMod, this.httpOptions);
   }
   // GET CART TOTAL
@@ -45,5 +44,10 @@ export class CarritoDAO {
   crearPedidoDesdeCarrito(): Observable<any> {
     const urlMod = `${this.urlBase}/checkout/detalles`;
     return this.http.get<any>(urlMod, this.httpOptions);
+  }
+  // DELETE ALL PRODUCTS IN CART
+  clearCart(): Observable<void> {
+    const urlMod = `${this.urlBase}/clear`;
+    return this.http.delete<void>(urlMod, this.httpOptions);
   }
 }

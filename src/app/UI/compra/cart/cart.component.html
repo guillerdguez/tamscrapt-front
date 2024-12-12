@@ -1,6 +1,6 @@
 <div class="cart">
   <h2>Tu Carrito</h2>
-  <table>
+  <table class="cart-table">
     <thead>
       <tr>
         <th>Producto</th>
@@ -12,26 +12,32 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of cartItems">
-        <td>{{ item.product.name }}</td>
-        <td>{{ item.product.price | currency }}</td>
+        <td>{{ item.product.nombre }}</td>
+        <td>{{ item.product.precio | number : "1.2-2" }}€</td>
         <td>
-          <!-- <input
-            type="number"
-            [value]="item.quantity"
-            (change)="updateQuantity(item, $event.target.value)"
-          /> -->
+          <!-- mantego que se borre si es 0 ,si te pasas de cantidad te pone la cantidad disponible-->
+          <p-inputNumber
+            [(ngModel)]="item.quantity"
+            placeholder="Cantidad"
+            class="input-quantity"
+            (ngModelChange)="updateQuantity(item, $event)"
+            [min]="0"
+            [max]="item.product.cantidad"
+          ></p-inputNumber>
         </td>
-        <td>{{ item.product.price * item.quantity | currency }}</td>
+        <td>{{ item.product.precio * item.quantity | number : "1.2-2" }}€</td>
         <td>
-          <button (click)="removeItem(item)">Eliminar</button>
+          <button class="btn-remove" (click)="removeItem(item)">
+            Eliminar
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="totals">
-    <p>Subtotal: {{ subtotal | currency }}</p>
-    <p>Impuestos: {{ tax | currency }}</p>
-    <p>Total: {{ total | currency }}</p>
+    <p>Subtotal: {{ subtotal | number : "1.2-2" }}€</p>
+    <p>Impuestos: {{ IVA | number : "1.2-2" }}€</p>
+    <p>Total: {{ total | number : "1.2-2" }}€</p>
   </div>
-  <button routerLink="/checkout">Proceder al Pago</button>
+  <button class="btn-checkout" routerLink="/checkout">Proceder al Pago</button>
 </div>

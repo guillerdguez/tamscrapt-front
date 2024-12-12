@@ -4,8 +4,9 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { AuthService } from './AuthService.service';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
+    // Solo añadir la cabecera Authorization si hay un token
     if (token) {
       request = request.clone({
         setHeaders: {
@@ -26,6 +28,17 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe(
+      tap({
+        next: (event) => {
+          if (event instanceof HttpResponse) {
+            // Aquí puedes manejar respuestas exitosas, si es necesario
+          }
+        },
+        error: (err) => {
+          console.error('Error en la solicitud:', err);
+        },
+      })
+    );
   }
 }

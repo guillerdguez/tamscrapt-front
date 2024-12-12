@@ -113,9 +113,9 @@
               <h4>Método de Pago</h4>
               <p>{{ paymentMethod }}</p>
               <h4>Total</h4>
-              <p>Subtotal: {{ orderSummary?.subtotal | currency }}</p>
-              <p>Impuestos: {{ orderSummary?.tax | currency }}</p>
-              <p>Total: {{ orderSummary?.total | currency }}</p>
+              <p>Subtotal: {{ orderSummary.subtotal | number : "1.2-2"}}</p>
+              <p>Impuestos: {{ orderSummary.IVA }}</p>
+              <p>Total: {{ orderSummary?.total | number : "1.2-2"}}</p>
             </div>
           </div>
         </div>

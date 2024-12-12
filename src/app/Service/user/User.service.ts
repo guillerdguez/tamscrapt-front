@@ -17,13 +17,12 @@ export class UserService {
   private usersSubject = new BehaviorSubject<User[]>([]);
   public users$ = this.usersSubject.asObservable();
   private users: User[] = [];
-  private userId: number | null = this.authService.getCurrentUserId();
+  private userId: number | undefined = this.authService.getCurrentUserId();
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
 
   constructor(
     public authService: AuthService,
-
     private userDAO: UserDAO,
     private algoModel: AlgoModel,
     public userModel: UserModel,
@@ -31,7 +30,6 @@ export class UserService {
     private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
   ) {
-    // Suscribirse a los eventos emitidos por CallbackUserService
     this.callbacksService.deleteUsers$.subscribe((selectedItems) => {
       this.deleteMultipleUsers(selectedItems);
     });
@@ -40,70 +38,6 @@ export class UserService {
     });
   }
 
-  deleteMultipleUsers(selectedItems: any[]): void {
-    selectedItems.forEach((user) => this.deleteUser(user.id));
-  }
-
-  toggleFavorito(selectedItems: Producto[]): void {
-    if (this.userId === null) {
-      console.error('Usuario no autenticado. No se puede gestionar favoritos.');
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'No se puede gestionar favoritos sin un usuario autenticado.',
-      });
-      return;
-    }
-
-    selectedItems.forEach((item) => {
-      if (item.favorito) {
-        this.eliminarDeFavoritos(item);
-      } else {
-        this.agregarAFavoritos(item);
-      }
-    });
-  }
-
-  agregarAFavoritos(producto: Producto): void {
-    if (this.userId === null) {
-      console.error('Usuario no autenticado. No se puede agregar a favoritos.');
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Debe estar autenticado para agregar productos a favoritos.',
-      });
-      return;
-    }
-
-    this.userDAO.agregarFavorito(this.userId, producto.id).subscribe({
-      next: () => {
-        producto.favorito = true;
-      },
-      error: (error) => this.handleError(error),
-    });
-  }
-
-  eliminarDeFavoritos(producto: Producto): void {
-    if (this.userId === null) {
-      console.error(
-        'Usuario no autenticado. No se puede eliminar de favoritos.'
-      );
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Debe estar autenticado para eliminar productos de favoritos.',
-      });
-      return;
-    }
-
-    this.userDAO.eliminarFavorito(this.userId, producto.id).subscribe({
-      next: () => {
-        producto.favorito = false;
-      },
-      error: (error) => this.handleError(error),
-    });
-  }
-  // Create
   addUser(user: User): void {
     this.userDAO.addUser(user).subscribe({
       next: (newUser: User) => {
@@ -111,6 +45,7 @@ export class UserService {
         this.algoModel.algos.push(newUser);
         this.users.push(newUser);
         this.usersSubject.next(this.users);
+        this.getUsers();
       },
       error: (error) => {
         console.error('Error al agregar el usuario:', error);
@@ -118,7 +53,6 @@ export class UserService {
     });
   }
 
-  // Read
   getUsers(): void {
     this.userDAO.getUsers().subscribe({
       next: (users: User[]) => {
@@ -152,9 +86,7 @@ export class UserService {
       next: (user: User) => {
         this.algoModel.algo = user;
       },
-      error: (error) => {
-        console.error('Error al obtener el usuario:', error);
-      },
+      error: (error) => this.handleError(error),
     });
   }
 
@@ -171,17 +103,10 @@ export class UserService {
     });
   }
 
-  // Update
   updateUser(user: User): void {
     this.userDAO.updateUser(user).subscribe({
-      next: (updatedUser: User) => {
-        const index = this.users.findIndex((u) => u.id === updatedUser.id);
-        if (index !== -1) {
-          this.users[index] = updatedUser;
-          this.userModel.users[index] = updatedUser;
-          this.algoModel.algos[index] = updatedUser;
-          this.usersSubject.next(this.users);
-        }
+      next: () => {
+        this.getUsers();
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);
@@ -189,18 +114,81 @@ export class UserService {
     });
   }
 
-  // Delete
   deleteUser(id: number): void {
     this.userDAO.deleteUser(id).subscribe({
       next: () => {
-        this.users = this.users.filter((user) => user.id !== id);
         this.userModel.users = this.users;
         this.algoModel.algos = this.users;
         this.usersSubject.next(this.users);
+        this.getUsers();
       },
       error: (error) => {
         console.error('Error al eliminar el usuario:', error);
       },
+    });
+  }
+
+  deleteMultipleUsers(selectedItems: any[]): void {
+    selectedItems.forEach((user) => this.deleteUser(user.id));
+  }
+
+  toggleFavorito(selectedItems: Producto[]): void {
+    if (this.userId === undefined) {
+      console.error('Usuario no autenticado. No se puede gestionar favoritos.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se puede gestionar favoritos sin un usuario autenticado.',
+      });
+      return;
+    }
+
+    selectedItems.forEach((item) => {
+      if (item.favorito) {
+        this.eliminarDeFavoritos(item);
+      } else {
+        this.agregarAFavoritos(item);
+      }
+    });
+  }
+
+  agregarAFavoritos(producto: Producto): void {
+    if (this.userId === undefined) {
+      console.error('Usuario no autenticado. No se puede agregar a favoritos.');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe estar autenticado para agregar productos a favoritos.',
+      });
+      return;
+    }
+
+    this.userDAO.agregarFavorito(this.userId, producto.id).subscribe({
+      next: () => {
+        producto.favorito = true;
+      },
+      error: (error) => this.handleError(error),
+    });
+  }
+
+  eliminarDeFavoritos(producto: Producto): void {
+    if (this.userId === undefined) {
+      console.error(
+        'Usuario no autenticado. No se puede eliminar de favoritos.'
+      );
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Debe estar autenticado para eliminar productos de favoritos.',
+      });
+      return;
+    }
+
+    this.userDAO.eliminarFavorito(this.userId, producto.id).subscribe({
+      next: () => {
+        producto.favorito = false;
+      },
+      error: (error) => this.handleError(error),
     });
   }
 

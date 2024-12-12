@@ -269,3 +269,30 @@ p-inputNumber :focus {
 .p-contextmenu .p-submenu-list .p-menuitem {
   padding: 8px 16px;
 }
+/* carrito */
+
+.cart {
+  background-color: #ffffff;
+}
+.cart h2 {
+  color: #333;
+}
+
+/* .cart-table thead th {
+  background-color: #a8dadc;
+} */
+.totals {
+  color: #333;
+}
+.btn-remove {
+  background-color: #a8dadc;
+}
+.btn-checkout {
+  background-color: #a8dadc;
+}
+.btn-remove:hover {
+  background-color: #77c1c4;
+}
+.btn-checkout:hover {
+  background-color: #77c1c4;
+}

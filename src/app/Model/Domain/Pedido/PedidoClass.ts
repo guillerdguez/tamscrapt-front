@@ -3,19 +3,19 @@ import { CallbacksPedidoService } from '../../../Service/Callbacks/CallbacksPedi
 import { PedidoModel } from '../../Views/Dynamic/PedidoModel';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
-import { User } from '../User/User.interface';
-import { Producto } from '../Producto/ProductoClass';
 import { PedidoDetails } from '../interface/PedidoDetails';
+import { ProductoPedido } from '../interface/producto-pedido';
 
 export class Pedido {
-  id!: number;
+  id?: number;
   precio: number = 0;
-  fechaCreacion!: Date;
-  cliente?: User;
+  fechaCreacion!: string;
+  cliente?: any;
   estado!: string;
-  productos!: Producto[];
+  productos!: ProductoPedido[];
   menuItems!: MenuItem[];
-
+  direccionEnvio!: string;
+  metodoPago!: string;
   tag!: string;
   private menuStrategy!: MenuStrategy;
   strategia: string = 'pedido';
@@ -57,7 +57,9 @@ export class Pedido {
     this.cliente = pedido.cliente;
     this.estado = pedido.estado;
     this.productos = pedido.productos;
-    this.tag = pedido.tag ?? 'UNKNOWN'; // Aseguramos que 'tag' tenga un valor predeterminado si es nulo
+    this.direccionEnvio = pedido.direccionEnvio;
+    this.metodoPago = pedido.metodoPago;
+    this.tag = pedido.tag;
     return this;
   }
 
@@ -70,7 +72,8 @@ export class Pedido {
       cliente: this.cliente,
       estado: this.estado,
       productos: this.productos,
-      tag: this.tag,
+      direccionEnvio: this.direccionEnvio,
+      metodoPago: this.metodoPago,
     };
   }
 }

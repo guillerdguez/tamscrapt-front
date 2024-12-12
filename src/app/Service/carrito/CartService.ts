@@ -1,4 +1,3 @@
-// cart.service.ts
 import { Injectable } from '@angular/core';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
@@ -6,6 +5,7 @@ import { CarritoDAO } from '../../DAO/carrito.DAO';
 import { BehaviorSubject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
+import { AuthService } from '../seguridad/AuthService.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,42 +13,53 @@ import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 export class CartService {
   private cartKey = 'cartItems';
   private cartItems: { product: ProductoDetails; quantity: number }[] = [];
-  private cartItemsSubject = new BehaviorSubject(this.getCartItems());
+  private cartItemsSubject = new BehaviorSubject(this.cartItems);
 
-  // Observable para los componentes
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(
     private callbacksProductoService: CallbacksProductoService,
     private cartDAO: CarritoDAO,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService
   ) {
-    console.log('CartService initialized');
     this.callbacksProductoService.toggleCart$.subscribe((selectedItems) => {
-      console.log('toggleCart$ event received:', selectedItems);
       this.toggleCart(selectedItems);
     });
+    const userId = this.authService.getCurrentUserId();
+
+    this.initializeCart(userId); // Cargar el carrito desde la base de datos
   }
 
   toggleCart(selectedItems: Producto[]): void {
-    console.log('toggleCart method called with:', selectedItems);
     selectedItems.forEach((producto) => {
       this.addProductoCarrito(producto, 1);
     });
   }
 
   getCartItems(): { product: ProductoDetails; quantity: number }[] {
-    const items = localStorage.getItem(this.cartKey);
-    return items ? JSON.parse(items) : [];
+    return this.cartItems; // Devolver los ítems cargados desde la base de datos
+  }
+  //quitar el null
+  private initializeCart(userId: number | undefined): void {
+    this.cartDAO.getCarrito(userId).subscribe({
+      next: (items) => {
+        this.cartItems = items.map((item) => ({
+          product: item.producto,
+          quantity: item.cantidad,
+        }));
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al cargar el carrito:', error);
+      },
+    });
   }
 
   addProductoCarrito(product: Producto, quantity: number = 1): void {
-    console.log('Adding product to cart:', product, 'Quantity:', quantity);
     this.cartDAO.addProductoCarrito(product.id, quantity).subscribe({
-      next: (response) => {
-        console.log('Product added to cart successfully:', response);
-        const cartItems = this.getCartItems();
-        const existingItem = cartItems.find(
+      next: () => {
+        const existingItem = this.cartItems.find(
           (item: any) => item.product.id === product.id
         );
 
@@ -58,31 +69,11 @@ export class CartService {
             this.removeProduct(product.id);
           }
         } else {
-          // Crear una copia del producto sin referencias cíclicas
-          const productCopy: ProductoDetails = {
-            id: product.id,
-            nombre: product.nombre,
-            precio: product.precio,
-            imagen: product.imagen,
-            lettering: product.lettering,
-            scrapbooking: product.scrapbooking,
-            oferta: product.oferta,
-            descuento: product.descuento,
-            cantidad: product.cantidad,
-            precioOriginal: product.precioOriginal,
-          };
-          cartItems.push({ product: productCopy, quantity });
+          const productCopy: ProductoDetails = product.getProductoData();
+          this.cartItems.push({ product: productCopy, quantity });
         }
 
-        this.saveCartItems(cartItems);
-        this.cartItemsSubject.next(cartItems); // Notifica a los componentes suscritos
-
-        // Mostrar mensaje de éxito
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: `${product.nombre} agregado al carrito.`,
-        });
+        this.cartItemsSubject.next(this.cartItems);
       },
       error: (error) => {
         console.error('Error al agregar el producto al carrito:', error);
@@ -96,45 +87,56 @@ export class CartService {
   }
 
   updateProductQuantity(productId: number, quantity: number): void {
-    const cartItems = this.getCartItems();
-    const item = cartItems.find((item: any) => item.product.id === productId);
+    this.cartDAO.updateCarrito(productId, { cantidad: quantity }).subscribe({
+      next: () => {
+        const item = this.cartItems.find(
+          (item: any) => item.product.id === productId
+        );
 
-    if (item) {
-      item.quantity = quantity;
-      if (item.quantity <= 0) {
-        this.removeProduct(productId);
-      } else {
-        this.saveCartItems(cartItems);
-        this.cartItemsSubject.next(cartItems);
-      }
-    }
+        if (item) {
+          item.quantity = quantity;
+          if (item.quantity <= 0) {
+            this.removeProduct(productId);
+          }
+        }
+
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al actualizar la cantidad:', error);
+      },
+    });
   }
 
   removeProduct(productId: number): void {
-    let cartItems = this.getCartItems();
-    cartItems = cartItems.filter((item: any) => item.product.id !== productId);
-    this.saveCartItems(cartItems);
-    this.cartItemsSubject.next(cartItems); // Notifica cambios
-
-    // Mostrar mensaje de eliminación
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Éxito',
-      detail: 'Producto eliminado del carrito.',
+    this.cartDAO.deleteCarrito(productId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(
+          (item: any) => item.product.id !== productId
+        );
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto del carrito:', error);
+      },
     });
   }
 
   clearCart(): void {
-    localStorage.removeItem(this.cartKey);
-    this.cartItems = [];
-    this.cartItemsSubject.next([]);
+    this.cartDAO.clearCart().subscribe({
+      next: () => {
+        this.cartItems = [];
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al vaciar el carrito:', error);
+      },
+    });
   }
 
-  saveCartItems(cartItems: any[]): void {
-    try {
-      localStorage.setItem(this.cartKey, JSON.stringify(cartItems));
-    } catch (error) {
-      console.error('Error al guardar el carrito en localStorage:', error);
-    }
-  }
+  // saveCartItems(): void {
+  //   console.warn(
+  //     'La función saveCartItems ya no es necesaria y no realiza ninguna acción.'
+  //   );
+  // }
 }

@@ -4,6 +4,8 @@ import { Pedido } from '../../../Model/Domain/Pedido/PedidoClass';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { CartService } from '../../../Service/carrito/CartService';
 import { PedidoService } from '../../../Service/pedido/Pedido.service';
+import { AuthService } from '../../../Service/seguridad/AuthService.service';
+import { PedidoDetails } from '../../../Model/Domain/interface/PedidoDetails';
 
 @Component({
   selector: 'app-checkout',
@@ -11,65 +13,92 @@ import { PedidoService } from '../../../Service/pedido/Pedido.service';
   styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent {
-  step: number = 1;
   shippingInfo: any = {};
   paymentMethod: string = '';
   cartItems: any[] = [];
   orderSummary: any = {};
+  subtotal: number = 0;
+  IVA: number = 0;
+  total: number = 0;
 
-  constructor() // private cartService: CartService,
-  // private pedidoService: PedidoService,
-  // private router: Router
-  {}
+  constructor(
+    private pedidoService: PedidoService,
+    private cartService: CartService,
+    public authService: AuthService // private cartService: CartService, //// private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // this.cartItems = this.cartService.getCartItems();
-    this.calculateOrderSummary();
+    this.loadCart();
   }
 
-  calculateOrderSummary() {
-    const subtotal = this.cartItems.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
+  loadCart() {
+    this.cartItems = this.cartService.getCartItems();
+    this.calculateTotals();
+  }
+  calculateTotals() {
+    this.subtotal = this.cartItems.reduce(
+      (resultado, item) => resultado + item.product.precio * item.quantity,
       0
     );
-    const tax = subtotal * 0.15;
-    const total = subtotal + tax;
-    this.orderSummary = { subtotal, tax, total };
+    this.IVA = this.subtotal * 0.21;
+    this.total = this.subtotal + this.IVA;
+    this.orderSummary = {
+      subtotal: this.subtotal,
+      IVA: this.IVA,
+      total: this.total,
+    };
   }
-
-  nextStep() {
-    this.step++;
-  }
-
-  previousStep() {
-    this.step--;
-  }
-
+  //  calculateOrderSummary() {
+  //   const subtotal = this.cartItems.reduce(
+  //     (acc, item) => acc + item.product.price * item.quantity,
+  //     0
+  //   );
+  //   const tax = subtotal * 0.15;
+  //   const total = subtotal + tax;
+  //   this.orderSummary = { subtotal, tax, total };
+  // }
   confirmOrder() {
     if (!this.shippingInfo.address || !this.paymentMethod) {
-      // Podría mostrar un mensaje de error o prevenir continuar si no están estos datos
+      console.error('Faltan datos de envío o método de pago');
+      return;
+    }
+    if (!this.cartItems.length) {
+      console.error('El carrito está vacío');
+      return;
+    }
+    if (this.orderSummary.total <= 0) {
+      console.error('El total del pedido no puede ser 0 o negativo');
       return;
     }
 
-    // const productos: Producto[] = this.cartItems.map((item) => ({
-    //   id: item.product.id,
-    //   nombre: item.product.name,
-    //   precio: item.product.price,
-    //   cantidad: item.quantity,
-    // }));
+    const productosPedidos = this.cartItems.map((item) => ({
+      producto: { id: item.product.id },
+      cantidad: item.quantity,
+    }));
 
-    // Crear el pedido
-    // const pedido: Pedido = {
-    //   id: 0, // El ID será generado por el backend
-    //   fecha: new Date().toISOString(),
-    //   cliente: { id: 1 },
-    //   productos: productos,
-    //   total: this.orderSummary.total,
-    //   estado: 'Pendiente', // Estado inicial del pedido
-    //   direccionEnvio: this.shippingInfo.address,
-    //   metodoPago: this.paymentMethod,
-    // };
+    const fechaCreacion = new Date().toISOString();
 
-    // this.pedidoService.addPedido(pedido);
+    const clienteId = this.authService.getCurrentUserId();
+    if (!clienteId) {
+      console.error('Cliente no identificado');
+      return;
+    }
+
+    const pedido: PedidoDetails = {
+      fechaCreacion: new Date().toISOString(),
+      estado: 'Pendiente',
+      direccionEnvio: this.shippingInfo.address.trim(),
+      metodoPago: this.paymentMethod.trim(),
+      cliente: { id: clienteId },
+      productos: this.cartItems.map((item) => ({
+        producto: { id: item.product.id },
+        cantidad: item.quantity,
+      })),
+      precio: this.orderSummary.total,
+    };
+
+    console.log('Pedido a enviar:', pedido);
+
+    this.pedidoService.addPedido(pedido);
   }
 }

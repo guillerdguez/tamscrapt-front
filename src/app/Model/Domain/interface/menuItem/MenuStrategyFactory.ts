@@ -68,6 +68,7 @@ import { CallbacksPedidoService } from '../../../../Service/Callbacks/CallbacksP
 import { CallbacksProductoService } from '../../../../Service/Callbacks/CallbacksProductoService';
 import { AdminPedidoMenuStrategy } from './menuItemPedidos/AdminPedidoMenuStrategy';
 import { UserPedidoMenuStrategy } from './menuItemPedidos/UserPedidoMenuStrategy';
+import { UserAuthority } from '../../User/UserAuthority.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -84,12 +85,12 @@ export class MenuStrategyFactory {
     // Registro dinámico de estrategias
     this.strategyRegistry = {
       producto: () =>
-        this.authService.hasAuthority('ADMIN')
+        this.authService.hasAuthority(UserAuthority.ADMIN)
           ? new AdminMenuStrategy(this.callbacksProductoService)
           : new UserMenuStrategy(this.callbacksProductoService),
       user: () => new AdminUserMenuStrategy(this.callbackUserService),
       pedido: () =>
-        this.authService.hasAuthority('ADMIN')
+        this.authService.hasAuthority(UserAuthority.ADMIN)
           ? new AdminPedidoMenuStrategy(this.callbackPedidoService)
           : new UserPedidoMenuStrategy(this.callbackPedidoService),
     };

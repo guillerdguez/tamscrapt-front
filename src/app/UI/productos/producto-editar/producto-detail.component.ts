@@ -6,6 +6,7 @@ import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 @Component({
   selector: 'app-producto-detail',
   templateUrl: './producto-detail.component.html',
@@ -13,7 +14,7 @@ import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksPr
 })
 export class ProductoDetailComponent implements OnInit {
   params: any[] = [];
-
+  userAuthority = UserAuthority;
   constructor(
     private productoService: ProductoService,
     private location: Location,

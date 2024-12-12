@@ -1,4 +1,4 @@
-<div *ngIf="algoModel.algo" class="flex flex-column align-items-center p-4">
+<div class="flex flex-column align-items-center p-4">
   <!-- Título -->
   <h1 class="text-center text-3xl font-bold mb-5">
     {{ algoModel.algo.nombre | uppercase }} Details
@@ -39,15 +39,11 @@
           >User nombre:</label
         >
         <input
-          *ngIf="authService.hasAuthority('ADMIN') "
           id="algo-nombre"
           [(ngModel)]="algoModel.algo.username"
           placeholder="User nombre"
           class="p-inputtext w-full"
         />
-        <h3 *ngIf="!authService.hasAuthority('ADMIN') " class="text-lg font-bold">
-          {{ algoModel.algo.username }}
-        </h3>
       </div>
 
       <!-- Modificar email -->
@@ -56,16 +52,13 @@
           >User email:</label
         >
         <input
-          *ngIf="authService.hasAuthority('ADMIN') "
           id="algo-email"
           [(ngModel)]="algoModel.algo.email"
           placeholder="User email"
           class="p-inputtext w-full"
         />
-        <h3 *ngIf="!authService.hasAuthority('ADMIN') " class="text-lg font-bold">
-          {{ algoModel.algo.email }}
-        </h3>
       </div>
+      <!-- lo quito para un user no admin? -->
       <div>
         <h1 class="block text-lg font-medium mb-2">User Authorities:</h1>
         <h3

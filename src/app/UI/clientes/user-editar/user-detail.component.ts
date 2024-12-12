@@ -1,17 +1,16 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+ 
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
-import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
+import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel'; 
 import { UserService } from '../../../Service/user/User.service';
-import { Location } from '@angular/common';
-import { User } from '../../../Model/Domain/User/UserClass';
+import { Location } from '@angular/common'; 
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
+import { Component } from '@angular/core';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css'],
 })
-export class UserDetailComponent implements OnInit, OnChanges {
+export class UserDetailComponent {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,

@@ -4,6 +4,7 @@ import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { ProductoService } from '../../../Service/producto/Producto.service';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 
 @Component({
   selector: 'app-dialago-oferta',
@@ -13,6 +14,7 @@ import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksPr
 export class DialagoOfertaComponent {
   isDialogVisible: boolean = false;
   params!: any[];
+  userAuthority = UserAuthority;
   constructor(
     public algoModel: AlgoModel,
     public authService: AuthService,

@@ -6,7 +6,7 @@ import { Pedido } from '../Model/Domain/Pedido/PedidoClass';
   providedIn: 'root',
 })
 export class PedidoDAO {
-  private urlBase = 'http://localhost:8082/api/pedidos/';
+  private urlBase = 'http://localhost:8082/api/pedidos';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -14,8 +14,10 @@ export class PedidoDAO {
   //CREATE
   addPedido(pedido: Pedido): Observable<Pedido> {
     const urlMod = `${this.urlBase}/addPedido`;
+
     return this.http.post<Pedido>(urlMod, pedido, this.httpOptions);
   }
+
   //READ
   getPedidos(): Observable<Pedido[]> {
     const urlMod = `${this.urlBase}/listar`;

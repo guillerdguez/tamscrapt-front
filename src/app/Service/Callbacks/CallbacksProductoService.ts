@@ -55,7 +55,6 @@ export class CallbacksProductoService {
     this.toggleFavorito$.next(selectedItems);
   }
   toggleCart(selectedItems: Producto[]): void {
-    console.log('Emitiendo toggleCart con:', selectedItems);
-    this.toggleCart$.next(selectedItems);
+     this.toggleCart$.next(selectedItems);
   }
 }

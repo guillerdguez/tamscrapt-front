@@ -1,177 +1,236 @@
-<p-stepper [linear]="true">
-  <ng-container *ngFor="let param of params; let i = index">
-    <p-stepperPanel [header]="'Edición ' + (i + 1)">
-      <ng-template
-        pTemplate="content"
-        let-nextCallback="nextCallback"
-        let-prevCallback="prevCallback"
-      >
-        <div *ngIf="param" class="flex flex-column align-items-center p-4">
-          <!-- Título -->
-          <h1 class="text-center text-3xl font-bold mb-5">
-            {{ param.nombre | uppercase }} Details
-          </h1>
-
-          <!-- Contenedor principal -->
-          <div
-            class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+<!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
+<ng-container
+  *ngIf="authService.hasAuthority(userAuthority.ADMIN); else noStepper"
+>
+  <p-stepper [linear]="true">
+    <ng-container *ngFor="let param of params; let i = index">
+      <p-stepperPanel [header]="'Edición ' + (i + 1)">
+        <ng-template
+          pTemplate="content"
+          let-nextCallback="nextCallback"
+          let-prevCallback="prevCallback"
+        >
+          <!-- Reutilizamos la plantilla común -->
+          <ng-container
+            *ngTemplateOutlet="
+              commonDetail;
+              context: {
+                $implicit: param,
+                i: i,
+                nextCB: nextCallback,
+                prevCB: prevCallback
+              }
+            "
           >
-            <!-- Columna izquierda -->
-            <div class="flex flex-column align-items-start w-full md:w-5">
-              <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2>
+          </ng-container>
+        </ng-template>
+      </p-stepperPanel>
+    </ng-container>
+  </p-stepper>
+</ng-container>
 
-              <!-- Imagen -->
-              <div
-                class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
-              >
-                <img
-                  *ngIf="param.imagen"
-                  [src]="param.imagen"
-                  alt="Imagen del producto"
-                  class="w-14rem h-14rem border-round shadow-2"
-                />
-                <div
-                  *ngIf="!param.imagen"
-                  class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
-                >
-                  <p class="text-center font-bold">Sin Imagen</p>
-                </div>
-              </div>
-            </div>
+<!-- Si no es admin, muestra el contenido sin el stepper -->
+<ng-template #noStepper>
+  <div *ngFor="let param of params; let i = index">
+    <ng-container
+      *ngTemplateOutlet="commonDetail; context: { $implicit: param, i: i }"
+    >
+    </ng-container>
+  </div>
+</ng-template>
 
-            <!-- Columna derecha -->
-            <div class="flex flex-column align-items-start w-full md:w-5">
-              <!-- Modificar nombre -->
-              <div class="mb-4 w-full">
-                <label
-                  for="producto-nombre-{{ i }}"
-                  class="block text-lg font-medium mb-2"
-                  >Producto Nombre:</label
-                >
-                <input
-                  *ngIf="authService.hasAuthority('ADMIN') "
-                  id="producto-nombre-{{ i }}"
-                  [(ngModel)]="param.nombre"
-                  placeholder="Producto nombre"
-                  class="p-inputtext w-full"
-                />
-                <h3 *ngIf="!authService.hasAuthority('ADMIN') " class="text-lg font-bold">
-                  {{ param.nombre }}
-                </h3>
-              </div>
+<!-- Plantilla común con el contenido de detalles -->
+<ng-template
+  #commonDetail
+  let-param
+  let-i="i"
+  let-nextCB="nextCB"
+  let-prevCB="prevCB"
+>
+  <div *ngIf="param" class="flex flex-column align-items-center p-4">
+    <!-- Título -->
+    <h1 class="text-center text-3xl font-bold mb-5">
+      {{ param.nombre | uppercase }} Details
+    </h1>
 
-              <!-- Modificar oferta -->
-              <div class="mb-4 w-full">
-                <label
-                  for="producto-oferta-{{ i }}"
-                  class="block text-lg font-medium mb-2"
-                  >¿Está en oferta?</label
-                >
-                <p-checkbox
-                  *ngIf="authService.hasAuthority('ADMIN') "
-                  id="producto-oferta-{{ i }}"
-                  [(ngModel)]="param.oferta"
-                  binary="true"
-                  class="w-full"
-                ></p-checkbox>
-                <h3 *ngIf="!authService.hasAuthority('ADMIN') " class="text-lg font-bold">
-                  {{ param.oferta ? "Sí" : "No" }}
-                </h3>
-              </div>
-
-              <!-- Modificar descuento -->
-              <div class="mb-4 w-full" *ngIf="param.oferta">
-                <label
-                  for="producto-descuento-{{ i }}"
-                  class="block text-lg font-medium mb-2"
-                  >Descuento:</label
-                >
-                <p-inputNumber
-                  *ngIf="authService.hasAuthority('ADMIN') "
-                  id="producto-descuento-{{ i }}"
-                  [(ngModel)]="param.descuento"
-                  placeholder="Descuento (%)"
-                  class="w-full"
-                ></p-inputNumber>
-                <h3 *ngIf="!authService.hasAuthority('ADMIN') " class="text-lg font-bold">
-                  {{ param.descuento }}%
-                </h3>
-              </div>
-              <!-- Modificar lettering -->
-              <div class="mb-4 w-full">
-                <label
-                  for="producto-lettering-{{ i }}"
-                  class="block text-lg font-medium mb-2"
-                  >¿Incluye Lettering?</label
-                >
-                <div *ngIf="authService.hasAuthority('ADMIN') ; else letteringTexto">
-                  <p-checkbox
-                    id="producto-lettering-{{ i }}"
-                    [(ngModel)]="param.lettering"
-                    binary="true"
-                    class="w-full"
-                  ></p-checkbox>
-                </div>
-                <ng-template #letteringTexto>
-                  <h3 class="text-lg font-bold">
-                    {{ param.lettering ? "Sí" : "No" }}
-                  </h3>
-                </ng-template>
-              </div>
-
-              <!-- Modificar scrapbooking -->
-              <div class="mb-4 w-full">
-                <label
-                  for="producto-scrapbooking-{{ i }}"
-                  class="block text-lg font-medium mb-2"
-                  >¿Incluye Scrapbooking?</label
-                >
-                <div *ngIf="authService.hasAuthority('ADMIN') ; else scrapbookingTexto">
-                  <p-checkbox
-                    id="producto-scrapbooking-{{ i }}"
-                    [(ngModel)]="param.scrapbooking"
-                    binary="true"
-                    class="w-full"
-                  ></p-checkbox>
-                </div>
-                <ng-template #scrapbookingTexto>
-                  <h3 class="text-lg font-bold">
-                    {{ param.scrapbooking ? "Sí" : "No" }}
-                  </h3>
-                </ng-template>
-              </div>
-            </div>
-          </div>
-
-          <!-- Botones -->
-          <div class="flex gap-3 mt-4">
-            <button
-              *ngIf="i > 0"
-              type="button"
-              class="p-button p-button-secondary"
-              (click)="prevCallback.emit()"
-            >
-              Back
-            </button>
-            <button
-              *ngIf="i < params.length - 1"
-              type="button"
-              class="p-button p-button-primary"
-              (click)="nextCallback.emit()"
-            >
-              Next
-            </button>
-            <button
-              *ngIf="i === params.length - 1"
-              type="button"
-              class="p-button p-button-success"
-              (click)="save()"
-            >
-              Save
-            </button>
+    <!-- Contenedor principal -->
+    <div
+      class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+    >
+      <!-- Columna izquierda -->
+      <div class="flex flex-column align-items-start w-full md:w-5">
+        <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2>
+        <div
+          class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
+        >
+          <img
+            *ngIf="param.imagen"
+            [src]="param.imagen"
+            alt="Imagen del producto"
+            class="w-14rem h-14rem border-round shadow-2"
+          />
+          <div
+            *ngIf="!param.imagen"
+            class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
+          >
+            <p class="text-center font-bold">Sin Imagen</p>
           </div>
         </div>
-      </ng-template>
-    </p-stepperPanel>
-  </ng-container>
-</p-stepper>
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="flex flex-column align-items-start w-full md:w-5">
+        <!-- Producto Nombre -->
+        <div class="mb-4 w-full">
+          <label
+            for="producto-nombre-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Producto Nombre:</label
+          >
+          <input
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+            id="producto-nombre-{{ i }}"
+            [(ngModel)]="param.nombre"
+            placeholder="Producto nombre"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="text-lg font-bold"
+          >
+            {{ param.nombre }}
+          </h3>
+        </div>
+
+        <!-- Oferta -->
+        <div class="mb-4 w-full">
+          <label
+            for="producto-oferta-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >¿Está en oferta?</label
+          >
+          <p-checkbox
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+            id="producto-oferta-{{ i }}"
+            [(ngModel)]="param.oferta"
+            binary="true"
+            class="w-full"
+          ></p-checkbox>
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="text-lg font-bold"
+          >
+            {{ param.oferta ? "Sí" : "No" }}
+          </h3>
+        </div>
+
+        <!-- Descuento -->
+        <div class="mb-4 w-full" *ngIf="param.oferta">
+          <label
+            for="producto-descuento-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Descuento:</label
+          >
+          <p-inputNumber
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+            id="producto-descuento-{{ i }}"
+            [(ngModel)]="param.descuento"
+            placeholder="Descuento (%)"
+            class="w-full"
+          ></p-inputNumber>
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="text-lg font-bold"
+          >
+            {{ param.descuento }}%
+          </h3>
+        </div>
+
+        <!-- Lettering -->
+        <div class="mb-4 w-full">
+          <label
+            for="producto-lettering-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >¿Incluye Lettering?</label
+          >
+          <div
+            *ngIf="
+              authService.hasAuthority(userAuthority.ADMIN);
+              else letteringTexto
+            "
+          >
+            <p-checkbox
+              id="producto-lettering-{{ i }}"
+              [(ngModel)]="param.lettering"
+              binary="true"
+              class="w-full"
+            ></p-checkbox>
+          </div>
+          <ng-template #letteringTexto>
+            <h3 class="text-lg font-bold">
+              {{ param.lettering ? "Sí" : "No" }}
+            </h3>
+          </ng-template>
+        </div>
+
+        <!-- Scrapbooking -->
+        <div class="mb-4 w-full">
+          <label
+            for="producto-scrapbooking-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >¿Incluye Scrapbooking?</label
+          >
+          <div
+            *ngIf="
+              authService.hasAuthority(userAuthority.ADMIN);
+              else scrapbookingTexto
+            "
+          >
+            <p-checkbox
+              id="producto-scrapbooking-{{ i }}"
+              [(ngModel)]="param.scrapbooking"
+              binary="true"
+              class="w-full"
+            ></p-checkbox>
+          </div>
+          <ng-template #scrapbookingTexto>
+            <h3 class="text-lg font-bold">
+              {{ param.scrapbooking ? "Sí" : "No" }}
+            </h3>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones del stepper, solo si existe el stepper -->
+    <div
+      class="flex gap-3 mt-4"
+      *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+    >
+      <button
+        *ngIf="i > 0"
+        type="button"
+        class="p-button p-button-secondary"
+        (click)="nextCB ? prevCB.emit() : null"
+      >
+        Back
+      </button>
+      <button
+        *ngIf="i < params.length - 1"
+        type="button"
+        class="p-button p-button-primary"
+        (click)="nextCB ? nextCB.emit() : null"
+      >
+        Next
+      </button>
+      <button
+        *ngIf="i === params.length - 1"
+        type="button"
+        class="p-button p-button-success"
+        (click)="save()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</ng-template>

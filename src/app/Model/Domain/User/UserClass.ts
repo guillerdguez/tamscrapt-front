@@ -16,7 +16,7 @@ export class User {
   nombre: string = '';
   username: string = '';
   email: string = '';
-  authorities: Set<UserAuthority> = new Set<UserAuthority>();
+  authorities!: UserAuthority[];
   menuItems!: MenuItem[];
   tag!: string;
   private menuStrategy!: MenuStrategy;
@@ -37,15 +37,15 @@ export class User {
   }
 
   tienePermiso(permiso: UserAuthority): boolean {
-    return this.authorities.has(permiso);
+    return this.authorities.includes(permiso);
   }
 
   agregarPermiso(permiso: UserAuthority): void {
-    this.authorities.add(permiso);
+    this.authorities.push(permiso);
   }
 
   eliminarPermiso(permiso: UserAuthority): void {
-    this.authorities.delete(permiso);
+    this.authorities = this.authorities.filter((auth) => auth !== permiso);
   }
 
   listarPermisos(): UserAuthority[] {
@@ -53,14 +53,13 @@ export class User {
   }
 
   getParametros(user: UserDeails): this {
-    
     this.id = user.id;
     this.nombre = user.nombre;
     this.username = user.username;
     this.email = user.email;
     this.favorito = user.favorito;
 
-    this.authorities = new Set(user.authorities);
+    this.authorities = user.authorities;
 
     return this;
   }

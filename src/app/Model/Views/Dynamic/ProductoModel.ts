@@ -10,6 +10,7 @@ import { ProductoDAO } from '../../../DAO/producto.DAO';
 import { CarritoDAO } from '../../../DAO/carrito.DAO';
 import { BehaviorSubject } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
@@ -19,7 +20,7 @@ export class ProductoModel {
   favoritosCliente: Producto[] = [];
   cartItems: any[] = [];
   private cartItemsSubject = new BehaviorSubject<any[]>([]);
-
+  userId: any;
   // Observable para componentes que deseen suscribirse a cambios en el carrito
   cartItems$ = this.cartItemsSubject.asObservable();
 
@@ -33,10 +34,10 @@ export class ProductoModel {
     private messageService: MessageService
   ) {
     this.callbacksService = this.injector.get(CallbacksProductoService);
-    const userId = this.authService.getCurrentUserId();
-    if (userId) {
-      this.cargarFavoritos(userId);
-      this.cargarCarrito(userId);
+    this.userId = this.authService.getCurrentUserId();
+    if (this.userId) {
+      this.cargarFavoritos(this.userId);
+      // this.cargarCarrito(userId);
     }
   }
 
@@ -59,20 +60,21 @@ export class ProductoModel {
       },
     });
   }
-
+  //quitar?
   private cargarCarrito(clienteId: number): void {
-    this.carritoDAO.getCarrito().subscribe({
+    this.carritoDAO.getCarrito(this.userId).subscribe({
       next: (cartItems: any[]) => {
-        this.actualizarCartItemsCliente(cartItems);
+        this.actualizarCartItemsCliente(cartItems || []);
       },
       error: (error) => {
         console.error('Error al cargar el carrito:', error);
+        this.actualizarCartItemsCliente([]);
       },
     });
   }
 
   getTagSeverity(producto: Producto): TagSeverity {
-    const isAdmin = this.authService.hasAuthority('ADMIN');
+    const isAdmin = this.authService.hasAuthority(UserAuthority.ADMIN);
     const conditions = isAdmin
       ? [
           producto.descuento >= 50,

@@ -7,5 +7,5 @@ export interface UserDeails {
   username: string;
   favorito?: Producto[];
   email: string;
-  authorities: Set<UserAuthority>;
+  authorities: UserAuthority[];
 }

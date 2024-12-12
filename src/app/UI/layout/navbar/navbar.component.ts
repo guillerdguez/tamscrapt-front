@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
+import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,8 @@ import { AuthService } from '../../../Service/seguridad/AuthService.service';
 export class NavbarComponent implements OnInit {
   dropdownMenu: boolean = false;
   menuOpen: boolean = false;
-  userId: number | null = null; // Propiedad para almacenar el ID del usuario
+  userId: number | undefined = undefined;
+  userAuthority = UserAuthority; // Exponer el enum para la plantilla
 
   constructor(public authService: AuthService, private router: Router) {}
 

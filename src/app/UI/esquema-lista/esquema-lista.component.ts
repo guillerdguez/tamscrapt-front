@@ -18,6 +18,7 @@ import { User } from '../../Model/Domain/User/UserClass';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../../Service/seguridad/AuthService.service';
 import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
+import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 
 @Component({
   selector: 'app-esquema-lista',
@@ -32,7 +33,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   firstItem: any[] = [];
   items: MenuItem[] = [];
   layout!: 'list' | 'grid';
-
+  userAuthority = UserAuthority;
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
@@ -61,7 +62,9 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.title = title;
     });
 
-    this.layout = this.authService.hasAuthority('ADMIN') ? 'list' : 'grid';
+    this.layout = this.authService.hasAuthority(UserAuthority.ADMIN)
+      ? 'list'
+      : 'grid';
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -12,6 +12,7 @@ import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
 import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
 import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
+import { UserAuthority } from './Model/Domain/User/UserAuthority.enum';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,7 +31,7 @@ const routes: Routes = [
   {
     path: 'detail/Productos/:id',
     component: ProductoDetailComponent,
-    canMatch: [authGuard],
+    // canMatch: [authGuard],
   },
   {
     path: 'detail/Users/:id',
@@ -42,12 +43,12 @@ const routes: Routes = [
   {
     path: 'admin/pedidos',
     component: AdminPedidosComponent,
-    canMatch: [authGuard, () => roleGuard('ADMIN')],
+    canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
   },
   {
     path: 'newProducto',
     component: FormularioComponentProducto,
-    canMatch: [authGuard, () => roleGuard('ADMIN')],
+    canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
   },
 ];
 
