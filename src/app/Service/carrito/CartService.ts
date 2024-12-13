@@ -41,31 +41,71 @@ export class CartService {
     return this.cartItems; // Devolver los ítems cargados desde la base de datos
   }
   //quitar el null
-  private initializeCart(userId: number | undefined): void {
+  // private initializeCart(userId: number | undefined): void {
+  //   this.cartDAO.getCarrito(userId).subscribe({
+  //     next: (items) => {
+  //       console.log(items);
+  //       this.cartItems = items.map((item) => ({
+  //         product: item.producto,
+  //         quantity: item.cantidad,
+  //       }));
+  //       console.log('cartItems', this.cartItems);
+  //       this.cartItemsSubject.next(this.cartItems);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error al cargar el carrito:', error);
+  //     },
+  //   });
+  // }
+  private initializeCart(userId?: number): void {
     this.cartDAO.getCarrito(userId).subscribe({
-      next: (items) => {
-        this.cartItems = items.map((item) => ({
-          product: item.producto,
-          quantity: item.cantidad,
-        }));
-        this.cartItemsSubject.next(this.cartItems);
+      next: (response) => {
+        if (response?.productos) {
+          // Agrupar productos por su ID y sumar las cantidades
+          const agrupados = response.productos.reduce((acc, item) => {
+            const productoId = item.producto.id;
+            if (!acc[productoId]) {
+              acc[productoId] = {
+                product: {
+                  ...item.producto,
+                  cantidad: item.cantidad,
+                  imagen: item.producto['imagenes'] || [],
+                } as ProductoDetails, // Aserción de tipo aquí
+                quantity: item.cantidad,
+              };
+            } else {
+              acc[productoId].quantity += item.cantidad;
+              acc[productoId].product.cantidad += item.cantidad;
+            }
+            return acc;
+          }, {} as { [key: number]: { product: ProductoDetails; quantity: number } });
+
+          this.cartItems = Object.values(agrupados);
+          this.cartItemsSubject.next(this.cartItems);
+        } else {
+          this.cartItems = [];
+          this.cartItemsSubject.next(this.cartItems);
+          console.error('Datos inválidos:', response);
+        }
       },
-      error: (error) => {
-        console.error('Error al cargar el carrito:', error);
-      },
+      error: (error) => console.error('Error al cargar el carrito:', error),
     });
   }
-
-  addProductoCarrito(product: Producto, quantity: number = 1): void {
+//comprobar que se puede meter,al meterlo no quita del articulo,como podemos hacer que no pueda meter mas de los que hay entre su carrito y producto
+//si el tiene uno y 20 pone en la tienda,realmente quedarian 19 eligibles por esa persona  
+addProductoCarrito(product: Producto, quantity: number = 1): void {
     this.cartDAO.addProductoCarrito(product.id, quantity).subscribe({
       next: () => {
-        const existingItem = this.cartItems.find(
-          (item: any) => item.product.id === product.id
-        );
+        let articuloExistente;
+        if (this.cartItems.length > 0) {
+          articuloExistente = this.cartItems.find(
+            (item: any) => item.product.id === product.id
+          );
+        }
 
-        if (existingItem) {
-          existingItem.quantity += quantity;
-          if (existingItem.quantity <= 0) {
+        if (articuloExistente) {
+          articuloExistente.quantity += quantity;
+          if (articuloExistente.quantity <= 0) {
             this.removeProduct(product.id);
           }
         } else {
@@ -86,6 +126,19 @@ export class CartService {
     });
   }
 
+  removeProduct(productId: number): void {
+    this.cartDAO.deleteCarrito(productId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(
+          (item: any) => item.product.id !== productId
+        );
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto del carrito:', error);
+      },
+    });
+  }
   updateProductQuantity(productId: number, quantity: number): void {
     this.cartDAO.updateCarrito(productId, { cantidad: quantity }).subscribe({
       next: () => {
@@ -104,20 +157,6 @@ export class CartService {
       },
       error: (error) => {
         console.error('Error al actualizar la cantidad:', error);
-      },
-    });
-  }
-
-  removeProduct(productId: number): void {
-    this.cartDAO.deleteCarrito(productId).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(
-          (item: any) => item.product.id !== productId
-        );
-        this.cartItemsSubject.next(this.cartItems);
-      },
-      error: (error) => {
-        console.error('Error al eliminar el producto del carrito:', error);
       },
     });
   }

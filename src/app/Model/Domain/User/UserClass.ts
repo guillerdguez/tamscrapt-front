@@ -4,7 +4,7 @@ import { UserAuthority } from './UserAuthority.enum';
 import { UserModel } from '../../Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/user/User.service';
 import { MenuItem } from 'primeng/api';
-import { UserDeails } from '../interface/UserDetails';
+import { UserDetails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
@@ -52,7 +52,7 @@ export class User {
     return Array.from(this.authorities);
   }
 
-  getParametros(user: UserDeails): this {
+  getParametros(user: UserDetails): this {
     this.id = user.id;
     this.nombre = user.nombre;
     this.username = user.username;
@@ -64,7 +64,7 @@ export class User {
     return this;
   }
 
-  getUserData(): UserDeails {
+  getUserData(): UserDetails {
     return {
       id: this.id,
       nombre: this.nombre,

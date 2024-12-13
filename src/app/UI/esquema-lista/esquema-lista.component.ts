@@ -38,7 +38,6 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   headers: any[] = [];
 
-  // Getter para paramsTemporal
   get paramsTemporal(): User[] | Producto[] {
     return this.algoModel.algos;
   }

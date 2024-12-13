@@ -1,0 +1,131 @@
+<body>
+  <div class="containerForm mt-4">
+    <h1 class="title">Formulario de Productos</h1>
+
+    <!-- Nombre del Producto -->
+    <div class="form-group">
+      <label for="nombre">Nombre del Producto: </label>
+      <input
+        type="text"
+        class="form-control"
+        id="nombre"
+        name="nombre"
+        required
+        [(ngModel)]="nombre"
+      />
+      <div *ngIf="!nombre?.trim()" class="text-danger">
+        El nombre del producto es obligatorio.
+      </div>
+    </div>
+
+    <!-- Precio -->
+    <div class="form-group">
+      <label for="precio">Precio: </label>
+      <p-inputNumber
+        inputId="precio"
+        [(ngModel)]="precio"
+        min="0"
+        required
+      ></p-inputNumber>
+      <div *ngIf="precio <= 0" class="text-danger">
+        El precio del producto es obligatorio.
+      </div>
+    </div>
+
+    <!-- Imagen URL -->
+    <div class="form-group">
+      <label for="imagen">Imagen URL: </label>
+      <input
+        type="text"
+        class="form-control"
+        id="imagen"
+        name="imagen"
+        [(ngModel)]="imagen"
+      />
+    </div>
+
+    <!-- Oferta -->
+    <div class="form-group">
+      <label for="oferta">¿Está en oferta?</label>
+      <p-checkbox
+        [(ngModel)]="oferta"
+        binary="true"
+        class="w-full"
+      ></p-checkbox>
+    </div>
+
+    <!-- Descuento -->
+    <div class="form-group" *ngIf="oferta">
+      <label for="descuento">Descuento (%): </label>
+      <p-inputNumber
+        inputId="descuento"
+        [(ngModel)]="descuento"
+        [min]="0"
+        [max]="100"
+        placeholder="Descuento (%)"
+        class="w-full"
+      ></p-inputNumber>
+      <div *ngIf="descuento < 0 || descuento > 100" class="text-danger">
+        El descuento debe estar entre 0% y 100%.
+      </div>
+    </div>
+
+    <!-- Lettering -->
+    <div class="form-group">
+      <label for="lettering">¿Incluye Lettering?</label>
+
+      <p-checkbox
+        [(ngModel)]="lettering"
+        binary="true"
+        class="w-full"
+      ></p-checkbox>
+    </div>
+
+    <!-- Scrapbooking -->
+    <div class="form-group">
+      <label for="scrapbooking">¿Incluye Scrapbooking?</label>
+
+      <p-checkbox
+        [(ngModel)]="scrapbooking"
+        binary="true"
+        class="w-full"
+      ></p-checkbox>
+    </div>
+
+    <!-- Cantidad -->
+    <div class="form-group">
+      <label for="cantidad">Cantidad: </label>
+      <p-inputNumber
+        inputId="cantidad"
+        [(ngModel)]="cantidad"
+        min="1"
+        required
+      ></p-inputNumber>
+      <div *ngIf="cantidad <= 0" class="text-danger">
+        La cantidad del producto es obligatorio.
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
+      <button type="button" class="btn btn-primary" (click)="goBack()">
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="
+          add(
+            nombre,
+      username,
+      email,
+      authorities,
+      favorito,
+          )
+        "
+      >
+        Enviar
+      </button>
+    </div>
+  </div>
+</body>

@@ -99,9 +99,6 @@
                 } @else {
                 <div class="cart">
                   <i
-                    [ngClass]="
-                      item.favorito ? 'pi pi-cart-minus' : 'pi pi-cart-plus'
-                    "
                     class="pi pi-cart-plus"
                     (click)="callbacksProductoService.toggleCart([item])"
                     tabindex="-1"
@@ -224,9 +221,7 @@
               </div>
               <div class="cart">
                 <i
-                  [ngClass]="
-                    item.enCarrito ? 'pi pi-cart-minus' : 'pi pi-cart-plus'
-                  "
+                  class="pi pi-cart-plus"
                   (click)="callbacksProductoService.toggleCart([item])"
                   tabindex="0"
                 ></i>

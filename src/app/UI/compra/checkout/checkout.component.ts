@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { Pedido } from '../../../Model/Domain/Pedido/PedidoClass';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { CartService } from '../../../Service/carrito/CartService';
@@ -24,7 +24,8 @@ export class CheckoutComponent {
   constructor(
     private pedidoService: PedidoService,
     private cartService: CartService,
-    public authService: AuthService // private cartService: CartService, //// private router: Router
+    public authService: AuthService,
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,15 +49,7 @@ export class CheckoutComponent {
       total: this.total,
     };
   }
-  //  calculateOrderSummary() {
-  //   const subtotal = this.cartItems.reduce(
-  //     (acc, item) => acc + item.product.price * item.quantity,
-  //     0
-  //   );
-  //   const tax = subtotal * 0.15;
-  //   const total = subtotal + tax;
-  //   this.orderSummary = { subtotal, tax, total };
-  // }
+
   confirmOrder() {
     if (!this.shippingInfo.address || !this.paymentMethod) {
       console.error('Faltan datos de envío o método de pago');
@@ -86,7 +79,7 @@ export class CheckoutComponent {
 
     const pedido: PedidoDetails = {
       fechaCreacion: new Date().toISOString(),
-      estado: 'Pendiente',
+      estado: 'PENDIENTE',
       direccionEnvio: this.shippingInfo.address.trim(),
       metodoPago: this.paymentMethod.trim(),
       cliente: { id: clienteId },
@@ -100,5 +93,7 @@ export class CheckoutComponent {
     console.log('Pedido a enviar:', pedido);
 
     this.pedidoService.addPedido(pedido);
+    this.cartService.clearCart();
+    this.router.navigateByUrl('/productos');
   }
 }

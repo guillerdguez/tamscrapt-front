@@ -37,7 +37,6 @@ export class ProductoModel {
     this.userId = this.authService.getCurrentUserId();
     if (this.userId) {
       this.cargarFavoritos(this.userId);
-      // this.cargarCarrito(userId);
     }
   }
 
@@ -45,10 +44,10 @@ export class ProductoModel {
     this.favoritosCliente = favoritos;
   }
 
-  actualizarCartItemsCliente(cartItems: any[]): void {
-    this.cartItems = cartItems;
-    this.cartItemsSubject.next(this.cartItems);
-  }
+  // actualizarCartItemsCliente(cartItems: any[]): void {
+  //   this.cartItems = cartItems;
+  //   this.cartItemsSubject.next(this.cartItems);
+  // }
 
   private cargarFavoritos(clienteId: number): void {
     this.productoDAO.obtenerFavoritos(clienteId).subscribe({
@@ -57,18 +56,6 @@ export class ProductoModel {
       },
       error: (error) => {
         console.error('Error al cargar favoritos:', error);
-      },
-    });
-  }
-  //quitar?
-  private cargarCarrito(clienteId: number): void {
-    this.carritoDAO.getCarrito(this.userId).subscribe({
-      next: (cartItems: any[]) => {
-        this.actualizarCartItemsCliente(cartItems || []);
-      },
-      error: (error) => {
-        console.error('Error al cargar el carrito:', error);
-        this.actualizarCartItemsCliente([]);
       },
     });
   }
@@ -125,9 +112,9 @@ export class ProductoModel {
       newProducto.favorito = !!this.favoritosCliente.find(
         (fav) => fav.id === producto.id
       );
-      newProducto.enCarrito = !!this.cartItems.find(
-        (item) => item.id === producto.id
-      );
+      // newProducto.enCarrito = !!this.cartItems.find(
+      //   (item) => item.id === producto.id
+      // );
 
       const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
       newProducto.tag = tag;

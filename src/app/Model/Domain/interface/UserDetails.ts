@@ -1,7 +1,7 @@
 import { Producto } from '../Producto/ProductoClass';
 import { UserAuthority } from '../User/UserAuthority.enum';
 
-export interface UserDeails {
+export interface UserDetails {
   id?: number;
   nombre: string;
   username: string;

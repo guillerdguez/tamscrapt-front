@@ -67,6 +67,8 @@ import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 import { CartService } from './Service/carrito/CartService';
 import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoService';
+import { PedidosHandler } from './Service/handler/PedidosHandler';
+import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -86,7 +88,7 @@ import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoS
     DialagoOfertaComponent,
     LoginComponent,
     RegisterComponent,
-
+    FormularioComponentUser,
     CheckoutComponent,
     CartComponent,
   ],
@@ -140,6 +142,7 @@ import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoS
     MessageService,
     CartService,
     CallbacksProductoService,
+    PedidosHandler,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

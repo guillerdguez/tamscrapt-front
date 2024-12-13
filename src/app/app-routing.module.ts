@@ -50,6 +50,11 @@ const routes: Routes = [
     component: FormularioComponentProducto,
     canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
   },
+  {
+    path: 'pedidos',
+    redirectTo: '/tabla/pedidos',
+    // canMatch: [authGuard],
+  },
 ];
 
 @NgModule({

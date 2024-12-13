@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CarritoResponse } from '../Model/Domain/interface/CarritoResponse';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,10 +19,10 @@ export class CarritoDAO {
     const urlMod = `${this.urlBase}/addProducto/${id}/${cantidad}`;
     return this.http.post<any>(urlMod, null, this.httpOptions);
   }
-  //READ 
-  getCarrito(userId: number | undefined): Observable<any[]> {
+  //READ
+  getCarrito(userId: number | undefined): Observable<CarritoResponse> {
     const urlMod = `${this.urlBase}/productos/${userId}`;
-    return this.http.get<any[]>(urlMod, this.httpOptions);
+    return this.http.get<CarritoResponse>(urlMod, this.httpOptions);
   }
 
   // UPDATE

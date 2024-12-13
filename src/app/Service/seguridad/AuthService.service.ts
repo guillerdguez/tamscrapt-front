@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { UserDeails } from '../../Model/Domain/interface/UserDetails';
+import { UserDetails } from '../../Model/Domain/interface/UserDetails';
 import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 
 @Injectable({
@@ -12,21 +12,21 @@ import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 //separar DAO y service
 export class AuthService {
   private apiUrl = 'http://localhost:8082/api';
-  private currentUserSubject: BehaviorSubject<UserDeails | null>;
-  public currentUser$: Observable<UserDeails | null>;
+  private currentUserSubject: BehaviorSubject<UserDetails | null>;
+  public currentUser$: Observable<UserDetails | null>;
 
   constructor(private http: HttpClient, private router: Router) {
     const storedUser = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<UserDeails | null>(
+    this.currentUserSubject = new BehaviorSubject<UserDetails | null>(
       storedUser ? JSON.parse(storedUser) : null
     );
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): UserDeails | null {
+  public get currentUserValue(): UserDetails | null {
     return this.currentUserSubject.value;
   }
-  login(username: string, password: string): Observable<UserDeails> {
+  login(username: string, password: string): Observable<UserDetails> {
     return this.http
       .post<any>(`${this.apiUrl}/auth/login`, { username, password })
       .pipe(
@@ -66,14 +66,14 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  getClients(): Observable<UserDeails[]> {
-    return this.http.get<UserDeails[]>(`${this.apiUrl}/clientes/listar`, {
+  getClients(): Observable<UserDetails[]> {
+    return this.http.get<UserDetails[]>(`${this.apiUrl}/clientes/listar`, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  getClientById(id: number): Observable<UserDeails> {
-    return this.http.get<UserDeails>(`${this.apiUrl}/clientes/ver/${id}`, {
+  getClientById(id: number): Observable<UserDetails> {
+    return this.http.get<UserDetails>(`${this.apiUrl}/clientes/ver/${id}`, {
       headers: this.getAuthHeaders(),
     });
   }
@@ -88,8 +88,8 @@ export class AuthService {
     return currentUser ? currentUser.id : undefined;
   }
 
-  updateClient(id: number, user: any): Observable<UserDeails> {
-    return this.http.put<UserDeails>(
+  updateClient(id: number, user: any): Observable<UserDetails> {
+    return this.http.put<UserDetails>(
       `${this.apiUrl}/clientes/editar/${id}`,
       user,
       {

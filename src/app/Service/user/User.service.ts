@@ -38,9 +38,9 @@ export class UserService {
     });
   }
 
-  addUser(user: User): void {
+  addUser(user: any): void {
     this.userDAO.addUser(user).subscribe({
-      next: (newUser: User) => {
+      next: (newUser: any) => {
         this.userModel.users.push(newUser);
         this.algoModel.algos.push(newUser);
         this.users.push(newUser);
@@ -86,7 +86,7 @@ export class UserService {
       next: (user: User) => {
         this.algoModel.algo = user;
       },
-      error: (error) => this.handleError(error),
+      error: (error) => this.handleError('problemitas'),
     });
   }
 

@@ -12,7 +12,7 @@ export class CartComponent implements OnInit {
   subtotal: number = 0;
   IVA: number = 0;
   total: number = 0;
-
+  activo: boolean = this.cartItems.length === 0;
   constructor(
     private cartService: CartService,
     public authService: AuthService
@@ -26,6 +26,7 @@ export class CartComponent implements OnInit {
     this.cartService.cartItems$.subscribe((items) => {
       this.cartItems = items;
       this.calculateTotals();
+      this.activo = this.cartItems.length === 0;
     });
   }
 
