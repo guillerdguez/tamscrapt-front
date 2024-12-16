@@ -1,16 +1,17 @@
- 
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel'; 
+import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 import { UserService } from '../../../Service/user/User.service';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Component } from '@angular/core';
+import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css'],
 })
 export class UserDetailComponent {
+  userAuthority = UserAuthority;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,

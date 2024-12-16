@@ -85,15 +85,14 @@ export class CartService {
         } else {
           this.cartItems = [];
           this.cartItemsSubject.next(this.cartItems);
-          console.error('Datos inválidos:', response);
         }
       },
       error: (error) => console.error('Error al cargar el carrito:', error),
     });
   }
-//comprobar que se puede meter,al meterlo no quita del articulo,como podemos hacer que no pueda meter mas de los que hay entre su carrito y producto
-//si el tiene uno y 20 pone en la tienda,realmente quedarian 19 eligibles por esa persona  
-addProductoCarrito(product: Producto, quantity: number = 1): void {
+  //comprobar que se puede meter,al meterlo no quita del articulo,como podemos hacer que no pueda meter mas de los que hay entre su carrito y producto
+  //si el tiene uno y 20 pone en la tienda,realmente quedarian 19 eligibles por esa persona
+  addProductoCarrito(product: Producto, quantity: number = 1): void {
     this.cartDAO.addProductoCarrito(product.id, quantity).subscribe({
       next: () => {
         let articuloExistente;

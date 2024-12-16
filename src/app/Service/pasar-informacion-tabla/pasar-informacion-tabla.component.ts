@@ -1,3 +1,4 @@
+// pasar-informacion-tabla.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
@@ -22,24 +23,28 @@ export class PasarInformacionTablaService {
     public userModel: UserModel,
     public userService: UserService,
     private tipoFactory: TipoFactory
-  ) {//mejorar
-    this.productoService.productos$.subscribe((productos) => {
-      const productosConEstrategia =
-        this.productoModel.crearProductos(productos);
-      this.algoModel.algos = productosConEstrategia;
-    });
+  ) {
+    // Mejorar: Manejar otros tipos si es necesario
+    // this.productoService.productos$.subscribe((productos) => {
+    //   const productosConEstrategia =
+    //     this.productoModel.crearProductos(productos);
+    //   this.algoModel.algos = productosConEstrategia;
+    // });
   }
-  initialize(tipo: string | null): void {
+
+  initialize(tipo: string | null, params?: any): void {
     if (!tipo) {
+      console.log(tipo);
       console.error('Tipo no válido');
       return;
     }
 
     const handler: TipoHandler | null = this.tipoFactory.getHandler(tipo);
     if (handler) {
-      handler.execute();
+      handler.execute(params);
       this.title$.next(handler.getTitle());
     } else {
+      console.log(tipo);
       console.error('Tipo no encontrado en la factory');
     }
   }
@@ -52,7 +57,7 @@ export class PasarInformacionTablaService {
     if (updatedParams) {
       this.algoModel.algo = updatedParams;
       this.productoService.updateProducto(
-        this.algoModel.algo.id,
+        this.algoModel.algo.id, // Corregido de 'algos.id' a 'algo.id'
         this.algoModel.algo
       );
     }

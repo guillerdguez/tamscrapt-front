@@ -20,14 +20,13 @@ export class PedidoService {
     this.pedidoDAO.addPedido(pedido).subscribe({
       next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;
-        
       },
       error: (error) => {
         console.error(error);
       },
     });
   }
- 
+
   //READ
   getPedidos(): void {
     this.pedidoDAO.getPedidos().subscribe({
@@ -42,6 +41,20 @@ export class PedidoService {
       },
     });
   }
+  getPedidosPorCliente(): void {
+    this.pedidoDAO.getPedidosPorCliente().subscribe({
+      next: (pedidos: Pedido[]) => {
+        const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
+
+        this.pedidoModel.pedidos = pedidosCreados;
+        this.algoModel.algos = pedidosCreados;
+      },
+      error: (error) => {
+        console.error(`Error al obtener pedidos:`, error);
+      },
+    });
+  }
+
   getPedido(id: number): void {
     this.pedidoDAO.getPedido(id).subscribe({
       next: (pedido: Pedido) => {
@@ -64,7 +77,7 @@ export class PedidoService {
   }
   //UPDATE
   updatePedido(pedido: Pedido): void {
-    this.pedidoDAO.updatePedido(pedido).subscribe({
+     this.pedidoDAO.updatePedido(pedido).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
         //      this.pedidoModel.pedidos = this.pedidoModel.pedidos.filter(pedido => pedido.id !== id);

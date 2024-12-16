@@ -22,6 +22,8 @@ const routes: Routes = [
   { path: 'lettering', redirectTo: '/tabla/lettering' },
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },
   { path: 'users', redirectTo: '/tabla/users' },
+  { path: 'pedidosCliente', redirectTo: 'tabla/pedidosCliente' },
+
   { path: 'tabla/:tipo', component: EsquemaListaComponent },
   { path: 'carrito', component: CartComponent, canMatch: [authGuard] },
   { path: 'login', component: LoginComponent },

@@ -1,18 +1,16 @@
+@if(algoModel.algo){
+
 <div class="flex flex-column align-items-center p-4">
-  <!-- Título -->
   <h1 class="text-center text-3xl font-bold mb-5">
     {{ algoModel.algo.nombre | uppercase }} Details
   </h1>
 
-  <!-- Contenedor principal -->
   <div
     class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
   >
-    <!-- Columna izquierda -->
     <div class="flex flex-column align-items-start w-full md:w-5">
       <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
 
-      <!-- Imagen -->
       <div
         class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
       >
@@ -31,9 +29,7 @@
       </div>
     </div>
 
-    <!-- Columna derecha -->
     <h3 class="flex flex-column align-items-start w-full md:w-5">
-      <!-- Modificar nombre -->
       <div class="mb-4 w-full">
         <label for="algo-nombre" class="block text-lg font-medium mb-2"
           >User nombre:</label
@@ -46,7 +42,6 @@
         />
       </div>
 
-      <!-- Modificar email -->
       <div class="mb-4 w-full">
         <label for="algo-email" class="block text-lg font-medium mb-2"
           >User email:</label
@@ -90,3 +85,11 @@
     </h3>
   </div>
 </div>
+}@else{
+<div>
+  <ng-template>
+    <p>Cargando datos del usuario...</p>
+  </ng-template>
+</div>
+
+}

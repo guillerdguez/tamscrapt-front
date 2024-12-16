@@ -12,8 +12,8 @@ import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService'
   providedIn: 'root',
 })
 export class ProductoService {
-  private productosSubject = new BehaviorSubject<Producto[]>([]);
-  public productos$ = this.productosSubject.asObservable();
+  // private productosSubject = new BehaviorSubject<Producto[]>([]);
+  // public productos$ = this.productosSubject.asObservable();
 
   private productos: Producto[] = [];
   private mensajeMostrado = false;
@@ -66,8 +66,9 @@ export class ProductoService {
     this.productoDAO.getProductos(this.currentCategory).subscribe({
       next: (productos: Producto[]) => {
         const productosCreados = this.productoModel.crearProductos(productos);
+
         this.algoModel.algos = productosCreados;
-        this.productosSubject.next(productosCreados);
+        // this.productosSubject.next(productosCreados);
       },
       error: (error) => this.handleError(error),
     });
@@ -87,7 +88,7 @@ export class ProductoService {
       next: (productos: Producto[]) => {
         const productosCreados = this.productoModel.crearProductos(productos);
         this.algoModel.algos = productosCreados;
-        this.productosSubject.next(productosCreados);
+        // this.productosSubject.next(productosCreados);
       },
       error: (error) => this.handleError(error),
     });
@@ -99,6 +100,7 @@ export class ProductoService {
       next: (producto: Producto) => {
         this.productoModel.producto = producto;
         this.algoModel.algo = producto;
+
         // Al volver a cargar, empleamos la categoría actual
         this.getProductos(this.currentCategory);
       },
@@ -131,6 +133,10 @@ export class ProductoService {
   editMultipleProductos(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       this.updateProducto(item.id, item.getProductoData());
+      if (!item.oferta) {
+        this.toggleOferta(item, 0);
+        item.precioOriginal = undefined;
+      }
     });
     this.algoModel.algosSeleccionados.length = 0;
   }

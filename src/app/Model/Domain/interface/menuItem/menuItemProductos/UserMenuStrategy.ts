@@ -12,7 +12,7 @@ export class UserMenuStrategy implements MenuStrategy {
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [
       {
-        label: 'Editar',
+        label: 'Ver',
         icon: 'pi pi-eye',
         command: () => this.callbacks.editProducto(context),
       },

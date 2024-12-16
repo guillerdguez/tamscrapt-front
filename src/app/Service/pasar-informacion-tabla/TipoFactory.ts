@@ -6,6 +6,7 @@ import { ProductosHandler } from '../handler/ProductosHandler';
 import { ScrapbookingHandler } from '../handler/ScrapbookingHandler';
 import { UsersHandler } from '../handler/UsersHandler';
 import { PedidosHandler } from '../handler/PedidosHandler';
+import { PedidoHandler } from '../handler/PedidoHandler';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class TipoFactory {
     private letteringHandler: LetteringHandler,
     private ofertasHandler: OfertasHandler,
     private usersHandler: UsersHandler,
-    private pedidosHandler: PedidosHandler
+    private pedidosHandler: PedidosHandler,
+    private pedidoHandler: PedidoHandler
   ) {
     // Registrar los manejadores en un objeto
     this.handlerRegistry = {
@@ -29,6 +31,7 @@ export class TipoFactory {
       ofertas: () => this.ofertasHandler,
       users: () => this.usersHandler,
       pedidos: () => this.pedidosHandler,
+      pedidosCliente: () => this.pedidoHandler,
     };
   }
 

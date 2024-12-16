@@ -4,8 +4,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/user/User.service';
 import { UserDetails } from '../../../Model/Domain/interface/UserDetails';
-import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
-import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
+ import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { Location } from '@angular/common';
 
 //si tiene descuento automaticamente esta en
@@ -17,14 +16,12 @@ import { Location } from '@angular/common';
 })
 export class FormularioComponentUser implements OnInit {
   nombre: string = '';
-  precio: number = 0;
+  username: string = '';
+  password: string = '';
+  email: string = '';
   imagen: string = '';
-  descuento: number = 0;
-  lettering?: boolean;
-  scrapbooking?: boolean;
-  oferta?: boolean;
-  ref?: DynamicDialogRef;
-  cantidad: number = 1;
+  authorities: UserAuthority[] = [];
+  selectedAuthority!: UserAuthority;
 
   constructor(
     private userService: UserService,
@@ -32,27 +29,33 @@ export class FormularioComponentUser implements OnInit {
     private router: Router,
     private location: Location
   ) {}
-
-  ngOnInit(): void {}
+  //
+  ngOnInit(): void {
+    this.authorities = Object.values(UserAuthority).filter(
+      (authority) => authority !== UserAuthority.ANONYMOUS
+    );
+  }
   add(
     nombre: string,
     username: string,
+    password: string,
     email: string,
-    authorities: UserAuthority[],
-    favorito?: Producto[]
+    imagen: string,
+    authorities: UserAuthority[]
   ): void {
     nombre = nombre.trim();
 
-    if (!nombre) {
+    if (!nombre || !username || !password || !email) {
       return;
     }
 
     const newUser: UserDetails = {
       nombre,
       username,
+      password,
       email,
-      authorities,
-      favorito,
+      imagen,
+      authorities: [this.selectedAuthority],
     };
     this.userService.addUser(newUser);
 
@@ -62,5 +65,4 @@ export class FormularioComponentUser implements OnInit {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
- 
 }

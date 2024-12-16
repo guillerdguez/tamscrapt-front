@@ -9,13 +9,14 @@ import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService'
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../seguridad/AuthService.service';
 import { MessageService } from 'primeng/api';
+import { AuthDAO } from '../../DAO/AuthDAO';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private usersSubject = new BehaviorSubject<User[]>([]);
-  public users$ = this.usersSubject.asObservable();
+  // private usersSubject = new BehaviorSubject<User[]>([]);
+  // public users$ = this.usersSubject.asObservable();
   private users: User[] = [];
   private userId: number | undefined = this.authService.getCurrentUserId();
   private mensajeMostrado = false;
@@ -24,6 +25,7 @@ export class UserService {
   constructor(
     public authService: AuthService,
     private userDAO: UserDAO,
+    private authDAO: AuthDAO,
     private algoModel: AlgoModel,
     public userModel: UserModel,
     private callbacksService: CallbackUserService,
@@ -39,12 +41,12 @@ export class UserService {
   }
 
   addUser(user: any): void {
-    this.userDAO.addUser(user).subscribe({
+    this.authDAO.register(user).subscribe({
       next: (newUser: any) => {
         this.userModel.users.push(newUser);
         this.algoModel.algos.push(newUser);
         this.users.push(newUser);
-        this.usersSubject.next(this.users);
+        // this.usersSubject.next(this.users);
         this.getUsers();
       },
       error: (error) => {
@@ -59,7 +61,7 @@ export class UserService {
         const usersCreados = this.userModel.crearUsers(users);
         this.algoModel.algos = usersCreados;
         this.users = usersCreados;
-        this.usersSubject.next(usersCreados);
+        // this.usersSubject.next(usersCreados);
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
@@ -71,7 +73,7 @@ export class UserService {
     this.userDAO.getUsers().subscribe({
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
-        this.usersSubject.next(usersCreados);
+        // this.usersSubject.next(usersCreados);
         this.userModel.users = usersCreados;
         this.algoModel.algos = usersCreados;
       },
@@ -82,12 +84,16 @@ export class UserService {
   }
 
   getUser(id: number): void {
+    this.resetUser();
     this.userDAO.getUser(id).subscribe({
       next: (user: User) => {
         this.algoModel.algo = user;
       },
-      error: (error) => this.handleError('problemitas'),
+      error: (error) => this.handleError('Error al obtener usuario'),
     });
+  }
+  private resetUser(): void {
+    this.algoModel.algo = null;
   }
 
   findByName(term: string): void {
@@ -95,7 +101,7 @@ export class UserService {
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
         this.algoModel.algos = usersCreados;
-        this.usersSubject.next(usersCreados);
+        // this.usersSubject.next(usersCreados);
       },
       error: (error) => {
         console.error('Error al buscar usuarios:', error);
@@ -119,7 +125,7 @@ export class UserService {
       next: () => {
         this.userModel.users = this.users;
         this.algoModel.algos = this.users;
-        this.usersSubject.next(this.users);
+        // this.usersSubject.next(this.users);
         this.getUsers();
       },
       error: (error) => {

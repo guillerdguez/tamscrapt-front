@@ -21,8 +21,7 @@ export class FormularioComponentProducto implements OnInit {
   lettering?: boolean;
   scrapbooking?: boolean;
   oferta?: boolean;
-  ref?: DynamicDialogRef;
-  cantidad: number = 1;
+   cantidad: number = 1;
 
   constructor(
     private productoService: ProductoService,
@@ -71,28 +70,5 @@ export class FormularioComponentProducto implements OnInit {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
-
-  // openDialog(): void {
-  //   this.ref = this.dialogService.open(FormularioComponentProducto, {
-  //     header: 'Nuevo Producto',
-  //     width: '50%',
-  //     contentStyle: { 'max-height': '500px', overflow: 'auto' },
-  //     baseZIndex: 10000,
-  //   });
-
-  //   this.ref.onClose.subscribe((producto: Producto) => {
-  //     if (producto) {
-  //       this.add(
-  //         producto.nombre,
-  //         producto.precio,
-  //         producto.imagen,
-  //         producto.descuento,
-  //         producto.cantidad,
-  //         producto.lettering,
-  //         producto.scrapbooking,
-  //         producto.oferta
-  //       );
-  //     }
-  //   });
-  // }
+ 
 }

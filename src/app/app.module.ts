@@ -69,6 +69,7 @@ import { CartService } from './Service/carrito/CartService';
 import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoService';
 import { PedidosHandler } from './Service/handler/PedidosHandler';
 import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
+import { PedidoHandler } from './Service/handler/PedidoHandler';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -143,6 +144,7 @@ import { FormularioComponentUser } from './UI/clientes/formularioProductos/formu
     CartService,
     CallbacksProductoService,
     PedidosHandler,
+    PedidoHandler,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

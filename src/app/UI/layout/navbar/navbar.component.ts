@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
+import { UserService } from '../../../Service/user/User.service';
+import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
 
 @Component({
   selector: 'app-navbar',
@@ -12,23 +14,37 @@ export class NavbarComponent implements OnInit {
   dropdownMenu: boolean = false;
   menuOpen: boolean = false;
   userId: number | undefined = undefined;
-  userAuthority = UserAuthority; // Exponer el enum para la plantilla
+  userAuthority = UserAuthority;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private userService: UserService,
+    public algoModel: AlgoModel
+  ) {}
 
   ngOnInit(): void {
     // Obtener el ID del usuario actual al inicializar el componente
     this.userId = this.authService.getCurrentUserId();
+    if (this.userId) {
+      this.userService.getUser(this.userId);
+    }
   }
 
-  toggleMenu() {
-    this.dropdownMenu = !this.dropdownMenu;
-    if (this.dropdownMenu) this.menuOpen = false;
+  // Alterna entre los menús desplegables
+  toggleMenu(menu: 'admin' | 'user') {
+    if (menu === 'admin') {
+      this.dropdownMenu = !this.dropdownMenu;
+      this.menuOpen = false;
+    } else if (menu === 'user') {
+      this.menuOpen = !this.menuOpen;
+      this.dropdownMenu = false;
+    }
   }
 
-  toggleUserMenu() {
-    this.menuOpen = !this.menuOpen;
-    if (this.menuOpen) this.dropdownMenu = false;
+  closeMenus() {
+    this.dropdownMenu = false;
+    this.menuOpen = false;
   }
 
   logout() {

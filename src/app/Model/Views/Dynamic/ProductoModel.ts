@@ -83,9 +83,9 @@ export class ProductoModel {
   ];
 
   stockArray = [
-    { tag: 'INSTOCK', severity: 'success' },
-    { tag: 'LOWSTOCK', severity: 'warning' },
-    { tag: 'OUTOFSTOCK', severity: 'danger' },
+    { tag: 'STOCK', severity: 'success' },
+    { tag: 'POCO STOCK', severity: 'warning' },
+    { tag: 'SIN STOCK', severity: 'danger' },
   ];
 
   private evaluateConditions(
@@ -103,30 +103,27 @@ export class ProductoModel {
       { class: 'precioOriginal' },
     ];
   }
-
   crearProductos(productos: Producto[]): Producto[] {
     const listaProducto: Producto[] = [];
     productos.forEach((producto) => {
-      const newProducto = new Producto(this.menuStrategyFactory, this);
-      newProducto.getParametros(producto);
-      newProducto.favorito = !!this.favoritosCliente.find(
-        (fav) => fav.id === producto.id
-      );
-      // newProducto.enCarrito = !!this.cartItems.find(
-      //   (item) => item.id === producto.id
-      // );
+        const newProducto = new Producto(this.menuStrategyFactory, this);
+        newProducto.getParametros(producto);
 
-      const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
-      newProducto.tag = tag;
-      newProducto.severity = severity;
+        // Reflejar directamente el estado de favoritos
+        newProducto.favorito = this.favoritosCliente.some(fav => fav.id === producto.id);
 
-      newProducto.menuItems = newProducto.getMenuItems(
-        this.algoModel.algosSeleccionados,
-        this.callbacksService
-      );
+        const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
+        newProducto.tag = tag;
+        newProducto.severity = severity;
 
-      listaProducto.push(newProducto);
+        newProducto.menuItems = newProducto.getMenuItems(
+            this.algoModel.algosSeleccionados,
+            this.callbacksService
+        );
+
+        listaProducto.push(newProducto);
     });
     return listaProducto;
-  }
+}
+
 }

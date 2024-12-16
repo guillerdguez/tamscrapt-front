@@ -23,6 +23,11 @@ export class PedidoDAO {
     const urlMod = `${this.urlBase}/listar`;
     return this.http.get<Pedido[]>(urlMod);
   }
+  getPedidosPorCliente(): Observable<Pedido[]> {
+    const urlMod = `${this.urlBase}/pedidosCliente`;
+    return this.http.get<Pedido[]>(urlMod, this.httpOptions);
+  }
+
   getPedido(id: number): Observable<Pedido> {
     const urlMod = `${this.urlBase}/ver/${id}`;
     return this.http.get<Pedido>(urlMod);

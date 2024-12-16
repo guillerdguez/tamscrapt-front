@@ -1,4 +1,5 @@
+// tipo-handler.ts
 export interface TipoHandler {
-  execute(): void;
+  execute(params?: any): void;
   getTitle(): string;
 }
