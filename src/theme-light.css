@@ -296,3 +296,9 @@ p-inputNumber :focus {
 .btn-checkout:hover {
   background-color: #77c1c4;
 }
+#search-component {
+  background-color: white;
+}
+#search-box {
+  background-color: #dfe8fa;
+}

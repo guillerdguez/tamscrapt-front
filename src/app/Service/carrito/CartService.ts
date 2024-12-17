@@ -27,8 +27,9 @@ export class CartService {
       this.toggleCart(selectedItems);
     });
     const userId = this.authService.getCurrentUserId();
-
-    this.initializeCart(userId); // Cargar el carrito desde la base de datos
+    if (userId) {
+      this.initializeCart(userId); // Cargar el carrito desde la base de datos
+    }
   }
 
   toggleCart(selectedItems: Producto[]): void {

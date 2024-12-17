@@ -13,6 +13,7 @@ import { RegisterComponent } from './UI/clientes/seguridad/register/register.com
 import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { UserAuthority } from './Model/Domain/User/UserAuthority.enum';
+import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -27,7 +28,7 @@ const routes: Routes = [
   { path: 'tabla/:tipo', component: EsquemaListaComponent },
   { path: 'carrito', component: CartComponent, canMatch: [authGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: FormularioComponentUser },
   { path: 'checkout', component: CheckoutComponent },
 
   {

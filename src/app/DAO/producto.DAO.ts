@@ -46,6 +46,13 @@ export class ProductoDAO {
     }
     return this.http.get<Producto[]>(`${this.urlBase}/?name=${term}`);
   }
+  searchProductos(term: string): Observable<Producto[]> {
+    const urlMod = `${this.urlBase}/buscar?name=${encodeURIComponent(term)}`; // Interpola el valor de 'term'
+    if (!term.trim()) {
+      return of([]);
+    }
+    return this.http.get<Producto[]>(urlMod);
+  }
 
   // UPDATE
   updateProducto(id: number, producto: Producto): Observable<Producto> {

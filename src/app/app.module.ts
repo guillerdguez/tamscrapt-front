@@ -70,6 +70,7 @@ import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoS
 import { PedidosHandler } from './Service/handler/PedidosHandler';
 import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
 import { PedidoHandler } from './Service/handler/PedidoHandler';
+import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -92,6 +93,7 @@ import { PedidoHandler } from './Service/handler/PedidoHandler';
     FormularioComponentUser,
     CheckoutComponent,
     CartComponent,
+    ProductoSearchComponent,
   ],
   imports: [
     // Angular Core Modules

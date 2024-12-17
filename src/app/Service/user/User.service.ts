@@ -46,6 +46,7 @@ export class UserService {
         this.userModel.users.push(newUser);
         this.algoModel.algos.push(newUser);
         this.users.push(newUser);
+        console.log(newUser);
         // this.usersSubject.next(this.users);
         this.getUsers();
       },
@@ -76,6 +77,7 @@ export class UserService {
         // this.usersSubject.next(usersCreados);
         this.userModel.users = usersCreados;
         this.algoModel.algos = usersCreados;
+        console.log(usersCreados);
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);

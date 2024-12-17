@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ProductoDAO } from '../../DAO/producto.DAO';
 import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
@@ -93,7 +93,12 @@ export class ProductoService {
       error: (error) => this.handleError(error),
     });
   }
-
+  searchProductos(term: string): Observable<Producto[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+    return this.productoDAO.searchProductos(term);
+  }
   // UPDATE
   updateProducto(id: number, producto: Producto): void {
     this.productoDAO.updateProducto(id, producto).subscribe({

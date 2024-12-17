@@ -50,20 +50,40 @@
           </li>
 
           <!-- Login -->
+          <!-- Link de Login -->
           <li *ngIf="!authService.isAuthenticated()" class="nav-item">
-            <a class="nav-link" routerLink="/login">Login</a>
+            <a class="nav-link" routerLink="/login">
+              <i class="pi pi-user"></i>Login
+            </a>
           </li>
 
           <!-- Menú de usuario -->
-          <li *ngIf="authService.isAuthenticated()" class="nav-item">
+          <li *ngIf="authService.isAuthenticated()" class="nav-item dropdown">
             <a
-              class="nav-link"
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              id="userMenu"
               role="button"
               (click)="toggleMenu('user'); $event.stopPropagation()"
             >
-              <i class="pi pi-user"></i> Usuario
+              @if(algoModel.algo){
+              <div class="user-image-container me-2">
+                <img
+                  *ngIf="algoModel.algo.imagen"
+                  [src]="algoModel.algo.imagen"
+                  alt="Imagen del usuario"
+                  class="user-image"
+                />
+                <div *ngIf="!algoModel.algo.imagen" class="no-image">
+                  <p class="text-center font-bold">Sin Imagen</p>
+                </div>
+              </div>
+              } Usuario
             </a>
-            <ul *ngIf="menuOpen" class="dropdown-menu show">
+            <ul
+              *ngIf="menuOpen"
+              class="dropdown-menu dropdown-menu-end show"
+              aria-labelledby="userMenu"
+            >
               <li>
                 <a
                   class="dropdown-item"
@@ -85,6 +105,7 @@
             </ul>
           </li>
 
+          <!-- Link del carrito -->
           <li
             *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
             class="nav-item"
@@ -93,6 +114,8 @@
               <i class="pi pi-shopping-cart"></i>
             </a>
           </li>
+
+          <!-- Switch de tema -->
           <li class="nav-item">
             <app-switch class="switch"></app-switch>
           </li>
