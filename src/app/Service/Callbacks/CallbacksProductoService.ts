@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
+import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +18,12 @@ export class CallbacksProductoService {
 
   openOfertaDialog$ = new Subject<Producto[]>();
 
-  url: string = '/newProducto';
+ 
 
   constructor(private router: Router) {}
 
   createProducto() {
-    this.router.navigate([this.url]);
+    this.router.navigate(['/newProducto']);
     this.createProducto$.next();
   }
 
@@ -34,12 +35,7 @@ export class CallbacksProductoService {
   }
 
   editProducto(producto: Producto | any[]) {
-    let productoNoArray;
-    if (Array.isArray(producto)) {
-      productoNoArray = producto[0];
-    } else {
-      productoNoArray = producto;
-    }
+    const productoNoArray = Array.isArray(producto) ? producto[0] : producto;
     this.router.navigate(['/detail/Productos/', productoNoArray.id]);
     this.editProducto$.next(producto);
   }
@@ -55,6 +51,6 @@ export class CallbacksProductoService {
     this.toggleFavorito$.next(selectedItems);
   }
   toggleCart(selectedItems: Producto[]): void {
-     this.toggleCart$.next(selectedItems);
+    this.toggleCart$.next(selectedItems);
   }
 }

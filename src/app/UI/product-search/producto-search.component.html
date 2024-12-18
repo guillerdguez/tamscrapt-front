@@ -1,12 +1,25 @@
 <div id="search-component">
-  <label for="search-box">Producto Search</label>
-  <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  <!-- Input con placeholder -->
+  <input
+    #searchBox
+    id="search-box"
+    placeholder="Buscar..."
+    (input)="search(searchBox.value)"
+  />
 
+  <!-- Lista de resultados -->
   <ul class="search-result">
     <li *ngFor="let producto of productos$ | async">
-      <a (click)="algoModel.seleccionar(producto, 'Editar')">
+      <a
+        (click)="rellenar([producto])"
+        routerLink="/detail/Productos/{{ producto.id }}"
+      >
         {{ producto.nombre }}
       </a>
+
+      <!-- <a (click)="callbacksProductoService.editProductos([producto])">
+        {{ producto.nombre }}
+      </a> -->
     </li>
   </ul>
 </div>

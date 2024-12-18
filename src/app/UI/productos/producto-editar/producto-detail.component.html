@@ -116,6 +116,12 @@
             binary="true"
             class="w-full"
           ></p-checkbox>
+          <div
+            *ngIf="param.oferta < 0 || param.oferta > 100"
+            class="text-danger"
+          >
+            El descuento debe estar entre 0% y 100%.
+          </div>
           <h3
             *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
             class="text-lg font-bold"

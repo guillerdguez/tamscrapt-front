@@ -300,5 +300,19 @@ p-inputNumber :focus {
   background-color: white;
 }
 #search-box {
-  background-color: #dfe8fa;
+  background-color: #a8dadc;
+}
+li {
+  background-color: white;
+}
+
+.search-result li a:hover {
+  background-color: #f8f9fa;
+  color: #a8dadc;
+}
+/* Efecto hover y focus */
+#search-box:hover,
+#search-box:focus {
+  border-color: #72d8db; /* Color principal */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }

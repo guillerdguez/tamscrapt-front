@@ -11,11 +11,15 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/ofertas"> Ofertas </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" routerLink="/lettering"> Lettering </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/scrapbooking"> Scrapbooking </a>
+          </li>
+          <li class="nav-item">
+            <app-producto-search class="search"></app-producto-search>
           </li>
 
           <!-- Opciones solo para administrador -->
@@ -74,10 +78,13 @@
                   class="user-image"
                 />
                 <div *ngIf="!algoModel.algo.imagen" class="no-image">
-                  <p class="text-center font-bold">Sin Imagen</p>
+                  <p alt="Imagen del usuario" class="text-center font-bold">
+                    {{ algoModel.algo.username }}
+                  </p>
                 </div>
               </div>
-              } Usuario
+              }
+              <!-- Usuario -->
             </a>
             <ul
               *ngIf="menuOpen"

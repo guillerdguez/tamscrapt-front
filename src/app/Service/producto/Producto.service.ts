@@ -107,7 +107,6 @@ export class ProductoService {
         this.algoModel.algo = producto;
 
         // Al volver a cargar, empleamos la categoría actual
-        this.getProductos(this.currentCategory);
       },
       error: (error) => this.handleError(error),
     });

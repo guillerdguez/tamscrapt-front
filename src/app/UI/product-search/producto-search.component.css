@@ -1,47 +1,47 @@
+/* Ajustes generales del contenedor */
 #search-component {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  
-  position: relative;
+  max-width: 400px; /* Limita el ancho */
+  margin: 0 auto; /* Centra el input */
+  position: relative; /* Necesario para las sugerencias */
+  padding: 0;
+  min-width: 250px;
 }
 
-#search-component label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
+/* Ajustes específicos del input */
 #search-box {
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1rem; 
-  border-radius: 4px;
-  box-sizing: border-box;
+  width: 100%; /* Ancho completo */
+  padding: 0.6rem 1rem; /* Ajusta padding */
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px; /* Bordes redondeados */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-li {
-  list-style-type: none;
+/* Ajuste de la lista de resultados */
+ul.search-result {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: calc(100% + 5px); /* Debajo del input */
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+
+  border-radius: 4px;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-result li {
+  list-style: none;
 }
 
 .search-result li a {
-  display: inline-block;
-  width: 100%;
-  max-width: 600px;
-  padding: 0.5rem;
-  box-sizing: border-box;
-  text-decoration: none;
-}
+  display: block;
+  padding: 0.6rem 1rem;
 
-ul.search-result {  
-  margin-top: 0;
-  padding-left: 0;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-width: 600px;
-  z-index: 10;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }

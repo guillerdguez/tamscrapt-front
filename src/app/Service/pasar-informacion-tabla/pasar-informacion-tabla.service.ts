@@ -57,7 +57,7 @@ export class PasarInformacionTablaService {
     if (updatedParams) {
       this.algoModel.algo = updatedParams;
       this.productoService.updateProducto(
-        this.algoModel.algo.id, // Corregido de 'algos.id' a 'algo.id'
+        this.algoModel.algo.id, 
         this.algoModel.algo
       );
     }

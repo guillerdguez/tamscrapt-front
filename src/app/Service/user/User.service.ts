@@ -89,7 +89,11 @@ export class UserService {
     this.resetUser();
     this.userDAO.getUser(id).subscribe({
       next: (user: User) => {
-        this.algoModel.algo = user;
+        console.log(user);
+        if (user != this.userModel.user || this.userModel.user == undefined) {
+          this.userModel.user = user;
+          this.algoModel.algo = user;
+        }
       },
       error: (error) => this.handleError('Error al obtener usuario'),
     });
