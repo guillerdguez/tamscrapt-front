@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
- import { ProductoService } from '../../Service/producto/Producto.service';
+import { ProductoService } from '../../Service/producto/Producto.service';
 import { User } from '../../Model/Domain/User/UserClass';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../../Service/seguridad/AuthService.service';

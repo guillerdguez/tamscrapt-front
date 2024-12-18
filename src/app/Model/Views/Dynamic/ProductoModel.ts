@@ -19,19 +19,17 @@ export class ProductoModel {
   private callbacksService!: CallbacksProductoService;
   favoritosCliente: Producto[] = [];
   cartItems: any[] = [];
-  private cartItemsSubject = new BehaviorSubject<any[]>([]);
+  // private cartItemsSubject = new BehaviorSubject<any[]>([]);
   userId: any;
   // Observable para componentes que deseen suscribirse a cambios en el carrito
-  cartItems$ = this.cartItemsSubject.asObservable();
+  // cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private algoModel: AlgoModel,
     private injector: Injector,
     public authService: AuthService,
-    private productoDAO: ProductoDAO,
-    private carritoDAO: CarritoDAO,
-    private messageService: MessageService
+    private productoDAO: ProductoDAO
   ) {
     this.callbacksService = this.injector.get(CallbacksProductoService);
     this.userId = this.authService.getCurrentUserId();
@@ -43,11 +41,6 @@ export class ProductoModel {
   actualizarFavoritosCliente(favoritos: Producto[]): void {
     this.favoritosCliente = favoritos;
   }
-
-  // actualizarCartItemsCliente(cartItems: any[]): void {
-  //   this.cartItems = cartItems;
-  //   this.cartItemsSubject.next(this.cartItems);
-  // }
 
   private cargarFavoritos(clienteId: number): void {
     this.productoDAO.obtenerFavoritos(clienteId).subscribe({
@@ -106,24 +99,25 @@ export class ProductoModel {
   crearProductos(productos: Producto[]): Producto[] {
     const listaProducto: Producto[] = [];
     productos.forEach((producto) => {
-        const newProducto = new Producto(this.menuStrategyFactory, this);
-        newProducto.getParametros(producto);
+      const newProducto = new Producto(this.menuStrategyFactory, this);
+      newProducto.getParametros(producto);
 
-        // Reflejar directamente el estado de favoritos
-        newProducto.favorito = this.favoritosCliente.some(fav => fav.id === producto.id);
+      // Reflejar directamente el estado de favoritos
+      newProducto.favorito = this.favoritosCliente.some(
+        (fav) => fav.id === producto.id
+      );
 
-        const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
-        newProducto.tag = tag;
-        newProducto.severity = severity;
+      const { tag, severity }: TagSeverity = this.getTagSeverity(newProducto);
+      newProducto.tag = tag;
+      newProducto.severity = severity;
 
-        newProducto.menuItems = newProducto.getMenuItems(
-            this.algoModel.algosSeleccionados,
-            this.callbacksService
-        );
+      newProducto.menuItems = newProducto.getMenuItems(
+        this.algoModel.algosSeleccionados,
+        this.callbacksService
+      );
 
-        listaProducto.push(newProducto);
+      listaProducto.push(newProducto);
     });
     return listaProducto;
-}
-
+  }
 }

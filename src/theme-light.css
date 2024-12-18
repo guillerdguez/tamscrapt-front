@@ -302,7 +302,7 @@ p-inputNumber :focus {
 #search-box {
   background-color: #a8dadc;
 }
-li {
+.lista-search {
   background-color: white;
 }
 

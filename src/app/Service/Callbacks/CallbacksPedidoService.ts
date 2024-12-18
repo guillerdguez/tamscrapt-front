@@ -15,13 +15,11 @@ export class CallbacksPedidoService {
   toggleOfertas$ = new Subject<Pedido[]>();
   toggleFavorito$ = new Subject<Pedido[]>();
   openOfertaDialog$ = new Subject<Pedido[]>();
-
-  url: string = '/newPedido';
-
+ 
   constructor(private router: Router) {}
 
   createPedido() {
-    this.router.navigate([this.url]);
+    this.router.navigate(['carrito']);
     this.createPedido$.next();
   }
 

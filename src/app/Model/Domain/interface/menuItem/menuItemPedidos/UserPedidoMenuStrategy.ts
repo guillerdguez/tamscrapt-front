@@ -25,9 +25,9 @@ export class UserPedidoMenuStrategy implements MenuStrategy {
       },
 
       {
-        label: 'Confirmar Pedido',
+        label: 'Eliminar',
         icon: 'pi pi-check',
-        command: () => this.callbacks.confirmarPedido(),
+        command: () => this.callbacks.deletePedidos(selectedItems),
       },
     ];
   }

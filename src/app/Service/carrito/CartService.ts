@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 import { AuthService } from '../seguridad/AuthService.service';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -96,24 +97,26 @@ export class CartService {
   addProductoCarrito(product: Producto, quantity: number = 1): void {
     this.cartDAO.addProductoCarrito(product.id, quantity).subscribe({
       next: () => {
-        let articuloExistente;
-        if (this.cartItems.length > 0) {
-          articuloExistente = this.cartItems.find(
-            (item: any) => item.product.id === product.id
-          );
-        }
-
-        if (articuloExistente) {
-          articuloExistente.quantity += quantity;
-          if (articuloExistente.quantity <= 0) {
-            this.removeProduct(product.id);
+        if (product.cantidad > 0) {
+          let articuloExistente;
+          if (this.cartItems.length > 0) {
+            articuloExistente = this.cartItems.find(
+              (item: any) => item.product.id === product.id
+            );
           }
-        } else {
-          const productCopy: ProductoDetails = product.getProductoData();
-          this.cartItems.push({ product: productCopy, quantity });
-        }
+          
+          if (articuloExistente) {
+            articuloExistente.quantity += quantity;
+            if (articuloExistente.quantity <= 0) {
+              this.removeProduct(product.id);
+            }
+          } else {
+            const productCopy: ProductoDetails = product.getProductoData();
+            this.cartItems.push({ product: productCopy, quantity });
+          }
 
-        this.cartItemsSubject.next(this.cartItems);
+          this.cartItemsSubject.next(this.cartItems);
+        }  
       },
       error: (error) => {
         console.error('Error al agregar el producto al carrito:', error);
@@ -125,6 +128,7 @@ export class CartService {
       },
     });
   }
+ 
 
   removeProduct(productId: number): void {
     this.cartDAO.deleteCarrito(productId).subscribe({

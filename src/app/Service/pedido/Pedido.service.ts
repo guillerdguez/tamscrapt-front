@@ -15,8 +15,7 @@ export class PedidoService {
   ) {}
   //Create
   addPedido(pedido: any): void {
-    console.log(pedido);
-    this.pedidoModel.pedidos.push(pedido);
+     this.pedidoModel.pedidos.push(pedido);
     this.pedidoDAO.addPedido(pedido).subscribe({
       next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;

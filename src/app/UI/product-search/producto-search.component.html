@@ -8,18 +8,15 @@
   />
 
   <!-- Lista de resultados -->
-  <ul class="search-result">
+  <ul class="search-result" *ngIf="showResults">
     <li *ngFor="let producto of productos$ | async">
       <a
+        class="lista-search"
         (click)="rellenar([producto])"
         routerLink="/detail/Productos/{{ producto.id }}"
       >
         {{ producto.nombre }}
       </a>
-
-      <!-- <a (click)="callbacksProductoService.editProductos([producto])">
-        {{ producto.nombre }}
-      </a> -->
     </li>
   </ul>
 </div>

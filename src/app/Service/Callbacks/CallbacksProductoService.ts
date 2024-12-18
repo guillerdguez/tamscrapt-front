@@ -18,9 +18,7 @@ export class CallbacksProductoService {
 
   openOfertaDialog$ = new Subject<Producto[]>();
 
- 
-
-  constructor(private router: Router) {}
+  constructor(private router: Router ) {}
 
   createProducto() {
     this.router.navigate(['/newProducto']);

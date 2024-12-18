@@ -90,8 +90,7 @@ export class CheckoutComponent {
       precio: this.orderSummary.total,
     };
 
-    console.log('Pedido a enviar:', pedido);
-
+ 
     this.pedidoService.addPedido(pedido);
     this.cartService.clearCart();
     this.router.navigateByUrl('/productos');

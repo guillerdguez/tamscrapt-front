@@ -14,8 +14,9 @@
   >
     <ng-template pTemplate="header">
       <!-- <div class="flex align-items-center justify-content-between mb-3"> -->
+      <!-- tiene sentido ponerlo en pedido? -->
       <div class="flex align-items-center justify-content-end mb-3">
-        @if(authService.hasAuthority(userAuthority.ADMIN)){
+        @if(authService.hasAuthority(userAuthority.ADMIN) || title=="Pedidos"){
         <p-button (click)="getCreate()" label="+ Create"></p-button>
         }
         <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
@@ -83,7 +84,8 @@
 
               <!-- Botones -->
               <div class="flex flex-wrap justify-content-center gap-2">
-                @if(authService.hasAuthority(userAuthority.ADMIN)){
+                @if(authService.hasAuthority(userAuthority.ADMIN) ||
+                title=="Pedidos"){
                 <div
                   *ngFor="let menuItem of item.menuItems.slice(1)"
                   class="botones"
@@ -188,7 +190,8 @@
               </div>
             </div>
 
-            @if (authService.hasAuthority(userAuthority.ADMIN)) {
+            @if (authService.hasAuthority(userAuthority.ADMIN) ||
+            title=="Pedidos" ) {
             <div
               class="flex justify-content-center gap-2 mt-3 flex flex-wrap justify-content-around"
             >

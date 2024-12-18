@@ -46,8 +46,7 @@ export class UserService {
         this.userModel.users.push(newUser);
         this.algoModel.algos.push(newUser);
         this.users.push(newUser);
-        console.log(newUser);
-        // this.usersSubject.next(this.users);
+         // this.usersSubject.next(this.users);
         this.getUsers();
       },
       error: (error) => {
@@ -77,8 +76,7 @@ export class UserService {
         // this.usersSubject.next(usersCreados);
         this.userModel.users = usersCreados;
         this.algoModel.algos = usersCreados;
-        console.log(usersCreados);
-      },
+       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
       },
@@ -89,8 +87,7 @@ export class UserService {
     this.resetUser();
     this.userDAO.getUser(id).subscribe({
       next: (user: User) => {
-        console.log(user);
-        if (user != this.userModel.user || this.userModel.user == undefined) {
+         if (user != this.userModel.user || this.userModel.user == undefined) {
           this.userModel.user = user;
           this.algoModel.algo = user;
         }
