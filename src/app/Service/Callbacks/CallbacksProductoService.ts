@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class CallbacksProductoService {
 
   openOfertaDialog$ = new Subject<Producto[]>();
 
-  constructor(private router: Router ) {}
+  constructor(private router: Router) {}
 
   createProducto() {
     this.router.navigate(['/newProducto']);

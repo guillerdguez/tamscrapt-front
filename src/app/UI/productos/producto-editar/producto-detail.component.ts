@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ProductoService } from '../../../Service/producto/Producto.service';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
-import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 @Component({
@@ -18,7 +17,7 @@ export class ProductoDetailComponent implements OnInit {
   constructor(
     private productoService: ProductoService,
     private location: Location,
-    public algoModel: AlgoModel,
+    public genericModel: GenericModel,
     public authService: AuthService,
     public router: Router,
     public route: ActivatedRoute,
@@ -26,18 +25,18 @@ export class ProductoDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.params = [...this.algoModel.algosSeleccionados];
-    //borra los seleccionados si dan para atrás sin guardar
+    this.params = [...this.genericModel.elementsSeleccionados];
+    //borra los seleccionados si dan para atrás sin guardar pero no si dan al navegador
     this.location.subscribe(() => {
-      this.algoModel.algosSeleccionados.length = 0;
+      this.genericModel.elementsSeleccionados.length = 0;
     });
   }
 
-  // goBack(): void {
-  //   this.location.back();
-  //   this.router.navigateByUrl(this.router.url);
-  //   this.algoModel.algosSeleccionados.length = 0;
-  // }
+  goBack(): void {
+    this.location.back();
+    this.router.navigateByUrl(this.router.url);
+    this.genericModel.elementsSeleccionados.length = 0;
+  }
 
   save(): void {
     this.productoService.editMultipleProductos(this.params);

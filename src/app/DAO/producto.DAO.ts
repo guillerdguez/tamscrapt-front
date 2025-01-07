@@ -1,4 +1,4 @@
-// producto.DAO.ts
+ 
 import { Injectable } from '@angular/core';
 import { Producto } from '../Model/Domain/Producto/ProductoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -40,14 +40,9 @@ export class ProductoDAO {
   }
 
   // BUSCAR POR NOMBRE
-  findByName(term: string): Observable<Producto[]> {
-    if (!term.trim()) {
-      return of([]);
-    }
-    return this.http.get<Producto[]>(`${this.urlBase}/?name=${term}`);
-  }
+
   searchProductos(term: string): Observable<Producto[]> {
-    const urlMod = `${this.urlBase}/buscar?name=${encodeURIComponent(term)}`; // Interpola el valor de 'term'
+    const urlMod = `${this.urlBase}/buscar?name=${encodeURIComponent(term)}`;
     if (!term.trim()) {
       return of([]);
     }

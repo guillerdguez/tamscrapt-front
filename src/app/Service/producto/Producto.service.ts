@@ -1,9 +1,8 @@
-// producto.service.ts
 import { Injectable } from '@angular/core';
 import { ProductoDAO } from '../../DAO/producto.DAO';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
@@ -12,19 +11,15 @@ import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService'
   providedIn: 'root',
 })
 export class ProductoService {
-  // private productosSubject = new BehaviorSubject<Producto[]>([]);
-  // public productos$ = this.productosSubject.asObservable();
-
   private productos: Producto[] = [];
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
-
   // Mantendremos la categoría actual en una propiedad
   private currentCategory?: string;
 
   constructor(
     private productoDAO: ProductoDAO,
-    private algoModel: AlgoModel,
+    private genericModel: GenericModel,
     public productoModel: ProductoModel,
     private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
@@ -42,7 +37,7 @@ export class ProductoService {
   // CREATE
   addProducto(producto: any): void {
     this.productoModel.productos.push(producto);
-    this.algoModel.algos.push(producto);
+    this.genericModel.elements.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
@@ -57,7 +52,6 @@ export class ProductoService {
     return this.productoModel.productos;
   }
 
-  // producto.service.ts
   getProductos(categoria?: string): void {
     if (this.currentCategory !== categoria) {
       this.currentCategory = categoria; // Guardamos la categoría actual
@@ -67,7 +61,7 @@ export class ProductoService {
       next: (productos: Producto[]) => {
         const productosCreados = this.productoModel.crearProductos(productos);
 
-        this.algoModel.algos = productosCreados;
+        this.genericModel.elements = productosCreados;
         // this.productosSubject.next(productosCreados);
       },
       error: (error) => this.handleError(error),
@@ -83,16 +77,7 @@ export class ProductoService {
   }
 
   // Buscar por nombre
-  findByName(term: string): void {
-    this.productoDAO.findByName(term).subscribe({
-      next: (productos: Producto[]) => {
-        const productosCreados = this.productoModel.crearProductos(productos);
-        this.algoModel.algos = productosCreados;
-        // this.productosSubject.next(productosCreados);
-      },
-      error: (error) => this.handleError(error),
-    });
-  }
+
   searchProductos(term: string): Observable<Producto[]> {
     if (!term.trim()) {
       return of([]);
@@ -104,7 +89,7 @@ export class ProductoService {
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: Producto) => {
         this.productoModel.producto = producto;
-        this.algoModel.algo = producto;
+        this.genericModel.element = producto;
 
         // Al volver a cargar, empleamos la categoría actual
       },
@@ -116,7 +101,7 @@ export class ProductoService {
   deleteProducto(id: number): void {
     this.productoDAO.deleteProducto(id).subscribe({
       next: () => {
-        this.algoModel.algosSeleccionados.length = 0;
+        this.genericModel.elementsSeleccionados.length = 0;
         // Al volver a cargar, empleamos la categoría actual
         this.getProductos(this.currentCategory);
 
@@ -142,7 +127,7 @@ export class ProductoService {
         item.precioOriginal = undefined;
       }
     });
-    this.algoModel.algosSeleccionados.length = 0;
+    this.genericModel.elementsSeleccionados.length = 0;
   }
 
   // Manejo de múltiples ofertas
@@ -156,7 +141,7 @@ export class ProductoService {
       }
       this.updateProducto(item.id, item.getProductoData());
     });
-    this.algoModel.algosSeleccionados.length = 0;
+    this.genericModel.elementsSeleccionados.length = 0;
   }
 
   // Eliminación múltiple de productos

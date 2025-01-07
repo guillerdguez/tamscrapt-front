@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
-import { AlgoModel } from './AlgoModel';
+import { GenericModel } from './GenericModel';
 import { Pedido } from '../../Domain/Pedido/PedidoClass';
 import { CallbacksPedidoService } from '../../../Service/Callbacks/CallbacksPedidoService';
 
@@ -13,7 +13,7 @@ export class PedidoModel {
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
-    private algoModel: AlgoModel,
+    private genericModel: GenericModel,
     private injector: Injector,
     public authService: AuthService
   ) {
@@ -58,7 +58,7 @@ export class PedidoModel {
       newPedido.tag = this.getTag(newPedido);
 
       newPedido.menuItems = newPedido.getMenuItems(
-        this.algoModel.algosSeleccionados,
+        this.genericModel.elementsSeleccionados,
         this.callbacksService
       );
 

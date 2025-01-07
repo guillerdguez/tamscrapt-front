@@ -1,8 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject, debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
 import { ProductoService } from '../../Service/producto/Producto.service';
@@ -13,8 +19,9 @@ import { ProductoService } from '../../Service/producto/Producto.service';
   styleUrls: ['./producto-search.component.css'],
 })
 export class ProductoSearchComponent implements OnInit {
-  @ViewChild('searchBox', { static: true }) searchBox!: ElementRef<HTMLInputElement>;
-  
+  @ViewChild('searchBox', { static: true })
+  searchBox!: ElementRef<HTMLInputElement>;
+
   productos$!: Observable<Producto[]>;
   productos: Producto[] = [];
   private searchTerms = new Subject<string>();
@@ -22,7 +29,7 @@ export class ProductoSearchComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    public algoModel: AlgoModel,
+    public genericModel: GenericModel,
     public productoModel: ProductoModel,
     public callbacksProductoService: CallbacksProductoService,
     private route: ActivatedRoute
@@ -42,9 +49,9 @@ export class ProductoSearchComponent implements OnInit {
   }
 
   rellenar(producto: Producto[]): void {
-    this.algoModel.algosSeleccionados = [];
+    this.genericModel.elementsSeleccionados = [];
     this.callbacksProductoService.editProducto(producto);
-    this.algoModel.algosSeleccionados = Array.from(producto);
+    this.genericModel.elementsSeleccionados = Array.from(producto);
     this.showResults = false;
 
     // Limpia el campo de búsqueda

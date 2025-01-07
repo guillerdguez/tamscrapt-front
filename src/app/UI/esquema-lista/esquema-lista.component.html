@@ -28,11 +28,11 @@
         <div *ngFor="let item of items" class="col-12">
           <div
             class="flex flex-column sm:flex-row align-items-center p-4 gap-4 surface-card"
-            [class.selected]="algoModel.algosSeleccionados.includes(item)"
+            [class.selected]="genericModel.elementsSeleccionados.includes(item)"
             (dblclick)="onselectedTable($event, item)"
             (contextmenu)="onContextMenu($event, item)"
           >
-            <a (click)="algoModel.seleccionar(item, 'Editar')">
+            <a (click)="genericModel.seleccionar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
@@ -93,7 +93,7 @@
                   <p-button
                     [icon]="menuItem.icon"
                     [label]="menuItem.label"
-                    (click)="algoModel.seleccionar(item, menuItem.label)"
+                    (click)="genericModel.seleccionar(item, menuItem.label)"
                     [outlined]="true"
                     aria-label="{{ menuItem.label }}"
                   ></p-button>
@@ -134,7 +134,7 @@
         <div
           class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container"
           *ngFor="let item of items"
-          [class.selected]="algoModel.algosSeleccionados.includes(item)"
+          [class.selected]="genericModel.elementsSeleccionados.includes(item)"
           (dblclick)="onselectedTable($event, item)"
           (contextmenu)="onContextMenu($event, item)"
         >
@@ -142,7 +142,7 @@
             class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
           >
             <!-- mal -->
-            <a (click)="algoModel.seleccionar(item, 'Editar')">
+            <a (click)="genericModel.seleccionar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
@@ -200,7 +200,7 @@
                 *ngFor="let menuItem of item.menuItems.slice(1)"
                 [icon]="menuItem.icon"
                 [label]="menuItem.label"
-                (click)="algoModel.seleccionar(item, menuItem.label)"
+                (click)="genericModel.seleccionar(item, menuItem.label)"
                 [outlined]="true"
                 aria-label="{{ menuItem.label }}"
               ></p-button>

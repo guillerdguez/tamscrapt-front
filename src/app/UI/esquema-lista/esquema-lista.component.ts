@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { ProductoService } from '../../Service/producto/Producto.service';
 import { User } from '../../Model/Domain/User/UserClass';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
@@ -39,12 +39,12 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   headers: any[] = [];
 
   get paramsTemporal(): User[] | Producto[] {
-    return this.algoModel.algos;
+    return this.genericModel.elements;
   }
 
   constructor(
     private route: ActivatedRoute,
-    public algoModel: AlgoModel,
+    public genericModel: GenericModel,
     public authService: AuthService,
     public pasarInformacionTablaService: PasarInformacionTablaService,
     public callbacksProductoService: CallbacksProductoService,
@@ -57,7 +57,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.pasarInformacionTablaService.initialize(tipo);
     });
 
-    this.pasarInformacionTablaService.title$.subscribe((title) => {
+    this.pasarInformacionTablaService.title.subscribe((title) => {
       this.title = title;
     });
 
@@ -68,46 +68,49 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
-      this.algoModel.algosSeleccionados = [];
+      this.genericModel.elementsSeleccionados = [];
     }
   }
 
   onselectedTable(event: MouseEvent, item: any) {
-    if (event.button !== 2 && event.button !== 1) {
-      if (!this.algoModel.algosSeleccionados.includes(item)) {
-        this.algoModel.algosSeleccionados.push(item);
-      } else {
-        this.algoModel.algosSeleccionados =
-          this.algoModel.algosSeleccionados.filter(
-            (selected) => selected !== item
-          );
+    if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
+      if (event.button !== 2 && event.button !== 1) {
+        if (!this.genericModel.elementsSeleccionados.includes(item)) {
+          this.genericModel.elementsSeleccionados.push(item);
+        } else {
+          this.genericModel.elementsSeleccionados =
+            this.genericModel.elementsSeleccionados.filter(
+              (selected) => selected !== item
+            );
+        }
+        this.TableSelected.emit(this.genericModel.elementsSeleccionados);
       }
-      this.TableSelected.emit(this.algoModel.algosSeleccionados);
     }
   }
 
   onContextMenu(event: MouseEvent, item: any) {
-    event.preventDefault();
-    if (!this.algoModel.algosSeleccionados.includes(item)) {
-      this.algoModel.algosSeleccionados.push(item);
-      this.TableSelected.emit(this.algoModel.algosSeleccionados);
+    if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
+      event.preventDefault();
+      if (!this.genericModel.elementsSeleccionados.includes(item)) {
+        this.genericModel.elementsSeleccionados.push(item);
+        this.TableSelected.emit(this.genericModel.elementsSeleccionados);
+      }
+
+      this.items = item.getMenuItems(
+        this.genericModel.elementsSeleccionados,
+        this.callbacksProductoService
+      );
+      this.menu.show(event);
     }
-
-    this.items = item.getMenuItems(
-      this.algoModel.algosSeleccionados,
-      this.callbacksProductoService
-    );
-    this.menu.show(event);
   }
-
-  onValueChange(item: any, field: keyof any, newValue: any): void {
+  onValueChange(item: any, field: string, newValue: any): void {
     item[field] = newValue;
     this.paramsChange.emit(item.setDetails(item));
   }
 
   getCreate() {
     this.items = this.paramsTemporal[0].getMenuItems(
-      this.algoModel.algosSeleccionados,
+      this.genericModel.elementsSeleccionados,
       this.callbacksProductoService
     );
     this.itemsCopy = [...this.items];

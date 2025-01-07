@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../../Model/Domain/User/UserClass';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { UserModel } from '../../Model/Views/Dynamic/UserModel';
 import { UserDAO } from '../../DAO/user.DAO';
 import { CallbackUserService } from '../Callbacks/CallbackUserService';
@@ -9,7 +9,8 @@ import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService'
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../seguridad/AuthService.service';
 import { MessageService } from 'primeng/api';
-import { AuthDAO } from '../../DAO/AuthDAO';
+import { AuthDAO } from '../../DAO/Auth.DAO';
+import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 
 @Injectable({
   providedIn: 'root',
@@ -21,13 +22,15 @@ export class UserService {
   private userId: number | undefined = this.authService.getCurrentUserId();
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
+  private favoritosCliente: Producto[] = [];
 
   constructor(
     public authService: AuthService,
     private userDAO: UserDAO,
     private authDAO: AuthDAO,
-    private algoModel: AlgoModel,
+    private genericModel: GenericModel,
     public userModel: UserModel,
+    public productoModel: ProductoModel,
     private callbacksService: CallbackUserService,
     private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
@@ -39,14 +42,25 @@ export class UserService {
       this.toggleFavorito(selectedItems);
     });
   }
-
+  cargarFavoritos(clienteId: number): void {
+    this.userDAO.obtenerFavoritos(clienteId).subscribe({
+      next: (favoritos: Producto[]) => {
+        console.log('Favoritos obtenidos:', favoritos);
+        this.favoritosCliente = favoritos;
+        this.productoModel.actualizarFavoritosCliente(favoritos);
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos:', error);
+      },
+    });
+  }
   addUser(user: any): void {
     this.authDAO.register(user).subscribe({
       next: (newUser: any) => {
         this.userModel.users.push(newUser);
-        this.algoModel.algos.push(newUser);
+        this.genericModel.elements.push(newUser);
         this.users.push(newUser);
-         // this.usersSubject.next(this.users);
+        // this.usersSubject.next(this.users);
         this.getUsers();
       },
       error: (error) => {
@@ -59,7 +73,7 @@ export class UserService {
     this.userDAO.getUsers().subscribe({
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
-        this.algoModel.algos = usersCreados;
+        this.genericModel.elements = usersCreados;
         this.users = usersCreados;
         // this.usersSubject.next(usersCreados);
       },
@@ -75,11 +89,9 @@ export class UserService {
         const usersCreados = this.userModel.crearUsers(users);
         // this.usersSubject.next(usersCreados);
         this.userModel.users = usersCreados;
-        this.algoModel.algos = usersCreados;
-       },
-      error: (error) => {
-        console.error('Error al obtener usuarios:', error);
+        this.genericModel.elements = usersCreados;
       },
+      error: () => this.handleError('Error al obtener usuarios'),
     });
   }
 
@@ -87,23 +99,23 @@ export class UserService {
     this.resetUser();
     this.userDAO.getUser(id).subscribe({
       next: (user: User) => {
-         if (user != this.userModel.user || this.userModel.user == undefined) {
+        if (user != this.userModel.user || this.userModel.user == undefined) {
           this.userModel.user = user;
-          this.algoModel.algo = user;
+          this.genericModel.element = user;
         }
       },
-      error: (error) => this.handleError('Error al obtener usuario'),
+      error: () => this.handleError('Error al obtener usuario'),
     });
   }
   private resetUser(): void {
-    this.algoModel.algo = null;
+    this.genericModel.element = null;
   }
 
   findByName(term: string): void {
     this.userDAO.findByName(term).subscribe({
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
-        this.algoModel.algos = usersCreados;
+        this.genericModel.elements = usersCreados;
         // this.usersSubject.next(usersCreados);
       },
       error: (error) => {
@@ -127,7 +139,7 @@ export class UserService {
     this.userDAO.deleteUser(id).subscribe({
       next: () => {
         this.userModel.users = this.users;
-        this.algoModel.algos = this.users;
+        this.genericModel.elements = this.users;
         // this.usersSubject.next(this.users);
         this.getUsers();
       },

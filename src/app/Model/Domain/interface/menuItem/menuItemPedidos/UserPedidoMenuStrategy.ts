@@ -12,7 +12,7 @@ export class UserPedidoMenuStrategy implements MenuStrategy {
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [
       {
-        // seria mejor algo como ir a pagar?
+        // seria mejor element como ir a pagar?
         label: 'Crear',
         icon: 'pi pi-plus',
 

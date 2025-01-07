@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { AlgoModel } from '../../Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Views/Dynamic/GenericModel';
 import { UserAuthority } from './UserAuthority.enum';
 import { UserModel } from '../../Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/user/User.service';

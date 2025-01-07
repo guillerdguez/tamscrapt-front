@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
 import { UserService } from '../../../Service/user/User.service';
 import { Location } from '@angular/common';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
@@ -16,7 +16,7 @@ export class UserDetailComponent {
     private route: ActivatedRoute,
     private userService: UserService,
     private location: Location,
-    public algoModel: AlgoModel,
+    public genericModel: GenericModel,
     public authService: AuthService,
     public router: Router
   ) {}
@@ -34,8 +34,8 @@ export class UserDetailComponent {
     this.router.navigateByUrl(this.router.url);
   }
   save(): void {
-    if (this.algoModel.algo) {
-      this.userService.updateUser(this.algoModel.algo);
+    if (this.genericModel.element) {
+      this.userService.updateUser(this.genericModel.element);
       this.goBack();
     }
   }

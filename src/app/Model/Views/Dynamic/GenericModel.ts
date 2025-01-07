@@ -3,24 +3,15 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class AlgoModel {
-  private _algos: any[] = [];
-  algo: any;
-  algosSeleccionados: any[] = [];
+export class GenericModel {
+  elements: any[] = [];
+  element: any;
+  elementsSeleccionados: any[] = [];
   menuItemSeleccionado!: any;
 
-  // Getter y Setter para `algos`
-  get algos(): any[] {
-    return this._algos;
-  }
-
-  set algos(value: any[]) {
-    this._algos = [...value]; // Crea una nueva referencia del array
-  }
-
   seleccionar(item: any, menuItemLabel: string) {
-    if (!this.algosSeleccionados.includes(item)) {
-      this.algosSeleccionados.push(item);
+    if (!this.elementsSeleccionados.includes(item)) {
+      this.elementsSeleccionados.push(item);
     }
 
     this.menuItemSeleccionado = menuItemLabel;
@@ -29,11 +20,11 @@ export class AlgoModel {
 
   ejecutarMenuItem() {
     if (this.menuItemSeleccionado) {
-      this.algosSeleccionados.forEach((producto) => {
+      this.elementsSeleccionados.forEach((producto) => {
         const opciones = producto.getMenuItems(
-          this.algosSeleccionados,
+          this.elementsSeleccionados,
           producto.menuStrategyFactory.getStrategy(
-            this.algosSeleccionados[0].strategia
+            this.elementsSeleccionados[0].strategia
           )
         );
 

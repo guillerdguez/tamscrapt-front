@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { UserService } from '../../../Service/user/User.service';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private userService: UserService,
-    public algoModel: AlgoModel
+    public genericModel: GenericModel
   ) {}
 
   ngOnInit(): void {

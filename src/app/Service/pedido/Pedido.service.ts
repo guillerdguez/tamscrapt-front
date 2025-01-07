@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { PedidoDAO } from '../../DAO/pedido.DAO';
 import { PedidoModel } from '../../Model/Views/Dynamic/PedidoModel';
 import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,11 @@ export class PedidoService {
   constructor(
     private pedidoDAO: PedidoDAO,
     private pedidoModel: PedidoModel,
-    private algoModel: AlgoModel
+    private genericModel: GenericModel
   ) {}
   //Create
   addPedido(pedido: any): void {
-     this.pedidoModel.pedidos.push(pedido);
+    this.pedidoModel.pedidos.push(pedido);
     this.pedidoDAO.addPedido(pedido).subscribe({
       next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;
@@ -33,7 +33,7 @@ export class PedidoService {
         if (pedidos) {
           const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
           this.pedidoModel.pedidos = pedidosCreados;
-          this.algoModel.algos = pedidosCreados;
+          this.genericModel.elements = pedidosCreados;
         }
       },
       error: (error) => {
@@ -49,7 +49,7 @@ export class PedidoService {
           const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
 
           this.pedidoModel.pedidos = pedidosCreados;
-          this.algoModel.algos = pedidosCreados;
+          this.genericModel.elements = pedidosCreados;
         }
       },
       error: (error) => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlgoModel } from '../../../Model/Views/Dynamic/AlgoModel';
+import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
 import { ProductoService } from '../../../Service/producto/Producto.service';
@@ -16,7 +16,7 @@ export class DialagoOfertaComponent {
   params!: any[];
   userAuthority = UserAuthority;
   constructor(
-    public algoModel: AlgoModel,
+    public genericModel: GenericModel,
     public authService: AuthService,
     private productoService: ProductoService,
     private callbacksProductoService: CallbacksProductoService
@@ -34,6 +34,6 @@ export class DialagoOfertaComponent {
     this.productoService.toggleOfertas(this.params);
 
     this.isDialogVisible = false;
-    this.algoModel.algosSeleccionados.length = 0;
+    this.genericModel.elementsSeleccionados.length = 0;
   }
 }

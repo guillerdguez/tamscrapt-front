@@ -1,16 +1,12 @@
-// producto-model.ts
 import { Injectable, Injector } from '@angular/core';
-import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
-import { Producto } from '../../Domain/Producto/ProductoClass';
-import { AlgoModel } from './AlgoModel';
-import { AuthService } from '../../../Service/seguridad/AuthService.service';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
-import { TagSeverity } from '../../Domain/interface/type-tag-severity';
 import { ProductoDAO } from '../../../DAO/producto.DAO';
-import { CarritoDAO } from '../../../DAO/carrito.DAO';
-import { BehaviorSubject } from 'rxjs';
-import { MessageService } from 'primeng/api';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { AuthService } from '../../../Service/seguridad/AuthService.service';
+import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
+import { TagSeverity } from '../../Domain/interface/type-tag-severity';
+import { Producto } from '../../Domain/Producto/ProductoClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
+import { GenericModel } from './GenericModel';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
@@ -19,14 +15,11 @@ export class ProductoModel {
   private callbacksService!: CallbacksProductoService;
   favoritosCliente: Producto[] = [];
   cartItems: any[] = [];
-  // private cartItemsSubject = new BehaviorSubject<any[]>([]);
   userId: any;
-  // Observable para componentes que deseen suscribirse a cambios en el carrito
-  // cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
-    private algoModel: AlgoModel,
+    private genericModel: GenericModel,
     private injector: Injector,
     public authService: AuthService,
     private productoDAO: ProductoDAO
@@ -41,7 +34,7 @@ export class ProductoModel {
   actualizarFavoritosCliente(favoritos: Producto[]): void {
     this.favoritosCliente = favoritos;
   }
-
+  //cambiar
   private cargarFavoritos(clienteId: number): void {
     this.productoDAO.obtenerFavoritos(clienteId).subscribe({
       next: (favoritos: Producto[]) => {
@@ -112,7 +105,7 @@ export class ProductoModel {
       newProducto.severity = severity;
 
       newProducto.menuItems = newProducto.getMenuItems(
-        this.algoModel.algosSeleccionados,
+        this.genericModel.elementsSeleccionados,
         this.callbacksService
       );
 

@@ -1,27 +1,27 @@
-@if(algoModel.algo){
+@if(genericModel.element){
 
 <div class="flex flex-column align-items-center p-4">
   <h1 class="text-center text-3xl font-bold mb-5">
-    {{ algoModel.algo.nombre | uppercase }} Details
+    {{ genericModel.element.nombre | uppercase }} Details
   </h1>
 
   <div
     class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
   >
     <div class="flex flex-column align-items-start w-full md:w-5">
-      <h2 class="text-xl font-bold mb-4">ID: {{ algoModel.algo.id }}</h2>
+      <h2 class="text-xl font-bold mb-4">ID: {{ genericModel.element.id }}</h2>
 
       <div
         class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
       >
         <img
-          *ngIf="algoModel.algo.imagen"
-          [src]="algoModel.algo.imagen"
+          *ngIf="genericModel.element.imagen"
+          [src]="genericModel.element.imagen"
           alt="Imagen del user"
           class="w-14rem h-14rem border-round shadow-2"
         />
         <div
-          *ngIf="!algoModel.algo.imagen"
+          *ngIf="!genericModel.element.imagen"
           class="no-image w-14rem h-14rem shadow-2"
         >
           <p class="text-center font-bold">Sin Imagen</p>
@@ -31,24 +31,24 @@
 
     <h3 class="flex flex-column align-items-start w-full md:w-5">
       <div class="mb-4 w-full">
-        <label for="algo-nombre" class="block text-lg font-medium mb-2"
+        <label for="element-nombre" class="block text-lg font-medium mb-2"
           >User nombre:</label
         >
         <input
-          id="algo-nombre"
-          [(ngModel)]="algoModel.algo.username"
+          id="element-nombre"
+          [(ngModel)]="genericModel.element.username"
           placeholder="User nombre"
           class="p-inputtext w-full"
         />
       </div>
 
       <div class="mb-4 w-full">
-        <label for="algo-email" class="block text-lg font-medium mb-2"
+        <label for="element-email" class="block text-lg font-medium mb-2"
           >User email:</label
         >
         <input
-          id="algo-email"
-          [(ngModel)]="algoModel.algo.email"
+          id="element-email"
+          [(ngModel)]="genericModel.element.email"
           placeholder="User email"
           class="p-inputtext w-full"
         />
@@ -57,7 +57,7 @@
       <div>
         <h1 class="block text-lg font-medium mb-2">User Authorities:</h1>
         <h3
-          *ngFor="let aut of algoModel.algo.authorities"
+          *ngFor="let aut of genericModel.element.authorities"
           class="flex justify-content-center m-0"
         >
           <h3 class="text-xs font-bold">

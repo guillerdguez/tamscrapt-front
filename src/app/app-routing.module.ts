@@ -4,7 +4,6 @@ import { HomeComponent } from './UI/home/home.component';
 import { EsquemaListaComponent } from './UI/esquema-lista/esquema-lista.component';
 import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
-import { AdminPedidosComponent } from './UI/compra/pedido/admin-pedidos/admin-pedidos.component';
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
 import { authGuard } from './Service/seguridad/AuthGuard';
 import { roleGuard } from './Service/seguridad/RoleGuard';
@@ -43,11 +42,11 @@ const routes: Routes = [
   },
 
   // Rutas de Administrador
-  {
-    path: 'admin/pedidos',
-    component: AdminPedidosComponent,
-    canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
-  },
+  // {
+  //   path: 'admin/pedidos',
+  //   component: AdminPedidosComponent,
+  //   canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
+  // },
   {
     path: 'newProducto',
     component: FormularioComponentProducto,

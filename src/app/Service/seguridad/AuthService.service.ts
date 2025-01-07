@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { UserDetails } from '../../Model/Domain/interface/UserDetails';
 import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
-import { AuthDAO } from '../../DAO/AuthDAO';
-import { AlgoModel } from '../../Model/Views/Dynamic/AlgoModel';
+import { AuthDAO } from '../../DAO/Auth.DAO';
+import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class AuthService {
   constructor(
     private authDAO: AuthDAO,
     private router: Router,
-    private algoModel: AlgoModel
+    private genericModel: GenericModel
   ) {
     const storedUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<UserDetails | null>(
@@ -34,7 +34,7 @@ export class AuthService {
   login(username: string, password: string): Observable<UserDetails> {
     return this.authDAO.login(username, password).pipe(
       map((response) => {
-        this.algoModel.algo = [];
+        this.genericModel.element = [];
         if (response && response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
@@ -73,31 +73,15 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  getClients(): Observable<UserDetails[]> {
-    return this.authDAO.getClients(this.getAuthHeaders());
-  }
-
-  getClientById(id: number): Observable<UserDetails> {
-    return this.authDAO.getClientById(id, this.getAuthHeaders());
-  }
-
-  deleteClientById(id: number): Observable<void> {
-    return this.authDAO.deleteClientById(id, this.getAuthHeaders());
-  }
-
   getCurrentUserId(): number | undefined {
     const currentUser = this.currentUserValue;
     return currentUser ? currentUser.id : undefined;
   }
 
-  updateClient(id: number, user: any): Observable<UserDetails> {
-    return this.authDAO.updateClient(id, user, this.getAuthHeaders());
-  }
-
-  private getAuthHeaders(): HttpHeaders {
-    const token = this.getToken();
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-  }
+  // private getAuthHeaders(): HttpHeaders {
+  //   const token = this.getToken();
+  //   return new HttpHeaders({
+  //     Authorization: `Bearer ${token}`,
+  //   });
+  // }
 }

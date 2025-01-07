@@ -1,4 +1,5 @@
 <!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
+<!-- poner descripcion?valoracion? -->
 <ng-container
   *ngIf="authService.hasAuthority(userAuthority.ADMIN); else noStepper"
 >
@@ -50,7 +51,7 @@
   <div *ngIf="param" class="flex flex-column align-items-center p-4">
     <!-- Título -->
     <h1 class="text-center text-3xl font-bold mb-5">
-      {{ param.nombre | uppercase }} Details
+      {{ param.nombre | uppercase }}
     </h1>
 
     <!-- Contenedor principal -->
@@ -80,8 +81,28 @@
 
       <!-- Columna derecha -->
       <div class="flex flex-column align-items-start w-full md:w-5">
+        <div
+          class="detalles-producto align-left flex flex-column gap-3"
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <div *ngFor="let header of param.getHeaders()" class="mb-3">
+            <ng-container
+              *ngIf="
+                header.class !== 'nombre' && param[header.class] !== undefined
+              "
+            >
+              <span [ngClass]="header.class">
+                {{ param[header.class] }}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+
         <!-- Producto Nombre -->
-        <div class="mb-4 w-full">
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
           <label
             for="producto-nombre-{{ i }}"
             class="block text-lg font-medium mb-2"
@@ -103,14 +124,16 @@
         </div>
 
         <!-- Oferta -->
-        <div class="mb-4 w-full">
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
           <label
             for="producto-oferta-{{ i }}"
             class="block text-lg font-medium mb-2"
             >¿Está en oferta?</label
           >
           <p-checkbox
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
             id="producto-oferta-{{ i }}"
             [(ngModel)]="param.oferta"
             binary="true"
@@ -133,6 +156,7 @@
         <!-- Descuento -->
         <div class="mb-4 w-full" *ngIf="param.oferta">
           <label
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
             for="producto-descuento-{{ i }}"
             class="block text-lg font-medium mb-2"
             >Descuento:</label
@@ -144,16 +168,13 @@
             placeholder="Descuento (%)"
             class="w-full"
           ></p-inputNumber>
-          <h3
-            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-            class="text-lg font-bold"
-          >
-            {{ param.descuento }}%
-          </h3>
         </div>
 
         <!-- Lettering -->
-        <div class="mb-4 w-full">
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
           <label
             for="producto-lettering-{{ i }}"
             class="block text-lg font-medium mb-2"
@@ -180,7 +201,10 @@
         </div>
 
         <!-- Scrapbooking -->
-        <div class="mb-4 w-full">
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
           <label
             for="producto-scrapbooking-{{ i }}"
             class="block text-lg font-medium mb-2"
@@ -205,9 +229,41 @@
             </h3>
           </ng-template>
         </div>
+
+        <!-- Botones -->
+        <div class="flex flex-wrap justify-content-center gap-2">
+          @if(!authService.hasAuthority(userAuthority.ADMIN) ){
+
+          <div class="cart">
+            <i
+              class="pi pi-cart-plus"
+              (click)="callbacksProductoService.toggleCart([param])"
+              tabindex="-1"
+            ></i>
+          </div>
+          <div class="heart pr-8 pl-7">
+            <i
+              (click)="callbacksProductoService.toggleFavorito([param])"
+              [ngClass]="
+                param.favorito
+                  ? 'pi pi-heart-fill corazon-icon'
+                  : 'pi pi-heart corazon-icon'
+              "
+              tabindex="-1"
+            ></i>
+          </div>
+          }
+        </div>
+        <button
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+          type="button"
+          class="p-button p-button-secondary"
+          (click)="goBack()"
+        >
+          Go Back
+        </button>
       </div>
     </div>
-
     <!-- Botones del stepper, solo si existe el stepper -->
     <div
       class="flex gap-3 mt-4"

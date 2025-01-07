@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
-import { AlgoModel } from './AlgoModel';
+import { GenericModel } from './GenericModel';
 import { User } from '../../Domain/User/UserClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
@@ -15,7 +15,7 @@ export class UserModel {
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
-    private algoModel: AlgoModel,
+    private genericModel: GenericModel,
     private injector: Injector
   ) {
     this.callbacksService = this.injector.get(CallbacksProductoService);
@@ -51,7 +51,7 @@ export class UserModel {
       newUser.severity = severity;
 
       newUser.menuItems = newUser.getMenuItems(
-        this.algoModel.algosSeleccionados,
+        this.genericModel.elementsSeleccionados,
         this.callbacksService
       );
 
