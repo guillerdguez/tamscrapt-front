@@ -18,6 +18,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'productos', redirectTo: '/tabla/productos' },
+  { path: 'favorito', redirectTo: '/tabla/favorito' },
   { path: 'ofertas', redirectTo: '/tabla/ofertas' },
   { path: 'lettering', redirectTo: '/tabla/lettering' },
   { path: 'scrapbooking', redirectTo: '/tabla/scrapbooking' },

@@ -14,7 +14,7 @@ import { FooterComponent } from './UI/layout/footer/footer.component';
 import { HomeComponent } from './UI/home/home.component';
 
 // Componentes de administración
- import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
+import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
 // import { OfertaDialogComponent } from './UI/productos/oferta-dialog /oferta-dialog.component';
@@ -70,6 +70,7 @@ import { PedidosHandler } from './Service/handler/PedidosHandler';
 import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
 import { PedidoHandler } from './Service/handler/PedidoHandler';
 import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
+import { FavoritoHandler } from './Service/handler/FavoritoHandler';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -78,7 +79,7 @@ import { ProductoSearchComponent } from './UI/product-search/producto-search.com
     FooterComponent,
     HomeComponent,
     // Componentes de administración
- 
+
     ProductoDetailComponent,
     UserDetailComponent,
     FormularioComponentProducto,
@@ -146,6 +147,7 @@ import { ProductoSearchComponent } from './UI/product-search/producto-search.com
     CallbacksProductoService,
     PedidosHandler,
     PedidoHandler,
+    FavoritoHandler,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],

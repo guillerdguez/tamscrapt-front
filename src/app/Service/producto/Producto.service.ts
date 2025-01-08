@@ -16,6 +16,7 @@ export class ProductoService {
   private tiempoEspera = 2000;
   // Mantendremos la categoría actual en una propiedad
   private currentCategory?: string;
+  private favoritosCliente: Producto[] = [];
 
   constructor(
     private productoDAO: ProductoDAO,
@@ -67,7 +68,19 @@ export class ProductoService {
       error: (error) => this.handleError(error),
     });
   }
-
+  cargarFavoritos(clienteId: any): void {
+    this.productoDAO.obtenerFavoritos(clienteId).subscribe({
+      next: (favoritos: Producto[]) => {
+        this.favoritosCliente = favoritos;
+        const productosCreados = this.productoModel.crearProductos(favoritos);
+        this.productoModel.actualizarFavoritosCliente(favoritos);
+        this.genericModel.elements = productosCreados;
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos:', error);
+      },
+    });
+  }
   // Obtener producto por ID
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({

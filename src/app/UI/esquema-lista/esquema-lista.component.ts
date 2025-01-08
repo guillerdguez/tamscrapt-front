@@ -26,14 +26,16 @@ import { PasarInformacionTablaService } from '../../Service/pasar-informacion-ta
   styleUrls: ['./esquema-lista.component.css'],
 })
 export class EsquemaListaComponent implements OnInit, OnChanges {
+  @Input() title: string = '';
   @Output() paramsChange = new EventEmitter<any>();
   @Output() TableSelected = new EventEmitter<any[]>();
-  @Input() title: string = '';
+
   itemsCopy: MenuItem[] = [];
   firstItem: any[] = [];
   items: MenuItem[] = [];
   layout!: 'list' | 'grid';
   userAuthority = UserAuthority;
+
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
@@ -95,7 +97,6 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
         this.genericModel.elementsSeleccionados.push(item);
         this.TableSelected.emit(this.genericModel.elementsSeleccionados);
       }
-
       this.items = item.getMenuItems(
         this.genericModel.elementsSeleccionados,
         this.callbacksProductoService
@@ -103,6 +104,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       this.menu.show(event);
     }
   }
+
   onValueChange(item: any, field: string, newValue: any): void {
     item[field] = newValue;
     this.paramsChange.emit(item.setDetails(item));

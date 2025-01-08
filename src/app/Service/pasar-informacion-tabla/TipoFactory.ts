@@ -7,6 +7,7 @@ import { ScrapbookingHandler } from '../handler/ScrapbookingHandler';
 import { UsersHandler } from '../handler/UsersHandler';
 import { PedidosHandler } from '../handler/PedidosHandler';
 import { PedidoHandler } from '../handler/PedidoHandler';
+import { FavoritoHandler } from '../handler/FavoritoHandler';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class TipoFactory {
   constructor(
     productosHandler: ProductosHandler,
     scrapbookingHandler: ScrapbookingHandler,
+    favoritoHandler: FavoritoHandler,
     letteringHandler: LetteringHandler,
     ofertasHandler: OfertasHandler,
     usersHandler: UsersHandler,
@@ -27,6 +29,7 @@ export class TipoFactory {
     this.handlerRegistry = {
       productos: productosHandler,
       scrapbooking: scrapbookingHandler,
+      favorito: favoritoHandler,
       lettering: letteringHandler,
       ofertas: ofertasHandler,
       users: usersHandler,

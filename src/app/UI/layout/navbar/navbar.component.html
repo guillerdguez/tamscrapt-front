@@ -71,17 +71,17 @@
             >
               @if(genericModel.element){
               <div class="user-image-container me-2">
-                <img
+                <!-- <img
                   *ngIf="genericModel.element.imagen"
                   [src]="genericModel.element.imagen"
                   alt="Imagen del usuario"
                   class="user-image"
                 />
-                <div *ngIf="!genericModel.element.imagen" class="no-image">
-                  <p alt="Imagen del usuario" class="text-center font-bold">
-                    {{ genericModel.element.username }}
-                  </p>
-                </div>
+                <div *ngIf="!genericModel.element.imagen" class="no-image"> -->
+                <p alt="Imagen del usuario" class="text-center font-bold">
+                  {{ userModel.user.username }}
+                </p>
+                <!-- </div> -->
               </div>
               }
               <!-- Usuario -->
@@ -97,6 +97,12 @@
                   [routerLink]="['/detail/Users', userId]"
                 >
                   <i class="pi pi-user"></i> Perfil
+                </a>
+              </li>
+
+              <li *ngIf="!authService.hasAuthority(userAuthority.ADMIN)">
+                <a class="dropdown-item" [routerLink]="['/favorito']">
+                  <i class="pi pi-heart-fill"></i> Favoritos
                 </a>
               </li>
               <li *ngIf="!authService.hasAuthority(userAuthority.ADMIN)">

@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
-
+ 
 @Injectable({
   providedIn: 'root',
 })

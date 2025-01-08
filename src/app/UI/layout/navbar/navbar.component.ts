@@ -4,6 +4,7 @@ import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { UserService } from '../../../Service/user/User.service';
 import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
+import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 
 @Component({
   selector: 'app-navbar',
@@ -18,9 +19,10 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private router: Router,
+    // private router:  Router,
     private userService: UserService,
-    public genericModel: GenericModel
+    public genericModel: GenericModel,
+    public userModel: UserModel
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class NavbarComponent implements OnInit {
     if (this.userId) {
       this.userService.getUser(this.userId);
     }
+  
   }
 
   // Alterna entre los menús desplegables

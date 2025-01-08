@@ -42,10 +42,9 @@ export class UserService {
       this.toggleFavorito(selectedItems);
     });
   }
-  cargarFavoritos(clienteId: number): void {
+  cargarFavoritos(clienteId: any): void {
     this.userDAO.obtenerFavoritos(clienteId).subscribe({
       next: (favoritos: Producto[]) => {
-        console.log('Favoritos obtenidos:', favoritos);
         this.favoritosCliente = favoritos;
         this.productoModel.actualizarFavoritosCliente(favoritos);
       },
@@ -102,6 +101,7 @@ export class UserService {
         if (user != this.userModel.user || this.userModel.user == undefined) {
           this.userModel.user = user;
           this.genericModel.element = user;
+          console.log('aaaaa', this.userModel.user);
         }
       },
       error: () => this.handleError('Error al obtener usuario'),
