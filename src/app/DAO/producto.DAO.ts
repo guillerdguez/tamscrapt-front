@@ -1,4 +1,3 @@
- 
 import { Injectable } from '@angular/core';
 import { Producto } from '../Model/Domain/Producto/ProductoClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -14,6 +13,11 @@ export class ProductoDAO {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
+
+  cargarFavoritos(clienteId: number): Observable<Producto[]> {
+    console.log('favoritos', clienteId);
+    return this.obtenerFavoritos(clienteId);
+  }
 
   constructor(private http: HttpClient) {}
 
