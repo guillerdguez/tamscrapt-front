@@ -130,21 +130,7 @@ export class CartService {
       },
     });
   }
-
-  removeProduct(productId: number): void {
-    this.cartDAO.deleteCarrito(productId).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(
-          (item: any) => item.product.id !== productId
-        );
-        this.cartItemsSubject.next(this.cartItems);
-      },
-      error: (error) => {
-        console.error('Error al eliminar el producto del carrito:', error);
-      },
-    });
-  }
-  updateProductQuantity(productId: number, quantity: number): void {
+updateProductQuantity(productId: number, quantity: number): void {
     this.cartDAO.addProductoCarrito(productId, quantity).subscribe({
       next: () => {
         const item = this.cartItems.find(
@@ -184,11 +170,21 @@ export class CartService {
     });
   }
 
-  // saveCartItems(): void {
-  //   console.warn(
-  //     'La función saveCartItems ya no es necesaria y no realiza ninguna acción.'
-  //   );
-  // }
+  removeProduct(productId: number): void {
+    this.cartDAO.deleteCarrito(productId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(
+          (item: any) => item.product.id !== productId
+        );
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto del carrito:', error);
+      },
+    });
+  }
+  
+ 
   // Mostrar mensaje de éxito
   private showSuccessMessage(detail: string): void {
     this.messageService.add({

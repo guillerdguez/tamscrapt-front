@@ -44,7 +44,7 @@ export class CartComponent implements OnInit {
     if (quantity === 0 || quantity === undefined) {
       this.removeItem(item);
     } else {
-      this.cartService.updateProductQuantity(item.product.id, quantity);
+      this.cartService.addProductoCarrito(item.product.id, quantity);
     }
   }
 
