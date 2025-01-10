@@ -39,8 +39,10 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.currentUserSubject.next(response.user);
+          // mirar
           // this.router.navigate(['/home']).then(() => {
-          //   window.location.reload();
+          // this.genericModel.element = [];
+          // window.location.reload();
           // });
         }
         return response.user;

@@ -15,6 +15,7 @@ export class Producto {
   cantidad!: number;
   descuento: number = 0;
   precioOriginal?: number;
+  descripcion!: string;
   tag!: string;
   lettering?: boolean;
   scrapbooking?: boolean;
@@ -48,7 +49,7 @@ export class Producto {
     return this.descuento > 0
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
-  } 
+  }
 
   // Actualiza los parámetros del producto
   getParametros(producto: Producto) {
@@ -64,6 +65,7 @@ export class Producto {
     this.enCarrito = producto.enCarrito;
     this.cantidad = producto.cantidad;
     this.precioOriginal = this.calcularPrecioOriginal();
+    this.descripcion = producto.descripcion;
     return this;
   }
 
@@ -82,6 +84,7 @@ export class Producto {
       precioOriginal: this.calcularPrecioOriginal(),
       favorito: this.favorito,
       enCarrito: this.enCarrito,
+      descripcion: this.descripcion,
     };
   }
 

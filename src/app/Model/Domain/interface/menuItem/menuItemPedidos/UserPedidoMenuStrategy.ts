@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenuStrategy } from '../MenuStrategy';
 import { CallbacksPedidoService } from '../../../../../Service/Callbacks/CallbacksPedidoService';
-
 @Injectable({
   providedIn: 'root',
 })

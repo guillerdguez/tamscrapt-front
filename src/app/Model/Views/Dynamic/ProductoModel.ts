@@ -7,12 +7,13 @@ import { TagSeverity } from '../../Domain/interface/type-tag-severity';
 import { Producto } from '../../Domain/Producto/ProductoClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
 import { GenericModel } from './GenericModel';
+import { ProductoService } from '../../../Service/producto/Producto.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
   producto!: Producto;
-  private callbacksService!: CallbacksProductoService;
+  private callbacksProductoService!: CallbacksProductoService;
   favoritosCliente: Producto[] = [];
   cartItems: any[] = [];
   userId: any;
@@ -21,30 +22,19 @@ export class ProductoModel {
     private menuStrategyFactory: MenuStrategyFactory,
     private genericModel: GenericModel,
     private injector: Injector,
-    public authService: AuthService,
-    private productoDAO: ProductoDAO
+    public authService: AuthService // private productoService: ProductoService
   ) {
-    this.callbacksService = this.injector.get(CallbacksProductoService);
+    this.callbacksProductoService = this.injector.get(CallbacksProductoService);
     this.userId = this.authService.getCurrentUserId();
-    if (this.userId) {
-      this.cargarFavoritos(this.userId);
-    }
+    // if (this.userId) {
+    //   this.productoService.cargarFavoritos(this.userId);
+    // }
   }
 
   actualizarFavoritosCliente(favoritos: Producto[]): void {
     this.favoritosCliente = favoritos;
   }
   //cambiar
-  private cargarFavoritos(clienteId: number): void {
-    this.productoDAO.obtenerFavoritos(clienteId).subscribe({
-      next: (favoritos: Producto[]) => {
-        this.actualizarFavoritosCliente(favoritos);
-      },
-      error: (error) => {
-        console.error('Error al cargar favoritos:', error);
-      },
-    });
-  }
 
   getTagSeverity(producto: Producto): TagSeverity {
     const isAdmin = this.authService.hasAuthority(UserAuthority.ADMIN);
@@ -94,7 +84,6 @@ export class ProductoModel {
     productos.forEach((producto) => {
       const newProducto = new Producto(this.menuStrategyFactory, this);
       newProducto.getParametros(producto);
-
       // Reflejar directamente el estado de favoritos
       newProducto.favorito = this.favoritosCliente.some(
         (fav) => fav.id === producto.id
@@ -106,7 +95,7 @@ export class ProductoModel {
 
       newProducto.menuItems = newProducto.getMenuItems(
         this.genericModel.elementsSeleccionados,
-        this.callbacksService
+        this.callbacksProductoService
       );
 
       listaProducto.push(newProducto);

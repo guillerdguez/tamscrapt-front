@@ -61,7 +61,7 @@ export class PedidoDAO {
 
   //DELETE
   deletePedido(id: number): Observable<Pedido> {
-    const urlMod = `${this.urlBase}/borrar/${id}`;
+    const urlMod = `${this.urlBase}/delete/${id}`;
     return this.http.delete<Pedido>(urlMod, this.httpOptions);
   }
 }

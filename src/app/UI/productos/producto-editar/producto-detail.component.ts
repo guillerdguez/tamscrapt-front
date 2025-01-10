@@ -6,6 +6,7 @@ import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
+import { CartService } from '../../../Service/carrito/CartService';
 @Component({
   selector: 'app-producto-detail',
   templateUrl: './producto-detail.component.html',
@@ -14,6 +15,7 @@ import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 export class ProductoDetailComponent implements OnInit {
   params: any[] = [];
   userAuthority = UserAuthority;
+  cantidad: number = 1;
   constructor(
     private productoService: ProductoService,
     private location: Location,
@@ -21,7 +23,8 @@ export class ProductoDetailComponent implements OnInit {
     public authService: AuthService,
     public router: Router,
     public route: ActivatedRoute,
-    public callbacksProductoService: CallbacksProductoService
+    public callbacksProductoService: CallbacksProductoService,
+    public cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -49,5 +52,21 @@ export class ProductoDetailComponent implements OnInit {
     descuento: number
   ): number {
     return parseFloat((precioConDescuento / (1 - descuento / 100)).toFixed(2));
+  }
+
+  incrementar() {
+    this.cantidad++;
+  }
+
+  decrementar() {
+    if (this.cantidad > 1) {
+      this.cantidad--;
+    }
+  }
+  addCarrito() {
+    console.log(this.params[0]);
+    this.cartService.addProductoCarrito(this.params[0], this.cantidad);
+
+    this.cantidad = 1;
   }
 }

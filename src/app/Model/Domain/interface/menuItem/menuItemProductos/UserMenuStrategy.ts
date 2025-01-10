@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MenuStrategy } from '../MenuStrategy';
 import { CallbacksProductoService } from '../../../../../Service/Callbacks/CallbacksProductoService';
 
+ 
 @Injectable({
   providedIn: 'root',
-})
-export class UserMenuStrategy implements MenuStrategy {
+})export class UserMenuStrategy implements MenuStrategy {
   constructor(private callbacks: CallbacksProductoService) {}
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {

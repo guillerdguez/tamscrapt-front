@@ -9,8 +9,7 @@ import { ProductoService } from '../producto/Producto.service';
 export class FavoritoHandler implements TipoHandler {
   constructor(
     private router: Router,
-    private userService: UserService,
-    private productService: ProductoService,
+     private productService: ProductoService,
     public authService: AuthService
   ) {}
 

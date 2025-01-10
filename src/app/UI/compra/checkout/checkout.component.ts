@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Pedido } from '../../../Model/Domain/Pedido/PedidoClass';
-import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
-import { CartService } from '../../../Service/carrito/CartService';
 import { PedidoService } from '../../../Service/pedido/Pedido.service';
+import { CartService } from '../../../Service/carrito/CartService';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { PedidoDetails } from '../../../Model/Domain/interface/PedidoDetails';
 
@@ -12,8 +10,11 @@ import { PedidoDetails } from '../../../Model/Domain/interface/PedidoDetails';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css'],
 })
-export class CheckoutComponent {
-  shippingInfo: any = {};
+export class CheckoutComponent implements OnInit {
+  shippingInfo: { nombreComprador: string; address: string } = {
+    nombreComprador: '',
+    address: '',
+  };
   paymentMethod: string = '';
   cartItems: any[] = [];
   orderSummary: any = {};
@@ -36,6 +37,7 @@ export class CheckoutComponent {
     this.cartItems = this.cartService.getCartItems();
     this.calculateTotals();
   }
+
   calculateTotals() {
     this.subtotal = this.cartItems.reduce(
       (resultado, item) => resultado + item.product.precio * item.quantity,
@@ -51,12 +53,16 @@ export class CheckoutComponent {
   }
 
   confirmOrder() {
-    if (!this.shippingInfo.address || !this.paymentMethod) {
-      console.error('Faltan datos de envío o método de pago');
-      return;
-    }
     if (!this.cartItems.length) {
       console.error('El carrito está vacío');
+      return;
+    }
+    if (
+      !this.shippingInfo.address ||
+      !this.paymentMethod ||
+      !this.shippingInfo.nombreComprador
+    ) {
+      console.error('Faltan datos');
       return;
     }
     if (this.orderSummary.total <= 0) {
@@ -69,8 +75,6 @@ export class CheckoutComponent {
       cantidad: item.quantity,
     }));
 
-    const fechaCreacion = new Date().toISOString();
-
     const clienteId = this.authService.getCurrentUserId();
     if (!clienteId) {
       console.error('Cliente no identificado');
@@ -80,19 +84,16 @@ export class CheckoutComponent {
     const pedido: PedidoDetails = {
       fechaCreacion: new Date().toISOString(),
       estado: 'PENDIENTE',
+      nombreComprador: this.shippingInfo.nombreComprador.trim(),
       direccionEnvio: this.shippingInfo.address.trim(),
       metodoPago: this.paymentMethod.trim(),
       cliente: { id: clienteId },
-      productos: this.cartItems.map((item) => ({
-        producto: { id: item.product.id },
-        cantidad: item.quantity,
-      })),
+      productos: productosPedidos,
       precio: this.orderSummary.total,
     };
 
- 
     this.pedidoService.addPedido(pedido);
     this.cartService.clearCart();
-    this.router.navigateByUrl('/productos');
+    this.router.navigateByUrl('/home');
   }
 }

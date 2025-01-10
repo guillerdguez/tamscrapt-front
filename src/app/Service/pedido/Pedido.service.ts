@@ -3,6 +3,7 @@ import { PedidoDAO } from '../../DAO/pedido.DAO';
 import { PedidoModel } from '../../Model/Views/Dynamic/PedidoModel';
 import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
+import { CallbacksPedidoService } from '../Callbacks/CallbacksPedidoService';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +12,13 @@ export class PedidoService {
   constructor(
     private pedidoDAO: PedidoDAO,
     private pedidoModel: PedidoModel,
-    private genericModel: GenericModel
-  ) {}
+    private genericModel: GenericModel,
+    private callbacksPedidoService: CallbacksPedidoService
+  ) {
+    this.callbacksPedidoService.deletePedidos$.subscribe((selectedItems) => {
+      this.deleteMultiplePedidos(selectedItems);
+    });
+  }
   //Create
   addPedido(pedido: any): void {
     this.pedidoModel.pedidos.push(pedido);
@@ -30,14 +36,12 @@ export class PedidoService {
   getPedidos(): void {
     this.pedidoDAO.getPedidos().subscribe({
       next: (pedidos: Pedido[]) => {
-        if (pedidos) {
-          const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
-          this.pedidoModel.pedidos = pedidosCreados;
-          this.genericModel.elements = pedidosCreados;
-        }
-      },
+        const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
+        this.pedidoModel.pedidos = pedidosCreados;
+        this.genericModel.elements = pedidosCreados;
+       },
       error: (error) => {
-        console.error(error);
+        console.error(error + 'Error al crear pedido');
       },
     });
   }
@@ -45,19 +49,19 @@ export class PedidoService {
   getPedidosPorCliente(): void {
     this.pedidoDAO.getPedidosPorCliente().subscribe({
       next: (pedidos: Pedido[]) => {
-        if (pedidos) {
-          const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
+        const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
 
-          this.pedidoModel.pedidos = pedidosCreados;
-          this.genericModel.elements = pedidosCreados;
-        }
-      },
+        this.pedidoModel.pedidos = pedidosCreados;
+        this.genericModel.elements = pedidosCreados;
+       },
       error: (error) => {
         console.error(error);
       },
     });
   }
-
+  deleteMultiplePedidos(selectedItems: Pedido[]) {
+    selectedItems.forEach((item) => this.deletePedido(item.id));
+  }
   getPedido(id: number): void {
     this.pedidoDAO.getPedido(id).subscribe({
       next: (pedido: Pedido) => {
@@ -105,10 +109,14 @@ export class PedidoService {
     });
   }
   //DELETE
-  deletePedido(id: number): void {
+  deletePedido(id: any): void {
+    console.log('Pedido eliminado', this.genericModel.elements);
     this.pedidoDAO.deletePedido(id).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
+        this.genericModel.elements = this.genericModel.elements.filter(
+          (pedido: Pedido) => pedido.id !== id
+        );
       },
       error: (error) => {
         console.error(error);

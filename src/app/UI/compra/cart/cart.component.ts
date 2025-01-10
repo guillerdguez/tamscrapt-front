@@ -13,6 +13,7 @@ export class CartComponent implements OnInit {
   IVA: number = 0;
   total: number = 0;
   activo: boolean = this.cartItems.length === 0;
+  cantidad: number = 1;
   constructor(
     private cartService: CartService,
     public authService: AuthService

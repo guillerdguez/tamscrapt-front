@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { MenuStrategy } from './MenuStrategy';
 import { AuthService } from '../../../../Service/seguridad/AuthService.service';
 import { CallbackUserService } from '../../../../Service/Callbacks/CallbackUserService';
@@ -18,22 +18,25 @@ export class MenuStrategyFactory {
   private strategyRegistry: { [key: string]: () => MenuStrategy };
 
   constructor(
-    private authService: AuthService,
-    private callbacksProductoService: CallbacksProductoService,
-    private callbackUserService: CallbackUserService,
-    private callbackPedidoService: CallbacksPedidoService
+    private injector: Injector, // Inyectamos el Injector
+    private authService: AuthService
   ) {
-    // Registro dinámico de estrategias
+    // Registro dinámico de estrategias usando Injector
     this.strategyRegistry = {
       producto: () =>
         this.authService.hasAuthority(UserAuthority.ADMIN)
-          ? new AdminMenuStrategy(this.callbacksProductoService)
-          : new UserMenuStrategy(this.callbacksProductoService),
-      user: () => new AdminUserMenuStrategy(this.callbackUserService),
+          ? new AdminMenuStrategy(this.injector.get(CallbacksProductoService))
+          : new UserMenuStrategy(this.injector.get(CallbacksProductoService)),
+      user: () =>
+        new AdminUserMenuStrategy(this.injector.get(CallbackUserService)),
       pedido: () =>
         this.authService.hasAuthority(UserAuthority.ADMIN)
-          ? new AdminPedidoMenuStrategy(this.callbackPedidoService)
-          : new UserPedidoMenuStrategy(this.callbackPedidoService),
+          ? new AdminPedidoMenuStrategy(
+              this.injector.get(CallbacksPedidoService)
+            )
+          : new UserPedidoMenuStrategy(
+              this.injector.get(CallbacksPedidoService)
+            ),
     };
   }
 

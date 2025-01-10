@@ -42,17 +42,17 @@ export class UserService {
       this.toggleFavorito(selectedItems);
     });
   }
-  cargarFavoritos(clienteId: any): void {
-    this.userDAO.obtenerFavoritos(clienteId).subscribe({
-      next: (favoritos: Producto[]) => {
-        this.favoritosCliente = favoritos;
-        this.productoModel.actualizarFavoritosCliente(favoritos);
-      },
-      error: (error) => {
-        console.error('Error al cargar favoritos:', error);
-      },
-    });
-  }
+  // cargarFavoritos(clienteId: any): void {
+  //   this.userDAO.obtenerFavoritos(clienteId).subscribe({
+  //     next: (favoritos: Producto[]) => {
+  //       this.favoritosCliente = favoritos;
+  //       this.productoModel.actualizarFavoritosCliente(favoritos);
+  //     },
+  //     error: (error) => {
+  //       console.error('Error al cargar favoritos:', error);
+  //     },
+  //   });
+  // }
   addUser(user: any): void {
     this.authDAO.register(user).subscribe({
       next: (newUser: any) => {
@@ -101,7 +101,7 @@ export class UserService {
         if (user != this.userModel.user || this.userModel.user == undefined) {
           this.userModel.user = user;
           this.genericModel.element = user;
-          console.log('aaaaa', this.userModel.user);
+          // this.cargarFavoritos(this.userId);
         }
       },
       error: () => this.handleError('Error al obtener usuario'),

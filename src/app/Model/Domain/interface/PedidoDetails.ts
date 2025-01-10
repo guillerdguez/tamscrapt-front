@@ -9,4 +9,5 @@ export interface PedidoDetails {
   productos: ProductoPedido[];
   direccionEnvio: string;
   metodoPago: string;
+  nombreComprador: string;
 }

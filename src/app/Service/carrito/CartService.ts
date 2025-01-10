@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 import { CarritoDAO } from '../../DAO/carrito.DAO';
 import { BehaviorSubject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 import { AuthService } from '../seguridad/AuthService.service';
-import { error } from 'console';
+import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +39,9 @@ export class CartService {
   }
 
   getCartItems(): { product: ProductoDetails; quantity: number }[] {
+    if (this.cartItems.length === 0) {
+      this.handleError('No tienes productos en el carrito');
+    }
     return this.cartItems; // Devolver los ítems cargados desde la base de datos
   }
   //quitar el null
@@ -104,7 +106,7 @@ export class CartService {
               (item: any) => item.product.id === product.id
             );
           }
-          
+
           if (articuloExistente) {
             articuloExistente.quantity += quantity;
             if (articuloExistente.quantity <= 0) {
@@ -116,7 +118,7 @@ export class CartService {
           }
 
           this.cartItemsSubject.next(this.cartItems);
-        }  
+        }
       },
       error: (error) => {
         console.error('Error al agregar el producto al carrito:', error);
@@ -128,7 +130,6 @@ export class CartService {
       },
     });
   }
- 
 
   removeProduct(productId: number): void {
     this.cartDAO.deleteCarrito(productId).subscribe({
@@ -144,7 +145,7 @@ export class CartService {
     });
   }
   updateProductQuantity(productId: number, quantity: number): void {
-    this.cartDAO.updateCarrito(productId, { cantidad: quantity }).subscribe({
+    this.cartDAO.addProductoCarrito(productId, quantity).subscribe({
       next: () => {
         const item = this.cartItems.find(
           (item: any) => item.product.id === productId
@@ -156,7 +157,13 @@ export class CartService {
             this.removeProduct(productId);
           }
         }
-
+        if (item && quantity > item.product.cantidad) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No hay suficiente stock.',
+          });
+        }
         this.cartItemsSubject.next(this.cartItems);
       },
       error: (error) => {
@@ -182,4 +189,31 @@ export class CartService {
   //     'La función saveCartItems ya no es necesaria y no realiza ninguna acción.'
   //   );
   // }
+  // Mostrar mensaje de éxito
+  private showSuccessMessage(detail: string): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail,
+    });
+  }
+
+  // Manejo de errores
+  private handleError(error: any): void {
+    let detalleError = '';
+    if (error.status === 500) {
+      detalleError =
+        'Error del servidor. Por favor, verifica los logs del backend o intenta nuevamente más tarde.';
+    } else if (error.status === 400) {
+      detalleError =
+        'Error en la solicitud. Por favor, revisa los datos enviados.';
+    } else if (error.status) {
+      detalleError = `Ocurrió un error inesperado. Código de estado: ${error.status}.`;
+    }
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: detalleError,
+    });
+  }
 }

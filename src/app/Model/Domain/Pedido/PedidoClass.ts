@@ -19,6 +19,7 @@ export class Pedido {
   tag!: string;
   private menuStrategy!: MenuStrategy;
   strategia: string = 'pedido';
+  nombreComprador!: string;
 
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
@@ -60,6 +61,7 @@ export class Pedido {
     this.direccionEnvio = pedido.direccionEnvio;
     this.metodoPago = pedido.metodoPago;
     this.tag = pedido.tag;
+    this.nombreComprador = pedido.nombreComprador;
     return this;
   }
 
@@ -74,6 +76,7 @@ export class Pedido {
       productos: this.productos,
       direccionEnvio: this.direccionEnvio,
       metodoPago: this.metodoPago,
+      nombreComprador: this.nombreComprador,
     };
   }
 }

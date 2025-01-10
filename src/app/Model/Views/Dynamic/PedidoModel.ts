@@ -45,7 +45,8 @@ export class PedidoModel {
       { class: 'id' },
       { class: 'precio' },
       { class: 'fechaCreacion' },
-      { class: 'cliente' },
+      { class: 'nombreComprador' },
+
       // { class: 'productos' },
     ];
   }

@@ -11,17 +11,17 @@
           class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium content-checkout"
         >
           <form #shippingForm="ngForm">
-            <label
-              >Nombre:
+            <label>
+              Nombre:
               <input
                 type="text"
-                [(ngModel)]="shippingInfo.name"
-                name="name"
+                [(ngModel)]="shippingInfo.nombreComprador"
+                name="nombreComprador"
                 required
               />
             </label>
-            <label
-              >Dirección:
+            <label>
+              Dirección:
               <input
                 type="text"
                 [(ngModel)]="shippingInfo.address"
@@ -38,11 +38,13 @@
           label="Next"
           icon="pi pi-arrow-right"
           iconPos="right"
-          (onClick)="nextCallback.emit()"
+          [disabled]="!shippingForm.valid"
+          (click)="nextCallback.emit()"
         />
       </div>
     </ng-template>
   </p-stepperPanel>
+
   <!-- Paso 2: Método de Pago -->
   <p-stepperPanel header="Paso 2: Método de Pago">
     <ng-template
@@ -105,17 +107,17 @@
             <!-- Información de Envío -->
             <div class="mr-7">
               <h4>Información de Envío</h4>
-              <p>{{ shippingInfo?.name }}</p>
-              <p>{{ shippingInfo?.address }}</p>
+              <p>{{ shippingInfo.nombreComprador }}</p>
+              <p>{{ shippingInfo.address }}</p>
             </div>
             <!-- Método de Pago y Resumen -->
             <div class="ml-7">
               <h4>Método de Pago</h4>
               <p>{{ paymentMethod }}</p>
               <h4>Total</h4>
-              <p>Subtotal: {{ orderSummary.subtotal | number : "1.2-2"}}</p>
-              <p>Impuestos: {{ orderSummary.IVA }}</p>
-              <p>Total: {{ orderSummary?.total | number : "1.2-2"}}</p>
+              <p>Subtotal: {{ orderSummary.subtotal | number : "1.2-2" }}</p>
+              <p>Impuestos: {{ orderSummary.IVA | number : "1.2-2" }}</p>
+              <p>Total: {{ orderSummary?.total | number : "1.2-2" }}</p>
             </div>
           </div>
         </div>

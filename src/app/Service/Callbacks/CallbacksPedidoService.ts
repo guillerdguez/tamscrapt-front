@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
+import { CartService } from '../carrito/CartService';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +13,22 @@ export class CallbacksPedidoService {
   editPedidos$ = new Subject<Pedido[]>();
   editPedido$ = new Subject<any>();
   viewPedido$ = new Subject<Pedido>();
-  toggleOfertas$ = new Subject<Pedido[]>();
-  toggleFavorito$ = new Subject<Pedido[]>();
-  openOfertaDialog$ = new Subject<Pedido[]>();
- 
-  constructor(private router: Router) {}
+  cartItems: any[] = [];
+  // toggleOfertas$ = new Subject<Pedido[]>();
+  // toggleFavorito$ = new Subject<Pedido[]>();
+  // openOfertaDialog$ = new Subject<Pedido[]>();
+
+  constructor(private router: Router, private cartService: CartService) {}
 
   createPedido() {
-    this.router.navigate(['carrito']);
-    this.createPedido$.next();
+    this.cartItems = this.cartService.getCartItems();
+    if (this.cartItems.length === 0) {
+      console.log('Creando pedido mal');
+      this.router.navigate(['/carrito']);
+    } else {
+      this.router.navigate(['/checkout']);
+      this.createPedido$.next();
+    }
   }
 
   deletePedidos(selectedItems: Pedido[]) {
@@ -45,7 +53,6 @@ export class CallbacksPedidoService {
     this.viewPedido$.next(pedido);
   }
   confirmarPedido(): void {
-    // Lógica para confirmar el pedido
-    // console.log(`Confirmando pedido con ID: ${this.id}`);
+    console.log(`Confirmando pedido con ID: `);
   }
 }

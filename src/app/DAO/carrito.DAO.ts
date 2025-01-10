@@ -15,21 +15,18 @@ export class CarritoDAO {
   constructor(private http: HttpClient) {}
 
   // ADD PRODUCT TO CART
+
   addProductoCarrito(id: number, cantidad: number = 1): Observable<any> {
     const urlMod = `${this.urlBase}/addProducto/${id}/${cantidad}`;
     return this.http.post<any>(urlMod, null, this.httpOptions);
   }
+
   //READ
   getCarrito(userId: number | undefined): Observable<CarritoResponse> {
     const urlMod = `${this.urlBase}/productos/${userId}`;
     return this.http.get<CarritoResponse>(urlMod, this.httpOptions);
   }
-
-  // UPDATE
-  updateCarrito(id: number, carrito: any): Observable<any> {
-    const urlMod = `${this.urlBase}/editar/${id}`;
-    return this.http.put<any>(urlMod, carrito, this.httpOptions);
-  }
+ 
   //DELETE
   deleteCarrito(id: number): Observable<any> {
     const urlMod = `${this.urlBase}/removeProducto/${id}`;

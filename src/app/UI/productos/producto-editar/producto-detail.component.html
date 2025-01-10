@@ -48,31 +48,24 @@
   let-nextCB="nextCB"
   let-prevCB="prevCB"
 >
-  <div *ngIf="param" class="flex flex-column align-items-center p-4">
+  <div *ngIf="param" class="flex flex-column align-items-stretch p-4 flex-wrap">
     <!-- Título -->
-    <h1 class="text-center text-3xl font-bold mb-5">
-      {{ param.nombre | uppercase }}
-    </h1>
 
     <!-- Contenedor principal -->
-    <div
-      class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
-    >
+    <div class="flex justify-content-around w-full md:w-10 lg:w-10 gap-2">
       <!-- Columna izquierda -->
-      <div class="flex flex-column align-items-start w-full md:w-5">
-        <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2>
-        <div
-          class="flex justify-content-center align-items-center mb-4 border-round bg-gray-100 shadow-2 p-3"
-        >
+      <div class="flex flex-column align-items-start w-full md:w-6">
+        <!-- <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2> -->
+        <div class="flex justify-content-left align-items-left mb-4 bg-white">
           <img
             *ngIf="param.imagen"
             [src]="param.imagen"
             alt="Imagen del producto"
-            class="w-14rem h-14rem border-round shadow-2"
+            class="w-30rem h-30rem border-round shadow-2"
           />
           <div
             *ngIf="!param.imagen"
-            class="no-image w-14rem h-14rem shadow-2 flex align-items-center justify-content-center bg-gray-200"
+            class="no-image w-30rem h-30rem shadow-2 flex align-items-left justify-content-left bg-white"
           >
             <p class="text-center font-bold">Sin Imagen</p>
           </div>
@@ -81,11 +74,71 @@
 
       <!-- Columna derecha -->
       <div class="flex flex-column align-items-start w-full md:w-5">
+        <h1 class="text-center text-3xl font-bold mb-5">
+          {{ param.nombre | uppercase }}
+        </h1>
+        <!-- Botones -->
+        <div class="flex flex-wrap justify-content-center">
+          @if(!authService.hasAuthority(userAuthority.ADMIN) ){
+          <div class="btn-cart">
+            <div class="contenedor-producto">
+              <!-- Campo de cantidad -->
+              <div class="btn-cantidad">
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-minus"
+                  class="p-button-rounded p-button-outlined decremento"
+                  (click)="decrementar()"
+                ></button>
+                <p-inputNumber
+                  [(ngModel)]="cantidad"
+                  [min]="1"
+                  class="cantidad-input"
+                ></p-inputNumber>
+                <button
+                  pButton
+                  type="button"
+                  icon="pi pi-plus"
+                  class="p-button-rounded p-button-outlined incremento"
+                  (click)="incrementar()"
+                ></button>
+              </div>
+
+              <!-- Botón "Añadir al carrito" -->
+              <button
+                pButton
+                type="button"
+                label="AÑADIR AL CARRITO"
+                class="btn-añadir-carrito"
+                (click)="addCarrito()"
+              ></button>
+            </div>
+
+            <!-- <i
+              class="pi pi-cart-plus"
+              (click)="callbacksProductoService.toggleCart([param])"
+              tabindex="-1"
+            ></i> -->
+          </div>
+          <div class="heart pr-8 pl-7">
+            <i
+              (click)="callbacksProductoService.toggleFavorito([param])"
+              [ngClass]="
+                param.favorito
+                  ? 'pi pi-heart-fill corazon-icon'
+                  : 'pi pi-heart corazon-icon'
+              "
+              tabindex="-1"
+            ></i>
+          </div>
+          }
+        </div>
         <div
           class="detalles-producto align-left flex flex-column gap-3"
           *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
         >
-          <div *ngFor="let header of param.getHeaders()" class="mb-3">
+          <div *ngFor="let header of param.getHeaders()" class="mb-1">
             <ng-container
               *ngIf="
                 header.class !== 'nombre' && param[header.class] !== undefined
@@ -97,7 +150,29 @@
             </ng-container>
           </div>
         </div>
-
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="producto-descripcion-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Producto Descripcion:</label
+          >
+          <input
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+            id="producto-descripcion-{{ i }}"
+            [(ngModel)]="param.descripcion"
+            placeholder="Producto descripcion"
+            class="p-inputtext w-full"
+          />
+        </div>
+        <h3
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+          class="descripcion text-lg font-bold"
+        >
+          {{ param.descripcion }}
+        </h3>
         <!-- Producto Nombre -->
         <div
           class="mb-4 w-full"
@@ -230,30 +305,6 @@
           </ng-template>
         </div>
 
-        <!-- Botones -->
-        <div class="flex flex-wrap justify-content-center gap-2">
-          @if(!authService.hasAuthority(userAuthority.ADMIN) ){
-
-          <div class="cart">
-            <i
-              class="pi pi-cart-plus"
-              (click)="callbacksProductoService.toggleCart([param])"
-              tabindex="-1"
-            ></i>
-          </div>
-          <div class="heart pr-8 pl-7">
-            <i
-              (click)="callbacksProductoService.toggleFavorito([param])"
-              [ngClass]="
-                param.favorito
-                  ? 'pi pi-heart-fill corazon-icon'
-                  : 'pi pi-heart corazon-icon'
-              "
-              tabindex="-1"
-            ></i>
-          </div>
-          }
-        </div>
         <button
           *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
           type="button"

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductoDAO } from '../../DAO/producto.DAO';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
@@ -18,6 +18,11 @@ export class ProductoService {
   private currentCategory?: string;
   private favoritosCliente: Producto[] = [];
 
+  // constructor(
+  //   private productoDAO: ProductoDAO,
+  //   private genericModel: GenericModel,
+  //   public productoModel: ProductoModel
+  // ) {}
   constructor(
     private productoDAO: ProductoDAO,
     private genericModel: GenericModel,
@@ -34,7 +39,6 @@ export class ProductoService {
       this.editMultipleProductos(selectedItems);
     });
   }
-
   // CREATE
   addProducto(producto: any): void {
     this.productoModel.productos.push(producto);
@@ -44,7 +48,9 @@ export class ProductoService {
         this.productoModel.producto = producto;
         this.showSuccessMessage('Producto creado correctamente.');
       },
-      error: (error) => this.handleError(error),
+      error: (error) => {
+        console.error('Error:', error);
+      },
     });
   }
 
@@ -52,28 +58,79 @@ export class ProductoService {
   obtenerTodos(): Producto[] {
     return this.productoModel.productos;
   }
-
   getProductos(categoria?: string): void {
     if (this.currentCategory !== categoria) {
       this.currentCategory = categoria; // Guardamos la categoría actual
     }
 
-    this.productoDAO.getProductos(this.currentCategory).subscribe({
-      next: (productos: Producto[]) => {
-        const productosCreados = this.productoModel.crearProductos(productos);
+    if (this.productoModel.userId) {
+      // El usuario está registrado, obtenemos productos y favoritos
+      forkJoin({
+        productos: this.productoDAO.getProductos(this.currentCategory),
+        favoritos: this.productoDAO.obtenerFavoritos(this.productoModel.userId),
+      }).subscribe({
+        next: ({ productos, favoritos }) => {
+          // Procesamos los favoritos
+          this.favoritosCliente = favoritos;
+          this.productoModel.actualizarFavoritosCliente(favoritos);
 
-        this.genericModel.elements = productosCreados;
-        // this.productosSubject.next(productosCreados);
-      },
-      error: (error) => this.handleError(error),
-    });
+          // Procesamos los productos
+          const productosCreados = this.productoModel.crearProductos(productos);
+          this.genericModel.elements = productosCreados;
+        },
+        error: (error) => {
+          console.error('Error al cargar datos:', error);
+        },
+      });
+    } else {
+      // El usuario no está registrado, solo obtenemos productos
+      this.productoDAO.getProductos(this.currentCategory).subscribe({
+        next: (productos: Producto[]) => {
+          const productosCreados = this.productoModel.crearProductos(productos);
+          this.genericModel.elements = productosCreados;
+        },
+        error: (error) => {
+          console.error('Error al cargar productos:', error);
+        },
+      });
+    }
   }
+
+  // getProductos(categoria?: string): void {
+  //   if (this.currentCategory !== categoria) {
+  //     this.currentCategory = categoria; // Guardamos la categoría actual
+  //   }
+
+  //   this.productoDAO.getProductos(this.currentCategory).subscribe({
+  //     next: (productos: Producto[]) => {
+  //       this.productoDAO.obtenerFavoritos(this.productoModel.userId).subscribe({
+  //         next: (favoritos: Producto[]) => {
+  //           this.favoritosCliente = favoritos;
+  //           this.productoModel.actualizarFavoritosCliente(favoritos);
+
+  //           const productosCreados =
+  //             this.productoModel.crearProductos(productos);
+  //           this.genericModel.elements = productosCreados;
+  //         },
+  //         error: (error) => {
+  //           console.error('Error al cargar favoritos:', error);
+  //         },
+  //       });
+  //       // this.productosSubject.next(productosCreados);
+  //     },
+  //     error: (error) => {
+  //       console.error('error:', error);
+  //     },
+  //   });
+  // }
+
   cargarFavoritos(clienteId: any): void {
     this.productoDAO.obtenerFavoritos(clienteId).subscribe({
       next: (favoritos: Producto[]) => {
         this.favoritosCliente = favoritos;
-        const productosCreados = this.productoModel.crearProductos(favoritos);
+
         this.productoModel.actualizarFavoritosCliente(favoritos);
+        const productosCreados = this.productoModel.crearProductos(favoritos);
         this.genericModel.elements = productosCreados;
       },
       error: (error) => {
@@ -81,6 +138,18 @@ export class ProductoService {
       },
     });
   }
+  actualizarFavoritosCliente(clienteId: any): void {
+    this.productoDAO.cargarFavoritos(clienteId).subscribe({
+      next: (favoritos: Producto[]) => {
+        this.productoModel.actualizarFavoritosCliente(favoritos);
+        console.log('favoritos', favoritos);
+      },
+      error: (error) => {
+        console.error('Error al cargar favoritos:', error);
+      },
+    });
+  }
+
   // Obtener producto por ID
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
@@ -105,6 +174,7 @@ export class ProductoService {
         this.genericModel.element = producto;
 
         // Al volver a cargar, empleamos la categoría actual
+        this.getProductos(this.currentCategory);
       },
       error: (error) => this.handleError(error),
     });
