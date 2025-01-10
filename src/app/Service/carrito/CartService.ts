@@ -6,7 +6,6 @@ import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 import { AuthService } from '../seguridad/AuthService.service';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
-import { Console } from 'node:console';
 
 @Injectable({
   providedIn: 'root',
@@ -145,6 +144,8 @@ export class CartService {
       },
     });
   }
+
+ 
   updateProductQuantity(productId: number, quantity: number): void {
     this.cartDAO.addProductoCarrito(productId, quantity).subscribe({
       next: () => {
@@ -153,7 +154,6 @@ export class CartService {
         );
 
         if (item) {
-          // 
           item.quantity = quantity;
           if (item.quantity <= 0) {
             this.removeProduct(productId);
