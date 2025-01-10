@@ -11,8 +11,8 @@ export class CallbackUserService {
   deleteUsers$ = new Subject<User[]>();
   editUser$ = new Subject<any>();
   viewUser$ = new Subject<User>();
-  toggleOferta$ = new Subject<User[]>();
-  toggleFavorito$ = new Subject<User[]>();
+  alternarOferta$ = new Subject<User[]>();
+  alternarFavorito$ = new Subject<User[]>();
 
   url: string = '/newUser';
 
@@ -35,11 +35,11 @@ export class CallbackUserService {
   viewUser(user: User) {
     this.viewUser$.next(user);
   }
-  toggleOferta(selectedItems: User[]) {
-     this.toggleOferta$.next(selectedItems);
+  alternarOferta(selectedItems: User[]) {
+    this.alternarOferta$.next(selectedItems);
   }
 
-  toggleFavorito(selectedItems: User[]) {
-    this.toggleFavorito$.next(selectedItems);
+  alternarFavorito(selectedItems: User[]) {
+    this.alternarFavorito$.next(selectedItems);
   }
 }

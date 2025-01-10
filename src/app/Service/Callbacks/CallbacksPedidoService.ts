@@ -14,8 +14,8 @@ export class CallbacksPedidoService {
   editPedido$ = new Subject<any>();
   viewPedido$ = new Subject<Pedido>();
   cartItems: any[] = [];
-  // toggleOfertas$ = new Subject<Pedido[]>();
-  // toggleFavorito$ = new Subject<Pedido[]>();
+  // alternarOfertas$ = new Subject<Pedido[]>();
+  // alternarFavorito$ = new Subject<Pedido[]>();
   // openOfertaDialog$ = new Subject<Pedido[]>();
 
   constructor(private router: Router, private cartService: CartService) {}

@@ -102,13 +102,13 @@
                 <div class="cart">
                   <i
                     class="pi pi-cart-plus"
-                    (click)="callbacksProductoService.toggleCart([item])"
+                    (click)="callbacksProductoService.alternarCart([item])"
                     tabindex="-1"
                   ></i>
                 </div>
                 <div class="heart pr-8 pl-7">
                   <i
-                    (click)="callbacksProductoService.toggleFavorito([item])"
+                    (click)="callbacksProductoService.alternarFavorito([item])"
                     [ngClass]="
                       item.favorito
                         ? 'pi pi-heart-fill corazon-icon'
@@ -218,14 +218,14 @@
                       ? 'pi pi-heart-fill text-danger'
                       : 'pi pi-heart'
                   "
-                  (click)="callbacksProductoService.toggleFavorito([item])"
+                  (click)="callbacksProductoService.alternarFavorito([item])"
                   tabindex="0"
                 ></i>
               </div>
               <div class="cart">
                 <i
                   class="pi pi-cart-plus"
-                  (click)="callbacksProductoService.toggleCart([item])"
+                  (click)="callbacksProductoService.alternarCart([item])"
                   tabindex="0"
                 ></i>
               </div>

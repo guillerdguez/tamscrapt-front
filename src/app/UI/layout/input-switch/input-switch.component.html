@@ -1,4 +1,12 @@
-<div class="text-xl mb-3 font-bold"> 
-  <i *ngIf="isDarkMode" class="pi pi-moon font-bold" (click)="toggleLightDark()"></i>
-  <i *ngIf="!isDarkMode" class="pi pi-sun font-bold" (click)="toggleLightDark()"></i>
+<div class="text-xl mb-3 font-bold">
+  <i
+    *ngIf="isDarkMode"
+    class="pi pi-moon font-bold"
+    (click)="alternarLightDark()"
+  ></i>
+  <i
+    *ngIf="!isDarkMode"
+    class="pi pi-sun font-bold"
+    (click)="alternarLightDark()"
+  ></i>
 </div>

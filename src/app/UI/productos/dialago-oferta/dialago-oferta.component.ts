@@ -31,7 +31,7 @@ export class DialagoOfertaComponent {
   }
 
   save(): void {
-    this.productoService.toggleOfertas(this.params);
+    this.productoService.alternarOfertas(this.params);
 
     this.isDialogVisible = false;
     this.genericModel.elementsSeleccionados.length = 0;

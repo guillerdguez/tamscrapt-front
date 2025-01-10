@@ -206,7 +206,7 @@ export class ProductoService {
     selectedItems.forEach((item) => {
       this.updateProducto(item.id, item.getProductoData());
       if (!item.oferta) {
-        this.toggleOferta(item, 0);
+        this.alternarOferta(item, 0);
         item.precioOriginal = undefined;
       }
     });
@@ -214,13 +214,13 @@ export class ProductoService {
   }
 
   // Manejo de múltiples ofertas
-  toggleOfertas(selectedItems: any[]) {
+  alternarOfertas(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       if (!item.oferta) {
-        this.toggleOferta(item, 0);
+        this.alternarOferta(item, 0);
         item.precioOriginal = undefined;
       } else {
-        this.toggleOferta(item, item.descuento);
+        this.alternarOferta(item, item.descuento);
       }
       this.updateProducto(item.id, item.getProductoData());
     });
@@ -232,8 +232,8 @@ export class ProductoService {
     selectedItems.forEach((item) => this.deleteProducto(item.id));
   }
 
-  // Toggle de oferta
-  toggleOferta(item: any, descuento: number) {
+  // Alternar de oferta
+  alternarOferta(item: any, descuento: number) {
     if (descuento < 0 || descuento > 100) {
       throw new Error('El descuento debe estar entre 0 y 100.');
     }

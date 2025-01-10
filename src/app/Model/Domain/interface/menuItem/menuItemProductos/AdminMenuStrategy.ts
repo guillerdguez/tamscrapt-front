@@ -30,7 +30,7 @@ export class AdminMenuStrategy implements MenuStrategy {
       {
         label: 'Oferta',
         icon: 'pi pi-tag',
-        command: () => this.callbacks.toggleOferta(selectedItems),
+        command: () => this.callbacks.alternarOferta(selectedItems),
       },
     ];
   }

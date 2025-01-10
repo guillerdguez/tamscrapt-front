@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
- 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +12,8 @@ export class CallbacksProductoService {
   editProductos$ = new Subject<Producto[]>();
   editProducto$ = new Subject<any>();
   viewProducto$ = new Subject<Producto>();
-  toggleFavorito$ = new Subject<Producto[]>();
-  toggleCart$ = new Subject<Producto[]>();
+  alternarFavorito$ = new Subject<Producto[]>();
+  alternarCart$ = new Subject<Producto[]>();
 
   openOfertaDialog$ = new Subject<Producto[]>();
 
@@ -36,7 +36,7 @@ export class CallbacksProductoService {
     this.router.navigate(['/detail/Productos/', productoNoArray.id]);
     this.editProducto$.next(producto);
   }
-  toggleOferta(selectedItems: Producto[]) {
+  alternarOferta(selectedItems: Producto[]) {
     this.openOfertaDialog$.next(selectedItems);
   }
 
@@ -44,10 +44,10 @@ export class CallbacksProductoService {
     this.viewProducto$.next(producto);
   }
 
-  toggleFavorito(selectedItems: Producto[]) {
-    this.toggleFavorito$.next(selectedItems);
+  alternarFavorito(selectedItems: Producto[]) {
+    this.alternarFavorito$.next(selectedItems);
   }
-  toggleCart(selectedItems: Producto[]): void {
-    this.toggleCart$.next(selectedItems);
+  alternarCart(selectedItems: Producto[]): void {
+    this.alternarCart$.next(selectedItems);
   }
 }

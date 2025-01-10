@@ -117,13 +117,13 @@
 
             <!-- <i
               class="pi pi-cart-plus"
-              (click)="callbacksProductoService.toggleCart([param])"
+              (click)="callbacksProductoService.alternarCart([param])"
               tabindex="-1"
             ></i> -->
           </div>
           <div class="heart pr-8 pl-7">
             <i
-              (click)="callbacksProductoService.toggleFavorito([param])"
+              (click)="callbacksProductoService.alternarFavorito([param])"
               [ngClass]="
                 param.favorito
                   ? 'pi pi-heart-fill corazon-icon'

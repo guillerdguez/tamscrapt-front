@@ -38,9 +38,11 @@ export class UserService {
     this.callbacksService.deleteUsers$.subscribe((selectedItems) => {
       this.deleteMultipleUsers(selectedItems);
     });
-    this.callbacksProductoService.toggleFavorito$.subscribe((selectedItems) => {
-      this.toggleFavorito(selectedItems);
-    });
+    this.callbacksProductoService.alternarFavorito$.subscribe(
+      (selectedItems) => {
+        this.alternarFavorito(selectedItems);
+      }
+    );
   }
   // cargarFavoritos(clienteId: any): void {
   //   this.userDAO.obtenerFavoritos(clienteId).subscribe({
@@ -153,7 +155,7 @@ export class UserService {
     selectedItems.forEach((user) => this.deleteUser(user.id));
   }
 
-  toggleFavorito(selectedItems: Producto[]): void {
+  alternarFavorito(selectedItems: Producto[]): void {
     if (this.userId === undefined) {
       console.error('Usuario no autenticado. No se puede gestionar favoritos.');
       this.messageService.add({

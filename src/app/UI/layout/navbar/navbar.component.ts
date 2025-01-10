@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { UserService } from '../../../Service/user/User.service';
@@ -31,11 +30,10 @@ export class NavbarComponent implements OnInit {
     if (this.userId) {
       this.userService.getUser(this.userId);
     }
-  
   }
 
   // Alterna entre los menús desplegables
-  toggleMenu(menu: 'admin' | 'user') {
+  alternarMenu(menu: 'admin' | 'user') {
     if (menu === 'admin') {
       this.dropdownMenu = !this.dropdownMenu;
       this.menuOpen = false;

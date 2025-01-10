@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
 import { ProductoService } from '../../../Service/producto/Producto.service';
-import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
-import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ProductoDetails } from '../../../Model/Domain/interface/ProductoDetails';
 import { Location } from '@angular/common';
 //si tiene descuento automaticamente esta en

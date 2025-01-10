@@ -30,7 +30,7 @@
             <a
               class="nav-link"
               role="button"
-              (click)="toggleMenu('admin'); $event.stopPropagation()"
+              (click)="alternarMenu('admin'); $event.stopPropagation()"
             >
               <i class="pi pi-cog"></i> Admin
             </a>
@@ -64,10 +64,10 @@
           <!-- Menú de usuario -->
           <li *ngIf="authService.isAuthenticated()" class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle d-flex align-items-center"
+              class="nav-link dropdown-alternar d-flex align-items-center"
               id="userMenu"
               role="button"
-              (click)="toggleMenu('user'); $event.stopPropagation()"
+              (click)="alternarMenu('user'); $event.stopPropagation()"
             >
               @if(genericModel.element){
               <div class="user-image-container me-2">

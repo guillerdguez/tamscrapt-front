@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject } from '@angular/core';
- 
 
 @Component({
   selector: 'app-switch',
@@ -11,8 +10,10 @@ export class InputSwitchComponent {
   #document = inject(DOCUMENT);
   isDarkMode = true;
 
-  toggleLightDark() {
-    const linkElement = this.#document.getElementById('app-theme') as HTMLLinkElement;
+  alternarLightDark() {
+    const linkElement = this.#document.getElementById(
+      'app-theme'
+    ) as HTMLLinkElement;
     if (linkElement.href.includes('light')) {
       linkElement.href = 'theme-dark.css';
       this.isDarkMode = true;
@@ -24,10 +25,10 @@ export class InputSwitchComponent {
 
   constructor() {
     if (this.isSystemDark()) {
-      this.toggleLightDark();
+      this.alternarLightDark();
     }
   }
-  
+
   isSystemDark(): boolean {
     return window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches;
   }

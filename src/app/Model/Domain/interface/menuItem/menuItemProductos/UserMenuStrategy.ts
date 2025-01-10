@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MenuStrategy } from '../MenuStrategy';
 import { CallbacksProductoService } from '../../../../../Service/Callbacks/CallbacksProductoService';
 
- 
 @Injectable({
   providedIn: 'root',
-})export class UserMenuStrategy implements MenuStrategy {
+})
+export class UserMenuStrategy implements MenuStrategy {
   constructor(private callbacks: CallbacksProductoService) {}
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
@@ -19,12 +19,12 @@ import { CallbacksProductoService } from '../../../../../Service/Callbacks/Callb
       {
         label: 'Favorito',
         icon: 'pi pi-heart',
-        command: () => this.callbacks.toggleFavorito(selectedItems),
+        command: () => this.callbacks.alternarFavorito(selectedItems),
       },
       {
         label: 'Carrito',
         icon: 'pi pi-shopping-cart',
-        command: () => this.callbacks.toggleCart(selectedItems),
+        command: () => this.callbacks.alternarCart(selectedItems),
       },
     ];
   }

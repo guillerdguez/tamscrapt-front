@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 import { AuthService } from '../seguridad/AuthService.service';
 import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
+import { Console } from 'node:console';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +24,8 @@ export class CartService {
     private messageService: MessageService,
     private authService: AuthService
   ) {
-    this.callbacksProductoService.toggleCart$.subscribe((selectedItems) => {
-      this.toggleCart(selectedItems);
+    this.callbacksProductoService.alternarCart$.subscribe((selectedItems) => {
+      this.alternarCart(selectedItems);
     });
     const userId = this.authService.getCurrentUserId();
     if (userId) {
@@ -32,7 +33,7 @@ export class CartService {
     }
   }
 
-  toggleCart(selectedItems: Producto[]): void {
+  alternarCart(selectedItems: Producto[]): void {
     selectedItems.forEach((producto) => {
       this.addProductoCarrito(producto, 1);
     });
@@ -130,7 +131,21 @@ export class CartService {
       },
     });
   }
-updateProductQuantity(productId: number, quantity: number): void {
+
+  removeProduct(productId: number): void {
+    this.cartDAO.deleteCarrito(productId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(
+          (item: any) => item.product.id !== productId
+        );
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto del carrito:', error);
+      },
+    });
+  }
+  updateProductQuantity(productId: number, quantity: number): void {
     this.cartDAO.addProductoCarrito(productId, quantity).subscribe({
       next: () => {
         const item = this.cartItems.find(
@@ -138,18 +153,19 @@ updateProductQuantity(productId: number, quantity: number): void {
         );
 
         if (item) {
+          // 
           item.quantity = quantity;
           if (item.quantity <= 0) {
             this.removeProduct(productId);
           }
         }
-        if (item && quantity > item.product.cantidad) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No hay suficiente stock.',
-          });
-        }
+        // if (item && quantity <= item.product.cantidad) {
+        //   this.messageService.add({
+        //     severity: 'error',
+        //     summary: 'Error',
+        //     detail: 'No hay suficiente stock.',
+        //   });
+        // }
         this.cartItemsSubject.next(this.cartItems);
       },
       error: (error) => {
@@ -170,21 +186,11 @@ updateProductQuantity(productId: number, quantity: number): void {
     });
   }
 
-  removeProduct(productId: number): void {
-    this.cartDAO.deleteCarrito(productId).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(
-          (item: any) => item.product.id !== productId
-        );
-        this.cartItemsSubject.next(this.cartItems);
-      },
-      error: (error) => {
-        console.error('Error al eliminar el producto del carrito:', error);
-      },
-    });
-  }
-  
- 
+  // saveCartItems(): void {
+  //   console.warn(
+  //     'La función saveCartItems ya no es necesaria y no realiza ninguna acción.'
+  //   );
+  // }
   // Mostrar mensaje de éxito
   private showSuccessMessage(detail: string): void {
     this.messageService.add({
