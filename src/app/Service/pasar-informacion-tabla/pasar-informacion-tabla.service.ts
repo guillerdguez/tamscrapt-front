@@ -24,7 +24,7 @@ export class PasarInformacionTablaService {
     private tipoFactory: TipoFactory
   ) {}
 
-  initialize(tipo: string | null, params?: any): void {
+  inicializar(tipo: string | null, params?: any): void {
     if (!tipo) {
       console.log(tipo);
       console.error('Tipo no válido');
@@ -36,8 +36,8 @@ export class PasarInformacionTablaService {
       handler.execute(params);
       this.title.next(handler.getTitle());
     } else {
-      console.log(tipo);
-      console.error('Tipo no encontrado en la factory');
+      this.title.next(`"${tipo}" no existe`);
+      this.genericModel.elements = [];
     }
   }
 

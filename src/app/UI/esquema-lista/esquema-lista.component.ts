@@ -39,7 +39,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   @ViewChild('menu') menu!: ContextMenu;
 
   headers: any[] = [];
-
+  private currentTipo: string | null = null;
   get paramsTemporal(): User[] | Producto[] {
     return this.genericModel.elements;
   }
@@ -56,9 +56,11 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const tipo = params.get('tipo');
-      this.pasarInformacionTablaService.initialize(tipo);
+      if (tipo !== this.currentTipo) {
+        this.currentTipo = tipo;
+        this.pasarInformacionTablaService.inicializar(tipo);
+      }
     });
-
     this.pasarInformacionTablaService.title.subscribe((title) => {
       this.title = title;
     });
@@ -93,14 +95,20 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
   onContextMenu(event: MouseEvent, item: any) {
     if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
       event.preventDefault();
+
+      // A) Agregamos el item a la selección si no está ya
       if (!this.genericModel.elementsSeleccionados.includes(item)) {
         this.genericModel.elementsSeleccionados.push(item);
         this.TableSelected.emit(this.genericModel.elementsSeleccionados);
       }
+
+      // B) Obtenemos los items para el menú contextual
       this.items = item.getMenuItems(
         this.genericModel.elementsSeleccionados,
         this.callbacksProductoService
       );
+
+      // C) Mostramos el menú en la posición del ratón
       this.menu.show(event);
     }
   }

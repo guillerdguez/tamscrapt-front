@@ -8,7 +8,6 @@ import { FormularioComponentProducto } from './UI/productos/formularioProductos/
 import { authGuard } from './Service/seguridad/AuthGuard';
 import { roleGuard } from './Service/seguridad/RoleGuard';
 import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
-import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
 import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { UserAuthority } from './Model/Domain/User/UserAuthority.enum';

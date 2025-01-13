@@ -28,7 +28,7 @@ export class CartService {
     });
     const userId = this.authService.getCurrentUserId();
     if (userId) {
-      this.initializeCart(userId); // Cargar el carrito desde la base de datos
+      this.inicializarCart(userId); // Cargar el carrito desde la base de datos
     }
   }
 
@@ -45,7 +45,7 @@ export class CartService {
     return this.cartItems; // Devolver los ítems cargados desde la base de datos
   }
   //quitar el null
-  // private initializeCart(userId: number | undefined): void {
+  // private inicializarCart(userId: number | undefined): void {
   //   this.cartDAO.getCarrito(userId).subscribe({
   //     next: (items) => {
   //       console.log(items);
@@ -61,7 +61,7 @@ export class CartService {
   //     },
   //   });
   // }
-  private initializeCart(userId?: number): void {
+  private inicializarCart(userId?: number): void {
     this.cartDAO.getCarrito(userId).subscribe({
       next: (response) => {
         if (response?.productos) {
@@ -145,7 +145,6 @@ export class CartService {
     });
   }
 
- 
   updateProductQuantity(productId: number, quantity: number): void {
     this.cartDAO.addProductoCarrito(productId, quantity).subscribe({
       next: () => {
