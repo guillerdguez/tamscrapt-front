@@ -45,10 +45,9 @@ export class Pedido {
   }
 
   getMenuItems(
-    selectedItems: Pedido[],
-    callbacks: CallbacksPedidoService
+    selectedItems: Pedido[], 
   ): MenuItem[] {
-    return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
+    return this.menuStrategy.getMenuItems(this, selectedItems );
   }
 
   getParametros(pedido: Pedido) {

@@ -12,4 +12,5 @@ export interface ProductoDetails {
   favorito?: boolean;
   enCarrito?: boolean;
   descripcion?: string;
+  cantidadCarrito?: number;
 }

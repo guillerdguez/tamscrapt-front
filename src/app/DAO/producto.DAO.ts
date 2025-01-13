@@ -15,8 +15,7 @@ export class ProductoDAO {
   };
 
   cargarFavoritos(clienteId: number): Observable<Producto[]> {
-    console.log('favoritos', clienteId);
-    return this.obtenerFavoritos(clienteId);
+     return this.obtenerFavoritos(clienteId);
   }
 
   constructor(private http: HttpClient) {}

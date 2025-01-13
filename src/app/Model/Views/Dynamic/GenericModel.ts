@@ -13,8 +13,7 @@ export class GenericModel {
     if (!this.elementsSeleccionados.includes(item)) {
       this.elementsSeleccionados.push(item);
     }
-
-    this.menuItemSeleccionado = menuItemLabel;
+     this.menuItemSeleccionado = menuItemLabel;
     this.ejecutarMenuItem();
   }
 

@@ -26,8 +26,7 @@ export class PasarInformacionTablaService {
 
   inicializar(tipo: string | null, params?: any): void {
     if (!tipo) {
-      console.log(tipo);
-      console.error('Tipo no válido');
+       console.error('Tipo no válido');
       return;
     }
 

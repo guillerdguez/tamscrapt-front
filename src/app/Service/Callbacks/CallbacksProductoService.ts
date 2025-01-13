@@ -2,52 +2,58 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
+import { ProductoService } from '../producto/Producto.service';
+import { CartService } from '../carrito/CartService';
+import { UserService } from '../user/User.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CallbacksProductoService {
-  createProducto$ = new Subject<void>();
-  deleteProductos$ = new Subject<Producto[]>();
-  editProductos$ = new Subject<Producto[]>();
-  editProducto$ = new Subject<any>();
-  viewProducto$ = new Subject<Producto>();
-  alternarFavorito$ = new Subject<Producto[]>();
-  alternarCart$ = new Subject<Producto[]>();
-
   openOfertaDialog$ = new Subject<Producto[]>();
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private productoService: ProductoService,
+    private cartService: CartService,
+    private userService: UserService
+  ) {}
 
-  createProducto() {
+  createProducto(selectedItems: Producto[]) {
     this.router.navigate(['/newProducto']);
-    this.createProducto$.next();
+    this.productoService.addProducto(selectedItems);
   }
 
   deleteProductos(selectedItems: Producto[]) {
-    this.deleteProductos$.next(selectedItems);
-  }
-  editProductos(selectedItems: Producto[]) {
-    this.editProductos$.next(selectedItems);
+    this.productoService.deleteMultipleProductos(selectedItems);
   }
 
+  editProductos(selectedItems: Producto[]) {
+    this.productoService.editMultipleProductos(selectedItems);
+  }
+//si no es admin solo puede tener el ultimo,que escribiendo en la url el id del producto funcione
   editProducto(producto: Producto | any[]) {
     const productoNoArray = Array.isArray(producto) ? producto[0] : producto;
+ 
     this.router.navigate(['/detail/Productos/', productoNoArray.id]);
-    this.editProducto$.next(producto);
+
+    // Luego, si quieres alguna lógica adicional, podrías ejecutarla directo:
+    // this.productoService.updateProducto(productoNoArray.id, productoNoArray);
+    // O crear un método 'editSingleProducto' en productoService, etc.
   }
+
   alternarOferta(selectedItems: Producto[]) {
     this.openOfertaDialog$.next(selectedItems);
   }
 
   viewProducto(producto: Producto) {
-    this.viewProducto$.next(producto);
+    this.productoService.getProducto(producto.id);
   }
 
   alternarFavorito(selectedItems: Producto[]) {
-    this.alternarFavorito$.next(selectedItems);
-  }
+    this.userService.alternarFavorito(selectedItems);
+  } 
   alternarCart(selectedItems: Producto[]): void {
-    this.alternarCart$.next(selectedItems);
+     this.cartService.alternarCart(selectedItems);
   }
 }

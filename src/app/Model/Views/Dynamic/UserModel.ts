@@ -4,22 +4,18 @@ import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrateg
 import { GenericModel } from './GenericModel';
 import { User } from '../../Domain/User/UserClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { TagSeverity } from '../../Domain/interface/type-tag-severity';
 // type TagSeverity = { tag: string; severity: string };
 @Injectable({ providedIn: 'root' })
 export class UserModel {
   users: User[] = [];
   user!: User;
-  private callbacksService!: CallbacksProductoService;
 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private genericModel: GenericModel,
     private injector: Injector
-  ) {
-    this.callbacksService = this.injector.get(CallbacksProductoService);
-  }
+  ) {}
   // getTagSeverity(user: User): TagSeverity {
   //   if (user.authorities.has(UserAuthority.ADMIN)) {
   //     return { tag: 'ADMIN_USER', severity: 'success' };
@@ -51,8 +47,7 @@ export class UserModel {
       newUser.severity = severity;
 
       newUser.menuItems = newUser.getMenuItems(
-        this.genericModel.elementsSeleccionados,
-        this.callbacksService
+        this.genericModel.elementsSeleccionados
       );
 
       listaUser.push(newUser);

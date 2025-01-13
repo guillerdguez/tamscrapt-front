@@ -1,19 +1,15 @@
 import { Injectable, Injector } from '@angular/core';
-import { ProductoDAO } from '../../../DAO/producto.DAO';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
 import { TagSeverity } from '../../Domain/interface/type-tag-severity';
 import { Producto } from '../../Domain/Producto/ProductoClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
 import { GenericModel } from './GenericModel';
-import { ProductoService } from '../../../Service/producto/Producto.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoModel {
   productos: Producto[] = [];
   producto!: Producto;
-  private callbacksProductoService!: CallbacksProductoService;
   favoritosCliente: Producto[] = [];
   cartItems: any[] = [];
   userId: any;
@@ -24,7 +20,6 @@ export class ProductoModel {
     private injector: Injector,
     public authService: AuthService // private productoService: ProductoService
   ) {
-    this.callbacksProductoService = this.injector.get(CallbacksProductoService);
     this.userId = this.authService.getCurrentUserId();
     // if (this.userId) {
     //   this.productoService.cargarFavoritos(this.userId);
@@ -94,8 +89,7 @@ export class ProductoModel {
       newProducto.severity = severity;
 
       newProducto.menuItems = newProducto.getMenuItems(
-        this.genericModel.elementsSeleccionados,
-        this.callbacksProductoService
+        this.genericModel.elementsSeleccionados
       );
 
       listaProducto.push(newProducto);

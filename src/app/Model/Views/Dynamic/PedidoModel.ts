@@ -3,22 +3,19 @@ import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { MenuStrategyFactory } from '../../Domain/interface/menuItem/MenuStrategyFactory';
 import { GenericModel } from './GenericModel';
 import { Pedido } from '../../Domain/Pedido/PedidoClass';
-import { CallbacksPedidoService } from '../../../Service/Callbacks/CallbacksPedidoService';
-
+ 
 @Injectable({ providedIn: 'root' })
 export class PedidoModel {
   pedidos: Pedido[] = [];
   pedido: Pedido | undefined;
-  private callbacksService!: CallbacksPedidoService;
-
+ 
   constructor(
     private menuStrategyFactory: MenuStrategyFactory,
     private genericModel: GenericModel,
     private injector: Injector,
     public authService: AuthService
   ) {
-    this.callbacksService = this.injector.get(CallbacksPedidoService);
-  }
+   }
   getTag(pedido: Pedido): string {
     return pedido.estado === 'CANCELADO'
       ? 'CANCELLED'
@@ -60,8 +57,7 @@ export class PedidoModel {
 
       newPedido.menuItems = newPedido.getMenuItems(
         this.genericModel.elementsSeleccionados,
-        this.callbacksService
-      );
+       );
 
       this.getSeverity(newPedido);
       listaPedido.push(newPedido);

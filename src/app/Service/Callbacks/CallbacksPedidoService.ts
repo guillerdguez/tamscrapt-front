@@ -23,8 +23,7 @@ export class CallbacksPedidoService {
   createPedido() {
     this.cartItems = this.cartService.getCartItems();
     if (this.cartItems.length === 0) {
-      console.log('Creando pedido mal');
-      this.router.navigate(['/carrito']);
+       this.router.navigate(['/carrito']);
     } else {
       this.router.navigate(['/checkout']);
       this.createPedido$.next();

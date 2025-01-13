@@ -7,7 +7,6 @@ import { MenuItem } from 'primeng/api';
 import { UserDetails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { Producto } from '../Producto/ProductoClass';
 
 export class User {
@@ -75,10 +74,7 @@ export class User {
     };
   }
 
-  getMenuItems(
-    selectedItems: User[],
-    callbacks: CallbacksProductoService
-  ): MenuItem[] {
-    return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
+  getMenuItems(selectedItems: User[]): MenuItem[] {
+    return this.menuStrategy.getMenuItems(this, selectedItems);
   }
 }

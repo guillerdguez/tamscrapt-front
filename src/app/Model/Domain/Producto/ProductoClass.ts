@@ -4,7 +4,6 @@ import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { ProductoModel } from '../../Views/Dynamic/ProductoModel';
 import { ProductoDetails } from '../interface/ProductoDetails';
-import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { Pedido } from '../Pedido/PedidoClass';
 
 export class Producto {
@@ -66,6 +65,7 @@ export class Producto {
     this.cantidad = producto.cantidad;
     this.precioOriginal = this.calcularPrecioOriginal();
     this.descripcion = producto.descripcion;
+    this.cantidadCarrito = producto.cantidadCarrito;
     return this;
   }
 
@@ -85,14 +85,12 @@ export class Producto {
       favorito: this.favorito,
       enCarrito: this.enCarrito,
       descripcion: this.descripcion,
+      cantidadCarrito: this.cantidadCarrito,
     };
   }
 
   // Devuelve los elementos del menú basados en la estrategia del menú
-  getMenuItems(
-    selectedItems: Producto[],
-    callbacks: CallbacksProductoService
-  ): MenuItem[] {
-    return this.menuStrategy.getMenuItems(this, selectedItems, callbacks);
+  getMenuItems(selectedItems: Producto[]): MenuItem[] {
+    return this.menuStrategy.getMenuItems(this, selectedItems);
   }
 }

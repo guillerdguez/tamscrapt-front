@@ -16,9 +16,9 @@ import { ProductoService } from '../../Service/producto/Producto.service';
 import { User } from '../../Model/Domain/User/UserClass';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../../Service/seguridad/AuthService.service';
-import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
 import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 import { PasarInformacionTablaService } from '../../Service/pasar-informacion-tabla/pasar-informacion-tabla.service';
+import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
 
 @Component({
   selector: 'app-esquema-lista',
@@ -49,8 +49,8 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     public genericModel: GenericModel,
     public authService: AuthService,
     public pasarInformacionTablaService: PasarInformacionTablaService,
-    public callbacksProductoService: CallbacksProductoService,
-    public productoService: ProductoService
+    public productoService: ProductoService,
+    public callbacksProductoService: CallbacksProductoService
   ) {}
 
   ngOnInit() {
@@ -103,10 +103,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
       }
 
       // B) Obtenemos los items para el menú contextual
-      this.items = item.getMenuItems(
-        this.genericModel.elementsSeleccionados,
-        this.callbacksProductoService
-      );
+      this.items = item.getMenuItems(this.genericModel.elementsSeleccionados);
 
       // C) Mostramos el menú en la posición del ratón
       this.menu.show(event);
@@ -120,8 +117,7 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
 
   getCreate() {
     this.items = this.paramsTemporal[0].getMenuItems(
-      this.genericModel.elementsSeleccionados,
-      this.callbacksProductoService
+      this.genericModel.elementsSeleccionados
     );
     this.itemsCopy = [...this.items];
     this.firstItem = [this.itemsCopy[0]];

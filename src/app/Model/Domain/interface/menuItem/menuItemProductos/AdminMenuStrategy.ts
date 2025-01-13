@@ -15,7 +15,7 @@ export class AdminMenuStrategy implements MenuStrategy {
         label: 'Crear',
         icon: 'pi pi-plus',
 
-        command: () => this.callbacks.createProducto(),
+        command: () => this.callbacks.createProducto(selectedItems),
       },
       {
         label: 'Eliminar',

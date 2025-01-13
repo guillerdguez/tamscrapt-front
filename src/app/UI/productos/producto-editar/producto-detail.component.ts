@@ -64,7 +64,6 @@ export class ProductoDetailComponent implements OnInit {
     }
   }
   addCarrito() {
-    console.log(this.params[0]);
     this.cartService.addProductoCarrito(this.params[0], this.cantidad);
 
     this.cantidad = 1;

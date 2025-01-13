@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 import { AuthService } from '../seguridad/AuthService.service';
-import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +17,13 @@ export class CartService {
   cartItems$ = this.cartItemsSubject.asObservable();
 
   constructor(
-    private callbacksProductoService: CallbacksProductoService,
     private cartDAO: CarritoDAO,
     private messageService: MessageService,
     private authService: AuthService
   ) {
-    this.callbacksProductoService.alternarCart$.subscribe((selectedItems) => {
-      this.alternarCart(selectedItems);
-    });
+    // this.callbacksProductoService.alternarCart$.subscribe((selectedItems) => {
+    //   this.alternarCart(selectedItems);
+    // });
     const userId = this.authService.getCurrentUserId();
     if (userId) {
       this.inicializarCart(userId); // Cargar el carrito desde la base de datos
@@ -96,29 +94,48 @@ export class CartService {
   }
   //comprobar que se puede meter,al meterlo no quita del articulo,como podemos hacer que no pueda meter mas de los que hay entre su carrito y producto
   //si el tiene uno y 20 pone en la tienda,realmente quedarian 19 eligibles por esa persona
-  addProductoCarrito(product: Producto, quantity: number = 1): void {
-    this.cartDAO.addProductoCarrito(product.id, quantity).subscribe({
-      next: () => {
-        if (product.cantidad > 0) {
-          let articuloExistente;
-          if (this.cartItems.length > 0) {
-            articuloExistente = this.cartItems.find(
-              (item: any) => item.product.id === product.id
+  //
+  //
+  addProductoCarrito(product: Producto, quantityToAdd: number = 1): void {
+    if (product.cantidad <= 0 || product.cantidad < quantityToAdd) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Stock Insuficiente',
+        detail: 'El producto no tiene stock disponible.',
+      });
+      return;
+    }
+
+    const articuloExistente = this.cartItems.find(
+      (item) => item.product.id === product.id
+    );
+
+    let finalQuantity = quantityToAdd;
+
+    if (articuloExistente) {
+      finalQuantity = articuloExistente.quantity + quantityToAdd;
+    }
+
+    this.cartDAO.addProductoCarrito(product.id, finalQuantity).subscribe({
+      next: (resServidor) => {
+        const { productId, quantity } = resServidor || {
+          productId: product.id,
+          quantity: finalQuantity,
+        };
+
+        if (articuloExistente) {
+          articuloExistente.quantity = quantity;
+          if (articuloExistente.quantity <= 0) {
+            this.cartItems = this.cartItems.filter(
+              (item) => item.product.id !== productId
             );
           }
-
-          if (articuloExistente) {
-            articuloExistente.quantity += quantity;
-            if (articuloExistente.quantity <= 0) {
-              this.removeProduct(product.id);
-            }
-          } else {
-            const productCopy: ProductoDetails = product.getProductoData();
-            this.cartItems.push({ product: productCopy, quantity });
-          }
-
-          this.cartItemsSubject.next(this.cartItems);
+        } else if (quantity > 0) {
+          const productCopy: ProductoDetails = product.getProductoData();
+          this.cartItems.push({ product: productCopy, quantity });
         }
+
+         this.cartItemsSubject.next(this.cartItems);
       },
       error: (error) => {
         console.error('Error al agregar el producto al carrito:', error);
@@ -127,20 +144,6 @@ export class CartService {
           summary: 'Error',
           detail: 'No se pudo agregar el producto al carrito.',
         });
-      },
-    });
-  }
-
-  removeProduct(productId: number): void {
-    this.cartDAO.deleteCarrito(productId).subscribe({
-      next: () => {
-        this.cartItems = this.cartItems.filter(
-          (item: any) => item.product.id !== productId
-        );
-        this.cartItemsSubject.next(this.cartItems);
-      },
-      error: (error) => {
-        console.error('Error al eliminar el producto del carrito:', error);
       },
     });
   }
@@ -172,6 +175,21 @@ export class CartService {
       },
     });
   }
+  removeProduct(productId: number): void {
+    this.cartDAO.deleteCarrito(productId).subscribe({
+      next: () => {
+        this.cartItems = this.cartItems.filter(
+          (item: any) => item.product.id !== productId
+        );
+        this.cartItemsSubject.next(this.cartItems);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el producto del carrito:', error);
+      },
+    });
+  }
+
+  // este se usa al cambiar la cantidad en el carrito
 
   clearCart(): void {
     this.cartDAO.clearCart().subscribe({

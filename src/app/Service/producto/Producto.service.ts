@@ -5,7 +5,6 @@ import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
-import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 
 @Injectable({
   providedIn: 'root',
@@ -27,17 +26,16 @@ export class ProductoService {
     private productoDAO: ProductoDAO,
     private genericModel: GenericModel,
     public productoModel: ProductoModel,
-    private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
   ) {
-    this.callbacksProductoService.deleteProductos$.subscribe(
-      (selectedItems) => {
-        this.deleteMultipleProductos(selectedItems);
-      }
-    );
-    this.callbacksProductoService.editProductos$.subscribe((selectedItems) => {
-      this.editMultipleProductos(selectedItems);
-    });
+    // this.callbacksProductoService.deleteProductos$.subscribe(
+    //   (selectedItems) => {
+    //     this.deleteMultipleProductos(selectedItems);
+    //   }
+    // );
+    // this.callbacksProductoService.editProductos$.subscribe((selectedItems) => {
+    //   this.editMultipleProductos(selectedItems);
+    // });
   }
   // CREATE
   addProducto(producto: any): void {
@@ -142,7 +140,6 @@ export class ProductoService {
     this.productoDAO.cargarFavoritos(clienteId).subscribe({
       next: (favoritos: Producto[]) => {
         this.productoModel.actualizarFavoritosCliente(favoritos);
-        console.log('favoritos', favoritos);
       },
       error: (error) => {
         console.error('Error al cargar favoritos:', error);

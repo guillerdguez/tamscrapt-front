@@ -110,8 +110,7 @@ export class PedidoService {
   }
   //DELETE
   deletePedido(id: any): void {
-    console.log('Pedido eliminado', this.genericModel.elements);
-    this.pedidoDAO.deletePedido(id).subscribe({
+     this.pedidoDAO.deletePedido(id).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
         this.genericModel.elements = this.genericModel.elements.filter(

@@ -5,7 +5,6 @@ import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { UserModel } from '../../Model/Views/Dynamic/UserModel';
 import { UserDAO } from '../../DAO/user.DAO';
 import { CallbackUserService } from '../Callbacks/CallbackUserService';
-import { CallbacksProductoService } from '../Callbacks/CallbacksProductoService';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../seguridad/AuthService.service';
 import { MessageService } from 'primeng/api';
@@ -32,17 +31,17 @@ export class UserService {
     public userModel: UserModel,
     public productoModel: ProductoModel,
     private callbacksService: CallbackUserService,
-    private callbacksProductoService: CallbacksProductoService,
+    //private callbacksProductoService: CallbacksProductoService,
     private messageService: MessageService
   ) {
     this.callbacksService.deleteUsers$.subscribe((selectedItems) => {
       this.deleteMultipleUsers(selectedItems);
     });
-    this.callbacksProductoService.alternarFavorito$.subscribe(
-      (selectedItems) => {
-        this.alternarFavorito(selectedItems);
-      }
-    );
+    // this.callbacksProductoService.alternarFavorito$.subscribe(
+    //   (selectedItems) => {
+    //     this.alternarFavorito(selectedItems);
+    //   }
+    // );
   }
   // cargarFavoritos(clienteId: any): void {
   //   this.userDAO.obtenerFavoritos(clienteId).subscribe({
