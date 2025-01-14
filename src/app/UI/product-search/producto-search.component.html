@@ -10,11 +10,7 @@
   <!-- Lista de resultados -->
   <ul class="search-result" *ngIf="showResults">
     <li *ngFor="let producto of productos$ | async">
-      <a
-        class="lista-search"
-        (click)="rellenar([producto])"
-        routerLink="/detail/Productos/{{ producto.id }}"
-      >
+      <a class="lista-search" (click)="rellenar(producto)">
         {{ producto.nombre }}
       </a>
     </li>

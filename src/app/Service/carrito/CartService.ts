@@ -46,12 +46,12 @@ export class CartService {
   // private inicializarCart(userId: number | undefined): void {
   //   this.cartDAO.getCarrito(userId).subscribe({
   //     next: (items) => {
-  //       console.log(items);
+  //      
   //       this.cartItems = items.map((item) => ({
   //         product: item.producto,
   //         quantity: item.cantidad,
   //       }));
-  //       console.log('cartItems', this.cartItems);
+  //      
   //       this.cartItemsSubject.next(this.cartItems);
   //     },
   //     error: (error) => {
@@ -96,8 +96,8 @@ export class CartService {
   //si el tiene uno y 20 pone en la tienda,realmente quedarian 19 eligibles por esa persona
   //
   //
-  addProductoCarrito(product: Producto, quantityToAdd: number = 1): void {
-    if (product.cantidad <= 0 || product.cantidad < quantityToAdd) {
+  addProductoCarrito(product: Producto, quantity: number = 1): void {
+    if (product.cantidad <= 0 || product.cantidad < quantity) {
       this.messageService.add({
         severity: 'error',
         summary: 'Stock Insuficiente',
@@ -110,10 +110,10 @@ export class CartService {
       (item) => item.product.id === product.id
     );
 
-    let finalQuantity = quantityToAdd;
+    let finalQuantity = quantity;
 
     if (articuloExistente) {
-      finalQuantity = articuloExistente.quantity + quantityToAdd;
+      finalQuantity = articuloExistente.quantity + quantity;
     }
 
     this.cartDAO.addProductoCarrito(product.id, finalQuantity).subscribe({
@@ -135,7 +135,7 @@ export class CartService {
           this.cartItems.push({ product: productCopy, quantity });
         }
 
-         this.cartItemsSubject.next(this.cartItems);
+        this.cartItemsSubject.next(this.cartItems);
       },
       error: (error) => {
         console.error('Error al agregar el producto al carrito:', error);

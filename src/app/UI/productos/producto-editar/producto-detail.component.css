@@ -157,22 +157,22 @@ img {
 }
 
 .cantidad-input {
-  width: 48px;  
-  max-width: 48px; 
-  min-width: 48px; 
+  width: 48px;
+  max-width: 48px;
+  min-width: 48px;
   text-align: center;
   border: none;
-  font-size: 16px; 
+  font-size: 16px;
   padding: 0;
   box-sizing: border-box;
-  background-color: transparent;  
-  outline: none; 
+  background-color: transparent;
+  outline: none;
 }
 
 .cantidad-input::-webkit-inner-spin-button,
 .cantidad-input::-webkit-outer-spin-button {
-  -webkit-appearance: none; 
-  margin: 0; 
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .btn-añadir-carrito {
@@ -182,7 +182,7 @@ img {
   padding: 10px 15px !important;
   font-size: 14px !important;
   font-weight: bold !important;
-  min-width: 200px !important;  
+  min-width: 200px !important;
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

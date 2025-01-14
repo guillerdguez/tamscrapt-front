@@ -1,7 +1,10 @@
 <!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
 <!-- poner descripcion?valoracion? -->
 <ng-container
-  *ngIf="authService.hasAuthority(userAuthority.ADMIN); else noStepper"
+  *ngIf="
+    authService.hasAuthority(userAuthority.ADMIN) && params.length>1;
+    else noStepper
+  "
 >
   <p-stepper [linear]="true">
     <ng-container *ngFor="let param of params; let i = index">
@@ -114,12 +117,7 @@
                 (click)="addCarrito()"
               ></button>
             </div>
-
-            <!-- <i
-              class="pi pi-cart-plus"
-              (click)="callbacksProductoService.alternarCart([param])"
-              tabindex="-1"
-            ></i> -->
+ 
           </div>
           <div class="heart pr-8 pl-7">
             <i
@@ -150,29 +148,6 @@
             </ng-container>
           </div>
         </div>
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-descripcion-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >Producto Descripcion:</label
-          >
-          <input
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            id="producto-descripcion-{{ i }}"
-            [(ngModel)]="param.descripcion"
-            placeholder="Producto descripcion"
-            class="p-inputtext w-full"
-          />
-        </div>
-        <h3
-          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-          class="descripcion text-lg font-bold"
-        >
-          {{ param.descripcion }}
-        </h3>
         <!-- Producto Nombre -->
         <div
           class="mb-4 w-full"
@@ -197,6 +172,29 @@
             {{ param.nombre }}
           </h3>
         </div>
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="producto-descripcion-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Producto Descripcion:</label
+          >
+          <input
+            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+            id="producto-descripcion-{{ i }}"
+            [(ngModel)]="param.descripcion"
+            placeholder="Producto descripcion"
+            class="p-inputtext w-full"
+          />
+        </div>
+        <h3
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+          class="descripcion text-lg font-bold"
+        >
+          {{ param.descripcion }}
+        </h3>
 
         <!-- Oferta -->
         <div

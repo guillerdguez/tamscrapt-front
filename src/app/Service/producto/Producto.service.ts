@@ -17,26 +17,12 @@ export class ProductoService {
   private currentCategory?: string;
   private favoritosCliente: Producto[] = [];
 
-  // constructor(
-  //   private productoDAO: ProductoDAO,
-  //   private genericModel: GenericModel,
-  //   public productoModel: ProductoModel
-  // ) {}
   constructor(
     private productoDAO: ProductoDAO,
     private genericModel: GenericModel,
     public productoModel: ProductoModel,
     private messageService: MessageService
-  ) {
-    // this.callbacksProductoService.deleteProductos$.subscribe(
-    //   (selectedItems) => {
-    //     this.deleteMultipleProductos(selectedItems);
-    //   }
-    // );
-    // this.callbacksProductoService.editProductos$.subscribe((selectedItems) => {
-    //   this.editMultipleProductos(selectedItems);
-    // });
-  }
+  ) {}
   // CREATE
   addProducto(producto: any): void {
     this.productoModel.productos.push(producto);
@@ -94,6 +80,7 @@ export class ProductoService {
     }
   }
 
+  // Otra forma de hacer
   // getProductos(categoria?: string): void {
   //   if (this.currentCategory !== categoria) {
   //     this.currentCategory = categoria; // Guardamos la categoría actual
@@ -148,9 +135,21 @@ export class ProductoService {
   }
 
   // Obtener producto por ID
+  // ProductoService
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
-      next: () => {},
+      next: (producto: any) => {
+        console.log(producto.nombre);
+        const productosCreado = this.productoModel.crearProductos([producto]);
+
+        // Si el primer elemento es un arreglo anidado
+        console.log(productosCreado[0].nombre);
+        if (Array.isArray(productosCreado[0])) {
+          this.genericModel.element = productosCreado[0];
+        } else {
+          this.genericModel.element = productosCreado;
+        }
+      },
       error: (error) => this.handleError(error),
     });
   }

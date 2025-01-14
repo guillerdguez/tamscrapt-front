@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   Observable,
   Subject,
@@ -32,7 +32,7 @@ export class ProductoSearchComponent implements OnInit {
     public genericModel: GenericModel,
     public productoModel: ProductoModel,
     public callbacksProductoService: CallbacksProductoService,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   search(term: string): void {
@@ -47,14 +47,11 @@ export class ProductoSearchComponent implements OnInit {
       switchMap((term: string) => this.productoService.searchProductos(term))
     );
   }
-
-  rellenar(producto: Producto[]): void {
-    this.genericModel.elementsSeleccionados = [];
-    this.callbacksProductoService.editProducto(producto);
-    this.genericModel.elementsSeleccionados = Array.from(producto);
+  //el usar el buscador buguea todo,tenga o no el servicio
+  rellenar(producto: Producto): void {
+    this.router.navigate(['/detail/Productos/', producto.id]);
+    this.productoService.getProducto(producto.id);
     this.showResults = false;
-
-    // Limpia el campo de búsqueda
     this.searchBox.nativeElement.value = '';
   }
 }
