@@ -41,7 +41,7 @@ export class ProductoModel {
           true,
         ]
       : [producto.cantidad > 20, producto.cantidad > 0, true];
-    const tagArray = isAdmin ? this.discountArray : this.stockArray;
+    const tagArray = isAdmin ? this.discountArray : this.cantidadArray;
 
     return this.evaluateConditions(conditions, tagArray);
   }
@@ -53,7 +53,7 @@ export class ProductoModel {
     { tag: 'NO_DISCOUNT', severity: 'danger' },
   ];
 
-  stockArray = [
+  cantidadArray = [
     { tag: 'STOCK', severity: 'success' },
     { tag: 'POCO STOCK', severity: 'warning' },
     { tag: 'SIN STOCK', severity: 'danger' },

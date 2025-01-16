@@ -1,0 +1,278 @@
+<!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
+<ng-container
+  *ngIf="
+    authService.hasAuthority(userAuthority.ADMIN) && params.length > 1;
+    else noStepper
+  "
+>
+  <p-stepper [linear]="true">
+    <ng-container *ngFor="let param of params; let i = index">
+      <p-stepperPanel [header]="'Edición ' + (i + 1)">
+        <ng-template
+          pTemplate="content"
+          let-nextCallback="nextCallback"
+          let-prevCallback="prevCallback"
+        >
+          <!-- Reutilizamos la plantilla común -->
+          <ng-container
+            *ngTemplateOutlet="
+              commonDetail;
+              context: {
+                $implicit: param,
+                i: i,
+                nextCB: nextCallback,
+                prevCB: prevCallback
+              }
+            "
+          >
+          </ng-container>
+        </ng-template>
+      </p-stepperPanel>
+    </ng-container>
+  </p-stepper>
+</ng-container>
+
+<!-- Si no es admin, muestra el contenido sin el stepper -->
+<ng-template #noStepper>
+  <div *ngFor="let param of params; let i = index">
+    <ng-container
+      *ngTemplateOutlet="commonDetail; context: { $implicit: param, i: i }"
+    >
+    </ng-container>
+  </div>
+</ng-template>
+
+<!-- Plantilla común con el contenido de detalles -->
+<ng-template
+  #commonDetail
+  let-param
+  let-i="i"
+  let-nextCB="nextCB"
+  let-prevCB="prevCB"
+>
+  <div *ngIf="param" class="flex flex-column align-items-stretch p-4 flex-wrap">
+    <!-- Contenedor principal -->
+    <div class="flex justify-content-around w-full md:w-10 lg:w-10 gap-2">
+      <!-- Columna derecha (ocupa todo el espacio) -->
+      <div class="flex flex-column align-items-start w-full">
+        <h1 class="text-center text-3xl font-bold mb-5">
+          {{ param.nombreComprador | uppercase }}
+        </h1>
+        <!-- Botones -->
+        <div class="flex flex-wrap justify-content-center">
+          <!-- Puedes agregar botones específicos aquí si es necesario -->
+        </div>
+        <div
+          class="detalles-pedido align-left flex flex-column gap-3"
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <div *ngFor="let header of param.getHeaders()" class="mb-1">
+            <ng-container
+              *ngIf="
+                header.class !== 'nombreComprador' &&
+                param[header.class] !== undefined
+              "
+            >
+              <span [ngClass]="header.class">
+                {{ param[header.class] }}
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <!-- Nombre Comprador -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="pedido-nombre-comprador-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Nombre Comprador:</label
+          >
+          <input
+            id="pedido-nombre-comprador-{{ i }}"
+            [(ngModel)]="param.nombreComprador"
+            placeholder="Nombre Comprador"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="text-lg font-bold"
+          >
+            {{ param.nombreComprador }}
+          </h3>
+        </div>
+
+        <!-- Dirección de Envío -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="pedido-direccion-envio-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Dirección de Envío:</label
+          >
+          <input
+            id="pedido-direccion-envio-{{ i }}"
+            [(ngModel)]="param.direccionEnvio"
+            placeholder="Dirección de Envío"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="direccion-envio text-lg font-bold"
+          >
+            Dirección de Envío: {{ param.direccionEnvio }}
+          </h3>
+        </div>
+
+        <!-- Método de Pago -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="pedido-metodo-pago-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Método de Pago:</label
+          >
+          <input
+            id="pedido-metodo-pago-{{ i }}"
+            [(ngModel)]="param.metodoPago"
+            placeholder="Método de Pago"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="metodo-pago text-lg font-bold"
+          >
+            Método de Pago: {{ param.metodoPago }}
+          </h3>
+        </div>
+
+        <!-- Estado -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="pedido-estado-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Estado:</label
+          >
+          <input
+            id="pedido-estado-{{ i }}"
+            [(ngModel)]="param.estado"
+            placeholder="Estado"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="estado text-lg font-bold"
+          >
+            Estado: {{ param.estado }}
+          </h3>
+        </div>
+
+        <!-- Cliente -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label
+            for="pedido-cliente-{{ i }}"
+            class="block text-lg font-medium mb-2"
+            >Cliente:</label
+          >
+          <input
+            id="pedido-cliente-{{ i }}"
+            [(ngModel)]="param.cliente"
+            placeholder="Cliente"
+            class="p-inputtext w-full"
+          />
+          <h3
+            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+            class="cliente text-lg font-bold"
+          >
+            Cliente: {{ param.cliente.nombre }}
+            <!-- Ajusta según la estructura de Cliente -->
+          </h3>
+        </div>
+
+        <!-- Productos -->
+        <div
+          class="mb-4 w-full"
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+        >
+          <label class="block text-lg font-medium mb-2">Productos:</label>
+          <div *ngFor="let productoPedido of param.productos">
+            <span *ngIf="productoPedido.producto">
+              {{ productoPedido.producto.nombre }} - Cantidad:
+              {{ productoPedido.producto.cantidad }}
+            </span>
+            <span *ngIf="!productoPedido.producto">
+              Producto no disponible.
+            </span>
+          </div>
+        </div>
+        <h3
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+          class="productos text-lg font-bold"
+        >
+          Productos:
+          <ul>
+            <li *ngFor="let productoPedido of param.productos">
+              <span *ngIf="productoPedido.producto">
+                {{ productoPedido.producto.nombre }} - Cantidad:
+                {{ productoPedido.cantidad }}
+              </span>
+              <span *ngIf="!productoPedido.producto">
+                Producto no disponible.
+              </span>
+            </li>
+          </ul>
+        </h3>
+
+        <button
+          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
+          type="button"
+          class="p-button p-button-secondary"
+          (click)="goBack()"
+        >
+          Go Back
+        </button>
+      </div>
+    </div>
+    <!-- Botones del stepper, solo si existe el stepper -->
+    <div
+      class="flex gap-3 mt-4 justify-content-around"
+      *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+    >
+      <button
+        *ngIf="i > 0"
+        type="button"
+        class="p-button p-button-secondary"
+        (click)="nextCB ? prevCB.emit() : null"
+      >
+        Back
+      </button>
+      <button
+        *ngIf="i < params.length - 1"
+        type="button"
+        class="p-button p-button-primary"
+        (click)="nextCB ? nextCB.emit() : null"
+      >
+        Next
+      </button>
+      <button
+        *ngIf="i === params.length - 1"
+        type="button"
+        class="p-button p-button-success"
+        (click)="save()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</ng-template>

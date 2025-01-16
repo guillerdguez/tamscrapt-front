@@ -4,8 +4,9 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/user/User.service';
 import { UserDetails } from '../../../Model/Domain/interface/UserDetails';
- import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
+import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { Location } from '@angular/common';
+import { AuthService } from '../../../Service/seguridad/AuthService.service';
 
 //si tiene descuento automaticamente esta en
 @Component({
@@ -21,13 +22,15 @@ export class FormularioComponentUser implements OnInit {
   email: string = '';
   imagen: string = '';
   authorities: UserAuthority[] = [];
-  selectedAuthority!: UserAuthority;
+  selectedAuthority: UserAuthority = UserAuthority.USER;
+  userAuthority = UserAuthority;
 
   constructor(
     private userService: UserService,
     public userModel: UserModel,
     private router: Router,
-    private location: Location
+    private location: Location,
+    public authService: AuthService
   ) {}
   //
   ngOnInit(): void {

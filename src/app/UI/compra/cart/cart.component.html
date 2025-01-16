@@ -1,5 +1,11 @@
 <div class="cart-completo">
-  <h2>Tu Carrito</h2>
+  <div class="titulo flex justify-content-between align-items-baseline">
+    <h2>Tu Carrito</h2>
+    <button class="btn-clear" (click)="cartService.clearCart()">
+      Vaciar carrito
+    </button>
+  </div>
+
   <table class="cart-table">
     <thead>
       <tr>

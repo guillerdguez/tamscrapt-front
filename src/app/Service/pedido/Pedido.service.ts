@@ -3,7 +3,7 @@ import { PedidoDAO } from '../../DAO/pedido.DAO';
 import { PedidoModel } from '../../Model/Views/Dynamic/PedidoModel';
 import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
-import { CallbacksPedidoService } from '../Callbacks/CallbacksPedidoService';
+ import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +13,11 @@ export class PedidoService {
     private pedidoDAO: PedidoDAO,
     private pedidoModel: PedidoModel,
     private genericModel: GenericModel,
-    private callbacksPedidoService: CallbacksPedidoService
+     private messageService: MessageService
   ) {
-    this.callbacksPedidoService.deletePedidos$.subscribe((selectedItems) => {
-      this.deleteMultiplePedidos(selectedItems);
-    });
+    // this.callbacksPedidoService.deletePedidos$.subscribe((selectedItems) => {
+    //   this.deleteMultiplePedidos(selectedItems);
+    // });
   }
   //Create
   addPedido(pedido: any): void {
@@ -27,7 +27,7 @@ export class PedidoService {
         this.pedidoModel.pedido = pedido;
       },
       error: (error) => {
-        console.error(error);
+        this.handleError(error);
       },
     });
   }
@@ -39,7 +39,7 @@ export class PedidoService {
         const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
         this.pedidoModel.pedidos = pedidosCreados;
         this.genericModel.elements = pedidosCreados;
-       },
+      },
       error: (error) => {
         console.error(error + 'Error al crear pedido');
       },
@@ -53,7 +53,7 @@ export class PedidoService {
 
         this.pedidoModel.pedidos = pedidosCreados;
         this.genericModel.elements = pedidosCreados;
-       },
+      },
       error: (error) => {
         console.error(error);
       },
@@ -65,7 +65,14 @@ export class PedidoService {
   getPedido(id: number): void {
     this.pedidoDAO.getPedido(id).subscribe({
       next: (pedido: Pedido) => {
-        this.pedidoModel.pedido = pedido;
+        const pedidosCreado = this.pedidoModel.crearPedidos([pedido]);
+
+        // Si el primer elemento es un arreglo anidado
+        if (Array.isArray(pedidosCreado[0])) {
+          this.genericModel.element = pedidosCreado[0];
+        } else {
+          this.genericModel.element = pedidosCreado;
+        }
       },
       error: (error) => {
         console.error(error);
@@ -83,7 +90,14 @@ export class PedidoService {
     });
   }
   //UPDATE
-  updatePedido(pedido: Pedido): void {
+  updateMultiplePedidos(selectedItems: any[]) {
+    selectedItems.forEach((item) => {
+      this.updatePedido(item.getPedidoData());
+    });
+    // this.genericModel.elementsSeleccionados.length = 0;
+  }
+
+  updatePedido(pedido: any): void {
     this.pedidoDAO.updatePedido(pedido).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
@@ -110,7 +124,7 @@ export class PedidoService {
   }
   //DELETE
   deletePedido(id: any): void {
-     this.pedidoDAO.deletePedido(id).subscribe({
+    this.pedidoDAO.deletePedido(id).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
         this.genericModel.elements = this.genericModel.elements.filter(
@@ -120,6 +134,22 @@ export class PedidoService {
       error: (error) => {
         console.error(error);
       },
+    });
+  }
+  private handleError(error: any): void {
+    let detalleError = error;
+    if (error.status === 500) {
+      detalleError =
+        'Error del servidor. Por favor, verifica los logs del backend o intenta nuevamente más tarde.';
+    } else if (error.status === 400) {
+      detalleError = 'Uno de tus productos no tenia stock.';
+    } else if (error.status) {
+      detalleError = `Ocurrió un error inesperado. Código de estado: ${error.status}.`;
+    }
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: detalleError,
     });
   }
 }

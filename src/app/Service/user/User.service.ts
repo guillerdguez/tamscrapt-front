@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { User } from '../../Model/Domain/User/UserClass';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { UserModel } from '../../Model/Views/Dynamic/UserModel';
 import { UserDAO } from '../../DAO/user.DAO';
-import { CallbackUserService } from '../Callbacks/CallbackUserService';
 import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { AuthService } from '../seguridad/AuthService.service';
 import { MessageService } from 'primeng/api';
 import { AuthDAO } from '../../DAO/Auth.DAO';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
+import { UserAuthority } from '../../Model/Domain/User/UserAuthority.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  // private usersSubject = new BehaviorSubject<User[]>([]);
-  // public users$ = this.usersSubject.asObservable();
   private users: User[] = [];
   private userId: number | undefined = this.authService.getCurrentUserId();
   private mensajeMostrado = false;
@@ -30,19 +27,9 @@ export class UserService {
     private genericModel: GenericModel,
     public userModel: UserModel,
     public productoModel: ProductoModel,
-    private callbacksService: CallbackUserService,
-    //private callbacksProductoService: CallbacksProductoService,
+
     private messageService: MessageService
-  ) {
-    this.callbacksService.deleteUsers$.subscribe((selectedItems) => {
-      this.deleteMultipleUsers(selectedItems);
-    });
-    // this.callbacksProductoService.alternarFavorito$.subscribe(
-    //   (selectedItems) => {
-    //     this.alternarFavorito(selectedItems);
-    //   }
-    // );
-  }
+  ) {}
   // cargarFavoritos(clienteId: any): void {
   //   this.userDAO.obtenerFavoritos(clienteId).subscribe({
   //     next: (favoritos: Producto[]) => {
@@ -56,12 +43,16 @@ export class UserService {
   // }
   addUser(user: any): void {
     this.authDAO.register(user).subscribe({
-      next: (newUser: any) => {
-        this.userModel.users.push(newUser);
-        this.genericModel.elements.push(newUser);
-        this.users.push(newUser);
+      next: () => {
+        this.userModel.users.push(user);
+        this.genericModel.elements.push(user);
+        this.users.push(user);
+
         // this.usersSubject.next(this.users);
-        this.getUsers();
+        if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
+          this.getUsers();
+          this.showSuccessMessage('Usuario agregado correctamente.');
+        }
       },
       error: (error) => {
         console.error('Error al agregar el usuario:', error);
@@ -110,6 +101,7 @@ export class UserService {
   }
   private resetUser(): void {
     this.genericModel.element = null;
+    // this.userModel.user = {} as User;
   }
 
   findByName(term: string): void {
@@ -128,7 +120,10 @@ export class UserService {
   updateUser(user: User): void {
     this.userDAO.updateUser(user).subscribe({
       next: () => {
-        this.getUsers();
+        if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
+          this.getUsers();
+          this.showSuccessMessage('Usuario editado correctamente.');
+        }
       },
       error: (error) => {
         console.error('Error al actualizar el usuario:', error);

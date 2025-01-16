@@ -12,6 +12,7 @@ import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { UserAuthority } from './Model/Domain/User/UserAuthority.enum';
 import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
+import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -33,6 +34,11 @@ const routes: Routes = [
   {
     path: 'detail/Productos/:id',
     component: ProductoDetailComponent,
+    // canMatch: [authGuard],
+  },
+  {
+    path: 'detail/Pedidos/:id',
+    component: PedidoDeailComponent,
     // canMatch: [authGuard],
   },
   {

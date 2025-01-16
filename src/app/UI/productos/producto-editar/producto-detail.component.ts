@@ -7,7 +7,6 @@ import { AuthService } from '../../../Service/seguridad/AuthService.service';
 import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
 import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { CartService } from '../../../Service/carrito/CartService';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-producto-detail',
@@ -36,8 +35,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
       this.authService.hasAuthority(UserAuthority.ADMIN) &&
       this.genericModel.elementsSeleccionados.length !== 0
     ) {
-      console.log('llega', this.genericModel.elementsSeleccionados.length);
-      // this.params = [...this.genericModel.elementsSeleccionados];
+       // this.params = [...this.genericModel.elementsSeleccionados];
       this.genericModel.elementsSeleccionados =
         this.genericModel.elementsSeleccionados.filter(
           (item, index, self) =>
@@ -47,17 +45,16 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     } else {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.productoService.getProducto(id);
-      console.log('llega2', this.genericModel.elementsSeleccionados.length);
-    }
-    this.location.subscribe(() => {
-      console.log('llega');
-      this.genericModel.elementsSeleccionados.length = 0;
-    });
+     }
+    // this.location.subscribe(() => {
+    //
+    //   this.genericModel.elementsSeleccionados.length = 0;
+    // });
     // da problemas con la edicion  de multiples
     // this.router.events
     //   .pipe(filter((event) => event instanceof NavigationEnd))
     //   .subscribe(() => {
-    //     // Se ejecuta cada vez que se completa una navegación
+     //     // Se ejecuta cada vez que se completa una navegación
     //     this.genericModel.elementsSeleccionados.length = 0;
     //   });
   }
@@ -68,6 +65,10 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
       this.asignarParamsDesdeGenericModel();
     }
   }
+  ngOnDestroy(): void {
+    this.genericModel.elementsSeleccionados.length = 0;
+  }
+
   //da fallos al ir hacia atras
   private asignarParamsDesdeGenericModel(): void {
     if (
@@ -86,11 +87,10 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
   goBack(): void {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
-    this.genericModel.elementsSeleccionados.length = 0;
   }
 
   save(): void {
-    this.productoService.editMultipleProductos(this.params);
+    this.productoService.updateMultipleProductos(this.params);
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
@@ -114,7 +114,11 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
 
   addCarrito(): void {
     if (this.params.length > 0) {
-      this.cartService.addProductoCarrito(this.params[0], this.cantidad);
+      this.cartService.agregarOActualizarProductoCarrito(
+        this.params[0],
+        this.cantidad,
+        false
+      );
       this.cantidad = 1;
     }
   }
@@ -169,7 +173,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
 //     if (this.genericModel.element !== this.elementAnterior) {
 //       this.elementAnterior = this.genericModel.element;
 //       this.asignarParamsDesdeGenericModel();
-//       console.log('llega');
+//
 //     }
 //   }
 
@@ -185,8 +189,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
 //         this.params = [...this.genericModel.element];
 //       }
 //     }
-//     console.log('params asignados:', this.params);
-//   }
+ //   }
 
 //   goBack(): void {
 //     this.location.back();
@@ -195,7 +198,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
 //   }
 
 //   save(): void {
-//     this.productoService.editMultipleProductos(this.params);
+//     this.productoService.updateMultipleProductos(this.params);
 //     this.location.back();
 //     this.router.navigateByUrl(this.router.url);
 //   }

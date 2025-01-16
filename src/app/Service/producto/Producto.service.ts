@@ -139,11 +139,9 @@ export class ProductoService {
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: any) => {
-        console.log(producto.nombre);
         const productosCreado = this.productoModel.crearProductos([producto]);
 
         // Si el primer elemento es un arreglo anidado
-        console.log(productosCreado[0].nombre);
         if (Array.isArray(productosCreado[0])) {
           this.genericModel.element = productosCreado[0];
         } else {
@@ -198,7 +196,7 @@ export class ProductoService {
   }
 
   // Manejo de múltiples ediciones
-  editMultipleProductos(selectedItems: any[]) {
+  updateMultipleProductos(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       this.updateProducto(item.id, item.getProductoData());
       if (!item.oferta) {
@@ -206,7 +204,7 @@ export class ProductoService {
         item.precioOriginal = undefined;
       }
     });
-    this.genericModel.elementsSeleccionados.length = 0;
+    // this.genericModel.elementsSeleccionados.length = 0;
   }
 
   // Manejo de múltiples ofertas

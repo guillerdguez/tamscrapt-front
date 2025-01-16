@@ -1,4 +1,9 @@
 @import "primeng/resources/themes/lara-dark-blue/theme.css";
+.p-contextmenu .p-menuitem:hover,
+.p-contextmenu .p-menuitem:focus,
+.p-contextmenu .p-menuitem-active {
+  all: unset !important;
+}
 
 /* * {
   color: #eceff4;

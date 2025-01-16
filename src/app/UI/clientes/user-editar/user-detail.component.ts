@@ -28,7 +28,7 @@ export class UserDetailComponent {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.userService.getUser(id);
   }
-
+  ngOnDestroy(): void {}
   goBack(): void {
     this.location.back();
     this.router.navigateByUrl(this.router.url);

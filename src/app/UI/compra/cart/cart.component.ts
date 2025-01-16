@@ -15,7 +15,7 @@ export class CartComponent implements OnInit {
   activo: boolean = this.cartItems.length === 0;
   cantidad: number = 1;
   constructor(
-    private cartService: CartService,
+    public cartService: CartService,
     public authService: AuthService
   ) {}
 
@@ -44,7 +44,11 @@ export class CartComponent implements OnInit {
     if (quantity === 0 || quantity === undefined) {
       this.removeItem(item);
     } else {
-      this.cartService.updateProductQuantity(item.product.id, quantity);
+      this.cartService.agregarOActualizarProductoCarrito(
+        item.product,
+        quantity,
+        true
+      );
     }
   }
 

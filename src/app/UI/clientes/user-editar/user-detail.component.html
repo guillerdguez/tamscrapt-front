@@ -53,7 +53,18 @@
           class="p-inputtext w-full"
         />
       </div>
-      <!-- lo quito para un user no admin? -->
+      <div class="mb-4 w-full">
+        <label for="element-contraseña" class="block text-lg font-medium mb-2"
+          >User email:</label
+        >
+        <input
+          id="element-email"
+          [(ngModel)]="genericModel.element.email"
+          placeholder="User email"
+          class="p-inputtext w-full"
+        />
+      </div>
+      @if ( this.authService.hasAuthority(userAuthority.ADMIN) ) {
       <div>
         <h1 class="block text-lg font-medium mb-2">User Authorities:</h1>
         <h3
@@ -65,6 +76,7 @@
           </h3>
         </h3>
       </div>
+      }
       <!-- Botones -->
       <div class="flex gap-3 mt-4">
         <button

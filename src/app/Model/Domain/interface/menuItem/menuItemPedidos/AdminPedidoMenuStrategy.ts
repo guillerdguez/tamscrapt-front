@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenuStrategy } from '../MenuStrategy';
 import { CallbacksPedidoService } from '../../../../../Service/Callbacks/CallbacksPedidoService';
- 
- 
+
 @Injectable({
   providedIn: 'root',
-})export class AdminPedidoMenuStrategy implements MenuStrategy {
+})
+export class AdminPedidoMenuStrategy implements MenuStrategy {
   url: string = '/newPedido';
   constructor(private callbacks: CallbacksPedidoService) {}
 
@@ -20,7 +20,12 @@ import { CallbacksPedidoService } from '../../../../../Service/Callbacks/Callbac
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => this.callbacks.editPedido(context),
+        command: () => this.callbacks.editPedidos(context),
+      },
+      {
+        label: 'CambiarEstado',
+        icon: 'pi pi-pencil',
+        command: () => this.callbacks.cambiarEstadoPedido(selectedItems),
       },
     ];
   }

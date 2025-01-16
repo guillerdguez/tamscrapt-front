@@ -15,7 +15,7 @@ export class AdminUserMenuStrategy implements MenuStrategy {
         label: 'Crear',
         icon: 'pi pi-plus',
 
-        command: () => this.callbacks.createUser(),
+        command: () => this.callbacks.createUser(selectedItems),
       },
       {
         label: 'Eliminar',

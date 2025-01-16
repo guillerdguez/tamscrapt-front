@@ -71,6 +71,8 @@ import { FormularioComponentUser } from './UI/clientes/formularioProductos/formu
 import { PedidoHandler } from './Service/handler/PedidoHandler';
 import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
 import { FavoritoHandler } from './Service/handler/FavoritoHandler';
+import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
+import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
 @NgModule({
   declarations: [
     // Componentes principales
@@ -94,6 +96,8 @@ import { FavoritoHandler } from './Service/handler/FavoritoHandler';
     CheckoutComponent,
     CartComponent,
     ProductoSearchComponent,
+    PedidoDeailComponent,
+    DialagoPedidoEstadoComponent,
   ],
   imports: [
     // Angular Core Modules

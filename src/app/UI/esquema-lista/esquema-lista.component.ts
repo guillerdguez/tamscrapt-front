@@ -64,7 +64,6 @@ export class EsquemaListaComponent implements OnInit, OnChanges {
     this.pasarInformacionTablaService.title.subscribe((title) => {
       this.title = title;
     });
-
     this.layout = this.authService.hasAuthority(UserAuthority.ADMIN)
       ? 'list'
       : 'grid';

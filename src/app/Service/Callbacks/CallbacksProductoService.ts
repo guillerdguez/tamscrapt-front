@@ -29,17 +29,12 @@ export class CallbacksProductoService {
   }
 
   editProductos(selectedItems: Producto[]) {
-    this.productoService.editMultipleProductos(selectedItems);
+    this.productoService.updateMultipleProductos(selectedItems);
   }
-//si no es admin solo puede tener el ultimo,que escribiendo en la url el id del producto funcione
   editProducto(producto: Producto | any[]) {
     const productoNoArray = Array.isArray(producto) ? producto[0] : producto;
- 
-    this.router.navigate(['/detail/Productos/', productoNoArray.id]);
 
-    // Luego, si quieres alguna lógica adicional, podrías ejecutarla directo:
-    // this.productoService.updateProducto(productoNoArray.id, productoNoArray);
-    // O crear un método 'editSingleProducto' en productoService, etc.
+    this.router.navigate(['/detail/Productos/', productoNoArray.id]);
   }
 
   alternarOferta(selectedItems: Producto[]) {
@@ -52,8 +47,8 @@ export class CallbacksProductoService {
 
   alternarFavorito(selectedItems: Producto[]) {
     this.userService.alternarFavorito(selectedItems);
-  } 
+  }
   alternarCart(selectedItems: Producto[]): void {
-     this.cartService.alternarCart(selectedItems);
+    this.cartService.alternarCart(selectedItems);
   }
 }

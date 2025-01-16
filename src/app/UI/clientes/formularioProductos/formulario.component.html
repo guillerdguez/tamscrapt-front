@@ -75,6 +75,7 @@
       </div>
     </div>
     <!-- Authority del User -->
+    @if ( this.authService.hasAuthority(userAuthority.ADMIN) ) {
     <div class="form-group-authority">
       <label for="authority">User authorities</label>
       <select
@@ -89,7 +90,7 @@
         </option>
       </select>
     </div>
-
+  }
     <!-- Botones -->
     <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
       <button type="button" class="btn btn-primary" (click)="goBack()">

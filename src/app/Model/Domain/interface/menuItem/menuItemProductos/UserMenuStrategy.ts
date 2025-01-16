@@ -11,6 +11,7 @@ export class UserMenuStrategy implements MenuStrategy {
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
     return [
+      // sirve para ver
       {
         label: 'Editar',
         icon: 'pi pi-pencil',

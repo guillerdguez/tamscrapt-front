@@ -1,8 +1,5 @@
-import { Router } from '@angular/router';
-import { GenericModel } from '../../Views/Dynamic/GenericModel';
 import { UserAuthority } from './UserAuthority.enum';
 import { UserModel } from '../../Views/Dynamic/UserModel';
-import { UserService } from '../../../Service/user/User.service';
 import { MenuItem } from 'primeng/api';
 import { UserDetails } from '../interface/UserDetails';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';

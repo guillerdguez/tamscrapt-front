@@ -1,4 +1,9 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
+.p-contextmenu .p-menuitem:hover,
+.p-contextmenu .p-menuitem:focus,
+.p-contextmenu .p-menuitem-active {
+  all: unset !important;
+}
 
 .custom-navbar {
   background-color: #ffffff;
@@ -236,7 +241,8 @@ p-inputNumber :focus {
   width: 100%;
 }
 
-.p-contextmenu .p-menuitem:hover {
+.p-menuitem:hover {
+  width: 100%;
   background-color: #f0f4f8;
   color: #1d3557;
 }
@@ -284,18 +290,18 @@ p-inputNumber :focus {
 .totals {
   color: #333;
 }
-.btn-remove {
+.btn-remove,
+.btn-checkout,
+.btn-clear {
   background-color: #a8dadc;
 }
-.btn-checkout {
-  background-color: #a8dadc;
-}
-.btn-remove:hover {
+
+.btn-remove:hover,
+.btn-checkout:hover,
+.btn-clear:hover {
   background-color: #77c1c4;
 }
-.btn-checkout:hover {
-  background-color: #77c1c4;
-}
+
 #search-component {
   background-color: white;
 }

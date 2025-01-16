@@ -69,7 +69,7 @@ img {
 }
 
 .cantidad::before {
-  content: "Stock disponible: ";
+  content: "Cantidad disponible: ";
 }
 
 .pi-cart-plus {

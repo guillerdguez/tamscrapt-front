@@ -20,7 +20,7 @@ export class FormularioComponentProducto implements OnInit {
   lettering?: boolean;
   scrapbooking?: boolean;
   oferta?: boolean;
-   cantidad: number = 1;
+  cantidad: number = 1;
 
   constructor(
     private productoService: ProductoService,
@@ -60,7 +60,7 @@ export class FormularioComponentProducto implements OnInit {
       cantidad,
       descuento,
       precioOriginal,
-    }; 
+    };
     this.productoService.addProducto(newProducto);
 
     this.goBack();
@@ -69,5 +69,4 @@ export class FormularioComponentProducto implements OnInit {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
- 
 }

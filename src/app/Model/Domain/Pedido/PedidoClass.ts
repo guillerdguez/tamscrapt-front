@@ -1,5 +1,4 @@
 import { MenuItem } from 'primeng/api';
-import { CallbacksPedidoService } from '../../../Service/Callbacks/CallbacksPedidoService';
 import { PedidoModel } from '../../Views/Dynamic/PedidoModel';
 import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
@@ -27,9 +26,6 @@ export class Pedido {
   ) {
     this.menuStrategy = this.menuStrategyFactory.getStrategy(this.strategia);
   }
-  calcularPrecioTotal(): number {
-    return 1;
-  }
   getHeaders() {
     return this.pedidoModel.getHeaders();
   }
@@ -39,15 +35,8 @@ export class Pedido {
     return this.pedidoModel.getSeverity(this);
   }
 
-  delete(): void {
-    // Lógica para eliminar el pedido
-    console.log(`Eliminando pedido con ID: ${this.id}`);
-  }
-
-  getMenuItems(
-    selectedItems: Pedido[], 
-  ): MenuItem[] {
-    return this.menuStrategy.getMenuItems(this, selectedItems );
+  getMenuItems(selectedItems: Pedido[]): MenuItem[] {
+    return this.menuStrategy.getMenuItems(this, selectedItems);
   }
 
   getParametros(pedido: Pedido) {
