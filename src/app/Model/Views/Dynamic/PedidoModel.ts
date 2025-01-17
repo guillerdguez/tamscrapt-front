@@ -53,6 +53,7 @@ export class PedidoModel {
   }
 
   crearPedidos(Pedidos: Pedido[]): Pedido[] {
+    console.log('Pedidos', Pedidos[0]);
     const listaPedido: Pedido[] = [];
     Pedidos.forEach((pedido) => {
       const newPedido = new Pedido(this.menuStrategyFactory, this);

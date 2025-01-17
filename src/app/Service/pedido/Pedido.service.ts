@@ -62,11 +62,14 @@ export class PedidoService {
   deleteMultiplePedidos(selectedItems: Pedido[]) {
     selectedItems.forEach((item) => this.deletePedido(item.id));
   }
+
+
+   
   getPedido(id: number): void {
     this.pedidoDAO.getPedido(id).subscribe({
       next: (pedido: Pedido) => {
         const pedidosCreado = this.pedidoModel.crearPedidos([pedido]);
-
+        console.log('servicio  ', pedidosCreado);
         // Si el primer elemento es un arreglo anidado
         if (Array.isArray(pedidosCreado[0])) {
           this.genericModel.element = pedidosCreado[0];
