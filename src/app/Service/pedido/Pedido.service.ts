@@ -3,7 +3,7 @@ import { PedidoDAO } from '../../DAO/pedido.DAO';
 import { PedidoModel } from '../../Model/Views/Dynamic/PedidoModel';
 import { Pedido } from '../../Model/Domain/Pedido/PedidoClass';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
- import { MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class PedidoService {
     private pedidoDAO: PedidoDAO,
     private pedidoModel: PedidoModel,
     private genericModel: GenericModel,
-     private messageService: MessageService
+    private messageService: MessageService
   ) {
     // this.callbacksPedidoService.deletePedidos$.subscribe((selectedItems) => {
     //   this.deleteMultiplePedidos(selectedItems);
@@ -99,7 +99,7 @@ export class PedidoService {
 
   updatePedido(pedido: any): void {
     this.pedidoDAO.updatePedido(pedido).subscribe({
-      next: (pedido: Pedido) => {
+      next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;
         //      this.pedidoModel.pedidos = this.pedidoModel.pedidos.filter(pedido => pedido.id !== id);
       },

@@ -54,7 +54,6 @@ export class DialagoPedidoEstadoComponent implements OnInit, OnDestroy {
       return;
     }
 
-
     this.pedidoService.updateMultiplePedidos(this.pedidosSeleccionados);
 
     // Cerrar el diálogo y limpiar las selecciones

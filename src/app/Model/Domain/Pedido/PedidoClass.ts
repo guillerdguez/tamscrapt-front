@@ -53,7 +53,6 @@ export class Pedido {
     return this;
   }
 
-  // Modificación de `getPedidoData` para devolver solo las propiedades simplificadas del pedido
   getPedidoData(): PedidoDetails {
     return {
       id: this.id,

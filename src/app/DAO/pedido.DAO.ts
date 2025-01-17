@@ -41,6 +41,7 @@ export class PedidoDAO {
   }
   //UPDATE
   updatePedido(pedido: Pedido): Observable<any> {
+    console.log(pedido);
      const urlMod = `${this.urlBase}/editar/${pedido.id}`;
     return this.http.put(urlMod, pedido, this.httpOptions);
   }

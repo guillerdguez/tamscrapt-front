@@ -35,16 +35,16 @@ export class CallbacksPedidoService {
     this.pedidoService.updateMultiplePedidos(selectedItems);
   }
 
-  // editPedido(pedido: Pedido | any[]) {
-  //   let pedidoNoArray;
-  //   if (Array.isArray(pedido)) {
-  //     pedidoNoArray = pedido[0];
-  //   } else {
-  //     pedidoNoArray = pedido;
-  //   }
-  //   this.router.navigate(['/detail/Pedidos/', pedidoNoArray.id]);
-  //   this.editPedido$.next(pedido);
-  // }
+  editPedido(pedido: Pedido | any[]) {
+    let pedidoNoArray;
+    if (Array.isArray(pedido)) {
+      pedidoNoArray = pedido[0];
+    } else {
+      pedidoNoArray = pedido;
+    }
+    this.router.navigate(['/detail/Pedidos/', pedidoNoArray.id]);
+    this.pedidoService.getPedido(pedidoNoArray.id);
+  }
 
   viewPedido(pedido: Pedido) {
     if (pedido.id !== undefined) {

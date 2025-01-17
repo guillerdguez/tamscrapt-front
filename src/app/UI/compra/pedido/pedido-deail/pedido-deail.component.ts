@@ -78,7 +78,7 @@ export class PedidoDeailComponent {
   }
 
   save(): void {
-    // this.pedidoService.editMultiplePedidos(this.params);
+    this.pedidoService.updateMultiplePedidos(this.params);
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }

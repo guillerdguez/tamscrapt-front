@@ -20,7 +20,7 @@ export class AdminPedidoMenuStrategy implements MenuStrategy {
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
-        command: () => this.callbacks.editPedidos(context),
+        command: () => this.callbacks.editPedido(context),
       },
       {
         label: 'CambiarEstado',

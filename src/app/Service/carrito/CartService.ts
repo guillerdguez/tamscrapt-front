@@ -194,7 +194,7 @@ export class CartService {
   //     },
   //     error: (error) => {
   //       console.error('Error al actualizar la cantidad:', error);
-  //     },
+  //     },w
   //   });
   // }
 
@@ -204,7 +204,7 @@ export class CartService {
     cantidadAgregada: number = 1,
     esActualizacion: boolean = false
   ): void {
-    console.log('addProductoCarrito',"cantidad total", producto.cantidad,"cantidad agregada", cantidadAgregada);
+    // console.log('addProductoCarrito',"cantidad total", producto.cantidad,"cantidad agregada", cantidadAgregada);
     const articuloExistente = this.cartItems.find(
       (item) => item.product.id === producto.id
     );
