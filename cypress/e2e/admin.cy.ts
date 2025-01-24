@@ -199,9 +199,9 @@ describe('eliminar producto', () => {
 
     // Verificar que estamos en la pantalla de edición
     cy.url().should('include', '/detail/Users');
-    cy.get('#element-nombre') // Campo de edición del nombre
+    cy.get('#element-nombre')  
       .clear()
-      .type('juan.rodriguez'); // Cambiar el nombre
+      .type('juan.rodriguez'); 
     // .should('have.value', 'juan.rodriguez');
 
     // Guardar los cambios
