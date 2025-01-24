@@ -8,7 +8,10 @@ import { UserAuthority } from '../../../../Model/Domain/User/UserAuthority.enum'
 import { GenericModel } from '../../../../Model/Views/Dynamic/GenericModel';
 import { CartService } from '../../../../Service/carrito/CartService';
 import { AuthService } from '../../../../Service/seguridad/AuthService.service';
-
+import { ProductoPedido } from '../../../../Model/Domain/interface/producto-pedido';
+import { ProductoService } from '../../../../Service/producto/Producto.service';
+import { Pedido } from '../../../../Model/Domain/Pedido/PedidoClass';
+import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
 @Component({
   selector: 'app-pedido-deail',
   templateUrl: './pedido-deail.component.html',
@@ -19,6 +22,7 @@ export class PedidoDeailComponent {
   userAuthority = UserAuthority;
   cantidad: number = 1;
   private elementAnterior: any;
+  productos: any[] = [];
 
   constructor(
     private pedidoService: PedidoService,
@@ -28,7 +32,9 @@ export class PedidoDeailComponent {
     public router: Router,
     public route: ActivatedRoute,
     public callbacksPedidoService: CallbacksPedidoService,
-    public cartService: CartService
+    public cartService: CartService,
+    public productoService: ProductoService,
+    public productoModel: ProductoModel
   ) {}
   ngOnInit(): void {
     if (
@@ -40,7 +46,6 @@ export class PedidoDeailComponent {
           (item, index, self) =>
             index === self.findIndex((t) => t.id === item.id)
         );
-      this.params = this.genericModel.elementsSeleccionados;
     } else {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.pedidoService.getPedido(id);
@@ -70,6 +75,16 @@ export class PedidoDeailComponent {
         this.params = [...this.genericModel.element];
       }
     }
+    this.productoService.getProductos();
+
+    this.params.forEach((pedido: any) => {
+      pedido.productos.forEach((producto: any) => {
+        this.productoService.getProductoPedido(producto.productoId);
+        if (!this.productoModel.producto) {
+          this.productos.push(this.productoModel.producto);
+        }
+      });
+    });
   }
 
   goBack(): void {

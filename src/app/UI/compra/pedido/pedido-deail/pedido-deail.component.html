@@ -187,7 +187,7 @@
           >
           <input
             id="pedido-cliente-{{ i }}"
-            [(ngModel)]="param.cliente"
+            [(ngModel)]="param.cliente.username"
             placeholder="Cliente"
             class="p-inputtext w-full"
           />
@@ -195,25 +195,28 @@
             *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
             class="cliente text-lg font-bold"
           >
-            Cliente: {{ param.cliente.nombre }}
+            Cliente: {{ param.cliente.username }}
             <!-- Ajusta según la estructura de Cliente -->
           </h3>
         </div>
 
         <!-- Productos -->
+        <!-- FALLA -->
         <div
           class="mb-4 w-full"
           *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
         >
           <label class="block text-lg font-medium mb-2">Productos:</label>
-          <div *ngFor="let productoPedido of param.productos">
-            <span *ngIf="productoPedido.producto">
-              {{ productoPedido.producto.nombre }} - Cantidad:
-              {{ productoPedido.producto.cantidad }}
-            </span>
-            <span *ngIf="!productoPedido.producto">
+          <div *ngFor="let productoPedido of productos">
+            <!-- <span *ngIf="productoPedido.producto"> -->
+            <h1>nombre: {{ productoPedido.nombre }}</h1>
+            <!-- Cantidad:
+              {{ productoPedido.cantidad }}
+            </span> -->
+            <span *ngIf="!productoPedido.productos">
               Producto no disponible.
             </span>
+ 
           </div>
         </div>
         <h3

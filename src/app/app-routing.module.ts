@@ -48,11 +48,7 @@ const routes: Routes = [
   },
 
   // Rutas de Administrador
-  // {
-  //   path: 'admin/pedidos',
-  //   component: AdminPedidosComponent,
-  //   canMatch: [authGuard, () => roleGuard(UserAuthority.ADMIN)],
-  // },
+
   {
     path: 'newProducto',
     component: FormularioComponentProducto,

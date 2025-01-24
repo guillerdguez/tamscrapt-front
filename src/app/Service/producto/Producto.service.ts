@@ -5,6 +5,7 @@ import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
+import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 
 @Injectable({
   providedIn: 'root',
@@ -147,6 +148,17 @@ export class ProductoService {
         } else {
           this.genericModel.element = productosCreado;
         }
+      },
+      error: (error) => this.handleError(error),
+    });
+  }
+  getProductoPedido(id: number): void {
+    this.productoDAO.getProducto(id).subscribe({
+      next: (producto: any) => {
+        this.productoModel.producto=producto
+        // return producto;
+        // const productosCreado = this.productoModel.crearProductos([producto]);
+        // this.genericModel.element = productosCreado[0];
       },
       error: (error) => this.handleError(error),
     });
