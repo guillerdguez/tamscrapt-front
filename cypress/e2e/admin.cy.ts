@@ -217,4 +217,30 @@ describe('eliminar producto', () => {
 
     cy.contains('.username', 'juan.rodriguez').should('exist');
   });
+
+
+
+
+  it('elimina y revisa si no está', () => {
+    // Navegar a la tabla de productos
+    cy.visit('http://localhost:4200/tabla/users');
+
+    // Ir a la última página del paginador
+    cy.get('p-paginator .p-paginator-pages button')
+      .last()
+      .scrollIntoView()
+      .should('be.visible')
+      .click();
+
+    // Localizar el producto deseado por su nombre
+    cy.contains('.username', 'juan.rodriguez')
+      .should('exist') // Verifica que el producto existe
+      .parents('.surface-card') // Encuentra el contenedor principal del producto
+      .find('button') // Busca todos los botones
+      .contains('Eliminar') // Filtra por el botón "Eliminar"
+      .click();
+
+    // Esperar que el producto ya no exista
+    cy.contains('.username', 'juan.rodriguez').should('not.exist');
+  });
 });
