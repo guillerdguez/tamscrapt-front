@@ -28,9 +28,10 @@ describe('eliminar producto', () => {
       .eq(0)
       .find('.p-checkbox-box[data-pc-section="input"]')
       .click();
-    cy.get('#descuento').should('be.visible');
 
     // Rellenar el campo de descuento
+    cy.get('#descuento').should('be.visible');
+
     cy.get('#descuento').clear().type('15').should('have.value', '15');
     //lettering
     cy.get('p-checkbox')
@@ -199,9 +200,7 @@ describe('eliminar producto', () => {
 
     // Verificar que estamos en la pantalla de edición
     cy.url().should('include', '/detail/Users');
-    cy.get('#element-nombre')  
-      .clear()
-      .type('juan.rodriguez'); 
+    cy.get('#element-nombre').clear().type('juan.rodriguez');
     // .should('have.value', 'juan.rodriguez');
 
     // Guardar los cambios
@@ -217,9 +216,6 @@ describe('eliminar producto', () => {
 
     cy.contains('.username', 'juan.rodriguez').should('exist');
   });
-
-
-
 
   it('elimina y revisa si no está', () => {
     // Navegar a la tabla de productos
