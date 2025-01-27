@@ -1,9 +1,47 @@
 //pongo tambien como se registra,accede,edita algo,etc?
 
-describe('template spec', () => {
-  beforeEach(() => {
-    cy.login('user2', '1234');
+describe('usuario regustrado', () => {
+  it('crear nuevo usuario', () => {
+    // Navegar al formulario de creación de usuarios
+    cy.visit('http://localhost:4200/register');
+
+    // Verificar que el título del formulario sea visible
+    cy.contains('h1', 'Formulario de Users').should('be.visible');
+
+    // Llenar los campos obligatorios
+    // cy.get('#imagen') // Campo de URL de imagen
+    //   .type('https://example.com/imagen.jpg')
+    //   .should('have.value', 'https://example.com/imagen.jpg');
+
+    cy.get('#nombre') // Campo del nombre del usuario
+      .type('Juan Pérez')
+      .should('have.value', 'Juan Pérez');
+
+    cy.get('#username') // Campo del username
+      .type('juan.perez')
+      .should('have.value', 'juan.perez');
+
+    cy.get('#password') // Campo del password
+      .type('password123')
+      .should('have.value', 'password123');
+
+    cy.get('#email') // Campo del email
+      .type('juan.perez@example.com')
+      .should('have.value', 'juan.perez@example.com');
+
+    cy.contains('button', 'Enviar').click();
+    cy.login('user1', '1234');
+
+    cy.visit('http://localhost:4200/tabla/users');
+
+    // Verificar que el nuevo usuario esté en la lista
+    cy.contains('juan.perez').should('exist');
   });
+
+  beforeEach(() => {
+    cy.login('juan.perez', 'password123');
+  });
+
   //favorito
   it('guarda y revisa si esta en favoritos', () => {
     cy.visit('http://localhost:4200/tabla/productos');
@@ -70,17 +108,16 @@ describe('template spec', () => {
     cy.visit('http://localhost:4200/tabla/pedidosCliente');
     cy.contains('span', 'Juan').should('be.visible');
   });
-  // it('elimina un pedido', () => {
-  //   cy.visit('http://localhost:4200/tabla/pedidosCliente');
-  //   cy.contains('span', 'Juan').should('be.visible');
-  //   cy.contains('span', 'Juan')
-  //     .should('exist') // Verifica que el producto existe
-  //     .parents('.surface-card') // Encuentra el contenedor principal del producto
-  //     .find('button') // Busca todos los botones
-  //     .contains('Eliminar') // Filtra por el botón "Eliminar"
-  //     .click();
+  it('elimina un pedido', () => {
+    cy.visit('http://localhost:4200/tabla/pedidosCliente');
+    cy.contains('span', 'Juan').should('be.visible');
+    cy.contains('span', 'Juan')
+      .should('exist')
+      .parents('.surface-card')
+      .find('button')
+      .contains('Eliminar')
+      .click();
 
-  //   // Esperar que el producto ya no exista
-  //   cy.contains('span', 'Juan').should('not.exist');
-  // });
+    cy.contains('span', 'Juan').should('not.exist');
+  });
 });

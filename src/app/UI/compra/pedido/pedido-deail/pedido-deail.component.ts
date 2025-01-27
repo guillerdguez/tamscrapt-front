@@ -1,28 +1,31 @@
-import { Component, OnInit, DoCheck } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+// =============================================================
+// PEDIDO DETAIL COMPONENT (PedidoDeailComponent)
+// =============================================================
+import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-
 import { CallbacksPedidoService } from '../../../../Service/Callbacks/CallbacksPedidoService';
 import { PedidoService } from '../../../../Service/pedido/Pedido.service';
 import { UserAuthority } from '../../../../Model/Domain/User/UserAuthority.enum';
 import { GenericModel } from '../../../../Model/Views/Dynamic/GenericModel';
 import { CartService } from '../../../../Service/carrito/CartService';
 import { AuthService } from '../../../../Service/seguridad/AuthService.service';
-import { ProductoPedido } from '../../../../Model/Domain/interface/producto-pedido';
 import { ProductoService } from '../../../../Service/producto/Producto.service';
-import { Pedido } from '../../../../Model/Domain/Pedido/PedidoClass';
 import { ProductoModel } from '../../../../Model/Views/Dynamic/ProductoModel';
+import { Producto } from '../../../../Model/Domain/Producto/ProductoClass';
+import { Pedido } from '../../../../Model/Domain/Pedido/PedidoClass';
+
 @Component({
   selector: 'app-pedido-deail',
   templateUrl: './pedido-deail.component.html',
-  styleUrl: './pedido-deail.component.css',
+  styleUrls: ['./pedido-deail.component.css'],
 })
-export class PedidoDeailComponent {
+export class PedidoDeailComponent implements OnInit, DoCheck, OnDestroy {
   params: any[] = [];
   userAuthority = UserAuthority;
-  cantidad: number = 1;
+  cantidad = 1;
   private elementAnterior: any;
-  productos: any[] = [];
+  productosMap: Map<number, Producto> = new Map<number, Producto>();
 
   constructor(
     private pedidoService: PedidoService,
@@ -36,6 +39,7 @@ export class PedidoDeailComponent {
     public productoService: ProductoService,
     public productoModel: ProductoModel
   ) {}
+
   ngOnInit(): void {
     if (
       this.authService.hasAuthority(UserAuthority.ADMIN) &&
@@ -58,11 +62,11 @@ export class PedidoDeailComponent {
       this.asignarParamsDesdeGenericModel();
     }
   }
+
   ngOnDestroy(): void {
     this.genericModel.elementsSeleccionados.length = 0;
   }
 
-  //da fallos al ir hacia atras
   private asignarParamsDesdeGenericModel(): void {
     if (
       Array.isArray(this.genericModel.element) &&
@@ -75,15 +79,26 @@ export class PedidoDeailComponent {
         this.params = [...this.genericModel.element];
       }
     }
-    this.productoService.getProductos();
 
-    this.params.forEach((pedido: any) => {
-      pedido.productos.forEach((producto: any) => {
-        this.productoService.getProductoPedido(producto.productoId);
-        if (!this.productoModel.producto) {
-          this.productos.push(this.productoModel.producto);
-        }
+    // Recolectar todos los productoIds de cada pedido
+    const productoIds: number[] = [];
+    this.params.forEach((p: any) => {
+      p.productos.forEach((prod: any) => {
+        productoIds.push(prod.productoId);
       });
+    });
+    const uniqueIds = Array.from(new Set(productoIds));
+
+    // Llamada en lote para obtener todos los productos necesarios
+    this.productoService.getProductosPorIds(uniqueIds).subscribe({
+      next: (productos: Producto[]) => {
+        productos.forEach((prod) => {
+          this.productosMap.set(prod.id, prod);
+        });
+      },
+      error: (err) => {
+        console.error('Error al obtener productos:', err);
+      },
     });
   }
 
@@ -97,13 +112,6 @@ export class PedidoDeailComponent {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
   }
-
-  // calcularPrecioOriginal(
-  //   precioConDescuento: number,
-  //   descuento: number
-  // ): number {
-  //   return parseFloat((precioConDescuento / (1 - descuento / 100)).toFixed(2));
-  // }
 
   incrementar(): void {
     this.cantidad++;

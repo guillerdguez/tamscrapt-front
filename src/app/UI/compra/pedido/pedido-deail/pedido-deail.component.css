@@ -1,0 +1,58 @@
+.pedido-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pedido-titulo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+}
+
+.pedido-subtitulo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pedido-form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 1.05rem;
+}
+
+.pedido-form-field {
+  margin-bottom: 1.5rem;
+}
+
+.pedido-form-field input {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.pedido-lista-productos {
+  margin-bottom: 1rem;
+}
+
+.pedido-lista-productos h1 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.pedido-no-stepper-container {
+  margin-top: 1rem;
+}
+
+.pedido-botones-stepper {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

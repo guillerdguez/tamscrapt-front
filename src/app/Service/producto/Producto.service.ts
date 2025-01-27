@@ -80,6 +80,10 @@ export class ProductoService {
       });
     }
   }
+  getProductosPorIds(ids: number[]): Observable<Producto[]> {
+    const observables = ids.map((id) => this.productoDAO.getProducto(id));
+    return forkJoin(observables);
+  }
 
   // Otra forma de hacer
   // getProductos(categoria?: string): void {
@@ -155,7 +159,7 @@ export class ProductoService {
   getProductoPedido(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: any) => {
-        this.productoModel.producto=producto
+        this.productoModel.producto = producto;
         // return producto;
         // const productosCreado = this.productoModel.crearProductos([producto]);
         // this.genericModel.element = productosCreado[0];

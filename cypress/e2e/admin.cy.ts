@@ -1,4 +1,4 @@
-describe('eliminar producto', () => {
+describe('admin ', () => {
   beforeEach(() => {
     cy.login('user1', '1234');
   });
