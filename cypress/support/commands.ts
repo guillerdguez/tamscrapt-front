@@ -1,58 +1,44 @@
-/// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
-// In cypress/support/commands.js
-
 // Declaración de tipos personalizados para TypeScript
 declare global {
   namespace Cypress {
     interface Chainable<Subject = any> {
-      /**
-       * Inicia sesión con el usuario y contraseña proporcionados.
-       * @param username Nombre de usuario
-       * @param password Contraseña
-       */
       login(username: string, password: string): Chainable<void>;
+      navigateTo(path: string): Chainable<Window>;
+      register(user: {
+        nombre: string;
+        username: string;
+        password: string;
+        email: string;
+      }): Chainable<any>;
+      assertRedirect(path: string): Chainable<Window>;
     }
   }
 }
 
 export {};
+Cypress.Commands.add(
+  'register',
+  (user: {
+    nombre: string;
+    username: string;
+    password: string;
+    email: string;
+  }) => {
+    cy.navigateTo('/register');
+    cy.get('#nombre').type(user.nombre);
+    cy.get('#username').type(user.username);
+    cy.get('#password').type(user.password);
+    cy.get('#email').type(user.email);
+    cy.contains('button', 'Enviar').click();
+  }
+);
+Cypress.Commands.add('navigateTo', (path: string) => {
+  cy.visit(path);
+});
 
+Cypress.Commands.add('assertRedirect', (path: string) => {
+  cy.url().should('include', path);
+});
 // Comando personalizado para el login
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/login');

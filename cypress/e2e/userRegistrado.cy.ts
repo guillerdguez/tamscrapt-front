@@ -1,9 +1,9 @@
 //pongo tambien como se registra,accede,edita algo,etc?
 
-describe('usuario regustrado', () => {
+describe('usuario registrado', () => {
   it('crear nuevo usuario', () => {
     // Navegar al formulario de creación de usuarios
-    cy.visit('http://localhost:4200/register');
+    cy.visit('/register');
 
     // Verificar que el título del formulario sea visible
     cy.contains('h1', 'Formulario de Users').should('be.visible');
@@ -32,7 +32,7 @@ describe('usuario regustrado', () => {
     cy.contains('button', 'Enviar').click();
     cy.login('user1', '1234');
 
-    cy.visit('http://localhost:4200/tabla/users');
+    cy.visit('/tabla/users');
 
     // Verificar que el nuevo usuario esté en la lista
     cy.contains('juan.perez').should('exist');
@@ -44,7 +44,7 @@ describe('usuario regustrado', () => {
 
   //favorito
   it('guarda y revisa si esta en favoritos', () => {
-    cy.visit('http://localhost:4200/tabla/productos');
+    cy.visit('/tabla/productos');
 
     cy.get('.heart i.pi.pi-heart').first().click();
 
@@ -55,7 +55,7 @@ describe('usuario regustrado', () => {
     cy.contains('span', 'Brush Pen').should('be.visible');
   });
   it('quita y revisa si no esta favoritos', () => {
-    cy.visit('http://localhost:4200/tabla/productos');
+    cy.visit('/tabla/productos');
 
     cy.get('.heart i.pi.pi-heart-fill').first().click();
 
@@ -67,17 +67,17 @@ describe('usuario regustrado', () => {
   });
   //carrito
   it('guarda y revisa si esta en carrito', () => {
-    cy.visit('http://localhost:4200/tabla/productos');
+    cy.visit('/tabla/productos');
 
     cy.get('i.pi.pi-cart-plus').first().click();
 
-    cy.visit('http://localhost:4200/carrito');
+    cy.visit('/carrito');
 
     cy.url().should('include', '/carrito');
     cy.contains('td', 'Brush Pen').should('be.visible');
   });
   it('elimina y revisa si no esta en carrito', () => {
-    cy.visit('http://localhost:4200/carrito');
+    cy.visit('/carrito');
 
     cy.get('button.btn-remove').first().click();
 
@@ -85,11 +85,11 @@ describe('usuario regustrado', () => {
   });
   //pedido
   it('hace un pedido', () => {
-    cy.visit('http://localhost:4200/tabla/productos');
+    cy.visit('/tabla/productos');
 
     cy.get('i.pi.pi-cart-plus').first().click();
 
-    cy.visit('http://localhost:4200/carrito');
+    cy.visit('/carrito');
 
     cy.url().should('include', '/carrito');
     cy.contains('td', 'Brush Pen').should('be.visible');
@@ -105,11 +105,11 @@ describe('usuario regustrado', () => {
     cy.get('input[type="radio"][value="creditCard"]').click();
     cy.contains('button', 'Next').click();
     cy.contains('button', 'Confirmar Pedido').click();
-    cy.visit('http://localhost:4200/tabla/pedidosCliente');
+    cy.visit('/tabla/pedidosCliente');
     cy.contains('span', 'Juan').should('be.visible');
   });
   it('elimina un pedido', () => {
-    cy.visit('http://localhost:4200/tabla/pedidosCliente');
+    cy.visit('/tabla/pedidosCliente');
     cy.contains('span', 'Juan').should('be.visible');
     cy.contains('span', 'Juan')
       .should('exist')

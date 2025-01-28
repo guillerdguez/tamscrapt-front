@@ -162,7 +162,7 @@
           </li>
         </ul>
       </div>
-
+      <h4 class="pedido-precio">Precio Total: {{ param.precio }} €</h4>
       <!-- Botón de regresar para usuario NO-ADMIN -->
       <button
         *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"

@@ -1,64 +1,109 @@
 @import "primeng/resources/themes/lara-light-blue/theme.css";
-.p-contextmenu .p-menuitem:hover,
-.p-contextmenu .p-menuitem:focus,
-.p-contextmenu .p-menuitem-active {
-  all: unset !important;
+
+.p-contextmenu {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  overflow: hidden;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  z-index: 1050;
 }
 
+.p-contextmenu .p-menuitem {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  font-size: 18px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.p-menuitem:hover {
+  background-color: #f0f4f8;
+  color: #1d3557;
+}
+
+.p-contextmenu .p-menuitem-icon {
+  margin-right: 10px;
+  color: #888;
+  font-size: 18px;
+}
+
+.p-contextmenu .p-submenu-list {
+  background-color: #ffffff;
+  border-left: 3px solid #457b9d;
+  padding: 5px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.p-contextmenu .p-submenu-list .p-menuitem {
+  padding: 8px 16px;
+}
+
+/* Custom Navbar */
 .custom-navbar {
   background-color: #ffffff;
 }
-.p-button {
-  color: black !important;
-  min-width: 150px !important;
-}
 
 .p-button {
+  color: black !important;
   min-width: 150px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   padding: 10px 20px !important;
-  /* font-size: 16px !important; */
-  /* font-weight: bold !important; */
   border: 2px solid transparent !important;
   border-radius: 8px !important;
   margin: 5px !important;
-  transition: all 0.3s ease; /* Transiciones suaves */
+  transition: background-color 0.2s ease;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #a8dadc;
 }
+
+.p-button:hover {
+  background-color: #77c1c4;
+}
+
 .p-button .pi {
   font-size: 18px !important;
 }
+
 .p-button .pi-shopping-cart {
   font-size: 18px !important;
   margin-right: 8px !important;
 }
 
-/* Colores de la marca */
+/* Colores de la Marca */
 .brand {
   color: #9fcfd1;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .brand:hover {
   color: #005f73;
+  transform: scale(1.05);
 }
 
-/* Colores de enlaces de navegación */
+/* Enlaces de Navegación */
 .nav-link {
   color: #9fcfd1;
+  transition: color 0.2s ease;
 }
 
 .nav-link:hover {
   color: #005f73;
 }
 
-/* Colores del menú desplegable */
+/* Menú Desplegable */
 .dropdown-menu {
   background-color: #ffffff;
 }
 
-/* Colores de los elementos del menú desplegable */
 .dropdown-item {
   color: #005f73;
 }
@@ -67,7 +112,7 @@
   background-color: #e0f7f7;
 }
 
-/* Colores adicionales para opciones de administrador */
+/* Opciones de Administrador */
 .admin-options .nav-link {
   color: #005f73;
 }
@@ -84,128 +129,55 @@
   background-color: #e0f7f7;
 }
 
-/* Colores de la sección superior */
+/* Sección Superior */
 .superior {
   background-color: #a8dadc;
 }
 
-.brand:hover {
-  transform: scale(1.05);
-  color: #005f73;
-}
-.p-button {
-  background-color: #a8dadc;
-}
-.p-button:hover {
-  background-color: #77c1c4;
-}
+/* Iconos */
 .pi.pi-star-fill,
 .pi.pi-sun {
   color: #a8dadc;
 }
-/* que pueda cambiar a relleno y vacio  */
+
 .pi.pi-heart,
 .pi-heart-fill,
 .pi-cart-plus {
   font-weight: bold;
   color: #005f73;
 }
+
+/* Título */
 .title {
   background-color: #a8dadc;
   color: #ffffff;
 }
-/* .p-menuitem {
- 
-  background-color: #a8dadc;
-}
-.p-menuitem:hover {
-  background-color: #80aeaf;
-} */
+
+/* Fondo del Body */
 body {
-  background-color: #f1faee;
+  background: linear-gradient(to bottom, #f0f4f8, #d9e6f2);
+  background-color: #f1faee; /* Fallback */
 }
 
+/* Contenedor del Formulario */
 .containerForm {
   background-color: #a8dadc;
 }
 
 input[type="text"],
 input[type="number"],
-select {
+select,
+p-inputNumber {
   border: 1px solid #457b9d;
+  background-color: #f9fcff;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
-select:focus {
+select:focus,
+p-inputNumber:focus {
   box-shadow: 0 0 10px rgba(69, 123, 157, 0.5);
 }
-
-.btn {
-  background-color: #1d3557;
-  color: white;
-}
-
-.btn:hover {
-  background-color: #457b9d;
-}
-
-.grid,
-.card,
-.p-paginator {
-  background-color: white;
-}
-.p-dataview .p-dataview-header {
-  border: none !important;
-  background-color: white;
-}
-.card .fondo-card {
-  background-color: white;
-}
-/* colors.css */
-
-/* Fondo del Body */
-body {
-  background: linear-gradient(
-    to bottom,
-    #f0f4f8,
-    #d9e6f2
-  ); /* Degradado más claro para modo claro */
-}
-
-/* Fondo del formulario */
-.containerForm {
-  background: #a8dadc; /* Blanco para un look limpio y claro */
-}
-
-/* Título */
-.title {
-  color: #2c3e50; /* Azul oscuro para un buen contraste */
-}
-
-/* Etiquetas de los campos */
-label {
-  color: #34495e; /* Gris oscuro para legibilidad */
-}
-
-/* Inputs y Selects */
-input[type="text"],
-input[type="number"],
-select {
-  border: 1px solid #3498db;
-  background-color: #f9fcff;
-}
-p-inputNumber {
-  border: 1px solid #3498db;
-  background-color: #f9fcff;
-}
-
-/* input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus,
-p-inputNumber :focus {
-  box-shadow: 0 0 10px #4bf4fa;
-} */
 
 /* Botones */
 .btn {
@@ -217,79 +189,35 @@ p-inputNumber :focus {
   background-color: #627a7a;
 }
 
-.p-contextmenu {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
-  z-index: 1050;
-  min-width: 200px;
+/* Componentes Adicionales */
+.grid,
+.card,
+.p-paginator {
+  background-color: white;
 }
 
-/* Elementos del menú */
-.p-contextmenu .p-menuitem {
-  display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
+.p-dataview .p-dataview-header {
+  border: none !important;
+  background-color: white;
 }
 
-.p-menuitem:hover {
-  width: 100%;
-  background-color: #f0f4f8;
-  color: #1d3557;
+.card .fondo-card {
+  background-color: white;
 }
 
-/* Separadores dentro del menú */
-.p-contextmenu .p-menuitem-separator {
-  border-top: 1px solid #e6e6e6;
-  margin: 4px 0;
-}
-
-/* Iconos dentro del menú */
-.p-contextmenu .p-menuitem-icon {
-  margin-right: 10px;
-  color: #888;
-  font-size: 16px;
-}
-
-/* .p-contextmenu .p-menuitem-icon:hover {
-  color: #1d3557;
-} */
-
-/* Submenús (opciones anidadas) */
-.p-contextmenu .p-submenu-list {
-  background-color: #ffffff;
-  border-left: 3px solid #457b9d;
-  padding: 5px 0;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.p-contextmenu .p-submenu-list .p-menuitem {
-  padding: 8px 16px;
-}
-/* carrito */
-
+/* Carrito */
 .cart-completo {
   background-color: #ffffff;
 }
+
 .cart h2 {
   color: #333;
 }
 
-/* .cart-table thead th {
-  background-color: #a8dadc;
-} */
 .totals {
   color: #333;
 }
+
 .btn-remove,
 .btn-checkout,
 .btn-clear {
@@ -302,12 +230,15 @@ p-inputNumber :focus {
   background-color: #77c1c4;
 }
 
+/* Componente de Búsqueda */
 #search-component {
   background-color: white;
 }
+
 #search-box {
   background-color: #a8dadc;
 }
+
 .lista-search {
   background-color: white;
 }
@@ -316,9 +247,12 @@ p-inputNumber :focus {
   background-color: #f8f9fa;
   color: #a8dadc;
 }
-/* Efecto hover y focus */
+
 #search-box:hover,
 #search-box:focus {
-  border-color: #72d8db; /* Color principal */
+  border-color: #72d8db;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
+/* ::ng-deep .p-menuitem-link .p-ripple {
+  display: none !important;
+} */

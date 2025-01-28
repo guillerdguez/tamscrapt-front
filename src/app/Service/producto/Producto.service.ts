@@ -5,7 +5,6 @@ import { Producto } from '../../Model/Domain/Producto/ProductoClass';
 import { forkJoin, Observable, of } from 'rxjs';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { MessageService } from 'primeng/api';
-import { ProductoDetails } from '../../Model/Domain/interface/ProductoDetails';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +25,8 @@ export class ProductoService {
   ) {}
   // CREATE
   addProducto(producto: any): void {
-    this.productoModel.productos.push(producto);
-    this.genericModel.elements.push(producto);
+    // this.productoModel.productos.push(producto);
+    // this.genericModel.elements.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
