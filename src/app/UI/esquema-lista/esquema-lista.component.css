@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
   font-weight: bold;
@@ -196,8 +197,8 @@ img:hover,
 /* revisar */
 .fechaCreacion {
   font-size: 17px;
-  display: inline-block; /* Necesario para controlar el recorte */
-  width: 8.5ch; /* Ancho suficiente para mostrar solo 'YYYY-MM-DD' */
-  overflow: hidden; /* Oculta el contenido sobrante */
-  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  display: inline-block;  
+  width: 8.5ch;  
+  overflow: hidden;  
+  white-space: nowrap;  
 }

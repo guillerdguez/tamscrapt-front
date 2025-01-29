@@ -1,7 +1,10 @@
 <!-- <app-producto-search class="search"></app-producto-search> -->
+<div #top></div>
+
 <div class="title">
   <h1>{{ title }}</h1>
 </div>
+
 <div class="card">
   <p-dataView
     #dv
@@ -11,7 +14,9 @@
     [rows]="9"
     [rowsPerPageOptions]="[9, 20]"
     styleClass="custom-paginator "
+    (onPage)="onPageChange($event)"
   >
+    >
     <ng-template pTemplate="header">
       <!-- <div class="flex align-items-center justify-content-between mb-3"> -->
       <!-- tiene sentido ponerlo en pedido? -->
@@ -236,6 +241,7 @@
       </div>
     </ng-template>
   </p-dataView>
+
   <p-contextMenu
     [model]="items"
     [baseZIndex]="1000"

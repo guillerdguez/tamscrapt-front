@@ -5,6 +5,8 @@ import {
   Input,
   Output,
   ViewChild,
+  ElementRef,
+  SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuItem, SelectItem } from 'primeng/api';
@@ -35,7 +37,7 @@ export class EsquemaListaComponent implements OnInit {
   userAuthority = UserAuthority;
 
   @ViewChild('menu') menu!: ContextMenu;
-
+  @ViewChild('top') topElement!: ElementRef;
   headers: any[] = [];
   private currentTipo: string | null = null;
 
@@ -103,6 +105,11 @@ export class EsquemaListaComponent implements OnInit {
         }
         this.TableSelected.emit(this.genericModel.elementsSeleccionados);
       }
+    }
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['params']?.currentValue) {
+      this.genericModel.elements = [];
     }
   }
 
@@ -182,5 +189,8 @@ export class EsquemaListaComponent implements OnInit {
 
     // // Emitir los cambios si es necesario
     // this.paramsChange.emit(this.genericModel.elements);
+  }
+  onPageChange(event: any): void {
+    this.topElement.nativeElement.scrollIntoView();
   }
 }

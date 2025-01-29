@@ -73,6 +73,9 @@ import { ProductoSearchComponent } from './UI/product-search/producto-search.com
 import { FavoritoHandler } from './Service/handler/FavoritoHandler';
 import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
 import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
+
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
+
 @NgModule({
   declarations: [
     // Componentes principales
@@ -100,6 +103,7 @@ import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoE
     DialagoPedidoEstadoComponent,
   ],
   imports: [
+    AnimateOnScrollModule,
     // Angular Core Modules
     BrowserModule,
     AppRoutingModule,
