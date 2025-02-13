@@ -155,7 +155,7 @@ export class UserService {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'No se puede gestionar favoritos sin un usuario autenticado.',
+        detail: 'No se puede gestionar favoritos sin un usuario registrado.',
       });
       return;
     }
