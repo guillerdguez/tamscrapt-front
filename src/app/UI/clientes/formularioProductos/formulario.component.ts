@@ -8,7 +8,6 @@ import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
 import { Location } from '@angular/common';
 import { AuthService } from '../../../Service/seguridad/AuthService.service';
 
-//si tiene descuento automaticamente esta en
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
@@ -32,7 +31,6 @@ export class FormularioComponentUser implements OnInit {
     private location: Location,
     public authService: AuthService
   ) {}
-  //
   ngOnInit(): void {
     this.authorities = Object.values(UserAuthority).filter(
       (authority) => authority !== UserAuthority.ANONYMOUS

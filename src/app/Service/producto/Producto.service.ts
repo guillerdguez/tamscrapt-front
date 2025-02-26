@@ -13,7 +13,6 @@ export class ProductoService {
   private productos: Producto[] = [];
   private mensajeMostrado = false;
   private tiempoEspera = 2000;
-  // Mantendremos la categoría actual en una propiedad
   private currentCategory?: string;
   private favoritosCliente: Producto[] = [];
 
@@ -23,10 +22,7 @@ export class ProductoService {
     public productoModel: ProductoModel,
     private messageService: MessageService
   ) {}
-  // CREATE
   addProducto(producto: any): void {
-    // this.productoModel.productos.push(producto);
-    // this.genericModel.elements.push(producto);
     this.productoDAO.addProducto(producto).subscribe({
       next: (producto: any) => {
         this.productoModel.producto = producto;
@@ -37,28 +33,23 @@ export class ProductoService {
       },
     });
   }
-
-  // READ
   obtenerTodos(): Producto[] {
     return this.productoModel.productos;
   }
   getProductos(categoria?: string): void {
     if (this.currentCategory !== categoria) {
-      this.currentCategory = categoria; // Guardamos la categoría actual
+      this.currentCategory = categoria;
     }
 
     if (this.productoModel.userId) {
-      // El usuario está registrado, obtenemos productos y favoritos
       forkJoin({
         productos: this.productoDAO.getProductos(this.currentCategory),
         favoritos: this.productoDAO.obtenerFavoritos(this.productoModel.userId),
       }).subscribe({
         next: ({ productos, favoritos }) => {
-          // Procesamos los favoritos
           this.favoritosCliente = favoritos;
           this.productoModel.actualizarFavoritosCliente(favoritos);
 
-          // Procesamos los productos
           const productosCreados = this.productoModel.crearProductos(productos);
           this.genericModel.elements = productosCreados;
         },
@@ -67,7 +58,6 @@ export class ProductoService {
         },
       });
     } else {
-      // El usuario no está registrado, solo obtenemos productos
       this.productoDAO.getProductos(this.currentCategory).subscribe({
         next: (productos: Producto[]) => {
           const productosCreados = this.productoModel.crearProductos(productos);
@@ -138,14 +128,11 @@ export class ProductoService {
     });
   }
 
-  // Obtener producto por ID
-  // ProductoService
   getProducto(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: any) => {
         const productosCreado = this.productoModel.crearProductos([producto]);
 
-        // Si el primer elemento es un arreglo anidado
         if (Array.isArray(productosCreado[0])) {
           this.genericModel.element = productosCreado[0];
         } else {
@@ -167,34 +154,27 @@ export class ProductoService {
     });
   }
 
-  // Buscar por nombre
-
   searchProductos(term: string): Observable<Producto[]> {
     if (!term.trim()) {
       return of([]);
     }
     return this.productoDAO.searchProductos(term);
   }
-  // UPDATE
   updateProducto(id: number, producto: Producto): void {
     this.productoDAO.updateProducto(id, producto).subscribe({
       next: (producto: Producto) => {
         this.productoModel.producto = producto;
         this.genericModel.element = producto;
-
-        // Al volver a cargar, empleamos la categoría actual
         this.getProductos(this.currentCategory);
       },
       error: (error) => this.handleError(error),
     });
   }
 
-  // DELETE
   deleteProducto(id: number): void {
     this.productoDAO.deleteProducto(id).subscribe({
       next: () => {
         this.genericModel.elementsSeleccionados.length = 0;
-        // Al volver a cargar, empleamos la categoría actual
         this.getProductos(this.currentCategory);
 
         if (!this.mensajeMostrado) {
@@ -210,7 +190,6 @@ export class ProductoService {
     });
   }
 
-  // Manejo de múltiples ediciones
   updateMultipleProductos(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       this.updateProducto(item.id, item.getProductoData());
@@ -222,7 +201,6 @@ export class ProductoService {
     // this.genericModel.elementsSeleccionados.length = 0;
   }
 
-  // Manejo de múltiples ofertas
   alternarOfertas(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       if (!item.oferta) {
@@ -236,12 +214,10 @@ export class ProductoService {
     this.genericModel.elementsSeleccionados.length = 0;
   }
 
-  // Eliminación múltiple de productos
   deleteMultipleProductos(selectedItems: Producto[]) {
     selectedItems.forEach((item) => this.deleteProducto(item.id));
   }
 
-  // Alternar de oferta
   alternarOferta(item: any, descuento: number) {
     if (descuento < 0 || descuento > 100) {
       throw new Error('El descuento debe estar entre 0 y 100.');
@@ -272,7 +248,6 @@ export class ProductoService {
     this.updateProducto(item.id, productoData);
   }
 
-  // Mostrar mensaje de éxito
   private showSuccessMessage(detail: string): void {
     this.messageService.add({
       severity: 'success',
@@ -284,7 +259,6 @@ export class ProductoService {
     }, this.tiempoEspera);
   }
 
-  // Manejo de errores
   private handleError(error: any): void {
     let detalleError = '';
     if (error.status === 500) {

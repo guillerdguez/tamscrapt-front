@@ -20,13 +20,11 @@ export class ProductoDAO {
 
   constructor(private http: HttpClient) {}
 
-  // CREATE
   addProducto(producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/addProducto`;
     return this.http.post<Producto>(urlMod, producto, this.httpOptions);
   }
 
-  // READ
   getProductos(categoria?: string): Observable<Producto[]> {
     if (categoria) {
       const urlMod = `${this.urlBase}/listar?categoria=${encodeURIComponent(
@@ -42,7 +40,6 @@ export class ProductoDAO {
     return this.http.get<Producto>(urlMod);
   }
 
-  // BUSCAR POR NOMBRE
 
   searchProductos(term: string): Observable<Producto[]> {
     const urlMod = `${this.urlBase}/buscar?name=${encodeURIComponent(term)}`;
@@ -52,19 +49,16 @@ export class ProductoDAO {
     return this.http.get<Producto[]>(urlMod);
   }
 
-  // UPDATE
   updateProducto(id: number, producto: Producto): Observable<Producto> {
     const urlMod = `${this.urlBase}/editar/${id}`;
     return this.http.put<Producto>(urlMod, producto, this.httpOptions);
   }
 
-  // DELETE
   deleteProducto(id: number): Observable<Producto> {
     const urlMod = `${this.urlBase}/borrar/${id}`;
     return this.http.delete<Producto>(urlMod, this.httpOptions);
   }
 
-  // FAVORITOS
   obtenerFavoritos(clienteId: number): Observable<Producto[]> {
     const urlMod = `${this.urlBaseCliente}/${clienteId}/favoritos`;
     return this.http.get<Producto[]>(urlMod);

@@ -56,7 +56,6 @@ export class CartComponent implements OnInit {
     this.cartService.removeProduct(item.product.id);
   }
 
-  // Vaciar todo el carrito
   clearCart(): void {
     this.cartService.clearCart();
   }

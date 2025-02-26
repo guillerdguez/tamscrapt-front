@@ -30,17 +30,7 @@ export class UserService {
 
     private messageService: MessageService
   ) {}
-  // cargarFavoritos(clienteId: any): void {
-  //   this.userDAO.obtenerFavoritos(clienteId).subscribe({
-  //     next: (favoritos: Producto[]) => {
-  //       this.favoritosCliente = favoritos;
-  //       this.productoModel.actualizarFavoritosCliente(favoritos);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error al cargar favoritos:', error);
-  //     },
-  //   });
-  // }
+ 
   addUser(user: any): void {
     this.authDAO.register(user).subscribe({
       next: () => {

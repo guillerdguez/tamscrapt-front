@@ -1,6 +1,4 @@
-// =============================================================
-// PEDIDO DETAIL COMPONENT (PedidoDeailComponent)
-// =============================================================
+
 import { Component, OnInit, DoCheck, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -80,7 +78,6 @@ export class PedidoDeailComponent implements OnInit, DoCheck, OnDestroy {
       }
     }
 
-    // Recolectar todos los productoIds de cada pedido
     const productoIds: number[] = [];
     this.params.forEach((p: any) => {
       p.productos.forEach((prod: any) => {
@@ -89,7 +86,6 @@ export class PedidoDeailComponent implements OnInit, DoCheck, OnDestroy {
     });
     const uniqueIds = Array.from(new Set(productoIds));
 
-    // Llamada en lote para obtener todos los productos necesarios
     this.productoService.getProductosPorIds(uniqueIds).subscribe({
       next: (productos: Producto[]) => {
         productos.forEach((prod) => {

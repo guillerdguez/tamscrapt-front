@@ -11,14 +11,12 @@ export class PedidoDAO {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
   constructor(private http: HttpClient) {}
-  //CREATE
+ 
   addPedido(pedido: Pedido): Observable<Pedido> {
     const urlMod = `${this.urlBase}/addPedido`;
 
     return this.http.post<Pedido>(urlMod, pedido, this.httpOptions);
   }
-
-  //READ
   getPedidos(): Observable<Pedido[]> {
     const urlMod = `${this.urlBase}/listar`;
     return this.http.get<Pedido[]>(urlMod);
@@ -39,7 +37,6 @@ export class PedidoDAO {
     }
     return this.http.get<Pedido[]>(`${this.urlBase}/?name=${term}`);
   }
-  //UPDATE
   updatePedido(pedido: Pedido): Observable<any> {
     console.log(pedido);
      const urlMod = `${this.urlBase}/editar/${pedido.id}`;
@@ -60,7 +57,6 @@ export class PedidoDAO {
     return this.http.post<Pedido>(urlMod, body, this.httpOptions);
   }
 
-  //DELETE
   deletePedido(id: number): Observable<Pedido> {
     const urlMod = `${this.urlBase}/delete/${id}`;
     return this.http.delete<Pedido>(urlMod, this.httpOptions);

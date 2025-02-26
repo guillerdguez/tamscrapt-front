@@ -39,7 +39,6 @@ const routes: Routes = [
   {
     path: 'detail/Pedidos/:id',
     component: PedidoDeailComponent,
-    // canMatch: [authGuard],
   },
   {
     path: 'detail/Users/:id',
@@ -57,7 +56,6 @@ const routes: Routes = [
   {
     path: 'pedidos',
     redirectTo: '/tabla/pedidos',
-    // canMatch: [authGuard],
   },
 ];
 
