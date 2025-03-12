@@ -69,7 +69,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     this.genericModel.elementsSeleccionados.length = 0;
   }
 
-  //da fallos al ir hacia atras
+  //da fallos al ir hacia atras,sale el anterior y no deberia
   private asignarParamsDesdeGenericModel(): void {
     if (
       Array.isArray(this.genericModel.element) &&
@@ -123,107 +123,4 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     }
   }
 }
-
-// import { Component, OnInit, DoCheck } from '@angular/core';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { Location } from '@angular/common';
-// import { ProductoService } from '../../../Service/producto/Producto.service';
-// import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
-// import { AuthService } from '../../../Service/seguridad/AuthService.service';
-// import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
-// import { UserAuthority } from '../../../Model/Domain/User/UserAuthority.enum';
-// import { CartService } from '../../../Service/carrito/CartService';
-
-// @Component({
-//   selector: 'app-producto-detail',
-//   templateUrl: './producto-detail.component.html',
-//   styleUrls: ['./producto-detail.component.css'],
-// })
-// export class ProductoDetailComponent implements OnInit, DoCheck {
-//   params: any[] = [];
-//   userAuthority = UserAuthority;
-//   cantidad: number = 1;
-//   private elementAnterior: any;
-
-//   constructor(
-//     private productoService: ProductoService,
-//     private location: Location,
-//     public genericModel: GenericModel,
-//     public authService: AuthService,
-//     public router: Router,
-//     public route: ActivatedRoute,
-//     public callbacksProductoService: CallbacksProductoService,
-//     public cartService: CartService
-//   ) {}
-
-//   ngOnInit(): void {
-//     if (this.genericModel.elementsSeleccionados.length !== 0) {
-//       this.params = [...this.genericModel.elementsSeleccionados];
-//     } else {
-//       const id = Number(this.route.snapshot.paramMap.get('id'));
-//       this.productoService.getProducto(id);
-//     }
-
-//     this.location.subscribe(() => {
-//       this.genericModel.elementsSeleccionados.length = 0;
-//     });
-//   }
-
-//   ngDoCheck(): void {
-//     if (this.genericModel.element !== this.elementAnterior) {
-//       this.elementAnterior = this.genericModel.element;
-//       this.asignarParamsDesdeGenericModel();
-//
-//     }
-//   }
-
-//   private asignarParamsDesdeGenericModel(): void {
-//     if (
-//       Array.isArray(this.genericModel.element) &&
-//       this.genericModel.element.length > 0
-//     ) {
-//       const primerElem = this.genericModel.element[0];
-//       if (Array.isArray(primerElem)) {
-//         this.params = [...primerElem];
-//       } else {
-//         this.params = [...this.genericModel.element];
-//       }
-//     }
- //   }
-
-//   goBack(): void {
-//     this.location.back();
-//     this.router.navigateByUrl(this.router.url);
-//     this.genericModel.elementsSeleccionados.length = 0;
-//   }
-
-//   save(): void {
-//     this.productoService.updateMultipleProductos(this.params);
-//     this.location.back();
-//     this.router.navigateByUrl(this.router.url);
-//   }
-
-//   calcularPrecioOriginal(
-//     precioConDescuento: number,
-//     descuento: number
-//   ): number {
-//     return parseFloat((precioConDescuento / (1 - descuento / 100)).toFixed(2));
-//   }
-
-//   incrementar(): void {
-//     this.cantidad++;
-//   }
-
-//   decrementar(): void {
-//     if (this.cantidad > 1) {
-//       this.cantidad--;
-//     }
-//   }
-
-//   addCarrito(): void {
-//     if (this.params.length > 0) {
-//       this.cartService.addProductoCarrito(this.params[0], this.cantidad);
-//       this.cantidad = 1;
-//     }
-//   }
-// }
+ 

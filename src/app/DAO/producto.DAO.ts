@@ -6,9 +6,7 @@ import { Observable, of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductoDAO {
-  // private urlBase = 'http://localhost:8082/api/producto';
-  // private urlBaseCliente = 'http://localhost:8082/api/clientes';
+export class ProductoDAO { 
 
 private urlBase = 'https://tamscrap-back-production.up.railway.app/api/producto';
 private urlBaseCliente = 'https://tamscrap-back-production.up.railway.app/api/clientes';

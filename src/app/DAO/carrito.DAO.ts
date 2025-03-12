@@ -5,8 +5,7 @@ import { CarritoResponse } from '../Model/Domain/interface/CarritoResponse';
 @Injectable({
   providedIn: 'root',
 })
-export class CarritoDAO {
-  // private urlBase = 'http://localhost:8082/api/carrito';
+export class CarritoDAO { 
   private urlBase =
     'https://tamscrap-back-production.up.railway.app/api/carrito';
 

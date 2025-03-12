@@ -26,7 +26,7 @@ export class PedidoModel {
         ? EstadoPedido.COMPLETADO
         : EstadoPedido.DESCONOCIDO;
 
-    pedido.tag = tag; // Asigna el tag al objeto Pedido
+    pedido.tag = tag;  
     return tag;
   }
 

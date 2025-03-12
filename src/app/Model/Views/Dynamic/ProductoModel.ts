@@ -18,18 +18,14 @@ export class ProductoModel {
     private menuStrategyFactory: MenuStrategyFactory,
     private genericModel: GenericModel,
     private injector: Injector,
-    public authService: AuthService // private productoService: ProductoService
+    public authService: AuthService
   ) {
     this.userId = this.authService.getCurrentUserId();
-    // if (this.userId) {
-    //   this.productoService.cargarFavoritos(this.userId);
-    // }
   }
 
   actualizarFavoritosCliente(favoritos: Producto[]): void {
     this.favoritosCliente = favoritos;
-  }
-  //cambiar
+  } 
 
   getTagSeverity(producto: Producto): TagSeverity {
     const isAdmin = this.authService.hasAuthority(UserAuthority.ADMIN);
@@ -78,8 +74,7 @@ export class ProductoModel {
     const listaProducto: Producto[] = [];
     productos.forEach((producto) => {
       const newProducto = new Producto(this.menuStrategyFactory, this);
-      newProducto.getParametros(producto);
-      // Reflejar directamente el estado de favoritos
+      newProducto.getParametros(producto); 
       newProducto.favorito = this.favoritosCliente.some(
         (fav) => fav.id === producto.id
       );

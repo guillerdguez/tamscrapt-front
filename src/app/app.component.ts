@@ -1,4 +1,3 @@
-// app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { CartService } from './Service/carrito/CartService';
@@ -6,11 +5,11 @@ import { CartService } from './Service/carrito/CartService';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'], // Corregido
+  styleUrls: ['./app.component.css'], 
 })
 export class AppComponent implements OnInit {
   title = 'Tamscrapt';
-  isDarkMode: boolean = false; // Inicializar a false por defecto
+  isDarkMode: boolean = false;  
 
   constructor(
     public messageService: MessageService,
@@ -18,7 +17,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isDarkMode = this.isSystemDark(); // Establecer según preferencia del sistema
+    this.isDarkMode = this.isSystemDark();  
     document.body.classList.toggle('dark-mode', this.isDarkMode);
   }
 

@@ -17,22 +17,19 @@ export class NavbarComponent implements OnInit {
   userAuthority = UserAuthority;
 
   constructor(
-    public authService: AuthService,
-    // private router:  Router,
+    public authService: AuthService, 
     private userService: UserService,
     public genericModel: GenericModel,
     public userModel: UserModel
   ) {}
 
-  ngOnInit(): void {
-    // Obtener el ID del usuario actual al inicializar el componente
+  ngOnInit(): void { 
     this.userId = this.authService.getCurrentUserId();
     if (this.userId) {
       this.userService.getUser(this.userId);
     }
   }
-
-  // Alterna entre los menús desplegables
+ 
   alternarMenu(menu: 'admin' | 'user') {
     if (menu === 'admin') {
       this.dropdownMenu = !this.dropdownMenu;

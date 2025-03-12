@@ -16,17 +16,7 @@ export class UserModel {
     private genericModel: GenericModel,
     private injector: Injector
   ) {}
-  // getTagSeverity(user: User): TagSeverity {
-  //   if (user.authorities.has(UserAuthority.ADMIN)) {
-  //     return { tag: 'ADMIN_USER', severity: 'success' };
-  //   } else if (user.authorities.has(UserAuthority.USER)) {
-  //     return { tag: 'REGULAR_USER', severity: 'warning' };
-  //   } else if (user.authorities.has(UserAuthority.ANONYMOUS)) {
-  //     return { tag: 'GUEST_USER', severity: 'info' };
-  //   } else {
-  //     return { tag: 'UNKNOWN_USER', severity: 'danger' };
-  //   }
-  // }
+ 
   getTagSeverity(user: User): TagSeverity {
     return user.authorities.includes(UserAuthority.ADMIN)
       ? { tag: 'ADMIN_USER', severity: 'success' }

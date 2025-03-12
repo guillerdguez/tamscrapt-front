@@ -10,8 +10,7 @@ export class UserMenuStrategy implements MenuStrategy {
   constructor(private callbacks: CallbacksProductoService) {}
 
   getMenuItems(context: any, selectedItems: any[]): MenuItem[] {
-    return [
-      // sirve para ver
+    return [ 
       {
         label: 'Editar',
         icon: 'pi pi-pencil',

@@ -73,36 +73,7 @@ export class ProductoService {
     const observables = ids.map((id) => this.productoDAO.getProducto(id));
     return forkJoin(observables);
   }
-
-  // Otra forma de hacer
-  // getProductos(categoria?: string): void {
-  //   if (this.currentCategory !== categoria) {
-  //     this.currentCategory = categoria; // Guardamos la categoría actual
-  //   }
-
-  //   this.productoDAO.getProductos(this.currentCategory).subscribe({
-  //     next: (productos: Producto[]) => {
-  //       this.productoDAO.obtenerFavoritos(this.productoModel.userId).subscribe({
-  //         next: (favoritos: Producto[]) => {
-  //           this.favoritosCliente = favoritos;
-  //           this.productoModel.actualizarFavoritosCliente(favoritos);
-
-  //           const productosCreados =
-  //             this.productoModel.crearProductos(productos);
-  //           this.genericModel.elements = productosCreados;
-  //         },
-  //         error: (error) => {
-  //           console.error('Error al cargar favoritos:', error);
-  //         },
-  //       });
-  //       // this.productosSubject.next(productosCreados);
-  //     },
-  //     error: (error) => {
-  //       console.error('error:', error);
-  //     },
-  //   });
-  // }
-
+ 
   cargarFavoritos(clienteId: any): void {
     this.productoDAO.obtenerFavoritos(clienteId).subscribe({
       next: (favoritos: Producto[]) => {

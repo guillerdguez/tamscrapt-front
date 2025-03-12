@@ -35,22 +35,17 @@ export class Producto {
   ) {
     this.menuStrategy = this.menuStrategyFactory.getStrategy(this.strategia);
   }
-
-  // Métodos
-
-  // Devuelve los encabezados
+ 
   getHeaders() {
     return this.productoModel.getHeaders();
   }
-
-  // Calcula el precio original en base al descuento
+ 
   calcularPrecioOriginal(): number | undefined {
     return this.descuento > 0
       ? parseFloat((this.precio / (1 - this.descuento / 100)).toFixed(2))
       : undefined;
   }
-
-  // Actualiza los parámetros del producto
+ 
   getParametros(producto: Producto) {
     this.id = producto.id;
     this.nombre = producto.nombre;
@@ -68,8 +63,7 @@ export class Producto {
     this.cantidadCarrito = producto.cantidadCarrito;
     return this;
   }
-
-  // Devuelve los detalles del producto
+ 
   getProductoData(): ProductoDetails {
     return {
       id: this.id,
@@ -88,8 +82,7 @@ export class Producto {
       cantidadCarrito: this.cantidadCarrito,
     };
   }
-
-  // Devuelve los elementos del menú basados en la estrategia del menú
+ 
   getMenuItems(selectedItems: Producto[]): MenuItem[] {
     return this.menuStrategy.getMenuItems(this, selectedItems);
   }

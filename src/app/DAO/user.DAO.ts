@@ -6,8 +6,7 @@ import { Producto } from '../Model/Domain/Producto/ProductoClass';
 @Injectable({
   providedIn: 'root',
 })
-export class UserDAO {
-  // private urlBase = 'http://localhost:8082/api/clientes';
+export class UserDAO { 
   private urlBase =
     'https://tamscrap-back-production.up.railway.app/api/clientes';
 

@@ -1,4 +1,4 @@
-// input-switch.component.ts
+ 
 import { DOCUMENT } from '@angular/common';
 import {
   Component,

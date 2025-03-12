@@ -18,10 +18,9 @@ export class MenuStrategyFactory {
   private strategyRegistry: { [key: string]: () => MenuStrategy };
 
   constructor(
-    private injector: Injector, // Inyectamos el Injector
+    private injector: Injector, 
     private authService: AuthService
-  ) {
-    // Registro dinámico de estrategias usando Injector
+  ) { 
     this.strategyRegistry = {
       producto: () =>
         this.authService.hasAuthority(UserAuthority.ADMIN)

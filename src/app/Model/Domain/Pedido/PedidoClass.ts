@@ -29,8 +29,7 @@ export class Pedido {
   getHeaders() {
     return this.pedidoModel.getHeaders();
   }
-
-  // Devuelve el nivel de severidad según el modelo del pedido
+ 
   getSeverity() {
     return this.pedidoModel.getSeverity(this);
   }

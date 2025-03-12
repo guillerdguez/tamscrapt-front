@@ -7,8 +7,7 @@ import { UserDetails } from '../Model/Domain/interface/UserDetails';
   providedIn: 'root',
 })
 export class AuthDAO {
-  // private apiUrl = 'http://localhost:8082/api';
-
+  
   private apiUrl = 'https://tamscrap-back-production.up.railway.app/api';
   constructor(private http: HttpClient) {}
 
