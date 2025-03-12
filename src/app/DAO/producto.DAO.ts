@@ -7,9 +7,11 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class ProductoDAO {
-  private urlBase = 'http://localhost:8082/api/producto';
-  private urlBaseCliente = 'http://localhost:8082/api/clientes';
+  // private urlBase = 'http://localhost:8082/api/producto';
+  // private urlBaseCliente = 'http://localhost:8082/api/clientes';
 
+  private urlBase = 'http://tamscrap-back-production.up.railway.app:8080/api/producto';
+  private urlBaseCliente = 'http://tamscrap-back-production.up.railway.app:8080/api/clientes';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };

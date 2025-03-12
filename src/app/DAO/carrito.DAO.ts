@@ -7,7 +7,9 @@ import { CarritoResponse } from '../Model/Domain/interface/CarritoResponse';
 })
 
 export class CarritoDAO {
-  private urlBase = 'http://localhost:8082/api/carrito';
+  // private urlBase = 'http://localhost:8082/api/carrito';
+  private urlBase = 'http://tamscrap-back-production.up.railway.app:8080/api/carrito';
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };

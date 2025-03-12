@@ -6,7 +6,9 @@ import { Pedido } from '../Model/Domain/Pedido/PedidoClass';
   providedIn: 'root',
 })
 export class PedidoDAO {
-  private urlBase = 'http://localhost:8082/api/pedidos';
+  private urlBase = 'http://tamscrap-back-production.up.railway.app:8080/api/pedidos';
+
+  // private urlBase = 'http://localhost:8082/api/pedidos';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };

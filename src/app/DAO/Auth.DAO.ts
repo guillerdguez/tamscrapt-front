@@ -7,8 +7,9 @@ import { UserDetails } from '../Model/Domain/interface/UserDetails';
   providedIn: 'root',
 })
 export class AuthDAO {
-  private apiUrl = 'http://localhost:8082/api';
+  // private apiUrl = 'http://localhost:8082/api';
 
+  private apiUrl = 'http://tamscrap-back-production.up.railway.app:8080/api';
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
