@@ -6,14 +6,15 @@ import { Pedido } from '../Model/Domain/Pedido/PedidoClass';
   providedIn: 'root',
 })
 export class PedidoDAO {
-  private urlBase = 'http://tamscrap-back-production.up.railway.app:8080/api/pedidos';
+  private urlBase =
+    'https://tamscrap-back-production.up.railway.app/api/pedidos';
 
   // private urlBase = 'http://localhost:8082/api/pedidos';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
   constructor(private http: HttpClient) {}
- 
+
   addPedido(pedido: Pedido): Observable<Pedido> {
     const urlMod = `${this.urlBase}/addPedido`;
 
@@ -41,7 +42,7 @@ export class PedidoDAO {
   }
   updatePedido(pedido: Pedido): Observable<any> {
     console.log(pedido);
-     const urlMod = `${this.urlBase}/editar/${pedido.id}`;
+    const urlMod = `${this.urlBase}/editar/${pedido.id}`;
     return this.http.put(urlMod, pedido, this.httpOptions);
   }
   addProductos(

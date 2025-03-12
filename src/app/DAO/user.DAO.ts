@@ -8,13 +8,14 @@ import { Producto } from '../Model/Domain/Producto/ProductoClass';
 })
 export class UserDAO {
   // private urlBase = 'http://localhost:8082/api/clientes';
-  private urlBase = 'http://tamscrap-back-production.up.railway.app:8080/api/clientes';
+  private urlBase =
+    'https://tamscrap-back-production.up.railway.app/api/clientes';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
   constructor(private http: HttpClient) {}
- 
+
   addUser(user: User): Observable<User> {
     const urlMod = `${this.urlBase}/addCliente`;
     return this.http.post<User>(urlMod, user, this.httpOptions);
