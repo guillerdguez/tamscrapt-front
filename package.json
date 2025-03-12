@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-   "build": "ng build --configuration production",
-  "start": "npm run build && http-server dist/tu-app -p $PORT",
+    "build": "ng build --configuration production",
+    "start": "node dist/tamscrapt/server/server.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Tamscrapt": "node dist/tamscrapt/server/server.mjs",
     "cy:run": "cypress open"
   },
   "private": true,
