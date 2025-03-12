@@ -1,34 +1,24 @@
- 
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
- 
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
- 
 import { NavbarComponent } from './UI/layout/navbar/navbar.component';
 import { FooterComponent } from './UI/layout/footer/footer.component';
-import { InputSwitchComponent } from './UI/layout/input-switch/input-switch.component';
- 
 import { HomeComponent } from './UI/home/home.component';
 import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
-import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
-import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
-import { DialagoOfertaComponent } from './UI/productos/dialago-oferta/dialago-oferta.component';
-import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
-import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
-import { CartComponent } from './UI/compra/cart/cart.component';
-import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
-import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
-import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
+import { InputSwitchComponent } from './UI/layout/input-switch/input-switch.component';
 import { EsquemaListaComponent } from './UI/esquema-lista/esquema-lista.component';
- 
+
+// PrimeNG Modules
 import { CheckboxModule } from 'primeng/checkbox';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
@@ -51,36 +41,48 @@ import { MenuModule } from 'primeng/menu';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RatingModule } from 'primeng/rating';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { StepperModule } from 'primeng/stepper';
-import { StepsModule } from 'primeng/steps';
-import { MessageService } from 'primeng/api';
-import { AnimateOnScrollModule } from 'primeng/animateonscroll';
- 
 import { LetteringHandler } from './Service/handler/LetteringHandler';
 import { OfertasHandler } from './Service/handler/OfertasHandler';
 import { ProductosHandler } from './Service/handler/ProductosHandler';
 import { ScrapbookingHandler } from './Service/handler/ScrapbookingHandler';
 import { UsersHandler } from './Service/handler/UsersHandler';
-import { PedidosHandler } from './Service/handler/PedidosHandler';
-import { PedidoHandler } from './Service/handler/PedidoHandler';
-import { FavoritoHandler } from './Service/handler/FavoritoHandler';
-
 import { ProductoService } from './Service/producto/Producto.service';
 import { UserService } from './Service/user/User.service';
+import { StepperModule } from 'primeng/stepper';
+import { StepsModule } from 'primeng/steps';
+import { MessageService } from 'primeng/api';
+import { DialagoOfertaComponent } from './UI/productos/dialago-oferta/dialago-oferta.component';
+import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
+import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
+import { CartComponent } from './UI/compra/cart/cart.component';
+import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
+import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 import { CartService } from './Service/carrito/CartService';
 import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoService';
-import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
+import { PedidosHandler } from './Service/handler/PedidosHandler';
+import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
+import { PedidoHandler } from './Service/handler/PedidoHandler';
+import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
+import { FavoritoHandler } from './Service/handler/FavoritoHandler';
+import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
+import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
+
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 
 @NgModule({
-  declarations: [ 
+  declarations: [
+    // Componentes principales
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    HomeComponent, 
+    HomeComponent,
+    // Componentes de administración
 
     ProductoDetailComponent,
     UserDetailComponent,
-    FormularioComponentProducto, 
+    FormularioComponentProducto,
+    // OfertaDialogComponent,
+    // Otros componentes
     InputSwitchComponent,
     EsquemaListaComponent,
     DialagoOfertaComponent,
@@ -94,13 +96,16 @@ import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
     DialagoPedidoEstadoComponent,
   ],
   imports: [
-    AnimateOnScrollModule, 
+    AnimateOnScrollModule,
+    // Angular Core Modules
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
+
+    // PrimeNG Modules
     CheckboxModule,
     DropdownModule,
     ButtonModule,
