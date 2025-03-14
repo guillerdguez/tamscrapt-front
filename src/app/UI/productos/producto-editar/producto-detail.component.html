@@ -1,5 +1,5 @@
 <!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
-<!-- poner descripcion?valoracion? -->
+ 
 <ng-container
   *ngIf="
     authService.hasAuthority(userAuthority.ADMIN) && params.length>1;
@@ -13,8 +13,7 @@
           pTemplate="content"
           let-nextCallback="nextCallback"
           let-prevCallback="prevCallback"
-        >
-          <!-- Reutilizamos la plantilla común -->
+        > 
           <ng-container
             *ngTemplateOutlet="
               commonDetail;
@@ -165,6 +164,18 @@
             placeholder="Producto nombre"
             class="p-inputtext w-full"
           />
+          <label
+          for="producto-imagen-{{ i }}"
+          class="block text-lg font-medium mb-2"
+          >Producto Imagen:</label
+        >
+        <input
+          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
+          id="producto-imagen-{{ i }}"
+          [(ngModel)]="param.imagen"
+          placeholder="Producto imagen"
+          class="p-inputtext w-full"
+        />
           <h3
             *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
             class="text-lg font-bold"

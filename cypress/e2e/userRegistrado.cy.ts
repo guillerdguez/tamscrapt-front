@@ -1,31 +1,16 @@
-//pongo tambien como se registra,accede,edita algo,etc?
-
 describe('usuario registrado', () => {
   it('crear nuevo usuario', () => {
-    // Navegar al formulario de creación de usuarios
     cy.visit('/register');
 
-    // Verificar que el título del formulario sea visible
     cy.contains('h1', 'Formulario de Users').should('be.visible');
 
-    // Llenar los campos obligatorios
-    // cy.get('#imagen') // Campo de URL de imagen
-    //   .type('https://example.com/imagen.jpg')
-    //   .should('have.value', 'https://example.com/imagen.jpg');
+    cy.get('#nombre').type('Juan Pérez').should('have.value', 'Juan Pérez');
 
-    cy.get('#nombre') // Campo del nombre del usuario
-      .type('Juan Pérez')
-      .should('have.value', 'Juan Pérez');
+    cy.get('#username').type('juan.perez').should('have.value', 'juan.perez');
 
-    cy.get('#username') // Campo del username
-      .type('juan.perez')
-      .should('have.value', 'juan.perez');
+    cy.get('#password').type('password123').should('have.value', 'password123');
 
-    cy.get('#password') // Campo del password
-      .type('password123')
-      .should('have.value', 'password123');
-
-    cy.get('#email') // Campo del email
+    cy.get('#email')
       .type('juan.perez@example.com')
       .should('have.value', 'juan.perez@example.com');
 
@@ -34,7 +19,6 @@ describe('usuario registrado', () => {
 
     cy.visit('/tabla/users');
 
-    // Verificar que el nuevo usuario esté en la lista
     cy.contains('juan.perez').should('exist');
   });
 
@@ -42,7 +26,6 @@ describe('usuario registrado', () => {
     cy.login('juan.perez', 'password123');
   });
 
-  //favorito
   it('guarda y revisa si esta en favoritos', () => {
     cy.visit('/tabla/productos');
 
@@ -65,7 +48,6 @@ describe('usuario registrado', () => {
 
     cy.contains('span', 'Brush Pen').should('not.exist');
   });
-  //carrito
   it('guarda y revisa si esta en carrito', () => {
     cy.visit('/tabla/productos');
 
@@ -83,7 +65,6 @@ describe('usuario registrado', () => {
 
     cy.contains('td', 'Brush Pen').should('not.exist');
   });
-  //pedido
   it('hace un pedido', () => {
     cy.visit('/tabla/productos');
 

@@ -14,17 +14,17 @@ import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProdu
 import { ProductoService } from '../../Service/producto/Producto.service';
 
 @Component({
-  selector: 'app-producto-search',
-  templateUrl: './producto-search.component.html',
-  styleUrls: ['./producto-search.component.css'],
+  selector: 'app-producto-buscar',
+  templateUrl: './producto-buscar.component.html',
+  styleUrls: ['./producto-buscar.component.css'],
 })
-export class ProductoSearchComponent implements OnInit {
-  @ViewChild('searchBox', { static: true })
-  searchBox!: ElementRef<HTMLInputElement>;
+export class ProductoBuscarComponent implements OnInit {
+  @ViewChild('buscarBox', { static: true })
+  buscarBox!: ElementRef<HTMLInputElement>;
 
   productos$!: Observable<Producto[]>;
   productos: Producto[] = [];
-  private searchTerms = new Subject<string>();
+  private buscarTerms = new Subject<string>();
   showResults: boolean = false;
 
   constructor(
@@ -35,16 +35,16 @@ export class ProductoSearchComponent implements OnInit {
     private router: Router
   ) {}
 
-  search(term: string): void {
-    this.searchTerms.next(term);
+  buscar(term: string): void {
+    this.buscarTerms.next(term);
     this.showResults = term.length > 0;
   }
 
   ngOnInit(): void {
-    this.productos$ = this.searchTerms.pipe(
+    this.productos$ = this.buscarTerms.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((term: string) => this.productoService.searchProductos(term))
+      switchMap((term: string) => this.productoService.buscarProductos(term))
     );
   }
   //el usar el buscador buguea todo,tenga o no el servicio
@@ -52,6 +52,6 @@ export class ProductoSearchComponent implements OnInit {
     this.router.navigate(['/detail/Productos/', producto.id]);
     this.productoService.getProducto(producto.id);
     this.showResults = false;
-    this.searchBox.nativeElement.value = '';
+    this.buscarBox.nativeElement.value = '';
   }
 }

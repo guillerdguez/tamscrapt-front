@@ -42,7 +42,7 @@ private urlBaseCliente = 'https://tamscrap-back-production.up.railway.app/api/cl
   }
 
 
-  searchProductos(term: string): Observable<Producto[]> {
+  buscarProductos(term: string): Observable<Producto[]> {
     const urlMod = `${this.urlBase}/buscar?name=${encodeURIComponent(term)}`;
     if (!term.trim()) {
       return of([]);

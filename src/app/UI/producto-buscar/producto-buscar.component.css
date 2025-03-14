@@ -1,5 +1,5 @@
 /* Ajustes generales del contenedor */
-#search-component {
+#buscar-component {
   max-width: 400px; /* Limita el ancho */
   margin: 0 auto; /* Centra el input */
   position: relative; /* Necesario para las sugerencias */
@@ -8,7 +8,7 @@
 }
 
 /* Ajustes específicos del input */
-#search-box {
+#buscar-box {
   width: 100%; /* Ancho completo */
   padding: 0.6rem 1rem; /* Ajusta padding */
   font-size: 1rem;
@@ -19,7 +19,7 @@
 }
 
 /* Ajuste de la lista de resultados */
-ul.search-result {
+ul.buscar-result {
   margin: 0;
   padding: 0;
   position: absolute;
@@ -34,11 +34,11 @@ ul.search-result {
   overflow-y: auto;
 }
 
-.search-result li {
+.buscar-result li {
   list-style: none;
 }
 
-.search-result li a {
+.buscar-result li a {
   display: block;
   padding: 0.6rem 1rem;
 

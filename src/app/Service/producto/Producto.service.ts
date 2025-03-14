@@ -125,11 +125,11 @@ export class ProductoService {
     });
   }
 
-  searchProductos(term: string): Observable<Producto[]> {
+  buscarProductos(term: string): Observable<Producto[]> {
     if (!term.trim()) {
       return of([]);
     }
-    return this.productoDAO.searchProductos(term);
+    return this.productoDAO.buscarProductos(term);
   }
   updateProducto(id: number, producto: Producto): void {
     this.productoDAO.updateProducto(id, producto).subscribe({

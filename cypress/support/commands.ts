@@ -45,9 +45,11 @@ Cypress.Commands.add('login', (username, password) => {
 
   cy.get('input[name=username]').type(username);
   cy.get('input[name=password]').type(`${password}{enter}`);
+  cy.url().should('not.include', '/login');
 
+  // cy.reload();
   //revisar
-  //   cy.visit('http://localhost:4200/detail/Users/2');
+  //   cy.visit('https://tamscrapt.up.railway.app/detail/Users/2');
   //   cy.url().should('include', '/detail/Users/2');
   //   cy.get('h1').should('contain', 'USER TWO');
 });

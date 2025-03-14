@@ -1,16 +1,16 @@
-<div id="search-component">
+<div id="buscar-component">
   <!-- Input con placeholder -->
   <input
-    #searchBox
-    id="search-box"
+    #buscarBox
+    id="buscar-box"
     placeholder="Buscar..."
-    (input)="search(searchBox.value)"
+    (input)="buscar(buscarBox.value)"
   />
 
   <!-- Lista de resultados -->
-  <ul class="search-result" *ngIf="showResults">
+  <ul class="buscar-result" *ngIf="showResults">
     <li *ngFor="let producto of productos$ | async">
-      <a class="lista-search" (click)="rellenar(producto)">
+      <a class="lista-buscar" (click)="rellenar(producto)">
         {{ producto.nombre }}
       </a>
     </li>

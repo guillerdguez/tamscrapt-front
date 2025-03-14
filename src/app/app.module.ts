@@ -62,12 +62,12 @@ import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoS
 import { PedidosHandler } from './Service/handler/PedidosHandler';
 import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
 import { PedidoHandler } from './Service/handler/PedidoHandler';
-import { ProductoSearchComponent } from './UI/product-search/producto-search.component';
 import { FavoritoHandler } from './Service/handler/FavoritoHandler';
 import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
 import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
 
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
+import { ProductoBuscarComponent } from './UI/producto-buscar/producto-buscar.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +91,7 @@ import { AnimateOnScrollModule } from 'primeng/animateonscroll';
     FormularioComponentUser,
     CheckoutComponent,
     CartComponent,
-    ProductoSearchComponent,
+    ProductoBuscarComponent,
     PedidoDeailComponent,
     DialagoPedidoEstadoComponent,
   ],

@@ -6,7 +6,7 @@ describe('La Página de Inicio', () => {
   });
 
   it('carga correctamente la página de inicio', () => {
-    cy.visit('http://localhost:4200/home');
+    cy.visit('https://tamscrapt.up.railway.app/home');
 
     cy.url().should('include', '/home');
   });
