@@ -29,13 +29,11 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     public callbacksProductoService: CallbacksProductoService,
     public cartService: CartService
   ) {}
-  //en ocasiones no se actualiza el producto
   ngOnInit(): void {
     if (
       this.authService.hasAuthority(UserAuthority.ADMIN) &&
       this.genericModel.elementsSeleccionados.length !== 0
     ) {
-       // this.params = [...this.genericModel.elementsSeleccionados];
       this.genericModel.elementsSeleccionados =
         this.genericModel.elementsSeleccionados.filter(
           (item, index, self) =>
@@ -45,18 +43,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     } else {
       const id = Number(this.route.snapshot.paramMap.get('id'));
       this.productoService.getProducto(id);
-     }
-    // this.location.subscribe(() => {
-    //
-    //   this.genericModel.elementsSeleccionados.length = 0;
-    // });
-    // da problemas con la edicion  de multiples
-    // this.router.events
-    //   .pipe(filter((event) => event instanceof NavigationEnd))
-    //   .subscribe(() => {
-     //     // Se ejecuta cada vez que se completa una navegación
-    //     this.genericModel.elementsSeleccionados.length = 0;
-    //   });
+    }
   }
 
   ngDoCheck(): void {
@@ -67,9 +54,11 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
   }
   ngOnDestroy(): void {
     this.genericModel.elementsSeleccionados.length = 0;
+   
+    this.params = [];
+    this.genericModel.elementsSeleccionados = [];
   }
 
-  //da fallos al ir hacia atras,sale el anterior y no deberia
   private asignarParamsDesdeGenericModel(): void {
     if (
       Array.isArray(this.genericModel.element) &&
@@ -123,4 +112,3 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     }
   }
 }
- 

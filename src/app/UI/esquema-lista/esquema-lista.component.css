@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
   font-weight: bold;
@@ -6,7 +5,6 @@
 
 .title {
   height: 320px;
-  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,8 +50,6 @@ img:hover,
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 12px;
@@ -71,7 +67,6 @@ img:hover,
 .surface-card {
   border-radius: 20px;
   padding: 15px;
-  background-color: #ffffff;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   min-width: 455px;
@@ -84,7 +79,6 @@ img:hover,
 .custom-paginator .p-paginator {
   border-radius: 12px;
   padding: 5px;
-  background-color: #ffffff;
 }
 
 .custom-paginator .p-paginator .p-paginator-page {
@@ -93,15 +87,6 @@ img:hover,
   padding: 5px 10px;
   border-radius: 8px;
   transition: background-color 0.2s ease;
-}
-
-.custom-paginator .p-paginator .p-paginator-page.p-highlight {
-  background-color: #457b9d;
-  color: #ffffff;
-}
-
-.custom-paginator .p-paginator .p-paginator-page:hover {
-  background-color: #a8dadc;
 }
 
 .selected {
@@ -157,48 +142,43 @@ img:hover,
   cursor: pointer;
   font-size: 40px;
 }
-/* 
-.pi.pi-heart:hover,
-.pi.pi-heart-fill:hover,
-.pi-cart-plus:hover {
-  font-size: 45px;
-} */
 
-/* formato datos */
 .nombre {
   font-weight: bold;
   font-size: 24px;
-  color: #333;
 }
+
 .cantidad {
   font-size: 20px;
-  color: #333;
   font-weight: bold;
 }
+
 .cantidad::before {
   content: "Quedan: ";
 }
+
 .precio {
   font-size: 20px;
-  color: #333;
   font-weight: bold;
 }
+
 .precio::after {
   content: " €";
 }
+
 .precioOriginal {
   font-size: 17px;
-  color: #888;
   text-decoration: line-through;
 }
+
 .precioOriginal::after {
   content: " €";
 }
-/* revisar */
+
 .fechaCreacion {
   font-size: 17px;
-  display: inline-block;  
-  width: 8.5ch;  
-  overflow: hidden;  
-  white-space: nowrap;  
+  display: inline-block;
+  width: 8.5ch;
+  overflow: hidden;
+  white-space: nowrap;
 }

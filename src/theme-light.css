@@ -165,7 +165,7 @@ body {
 }
 
 input[type="text"],
-input[type="number"],
+input[type="number"],input[type="password"],
 select,
 p-inputNumber {
   border: 1px solid #457b9d;
@@ -256,3 +256,85 @@ p-inputNumber:focus {
 /* ::ng-deep .p-menuitem-link .p-ripple {
   display: none !important;
 } */
+.site-footer {
+  background-color: #8ec4c0;
+  color: #f8f9fa;
+}
+.producto-section {
+  background-color: #f8f9fa;
+}
+.home-container {
+  background-color: #ffffff;
+}
+.producto-content h1 {
+  color: #005f73;
+}
+.producto-content p {
+  color: #005f73;
+}
+h2 {
+  color: #005f73;
+}
+.card-title {
+  color: #005f73;
+}
+.card-text {
+  color: #6c757d;
+}
+.btn-custom {
+  background-color: #9fcfd1;
+  color: #ffffff;
+}
+.btn-custom:hover {
+  background-color: #005f73;
+}
+.btn-warning {
+  background-color: #9fcfd1;
+  color: #ffffff;
+}
+.btn-warning:hover {
+  background-color: #005f73;
+}
+.blockquote-footer {
+  color: #6c757d;
+}
+.seccion-oferta p {
+  color: #6c757d;
+}
+.testimonios-users blockquote {
+  background-color: #f8f9fa;
+}
+.title {
+  color: #ffffff;
+}
+.hover-text {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+.surface-card {
+  background-color: #ffffff;
+}
+.custom-paginator .p-paginator {
+  background-color: #ffffff;
+}
+.custom-paginator .p-paginator .p-paginator-page.p-highlight {
+  background-color: #457b9d;
+  color: #ffffff;
+}
+.custom-paginator .p-paginator .p-paginator-page:hover {
+  background-color: #a8dadc;
+}
+.nombre {
+  color: #333;
+}
+.cantidad {
+  color: #333;
+}
+.precio {
+  color: #333;
+}
+.precioOriginal {
+  color: #888;
+}
+.login-container { background-color: #fff; }
+.login-container .text-danger { color: red; }

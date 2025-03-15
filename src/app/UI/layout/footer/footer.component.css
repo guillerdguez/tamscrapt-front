@@ -15,9 +15,7 @@ body {
   flex: 1;
 }
 
-.site-footer {
-  background-color: #8ec4c0;
-  color: #f8f9fa;
+.site-footer { 
   margin-top: auto;
   padding: 20px 0; /* Espaciado superior e inferior */
   text-align: center; /* Centra el contenido */
