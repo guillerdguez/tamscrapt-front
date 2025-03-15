@@ -44,8 +44,7 @@
 .p-contextmenu .p-submenu-list .p-menuitem {
   padding: 8px 16px;
 }
-
-/* Custom Navbar */
+ 
 .custom-navbar {
   background-color: #ffffff;
 }
@@ -77,8 +76,7 @@
   font-size: 18px !important;
   margin-right: 8px !important;
 }
-
-/* Colores de la Marca */
+ 
 .brand {
   color: #9fcfd1;
   transition: transform 0.2s ease, color 0.2s ease;
@@ -88,8 +86,7 @@
   color: #005f73;
   transform: scale(1.05);
 }
-
-/* Enlaces de Navegación */
+ 
 .nav-link {
   color: #9fcfd1;
   transition: color 0.2s ease;
@@ -98,8 +95,7 @@
 .nav-link:hover {
   color: #005f73;
 }
-
-/* Menú Desplegable */
+ 
 .dropdown-menu {
   background-color: #ffffff;
 }
@@ -111,8 +107,7 @@
 .dropdown-item:hover {
   background-color: #e0f7f7;
 }
-
-/* Opciones de Administrador */
+ 
 .admin-options .nav-link {
   color: #005f73;
 }
@@ -128,13 +123,11 @@
 .admin-options .dropdown-item:hover {
   background-color: #e0f7f7;
 }
-
-/* Sección Superior */
+ 
 .superior {
   background-color: #a8dadc;
 }
-
-/* Iconos */
+ 
 .pi.pi-star-fill,
 .pi.pi-sun {
   color: #a8dadc;
@@ -146,20 +139,17 @@
   font-weight: bold;
   color: #005f73;
 }
-
-/* Título */
+ 
 .title {
   background-color: #a8dadc;
   color: #ffffff;
 }
-
-/* Fondo del Body */
+ 
 body {
   background: linear-gradient(to bottom, #f0f4f8, #d9e6f2);
   background-color: #f1faee; /* Fallback */
 }
-
-/* Contenedor del Formulario */
+ 
 .containerForm {
   background-color: #a8dadc;
 }
@@ -178,8 +168,7 @@ select:focus,
 p-inputNumber:focus {
   box-shadow: 0 0 10px rgba(69, 123, 157, 0.5);
 }
-
-/* Botones */
+ 
 .btn {
   background-color: #68a3a5;
   color: #ffffff;
@@ -188,8 +177,7 @@ p-inputNumber:focus {
 .btn:hover {
   background-color: #627a7a;
 }
-
-/* Componentes Adicionales */
+ 
 .grid,
 .card,
 .p-paginator {
@@ -204,8 +192,7 @@ p-inputNumber:focus {
 .card .fondo-card {
   background-color: white;
 }
-
-/* Carrito */
+ 
 .cart-completo {
   background-color: #ffffff;
 }
@@ -229,8 +216,7 @@ p-inputNumber:focus {
 .btn-clear:hover {
   background-color: #77c1c4;
 }
-
-/* Componente de Búsqueda */
+ 
 #search-component {
   background-color: white;
 }
@@ -253,9 +239,7 @@ p-inputNumber:focus {
   border-color: #72d8db;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
 }
-/* ::ng-deep .p-menuitem-link .p-ripple {
-  display: none !important;
-} */
+ 
 .site-footer {
   background-color: #8ec4c0;
   color: #f8f9fa;
@@ -338,3 +322,20 @@ h2 {
 }
 .login-container { background-color: #fff; }
 .login-container .text-danger { color: red; }
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+.descripcion { background-color: #f4f4f4; }
+.btn-cantidad { background-color: #fff; }
+.cantidad-input { background-color: transparent; }
+ 

@@ -8,12 +8,22 @@
   <div
     class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
   >
-     
-
     <h3 class="flex flex-column align-items-start w-full md:w-5">
       <div class="mb-4 w-full">
-        <label for="element-nombre" class="block text-lg font-medium mb-2"
-          >User nombre:</label
+        <label for="element-username" class="block text-lg font-medium mb-2"
+          >Nombre: </label
+        >
+        <input
+          id="element-username"
+          [(ngModel)]="genericModel.element.nombre"
+          placeholder="Enter username"
+          class="p-inputtext w-full"
+        />
+      </div>
+
+      <div class="mb-4 w-full">
+        <label for="element-nombre" class="block text-lg font-medium mb-2">
+          Username:</label
         >
         <input
           id="element-nombre"
@@ -65,14 +75,14 @@
           class="p-button p-button-secondary"
           (click)="goBack()"
         >
-          Go Back
+          atrar
         </button>
         <button
           type="button"
           class="p-button p-button-success"
           (click)="save()"
         >
-          Save
+          Guardar
         </button>
       </div>
     </h3>

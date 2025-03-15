@@ -60,7 +60,7 @@ import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 import { CartService } from './Service/carrito/CartService';
 import { CallbacksProductoService } from './Service/Callbacks/CallbacksProductoService';
 import { PedidosHandler } from './Service/handler/PedidosHandler';
-import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
+import { FormularioComponentUser } from './UI/clientes/formularioUsers/formulario.component';
 import { PedidoHandler } from './Service/handler/PedidoHandler';
 import { FavoritoHandler } from './Service/handler/FavoritoHandler';
 import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';

@@ -12,7 +12,7 @@ import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-dea
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
 
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
-import { FormularioComponentUser } from './UI/clientes/formularioProductos/formulario.component';
+import { FormularioComponentUser } from './UI/clientes/formularioUsers/formulario.component';
 
 import { authGuard } from './Service/seguridad/AuthGuard';
 import { roleGuard } from './Service/seguridad/RoleGuard';

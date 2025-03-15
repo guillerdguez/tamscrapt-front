@@ -12,7 +12,7 @@ body {
   align-items: center;
   overflow: hidden; 
 }
- 
+
 .containerForm {
   display: flex;
   flex-direction: column;
@@ -24,24 +24,26 @@ body {
   border-radius: 15px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   overflow-y: auto;  
-} 
+}
+
 .title {
   text-align: center;
   font-size: 1.8rem;  
   margin-bottom: 20px;
 }
- 
+
 .form-group {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
- 
+
 label {
   font-size: 1rem;
   font-weight: bold;
-} 
+}
+
 input[type="text"],
 input[type="number"],
 p-inputNumber,
@@ -53,19 +55,16 @@ select {
   font-size: 1rem;
   transition: border 0.3s ease;
 }
- 
+
 input:focus,
 p-inputNumber:focus {
-  border-color: #007bff;
   outline: none;
 }
- 
+
 .text-danger {
   font-size: 0.9rem;
-  color: #dc3545;
 }
 
-/* Botones */
 .flex {
   display: flex;
   justify-content: space-around;
@@ -85,11 +84,17 @@ p-inputNumber:focus {
   text-align: center;
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: white;
+
+input:focus,
+p-inputNumber:focus {
+  border-color: #007bff;
 }
 
-.btn-primary:hover {
-  background-color: #0056b3;
+.text-danger {
+  color: #dc3545;
 }
+ 
+ .title{
+  
+  background: transparent !important;
+ }

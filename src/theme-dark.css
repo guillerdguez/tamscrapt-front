@@ -179,8 +179,6 @@ p-inputNumber {
   }
 }
 
-.grid,
-.card,
 .p-paginator,
 .p-dataview .p-dataview-header,
 .card .fondo-card {
@@ -237,7 +235,7 @@ td {
 }
 
 .p-paginator {
-  background-color: #2e3440;
+border:none;
 }
 
 .p-highlight {
@@ -262,18 +260,50 @@ td {
 .precio,
 .title,
 .pi-moon,
-.p-button {
+.p-button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #88c0d0 !important;
 }
 .producto-section {
   background-color: #3b4252;
 }
 
-div .card {
-  background-color: #3b4252;
-  border-radius: 0px !important;
-}
-
 .title {
   background-color: var(--surface-card) !important;
+}
+
+.descripcion {
+  background-color: #3b4252;
+}
+.btn-cantidad {
+  background: var(--surface-ground) !important;
+}
+.p-inputwrapper * {
+  color: #88c0d0;  background: var(--surface-ground) !important;
+
+}
+
+.p-dataview .p-dataview-header {
+  border: none !important;
+}
+
+div .card { 
+  border-radius: 0px !important;
+  background-color: #3b4252;
+}
+body {
+  background-color: #3b4252 !important;
+}
+ 
+
+
+
+.hover-text {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
 }
