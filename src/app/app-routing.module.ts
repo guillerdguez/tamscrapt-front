@@ -8,7 +8,7 @@ import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 
 import { ProductoDetailComponent } from './UI/productos/producto-editar/producto-detail.component';
-import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
+import { PedidoDetailComponent } from './UI/compra/pedido/pedido-detail/pedido-detail.component';
 import { UserDetailComponent } from './UI/clientes/user-editar/user-detail.component';
 
 import { FormularioComponentProducto } from './UI/productos/formularioProductos/formulario.component';
@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'detail/Pedidos/:id',
-    component: PedidoDeailComponent,
+    component: PedidoDetailComponent,
   },
   {
     path: 'detail/Users/:id',

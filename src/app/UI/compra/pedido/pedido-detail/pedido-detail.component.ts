@@ -14,11 +14,11 @@ import { Producto } from '../../../../Model/Domain/Producto/ProductoClass';
 import { Pedido } from '../../../../Model/Domain/Pedido/PedidoClass';
 
 @Component({
-  selector: 'app-pedido-deail',
-  templateUrl: './pedido-deail.component.html',
-  styleUrls: ['./pedido-deail.component.css'],
+  selector: 'app-pedido-detail',
+  templateUrl: './pedido-detail.component.html',
+  styleUrls: ['./pedido-detail.component.css'],
 })
-export class PedidoDeailComponent implements OnInit, DoCheck, OnDestroy {
+export class PedidoDetailComponent implements OnInit, DoCheck, OnDestroy {
   params: any[] = [];
   userAuthority = UserAuthority;
   cantidad = 1;

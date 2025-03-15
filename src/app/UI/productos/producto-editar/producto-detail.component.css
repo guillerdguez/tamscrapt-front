@@ -6,7 +6,6 @@
   padding: 10px;
   transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
-
 img {
   width: 70%;
   max-width: 800px;
@@ -18,53 +17,43 @@ img {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .card img {
   margin-bottom: 20px;
 }
-
 .discounted-price {
   font-size: 18px;
   text-decoration: line-through;
   margin: 10px 0;
 }
-
 .precio {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-
 .precio::after {
   content: " €";
 }
-
 .precioOriginal {
   font-size: 20px;
   text-decoration: line-through;
   margin-bottom: 8px;
 }
-
 .precioOriginal::after {
   content: " €";
 }
-
 .nombre {
   font-weight: bold;
   font-size: 32px;
   margin-bottom: 10px;
 }
-
 .cantidad {
   font-size: 18px;
   font-weight: 600;
   margin: 10px 0;
 }
-
 .cantidad::before {
   content: "Cantidad disponible: ";
 }
-
 .pi-cart-plus {
   font-size: 28px;
   border-radius: 50%;
@@ -72,7 +61,6 @@ img {
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
-
 .pi.pi-heart,
 .pi.pi-heart-fill,
 .pi-cart-plus {
@@ -80,7 +68,6 @@ img {
   margin: 0 15px;
   margin-bottom: 5px;
 }
-
 .card {
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -88,18 +75,15 @@ img {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
-
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
-
 .card-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
 }
-
 .descripcion {
   font-family: "Arial", sans-serif;
   font-size: 1rem;
@@ -111,7 +95,6 @@ img {
   border-radius: 8px;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
 }
-
 .btn-cart {
   display: flex;
   justify-content: start;
@@ -119,13 +102,11 @@ img {
   gap: 15px;
   padding: 10px 0;
 }
-
 .contenedor-producto {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .btn-cantidad {
   display: flex;
   align-items: center;
@@ -134,7 +115,6 @@ img {
   border-radius: 5px;
   padding: 5px;
 }
-
 .btn-cantidad .p-button-rounded {
   width: 35px;
   height: 35px;
@@ -142,7 +122,6 @@ img {
   justify-content: center;
   align-items: center;
 }
-
 .cantidad-input {
   width: 48px;
   max-width: 48px;
@@ -154,13 +133,11 @@ img {
   box-sizing: border-box;
   outline: none;
 }
-
 .cantidad-input::-webkit-inner-spin-button,
 .cantidad-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .btn-añadir-carrito {
   border-radius: 5px !important;
   padding: 10px 15px !important;
@@ -170,7 +147,45 @@ img {
   border: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .btn-añadir-carrito:hover {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+}
+@media (max-width: 768px) {
+  .card {
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  img {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  .btn-cart {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .contenedor-producto {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  .descripcion,
+  .nombre,
+  .precio,
+  .cantidad ,h1{
+    text-align: center;
+  }
+  .nombre {
+    font-size: 24px;
+  }
+  .precio {
+    font-size: 24px;
+  }
+  .flex-vertical {
+    flex-direction: column;
+  }
 }

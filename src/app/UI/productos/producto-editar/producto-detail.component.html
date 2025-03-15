@@ -1,363 +1,105 @@
-<!-- Si el usuario es admin, muestra el contenido dentro del stepper -->
-
-<ng-container
-  *ngIf="
-    authService.hasAuthority(userAuthority.ADMIN) && params.length > 1;
-    else noStepper
-  "
->
+<ng-container *ngIf="authService.hasAuthority(userAuthority.ADMIN) && params.length > 1; else noStepper">
   <p-stepper [linear]="true">
     <ng-container *ngFor="let param of params; let i = index">
       <p-stepperPanel [header]="'Edición ' + (i + 1)">
-        <ng-template
-          pTemplate="content"
-          let-nextCallback="nextCallback"
-          let-prevCallback="prevCallback"
-        >
-          <ng-container
-            *ngTemplateOutlet="
-              commonDetail;
-              context: {
-                $implicit: param,
-                i: i,
-                nextCB: nextCallback,
-                prevCB: prevCallback
-              }
-            "
-          >
-          </ng-container>
+        <ng-template pTemplate="content" let-nextCallback="nextCallback" let-prevCallback="prevCallback">
+          <ng-container *ngTemplateOutlet="commonDetail; context: { $implicit: param, i: i, nextCB: nextCallback, prevCB: prevCallback }"></ng-container>
         </ng-template>
       </p-stepperPanel>
     </ng-container>
   </p-stepper>
 </ng-container>
-
-<!-- Si no es admin, muestra el contenido sin el stepper -->
 <ng-template #noStepper>
   <div *ngFor="let param of params; let i = index">
-    <ng-container
-      *ngTemplateOutlet="commonDetail; context: { $implicit: param, i: i }"
-    >
-    </ng-container>
+    <ng-container *ngTemplateOutlet="commonDetail; context: { $implicit: param, i: i }"></ng-container>
   </div>
 </ng-template>
-
-<!-- Plantilla común con el contenido de detalles -->
-<ng-template
-  #commonDetail
-  let-param
-  let-i="i"
-  let-nextCB="nextCB"
-  let-prevCB="prevCB"
->
+<ng-template #commonDetail let-param let-i="i" let-nextCB="nextCB" let-prevCB="prevCB">
   <div *ngIf="param" class="flex flex-column align-items-stretch p-4 flex-wrap">
-    <!-- Título -->
-
-    <!-- Contenedor principal -->
-    <div class="flex justify-content-around w-full md:w-10 lg:w-10 gap-2">
-      <!-- Columna izquierda -->
+    <div class="flex flex-vertical justify-content-around w-full md:w-10 lg:w-10 gap-2">
       <div class="flex flex-column align-items-start w-full md:w-6">
-        <!-- <h2 class="text-xl font-bold mb-4">ID: {{ param.id }}</h2> -->
         <div class="flex justify-content-left align-items-left mb-4 bg-white">
-          <img
-            *ngIf="param.imagen"
-            [src]="param.imagen"
-            alt="Imagen del producto"
-            class="w-30rem h-30rem border-round shadow-2"
-          />
-          <div
-            *ngIf="!param.imagen"
-            class="no-image w-30rem h-30rem shadow-2 flex align-items-left justify-content-left bg-white"
-          >
+          <img *ngIf="param.imagen" [src]="param.imagen" alt="Imagen del producto" class="w-30rem h-30rem border-round shadow-2" />
+          <div *ngIf="!param.imagen" class="no-image w-30rem h-30rem shadow-2 flex align-items-left justify-content-left bg-white">
             <p class="text-center font-bold">Sin Imagen</p>
           </div>
         </div>
       </div>
-
-      <!-- Columna derecha -->
       <div class="flex flex-column align-items-start w-full md:w-5">
-        <h1 class="text-center text-3xl font-bold mb-5">
-          {{ param.nombre | uppercase }}
-        </h1>
-        <!-- Botones -->
+        <h1 class="text-center text-3xl font-bold mb-5">{{ param.nombre | uppercase }}</h1>
         <div class="flex flex-wrap justify-content-center">
           @if(!authService.hasAuthority(userAuthority.ADMIN) ){
           <div class="btn-cart">
             <div class="contenedor-producto">
-              <!-- Campo de cantidad -->
               <div class="btn-cantidad">
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-minus"
-                  class="p-button-rounded p-button-outlined decremento"
-                  (click)="decrementar()"
-                ></button>
-                <p-inputNumber
-                  [(ngModel)]="cantidad"
-                  [min]="1"
-                  class="cantidad-input"
-                ></p-inputNumber>
-                <button
-                  pButton
-                  type="button"
-                  icon="pi pi-plus"
-                  class="p-button-rounded p-button-outlined incremento"
-                  (click)="incrementar()"
-                ></button>
+                <button pButton type="button" icon="pi pi-minus" class="p-button-rounded p-button-outlined decremento" (click)="decrementar()"></button>
+                <p-inputNumber [(ngModel)]="cantidad" [min]="1" class="cantidad-input"></p-inputNumber>
+                <button pButton type="button" icon="pi pi-plus" class="p-button-rounded p-button-outlined incremento" (click)="incrementar()"></button>
               </div>
-
-              <!-- Botón "Añadir al carrito" -->
-              <button
-                pButton
-                type="button"
-                label="AÑADIR AL CARRITO"
-                class="btn-añadir-carrito"
-                (click)="addCarrito()"
-              ></button>
+              <button pButton type="button" label="AÑADIR AL CARRITO" class="btn-añadir-carrito" (click)="addCarrito()"></button>
             </div>
           </div>
           <div class="heart pr-8 pl-7">
-            <i
-              (click)="callbacksProductoService.alternarFavorito([param])"
-              [ngClass]="
-                param.favorito
-                  ? 'pi pi-heart-fill corazon-icon'
-                  : 'pi pi-heart corazon-icon'
-              "
-              tabindex="-1"
-            ></i>
+            <i (click)="callbacksProductoService.alternarFavorito([param])" [ngClass]="param.favorito ? 'pi pi-heart-fill corazon-icon' : 'pi pi-heart corazon-icon'" tabindex="-1"></i>
           </div>
           }
         </div>
-        <div
-          class="detalles-producto align-left flex flex-column gap-3"
-          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-        >
+        <div class="detalles-producto align-left flex flex-column gap-3" *ngIf="!authService.hasAuthority(userAuthority.ADMIN)">
           <div *ngFor="let header of param.getHeaders()" class="mb-1">
-            <ng-container
-              *ngIf="
-                header.class !== 'nombre' && param[header.class] !== undefined
-              "
-            >
-              <span [ngClass]="header.class">
-                {{ param[header.class] }}
-              </span>
+            <ng-container *ngIf="header.class !== 'nombre' && param[header.class] !== undefined">
+              <span [ngClass]="header.class">{{ param[header.class] }}</span>
             </ng-container>
           </div>
         </div>
-        <!-- Producto Nombre -->
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-nombre-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >Producto Nombre:</label
-          >
-          <input
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            id="producto-nombre-{{ i }}"
-            [(ngModel)]="param.nombre"
-            placeholder="Producto nombre"
-            class="p-inputtext w-full"
-          />
-
-          <h3
-            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-            class="text-lg font-bold"
-          >
-            {{ param.nombre }}
-          </h3>
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-nombre-{{ i }}" class="block text-lg font-medium mb-2">Producto Nombre:</label>
+          <input *ngIf="authService.hasAuthority(userAuthority.ADMIN)" id="producto-nombre-{{ i }}" [(ngModel)]="param.nombre" placeholder="Producto nombre" class="p-inputtext w-full" />
+          <h3 *ngIf="!authService.hasAuthority(userAuthority.ADMIN)" class="text-lg font-bold">{{ param.nombre }}</h3>
         </div>
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-imagen-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >Producto Imagen:</label
-          >
-          <input
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            id="producto-imagen-{{ i }}"
-            [(ngModel)]="param.imagen"
-            placeholder="Producto imagen"
-            class="p-inputtext w-full"
-          />
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-imagen-{{ i }}" class="block text-lg font-medium mb-2">Producto Imagen:</label>
+          <input *ngIf="authService.hasAuthority(userAuthority.ADMIN)" id="producto-imagen-{{ i }}" [(ngModel)]="param.imagen" placeholder="Producto imagen" class="p-inputtext w-full" />
         </div>
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-descripcion-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >Producto Descripcion:</label
-          >
-          <input
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            id="producto-descripcion-{{ i }}"
-            [(ngModel)]="param.descripcion"
-            placeholder="Producto descripcion"
-            class="p-inputtext w-full"
-          />
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-descripcion-{{ i }}" class="block text-lg font-medium mb-2">Producto Descripcion:</label>
+          <input *ngIf="authService.hasAuthority(userAuthority.ADMIN)" id="producto-descripcion-{{ i }}" [(ngModel)]="param.descripcion" placeholder="Producto descripcion" class="p-inputtext w-full" />
         </div>
-        <h3
-          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-          class="descripcion text-lg font-bold"
-        >
-          {{ param.descripcion }}
-        </h3>
-
-        <!-- Oferta -->
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-oferta-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >¿Está en oferta?</label
-          >
-          <p-checkbox
-            id="producto-oferta-{{ i }}"
-            [(ngModel)]="param.oferta"
-            binary="true"
-            class="w-full"
-          ></p-checkbox>
-          <div
-            *ngIf="param.oferta < 0 || param.oferta > 100"
-            class="text-danger"
-          >
-            El descuento debe estar entre 0% y 100%.
-          </div>
-          <h3
-            *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-            class="text-lg font-bold"
-          >
-            {{ param.oferta ? "Sí" : "No" }}
-          </h3>
+        <h3 *ngIf="!authService.hasAuthority(userAuthority.ADMIN)" class="descripcion text-lg font-bold">{{ param.descripcion }}</h3>
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-oferta-{{ i }}" class="block text-lg font-medium mb-2">¿Está en oferta?</label>
+          <p-checkbox id="producto-oferta-{{ i }}" [(ngModel)]="param.oferta" binary="true" class="w-full"></p-checkbox>
+          <div *ngIf="param.oferta < 0 || param.oferta > 100" class="text-danger">El descuento debe estar entre 0% y 100%.</div>
+          <h3 *ngIf="!authService.hasAuthority(userAuthority.ADMIN)" class="text-lg font-bold">{{ param.oferta ? "Sí" : "No" }}</h3>
         </div>
-
-        <!-- Descuento -->
         <div class="mb-4 w-full" *ngIf="param.oferta">
-          <label
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            for="producto-descuento-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >Descuento:</label
-          >
-          <p-inputNumber
-            *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-            id="producto-descuento-{{ i }}"
-            [(ngModel)]="param.descuento"
-            placeholder="Descuento (%)"
-            class="w-full"
-          ></p-inputNumber>
+          <label *ngIf="authService.hasAuthority(userAuthority.ADMIN)" for="producto-descuento-{{ i }}" class="block text-lg font-medium mb-2">Descuento:</label>
+          <p-inputNumber *ngIf="authService.hasAuthority(userAuthority.ADMIN)" id="producto-descuento-{{ i }}" [(ngModel)]="param.descuento" placeholder="Descuento (%)" class="w-full"></p-inputNumber>
         </div>
-
-        <!-- Lettering -->
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-lettering-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >¿Incluye Lettering?</label
-          >
-          <div
-            *ngIf="
-              authService.hasAuthority(userAuthority.ADMIN);
-              else letteringTexto
-            "
-          >
-            <p-checkbox
-              id="producto-lettering-{{ i }}"
-              [(ngModel)]="param.lettering"
-              binary="true"
-              class="w-full"
-            ></p-checkbox>
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-lettering-{{ i }}" class="block text-lg font-medium mb-2">¿Incluye Lettering?</label>
+          <div *ngIf="authService.hasAuthority(userAuthority.ADMIN); else letteringTexto">
+            <p-checkbox id="producto-lettering-{{ i }}" [(ngModel)]="param.lettering" binary="true" class="w-full"></p-checkbox>
           </div>
           <ng-template #letteringTexto>
-            <h3 class="text-lg font-bold">
-              {{ param.lettering ? "Sí" : "No" }}
-            </h3>
+            <h3 class="text-lg font-bold">{{ param.lettering ? "Sí" : "No" }}</h3>
           </ng-template>
         </div>
-
-        <!-- Scrapbooking -->
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
-          <label
-            for="producto-scrapbooking-{{ i }}"
-            class="block text-lg font-medium mb-2"
-            >¿Incluye Scrapbooking?</label
-          >
-          <div
-            *ngIf="
-              authService.hasAuthority(userAuthority.ADMIN);
-              else scrapbookingTexto
-            "
-          >
-            <p-checkbox
-              id="producto-scrapbooking-{{ i }}"
-              [(ngModel)]="param.scrapbooking"
-              binary="true"
-              class="w-full"
-            ></p-checkbox>
+        <div class="mb-4 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-scrapbooking-{{ i }}" class="block text-lg font-medium mb-2">¿Incluye Scrapbooking?</label>
+          <div *ngIf="authService.hasAuthority(userAuthority.ADMIN); else scrapbookingTexto">
+            <p-checkbox id="producto-scrapbooking-{{ i }}" [(ngModel)]="param.scrapbooking" binary="true" class="w-full"></p-checkbox>
           </div>
           <ng-template #scrapbookingTexto>
-            <h3 class="text-lg font-bold">
-              {{ param.scrapbooking ? "Sí" : "No" }}
-            </h3>
+            <h3 class="text-lg font-bold">{{ param.scrapbooking ? "Sí" : "No" }}</h3>
           </ng-template>
         </div>
-
-        <button
-          *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
-          type="button"
-          class="p-button p-button-secondary"
-          (click)="goBack()"
-        >
-          atrar
-        </button>
+        <button *ngIf="!authService.hasAuthority(userAuthority.ADMIN)" type="button" class="p-button p-button-secondary" (click)="goBack()">atrar</button>
       </div>
     </div>
-    <!-- Botones del stepper, solo si existe el stepper -->
-    <div
-      class="flex gap-3 mt-4 justify-content-around"
-      *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-    >
-      <button
-        *ngIf="i > 0"
-        type="button"
-        class="p-button p-button-secondary"
-        (click)="nextCB ? prevCB.emit() : null"
-      >
-        Back
-      </button>
-      <button
-        *ngIf="i < params.length - 1"
-        type="button"
-        class="p-button p-button-primary"
-        (click)="nextCB ? nextCB.emit() : null"
-      >
-        Next
-      </button>
-      <button
-        *ngIf="i === params.length - 1"
-        type="button"
-        class="p-button p-button-success"
-        (click)="save()"
-      >
-        Guardar
-      </button>
+    <div class="flex gap-3 mt-4 justify-content-around" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+      <button *ngIf="i > 0" type="button" class="p-button p-button-secondary" (click)="nextCB ? prevCB.emit() : null">Back</button>
+      <button *ngIf="i < params.length - 1" type="button" class="p-button p-button-primary" (click)="nextCB ? nextCB.emit() : null">Next</button>
+      <button *ngIf="i === params.length - 1" type="button" class="p-button p-button-success" (click)="save()">Guardar</button>
     </div>
   </div>
 </ng-template>

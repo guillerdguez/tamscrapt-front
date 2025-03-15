@@ -296,14 +296,12 @@ div .card {
   border-radius: 0px !important;
   background-color: #3b4252;
 }
-body {
-  background-color: #3b4252 !important;
-}
- 
-
-
+.p-dataview .p-dataview-content {
+  background-color: #3b4252;}
 
 .hover-text {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
-}
+}.pedido-container {
+  color: #333!important;
+  background-color: #ffffff;}

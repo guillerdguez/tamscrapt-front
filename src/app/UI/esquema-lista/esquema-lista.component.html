@@ -1,4 +1,4 @@
- <div #top></div>
+<div #top></div>
 
 <div class="title">
   <h1>{{ title }}</h1>
@@ -37,7 +37,8 @@
             (contextmenu)="onContextMenu($event, item)"
           >
             <a (click)="genericModel.seleccionar(item, 'Editar')">
-              @if (item['imagen']) {
+              @if (title !== 'Pedidos' && title !== 'PedidosCliente') { @if
+              (item['imagen']) {
               <div class="relative no-image-container">
                 <span class="hover-text">Ver detalles</span>
                 <img
@@ -66,6 +67,17 @@
                   [style.top.px]="4"
                 />
               </div>
+              }}@else {
+                <div class="relative no-image-container"> 
+                  <div class="pedido-container p-5 m-5">Pedido</div>
+                  <p-tag
+                    [value]="item.tag"
+                    [severity]="item.severity"
+                    class="absolute"
+                    [style.left.px]="4"
+                    [style.top.px]="4"
+                  />
+                </div>
               }
             </a>
 
@@ -136,8 +148,8 @@
         class="grid justify-content-around gap-3 pt-4 align-content-center fondo-card"
       >
         <div
-          class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container" 
-          style="max-width: 455px;"
+          class="col-12 sm:col-6 md:col-4 xl:col-3 p-3 surface-card item-container"
+          style="max-width: 455px"
           *ngFor="let item of items"
           [class.selected]="genericModel.elementsSeleccionados.includes(item)"
           (dblclick)="onselectedTable($event, item)"
@@ -146,7 +158,7 @@
           <div
             class="card flex flex-column align-items-center justify-content-center h-full xl:w-0"
           >
-            <!-- mal -->
+            @if (title !== 'Pedidos' && title !== 'PedidosCliente') {
             <a (click)="genericModel.seleccionar(item, 'Editar')">
               @if (item['imagen']) {
               <div class="relative no-image-container">
@@ -177,8 +189,19 @@
                   [style.top.px]="4"
                 />
               </div>
-              }
-            </a>
+              } </a
+            >}@else {
+              <div class="relative no-image-container">
+                 <div class="pedido-container p-3 m-5">Pedido</div>
+                <p-tag
+                  [value]="item.tag"
+                  [severity]="item.severity"
+                  class="absolute"
+                  [style.left.px]="4"
+                  [style.top.px]="4"
+                />
+              </div>
+            }
             <div
               class="detalles-producto flex flex-column align-items-start mt-3"
             >

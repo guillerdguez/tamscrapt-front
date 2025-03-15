@@ -63,7 +63,7 @@ import { PedidosHandler } from './Service/handler/PedidosHandler';
 import { FormularioComponentUser } from './UI/clientes/formularioUsers/formulario.component';
 import { PedidoHandler } from './Service/handler/PedidoHandler';
 import { FavoritoHandler } from './Service/handler/FavoritoHandler';
-import { PedidoDeailComponent } from './UI/compra/pedido/pedido-deail/pedido-deail.component';
+import { PedidoDetailComponent } from './UI/compra/pedido/pedido-detail/pedido-detail.component';
 import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
 
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
@@ -92,7 +92,7 @@ import { ProductoBuscarComponent } from './UI/producto-buscar/producto-buscar.co
     CheckoutComponent,
     CartComponent,
     ProductoBuscarComponent,
-    PedidoDeailComponent,
+    PedidoDetailComponent,
     DialagoPedidoEstadoComponent,
   ],
   imports: [

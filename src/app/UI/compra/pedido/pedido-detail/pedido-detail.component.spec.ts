@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PedidoDeailComponent } from './pedido-deail.component';
+import { PedidoDetailComponent } from './pedido-detail.component';
 
-describe('PedidoDeailComponent', () => {
-  let component: PedidoDeailComponent;
-  let fixture: ComponentFixture<PedidoDeailComponent>;
+describe('PedidoDetailComponent', () => {
+  let component: PedidoDetailComponent;
+  let fixture: ComponentFixture<PedidoDetailComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PedidoDeailComponent]
+      declarations: [PedidoDetailComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PedidoDeailComponent);
+    fixture = TestBed.createComponent(PedidoDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

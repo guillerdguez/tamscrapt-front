@@ -327,8 +327,20 @@ h2 {
 
 
 
-
-
+.nombre,
+.cantidad,
+.precio,
+.title,
+.pi-moon,
+ 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #88c0d0 !important;
+}
 
 
 
@@ -338,4 +350,6 @@ h2 {
 .descripcion { background-color: #f4f4f4; }
 .btn-cantidad { background-color: #fff; }
 .cantidad-input { background-color: transparent; }
- 
+.pedido-container {
+  color: #333;
+  background-color: #ffffff;}

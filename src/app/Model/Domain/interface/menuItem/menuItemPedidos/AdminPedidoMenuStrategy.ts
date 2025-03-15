@@ -18,7 +18,7 @@ export class AdminPedidoMenuStrategy implements MenuStrategy {
         command: () => this.callbacks.deletePedidos(selectedItems),
       },
       {
-        label: 'Editar',
+        label: 'Ver',
         icon: 'pi pi-pencil',
         command: () => this.callbacks.editPedido(context),
       },
