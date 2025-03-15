@@ -29,7 +29,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
     public callbacksProductoService: CallbacksProductoService,
     public cartService: CartService
   ) {}
-  ngOnInit(): void {
+  ngOnInit(): void {  
     if (
       this.authService.hasAuthority(UserAuthority.ADMIN) &&
       this.genericModel.elementsSeleccionados.length !== 0
@@ -54,7 +54,7 @@ export class ProductoDetailComponent implements OnInit, DoCheck {
   }
   ngOnDestroy(): void {
     this.genericModel.elementsSeleccionados.length = 0;
-   
+    this.genericModel.element = null;
     this.params = [];
     this.genericModel.elementsSeleccionados = [];
   }
