@@ -19,7 +19,7 @@ export class UserPedidoMenuStrategy implements MenuStrategy {
       },
       {
         label: 'Ver',
-        icon: 'pi pi-pencil',
+        icon: 'pi pi-eye',
         command: () => this.callbacks.editPedido(context),
       },
 

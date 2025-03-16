@@ -235,7 +235,7 @@ td {
 }
 
 .p-paginator {
-border:none;
+  border: none;
 }
 
 .p-highlight {
@@ -284,24 +284,31 @@ h6 {
   background: var(--surface-ground) !important;
 }
 .p-inputwrapper * {
-  color: #88c0d0;  background: var(--surface-ground) !important;
-
+  color: #88c0d0;
+  background: var(--surface-ground) !important;
 }
 
 .p-dataview .p-dataview-header {
   border: none !important;
 }
 
-div .card { 
+div .card {
   border-radius: 0px !important;
   background-color: #3b4252;
 }
 .p-dataview .p-dataview-content {
-  background-color: #3b4252;}
+  background-color: #3b4252;
+}
 
 .hover-text {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
-}.pedido-container {
-  color: #333!important;
-  background-color: #ffffff;}
+}
+.pedido-container {
+  color: #333 !important;
+  background-color: #ffffff;
+}
+.p-contextmenu a.p-menuitem-link:hover {
+  color: inherit !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
