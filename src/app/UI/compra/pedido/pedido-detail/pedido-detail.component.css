@@ -56,3 +56,6 @@
   justify-content: center;
   gap: 1rem;
 }
+h1 {
+  color: #88c0d0 !important;
+}

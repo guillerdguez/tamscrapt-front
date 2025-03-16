@@ -189,3 +189,7 @@ img {
     flex-direction: column;
   }
 }
+ 
+h1 {
+  color: #88c0d0 !important;
+}

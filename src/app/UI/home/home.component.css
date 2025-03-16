@@ -80,3 +80,6 @@ h2 {
   object-fit: cover;
   border-radius: 10px;
 }
+h1 {
+  color: #88c0d0 !important;
+}
