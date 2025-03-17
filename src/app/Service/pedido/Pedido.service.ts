@@ -14,12 +14,9 @@ export class PedidoService {
     private pedidoModel: PedidoModel,
     private genericModel: GenericModel,
     private messageService: MessageService
-  ) {
-    // this.callbacksPedidoService.deletePedidos$.subscribe((selectedItems) => {
-    //   this.deleteMultiplePedidos(selectedItems);
-    // });
-  }
-  //Create
+  ) {}
+
+  // CREATE
   addPedido(pedido: any): void {
     this.pedidoModel.pedidos.push(pedido);
     this.pedidoDAO.addPedido(pedido).subscribe({
@@ -32,7 +29,7 @@ export class PedidoService {
     });
   }
 
-  //READ
+  // READ
   getPedidos(): void {
     this.pedidoDAO.getPedidos().subscribe({
       next: (pedidos: Pedido[]) => {
@@ -45,12 +42,11 @@ export class PedidoService {
       },
     });
   }
-  //se repitr codigo
+
   getPedidosPorCliente(): void {
     this.pedidoDAO.getPedidosPorCliente().subscribe({
       next: (pedidos: Pedido[]) => {
         const pedidosCreados = this.pedidoModel.crearPedidos(pedidos);
-
         this.pedidoModel.pedidos = pedidosCreados;
         this.genericModel.elements = pedidosCreados;
       },
@@ -59,18 +55,15 @@ export class PedidoService {
       },
     });
   }
+
   deleteMultiplePedidos(selectedItems: Pedido[]) {
     selectedItems.forEach((item) => this.deletePedido(item.id));
   }
 
-
-   
   getPedido(id: number): void {
     this.pedidoDAO.getPedido(id).subscribe({
       next: (pedido: Pedido) => {
         const pedidosCreado = this.pedidoModel.crearPedidos([pedido]);
-        console.log('servicio  ', pedidosCreado);
-        // Si el primer elemento es un arreglo anidado
         if (Array.isArray(pedidosCreado[0])) {
           this.genericModel.element = pedidosCreado[0];
         } else {
@@ -82,6 +75,7 @@ export class PedidoService {
       },
     });
   }
+
   findByName(term: string): void {
     this.pedidoDAO.findByName(term).subscribe({
       next: (pedidos: Pedido[]) => {
@@ -92,25 +86,42 @@ export class PedidoService {
       },
     });
   }
-  //UPDATE
+
+  // UPDATE COMPLETO
   updateMultiplePedidos(selectedItems: any[]) {
     selectedItems.forEach((item) => {
       this.updatePedido(item.getPedidoData());
     });
-    // this.genericModel.elementsSeleccionados.length = 0;
   }
 
   updatePedido(pedido: any): void {
     this.pedidoDAO.updatePedido(pedido).subscribe({
       next: (pedido: any) => {
         this.pedidoModel.pedido = pedido;
-        //      this.pedidoModel.pedidos = this.pedidoModel.pedidos.filter(pedido => pedido.id !== id);
       },
       error: (error) => {
         console.error(error);
       },
     });
   }
+
+  // NUEVO: Actualizar SOLO el estado
+  updateEstadoPedido(id: number, nuevoEstado: string): void {
+    this.pedidoDAO.updateEstado(id, nuevoEstado).subscribe({
+      next: (pedido: Pedido) => {
+         const index = this.pedidoModel.pedidos.findIndex((p) => p.id === id);
+        if (index >= 0) {
+          this.pedidoModel.pedidos[index].estado = nuevoEstado;
+        }
+         this.genericModel.elements = [...this.pedidoModel.pedidos];
+         this.getPedidos();
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
   addProductos(
     pedidoId: number,
     productoIds: number[],
@@ -125,13 +136,14 @@ export class PedidoService {
       },
     });
   }
-  //DELETE
+
+  // DELETE
   deletePedido(id: any): void {
     this.pedidoDAO.deletePedido(id).subscribe({
       next: (pedido: Pedido) => {
         this.pedidoModel.pedido = pedido;
         this.genericModel.elements = this.genericModel.elements.filter(
-          (pedido: Pedido) => pedido.id !== id
+          (p: Pedido) => p.id !== id
         );
       },
       error: (error) => {
@@ -139,13 +151,14 @@ export class PedidoService {
       },
     });
   }
+
   private handleError(error: any): void {
     let detalleError = error;
     if (error.status === 500) {
       detalleError =
         'Error del servidor. Por favor, verifica los logs del backend o intenta nuevamente más tarde.';
     } else if (error.status === 400) {
-      detalleError = 'Uno de tus productos no tenia stock.';
+      detalleError = 'Uno de tus productos no tenía stock o faltan datos.';
     } else if (error.status) {
       detalleError = `Ocurrió un error inesperado. Código de estado: ${error.status}.`;
     }

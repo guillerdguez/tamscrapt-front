@@ -149,8 +149,12 @@ img {
 }
 .btn-añadir-carrito:hover {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+} 
+h1 {
+  color: #88c0d0 !important;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 1170px) {
   .card {
     padding: 15px;
     border-radius: 15px;
@@ -188,8 +192,4 @@ img {
   .flex-vertical {
     flex-direction: column;
   }
-}
- 
-h1 {
-  color: #88c0d0 !important;
 }

@@ -53,14 +53,18 @@ export class DialagoPedidoEstadoComponent implements OnInit, OnDestroy {
       });
       return;
     }
-
-    this.pedidoService.updateMultiplePedidos(this.pedidosSeleccionados);
-
+    
+     this.pedidosSeleccionados.forEach((pedido) => {
+      if (pedido.id !== undefined) {
+        this.pedidoService.updateEstadoPedido(pedido.id, this.nuevoEstado);
+      }
+    });
+    
     this.isDialogVisible = false;
     this.pedidosSeleccionados = [];
     this.nuevoEstado = undefined as any;
   }
-
+  
   cancelar(): void {
     this.isDialogVisible = false;
     this.pedidosSeleccionados = [];

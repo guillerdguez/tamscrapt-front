@@ -19,7 +19,8 @@ export class Pedido {
   private menuStrategy!: MenuStrategy;
   strategia: string = 'pedido';
   nombreComprador!: string;
-
+  severity!: string;
+  
   constructor(
     public menuStrategyFactory: MenuStrategyFactory,
     public pedidoModel: PedidoModel

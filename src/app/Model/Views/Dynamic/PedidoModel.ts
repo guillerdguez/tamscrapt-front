@@ -51,22 +51,18 @@ export class PedidoModel {
       // { class: 'productos' },
     ];
   }
-
   crearPedidos(Pedidos: Pedido[]): Pedido[] {
     console.log('Pedidos', Pedidos[0]);
     const listaPedido: Pedido[] = [];
     Pedidos.forEach((pedido) => {
       const newPedido = new Pedido(this.menuStrategyFactory, this);
       newPedido.getParametros(pedido);
-      newPedido.tag = this.getTag(newPedido);
-
-      newPedido.menuItems = newPedido.getMenuItems(
-        this.genericModel.elementsSeleccionados
-      );
-
-      this.getSeverity(newPedido);
+       newPedido.tag = this.getTag(newPedido);
+       newPedido.severity = this.getSeverity(newPedido) || 'default';
+      newPedido.menuItems = newPedido.getMenuItems(this.genericModel.elementsSeleccionados);
       listaPedido.push(newPedido);
     });
     return listaPedido;
   }
+  
 }

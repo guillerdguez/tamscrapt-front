@@ -1,0 +1,39 @@
+.dialog-custom {
+  width: 90vw;
+  max-width: 30rem;
+}
+
+.dialog-custom .p-dialog-content {
+  max-height: 70vh;
+  overflow: auto;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.label-custom {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Ancho completo */
+.w-full {
+  width: 100%;
+}
+
+.actions-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+.dialog-custom {
+  width: 90vw;
+  max-width: 30rem;
+}
+
+:host ::ng-deep .dialog-custom .p-dialog-content {
+  min-height: 337px;
+  overflow-y: auto !important;
+}
