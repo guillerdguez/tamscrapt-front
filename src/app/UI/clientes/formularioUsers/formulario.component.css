@@ -10,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .containerForm {
@@ -18,17 +18,17 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  width: 90%;  
-  max-width: 600px; 
+  width: 90%;
+  max-width: 600px;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  overflow-y: auto;  
+  overflow-y: auto;
 }
 
 .title {
   text-align: center;
-  font-size: 1.8rem;  
+  font-size: 1.8rem;
   margin-bottom: 20px;
 }
 
@@ -46,6 +46,7 @@ label {
 
 input[type="text"],
 input[type="number"],
+input[type="email"],
 p-inputNumber,
 select {
   width: 100%;
@@ -79,11 +80,10 @@ p-inputNumber:focus {
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  flex: 1 0 45%;  
-  max-width: 150px;  
+  flex: 1 0 45%;
+  max-width: 150px;
   text-align: center;
 }
-
 
 input:focus,
 p-inputNumber:focus {
@@ -93,8 +93,7 @@ p-inputNumber:focus {
 .text-danger {
   color: #dc3545;
 }
- 
- .title{
-  
+
+.title {
   background: transparent !important;
- }
+}
