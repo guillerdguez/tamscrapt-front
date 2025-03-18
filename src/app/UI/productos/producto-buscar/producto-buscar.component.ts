@@ -7,11 +7,11 @@ import {
   distinctUntilChanged,
   switchMap,
 } from 'rxjs';
-import { Producto } from '../../Model/Domain/Producto/ProductoClass';
-import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
-import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
-import { CallbacksProductoService } from '../../Service/Callbacks/CallbacksProductoService';
-import { ProductoService } from '../../Service/producto/Producto.service';
+import { Producto } from '../../../Model/Domain/Producto/ProductoClass';
+import { GenericModel } from '../../../Model/Views/Dynamic/GenericModel';
+import { ProductoModel } from '../../../Model/Views/Dynamic/ProductoModel';
+import { CallbacksProductoService } from '../../../Service/Callbacks/CallbacksProductoService';
+import { ProductoService } from '../../../Service/producto/Producto.service';
 
 @Component({
   selector: 'app-producto-buscar',

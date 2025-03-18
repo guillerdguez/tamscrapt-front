@@ -27,7 +27,7 @@
       <label class="block text-lg font-medium mb-2">Descuento:</label>
       <p-inputNumber
         *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        [(ngModel)]="param.descuento"
+        [(ngModel)]="param.descuento" [min]="1" [max]="100"
         placeholder="Descuento (%)"
         class="w-full"
       ></p-inputNumber>

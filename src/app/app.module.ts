@@ -53,8 +53,7 @@ import { StepsModule } from 'primeng/steps';
 import { MessageService } from 'primeng/api';
 import { DialagoOfertaComponent } from './UI/productos/dialago-oferta/dialago-oferta.component';
 import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
-import { RegisterComponent } from './UI/clientes/seguridad/register/register.component';
-import { CartComponent } from './UI/compra/cart/cart.component';
+ import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 import { CartService } from './Service/carrito/CartService';
@@ -67,7 +66,7 @@ import { PedidoDetailComponent } from './UI/compra/pedido/pedido-detail/pedido-d
 import { DialagoPedidoEstadoComponent } from './UI/compra/pedido/dialago-PedidoEstado/dialago-pedidoEstado.component';
 
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
-import { ProductoBuscarComponent } from './UI/producto-buscar/producto-buscar.component';
+import { ProductoBuscarComponent } from './UI/productos/producto-buscar/producto-buscar.component';
 
 @NgModule({
   declarations: [
@@ -86,8 +85,7 @@ import { ProductoBuscarComponent } from './UI/producto-buscar/producto-buscar.co
     InputSwitchComponent,
     EsquemaListaComponent,
     DialagoOfertaComponent,
-    LoginComponent,
-    RegisterComponent,
+    LoginComponent, 
     FormularioComponentUser,
     CheckoutComponent,
     CartComponent,
