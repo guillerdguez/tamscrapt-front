@@ -1,112 +1,81 @@
-<ng-container *ngIf="genericModel.element; else loading">
-  <div class="flex flex-column align-items-center p-4">
-    <h1 class="text-center text-3xl font-bold mb-5">
-      {{ genericModel.element.nombre | uppercase }} Details
-    </h1>
+@if(genericModel.element){
 
-    <div
-      class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
-    >
-      <div class="mb-4 w-full md:w-5">
-        <label for="element-nombre" class="block text-lg font-medium mb-2">
-          Nombre:
-        </label>
-        <input
-          id="element-nombre"
-          [(ngModel)]="genericModel.element.nombre"
-          placeholder="Enter nombre"
-          class="p-inputtext w-full"
-          #nombreInput="ngModel"
-          required
-        />
-        <div
-          *ngIf="nombreInput.invalid && nombreInput.touched"
-          class="text-danger"
+<div class="flex flex-column align-items-center p-4">
+  <h1 class="text-center text-3xl font-bold mb-5">
+    {{ genericModel.element.nombre | uppercase }} Details
+  </h1>
+
+  <div
+    class="flex flex-wrap justify-content-center gap-5 w-full md:w-10 lg:w-8"
+  >
+    <h3 class="flex flex-column align-items-start w-full md:w-5">
+      <div class="mb-4 w-full">
+        <label for="element-username" class="block text-lg font-medium mb-2"
+          >Nombre: </label
         >
-          El nombre es obligatorio.
-        </div>
-      </div>
-
-      <div class="mb-4 w-full md:w-5">
-        <label for="element-username" class="block text-lg font-medium mb-2">
-          Username:
-        </label>
         <input
           id="element-username"
-          [(ngModel)]="genericModel.element.username"
+          [(ngModel)]="genericModel.element.nombre"
           placeholder="Enter username"
           class="p-inputtext w-full"
-          #usernameInput="ngModel"
-          required
         />
-        <div
-          *ngIf="usernameInput.invalid && usernameInput.touched"
-          class="text-danger"
-        >
-          El username es obligatorio.
-        </div>
       </div>
 
       <div class="mb-4 w-full">
-        <label for="element-email" class="block text-lg font-medium mb-2">
-          User email:
-        </label>
+        <label for="element-nombre" class="block text-lg font-medium mb-2">
+          Username:</label
+        >
+        <input
+          id="element-nombre"
+          [(ngModel)]="genericModel.element.username"
+          placeholder="User nombre"
+          class="p-inputtext w-full"
+        />
+      </div>
+
+      <div class="mb-4 w-full">
+        <label for="element-email" class="block text-lg font-medium mb-2"
+          >User email:</label
+        >
         <input
           id="element-email"
           [(ngModel)]="genericModel.element.email"
-          placeholder="Enter email"
+          placeholder="User email"
           class="p-inputtext w-full"
-          #emailInput="ngModel"
-          required
-          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         />
-        <div
-          *ngIf="emailInput.invalid && emailInput.touched"
-          class="text-danger"
-        >
-          El email es obligatorio o el formato es inválido.
-        </div>
       </div>
-
       <div class="mb-4 w-full">
-        <label for="element-password" class="block text-lg font-medium mb-2">
-          Contraseña:
-        </label>
-        <input
-          id="element-password"
-          [(ngModel)]="genericModel.element.password"
-          placeholder="Enter contraseña"
-          class="p-inputtext w-full"
-          #passwordInput="ngModel"
-          required
-          minlength="8"
-          type="password"
-        />
-        <div
-          *ngIf="passwordInput.invalid && passwordInput.touched"
-          class="text-danger"
+        <label for="element-contraseña" class="block text-lg font-medium mb-2"
+          >User email:</label
         >
-          La contraseña debe tener al menos 8 caracteres.
-        </div>
+        <input
+          id="element-email"
+          [(ngModel)]="genericModel.element.email"
+          placeholder="User email"
+          class="p-inputtext w-full"
+        />
       </div>
-
-      <div *ngIf="authService.hasAuthority(userAuthority.ADMIN)" class="w-full">
+      @if ( this.authService.hasAuthority(userAuthority.ADMIN) ) {
+      <div>
         <h1 class="block text-lg font-medium mb-2">User Authorities:</h1>
-        <div
+        <h3
           *ngFor="let aut of genericModel.element.authorities"
           class="flex justify-content-center m-0"
         >
-          <span class="text-xs font-bold">{{ aut }}</span>
-        </div>
+          <h3 class="text-xs font-bold">
+            {{ aut }}
+          </h3>
+        </h3>
       </div>
-
-      <div class="flex gap-3 mt-4 w-full">
+      }
+      <!-- Botones -->
+      <div class="flex gap-3 mt-4">
         <button
           type="button"
           class="p-button p-button-secondary"
           (click)="goBack()"
         >
-          Atrás
+          atrar
         </button>
         <button
           type="button"
@@ -116,12 +85,14 @@
           Guardar
         </button>
       </div>
-    </div>
+    </h3>
   </div>
-</ng-container>
-
-<ng-template #loading>
-  <div>
+</div>
+}@else{
+<div>
+  <ng-template>
     <p>Cargando datos del usuario...</p>
-  </div>
-</ng-template>
+  </ng-template>
+</div>
+
+}
