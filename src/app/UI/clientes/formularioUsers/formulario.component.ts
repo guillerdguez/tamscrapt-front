@@ -36,7 +36,6 @@ export class FormularioComponentUser implements OnInit {
     this.authorities = Object.values(UserAuthority).filter(
       (authority) => authority !== UserAuthority.ANONYMOUS
     );
-    console.log("SSSSS")
   }
 
   add(

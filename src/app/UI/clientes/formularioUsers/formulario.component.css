@@ -47,6 +47,7 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="email"],
+input[type="password"],
 p-inputNumber,
 select {
   width: 100%;
