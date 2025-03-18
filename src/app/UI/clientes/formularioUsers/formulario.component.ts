@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { UserModel } from '../../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../../../Service/user/User.service';
 import { UserDetails } from '../../../Model/Domain/interface/UserDetails';
@@ -31,11 +31,14 @@ export class FormularioComponentUser implements OnInit {
     private location: Location,
     public authService: AuthService
   ) {}
+
   ngOnInit(): void {
     this.authorities = Object.values(UserAuthority).filter(
       (authority) => authority !== UserAuthority.ANONYMOUS
     );
+    console.log("SSSSS")
   }
+
   add(
     nombre: string,
     username: string,
@@ -59,9 +62,9 @@ export class FormularioComponentUser implements OnInit {
       authorities: [this.selectedAuthority],
     };
     this.userService.addUser(newUser);
-
     this.goBack();
   }
+
   goBack(): void {
     this.location.back();
     this.router.navigateByUrl(this.router.url);
