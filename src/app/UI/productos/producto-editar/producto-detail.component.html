@@ -1,6 +1,3 @@
-
-
-<!-- Bloque de edición de params -->
 <ng-container
   *ngIf="
     authService.hasAuthority(userAuthority.ADMIN) && params.length > 1;
@@ -40,7 +37,6 @@
   </div>
 </ng-template>
 
-<!-- Plantilla común para el detalle/edición -->
 <ng-template
   #commonDetail
   let-param
@@ -133,10 +129,7 @@
             </ng-container>
           </div>
         </div>
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
+        <div class="mb-4 w-full">
           <label
             for="producto-nombre-{{ i }}"
             class="block text-lg font-medium mb-2"
@@ -147,7 +140,14 @@
             [(ngModel)]="param.nombre"
             placeholder="Producto nombre"
             class="p-inputtext w-full"
+            required
+            #nombreInput="ngModel"
           />
+          <small
+            *ngIf="nombreInput.invalid && nombreInput.touched"
+            class="text-red-500"
+            >Campo requerido</small
+          >
         </div>
         <div
           class="mb-4 w-full"
@@ -165,21 +165,25 @@
             class="p-inputtext w-full"
           />
         </div>
-        <div
-          class="mb-4 w-full"
-          *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
-        >
+        <div class="mb-4 w-full">
           <label
             for="producto-descripcion-{{ i }}"
             class="block text-lg font-medium mb-2"
-            >Producto Descripcion:</label
+            >Producto Descripción:</label
           >
           <input
             id="producto-descripcion-{{ i }}"
             [(ngModel)]="param.descripcion"
-            placeholder="Producto descripcion"
+            placeholder="Descripción del producto"
             class="p-inputtext w-full"
+            required
+            #descripcionInput="ngModel"
           />
+          <small
+            *ngIf="descripcionInput.invalid && descripcionInput.touched"
+            class="text-red-500"
+            >Campo requerido</small
+          >
         </div>
         <h3
           *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
@@ -225,7 +229,9 @@
           <p-inputNumber
             *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
             id="producto-descuento-{{ i }}"
-            [(ngModel)]="param.descuento"[min]="1" [max]="100"
+            [(ngModel)]="param.descuento"
+            [min]="1"
+            [max]="100"
             placeholder="Descuento (%)"
             class="w-full"
           ></p-inputNumber>
@@ -316,14 +322,23 @@
       >
         Next
       </button>
-      <button
+      <!-- <button
         *ngIf="i === params.length - 1"
         type="button"
         class="p-button p-button-success"
         (click)="save()"
       >
         Guardar
-      </button>
+      </button> -->
+      <button
+      *ngIf="i === params.length - 1"
+      type="button"
+      class="p-button p-button-success"
+      (click)="save()"
+      [disabled]="nombreInput.invalid  || descripcionInput.invalid"
+    >
+      Guardar
+    </button>
     </div>
   </div>
 </ng-template>

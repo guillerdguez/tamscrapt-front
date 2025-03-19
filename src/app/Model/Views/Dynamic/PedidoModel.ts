@@ -47,8 +47,7 @@ export class PedidoModel {
       { class: 'precio' },
       { class: 'fechaCreacion' },
       { class: 'nombreComprador' },
-
-      // { class: 'productos' },
+ 
     ];
   }
   crearPedidos(Pedidos: Pedido[]): Pedido[] {

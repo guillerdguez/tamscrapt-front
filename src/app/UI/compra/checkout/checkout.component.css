@@ -3,8 +3,7 @@
   min-height: 390px;
 }
 h4 {
-  border-bottom: 2px dotted #6c757d; /* Gris oscuro (#6c757d) y borde punteado */
-
-  color: #343a40; /* Aseguramos un color del texto que combine bien */
-  font-weight: bold; /* Estilo destacado para títulos */
+  border-bottom: 2px dotted #6c757d;
+  color: #343a40;
+  font-weight: bold;
 }

@@ -94,8 +94,7 @@
                   </ng-container>
                 </div>
               </div>
-
-              <!-- Botones -->
+ 
               <div class="flex flex-wrap justify-content-center gap-2">
                 @if(authService.hasAuthority(userAuthority.ADMIN) ||
                 title=="Pedidos"){
@@ -137,8 +136,7 @@
         </div>
       </div>
     </ng-template>
-
-    <!-- Plantilla para cuadrícula -->
+ 
     <ng-template pTemplate="grid" let-items>
       <div
         class="grid justify-content-around gap-3 pt-4 align-content-center fondo-card"

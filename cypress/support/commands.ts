@@ -1,4 +1,4 @@
-// Declaración de tipos personalizados para TypeScript
+
 declare global {
   namespace Cypress {
     interface Chainable<Subject = any> {
@@ -39,7 +39,6 @@ Cypress.Commands.add('navigateTo', (path: string) => {
 Cypress.Commands.add('assertRedirect', (path: string) => {
   cy.url().should('include', path);
 });
-// Comando personalizado para el login
 Cypress.Commands.add('login', (username, password) => {
   cy.visit('/login');
 

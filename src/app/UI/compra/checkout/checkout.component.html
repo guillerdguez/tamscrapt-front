@@ -1,5 +1,4 @@
-<p-stepper>
-  <!-- Paso 1: Información de Envío -->
+<p-stepper> 
   <p-stepperPanel header="Paso 1: Información de Envío">
     <ng-template
       pTemplate="content"
@@ -45,7 +44,6 @@
     </ng-template>
   </p-stepperPanel>
 
-  <!-- Paso 2: Método de Pago -->
   <p-stepperPanel header="Paso 2: Método de Pago">
     <ng-template
       pTemplate="content"
@@ -96,7 +94,6 @@
     </ng-template>
   </p-stepperPanel>
 
-  <!-- Paso 3: Revisión del Pedido -->
   <p-stepperPanel header="Paso 3: Revisión del Pedido">
     <ng-template pTemplate="content" let-prevCallback="prevCallback">
       <div class="flex flex-column p-4">
@@ -104,13 +101,13 @@
           class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium p-3 content-checkout"
         >
           <div class="flex justify-content-center w-full">
-            <!-- Información de Envío -->
+         
             <div class="mr-7">
               <h4>Información de Envío</h4>
               <p>{{ shippingInfo.nombreComprador }}</p>
               <p>{{ shippingInfo.address }}</p>
             </div>
-            <!-- Método de Pago y Resumen -->
+          
             <div class="ml-7">
               <h4>Método de Pago</h4>
               <p>{{ paymentMethod }}</p>

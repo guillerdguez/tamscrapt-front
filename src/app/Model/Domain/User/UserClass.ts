@@ -6,8 +6,7 @@ import { MenuStrategy } from '../interface/menuItem/MenuStrategy';
 import { MenuStrategyFactory } from '../interface/menuItem/MenuStrategyFactory';
 import { Producto } from '../Producto/ProductoClass';
 
-export class User {
-  // password: string = '';
+export class User { 
   id?: number;
   nombre: string = '';
   username: string = '';

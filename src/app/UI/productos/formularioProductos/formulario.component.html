@@ -1,8 +1,7 @@
 <body>
   <div class="containerForm mt-4">
     <h1 class="title">Formulario de Productos</h1>
-
-    <!-- Nombre del Producto -->
+ 
     <div class="form-group">
       <label for="nombre">Nombre del Producto: </label>
       <input
@@ -17,8 +16,7 @@
         El nombre del producto es obligatorio.
       </div>
     </div>
-
-    <!-- Precio -->
+ 
     <div class="form-group">
       <label for="precio">Precio: </label>
       <p-inputNumber
@@ -30,9 +28,7 @@
       <div *ngIf="precio <= 0" class="text-danger">
         El precio del producto es obligatorio.
       </div>
-    </div>
-
-    <!-- Imagen URL -->
+    </div> 
     <div class="form-group">
       <label for="imagen">Imagen URL: </label>
       <input
@@ -43,8 +39,7 @@
         [(ngModel)]="imagen"
       />
     </div>
-
-    <!-- Oferta -->
+ 
     <div class="form-group">
       <label for="oferta">¿Está en oferta?</label>
       <p-checkbox
@@ -53,8 +48,7 @@
         class="w-full"
       ></p-checkbox>
     </div>
-
-    <!-- Descuento -->
+ 
     <div class="form-group" *ngIf="oferta">
       <label for="descuento">Descuento (%): </label>
       <p-inputNumber
@@ -69,8 +63,7 @@
         El descuento debe estar entre 0% y 100%.
       </div>
     </div>
-
-    <!-- Lettering -->
+ 
     <div class="form-group">
       <label for="lettering">¿Incluye Lettering?</label>
 
@@ -80,8 +73,7 @@
         class="w-full"
       ></p-checkbox>
     </div>
-
-    <!-- Scrapbooking -->
+ 
     <div class="form-group">
       <label for="scrapbooking">¿Incluye Scrapbooking?</label>
 
@@ -91,8 +83,7 @@
         class="w-full"
       ></p-checkbox>
     </div>
-
-    <!-- Cantidad -->
+ 
     <div class="form-group">
       <label for="cantidad">Cantidad: </label>
       <p-inputNumber
@@ -105,8 +96,7 @@
         La cantidad del producto es obligatorio.
       </div>
     </div>
-
-    <!-- Botones -->
+ 
     <div class="flex justify-content-around gap-3 mt-4 flex-wrap">
       <button type="button" class="btn btn-primary" (click)="goBack()">
         Cancelar

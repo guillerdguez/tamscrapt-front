@@ -55,6 +55,7 @@ export class EsquemaListaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    //parte clave para rellenar la tabla en funcion de la url
     this.route.paramMap.subscribe((params) => {
       const tipo = params.get('tipo');
       if (tipo !== this.currentTipo) {
@@ -66,11 +67,12 @@ export class EsquemaListaComponent implements OnInit {
     this.pasarInformacionTablaService.title.subscribe((title) => {
       this.title = title;
     });
+    //si entra como admin se le muestra un vista mas profesional
     this.layout = this.authService.hasAuthority(UserAuthority.ADMIN)
       ? 'list'
       : 'grid';
   }
-
+//selecciona los elementos de la tabla
   onselectedTable(event: MouseEvent, item: any) {
     if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
       if (event.button !== 2 && event.button !== 1) {
@@ -112,7 +114,7 @@ export class EsquemaListaComponent implements OnInit {
     item[field] = newValue;
     this.paramsChange.emit(item.setDetails(item));
   }
-
+//hace que no salga el create donde no debe
   getCreate() {
     this.items = this.paramsTemporal[0].getMenuItems(
       this.genericModel.elementsSeleccionados
@@ -121,7 +123,7 @@ export class EsquemaListaComponent implements OnInit {
     this.firstItem = [this.itemsCopy[0]];
     this.firstItem[0].command();
   }
-
+//pone el scroll en la parte de arriba
   onPageChange(event: any): void {
     this.topElement.nativeElement.scrollIntoView();
   }

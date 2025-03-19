@@ -30,7 +30,6 @@
   </p-stepper>
 </ng-container>
 
-<!-- Si no es admin, muestra el contenido sin el stepper -->
 <ng-template #noStepper>
   <div class="pedido-container pedido-no-stepper-container">
     <div *ngFor="let param of params; let i = index">
@@ -49,15 +48,11 @@
   let-prevCB="prevCB"
 >
   <div *ngIf="param" class="grid">
-    <!-- Contenedor principal en una sola columna para pantallas pequeñas,
-         se ajusta en pantallas más grandes -->
     <div class="col-12">
-      <!-- Título del pedido -->
       <h1 class="pedido-titulo">
         {{ param.nombreComprador }}
       </h1>
 
-      <!-- Nombre del Comprador visible para todos -->
       <div class="pedido-form-field">
         <label for="pedido-nombre-comprador-{{ i }}" class="pedido-form-label">
           Nombre Comprador:
@@ -71,7 +66,6 @@
         />
       </div>
 
-      <!-- Dirección de Envío visible para todos -->
       <div class="pedido-form-field">
         <label for="pedido-direccion-envio-{{ i }}" class="pedido-form-label">
           Dirección de Envío:
@@ -85,7 +79,6 @@
         />
       </div>
 
-      <!-- Bloque de inputs, sólo visible para ADMIN -->
       <div
         class="pedido-form-field"
         *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
@@ -131,7 +124,6 @@
         />
       </div>
 
-      <!-- Productos para ADMIN -->
       <div
         class="pedido-form-field"
         *ngIf="authService.hasAuthority(userAuthority.ADMIN)"
@@ -147,8 +139,6 @@
           </span>
         </div>
       </div>
-
-      <!-- Productos para NO-ADMIN -->
       <div *ngIf="!authService.hasAuthority(userAuthority.ADMIN)">
         <h3 class="pedido-subtitulo">Productos:</h3>
         <ul class="pedido-lista-productos">
@@ -163,7 +153,7 @@
         </ul>
       </div>
       <h4 class="pedido-precio">Precio Total: {{ param.precio }} €</h4>
-      <!-- Botón de regresar para usuario NO-ADMIN -->
+
       <button
         *ngIf="!authService.hasAuthority(userAuthority.ADMIN)"
         type="button"
@@ -175,7 +165,6 @@
       </button>
     </div>
 
-    <!-- Botones del stepper, sólo si es ADMIN y existe stepper -->
     <div
       class="pedido-botones-stepper col-12"
       *ngIf="authService.hasAuthority(userAuthority.ADMIN)"

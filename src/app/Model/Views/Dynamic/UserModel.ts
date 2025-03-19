@@ -5,8 +5,7 @@ import { GenericModel } from './GenericModel';
 import { User } from '../../Domain/User/UserClass';
 import { UserAuthority } from '../../Domain/User/UserAuthority.enum';
 import { TagSeverity } from '../../Domain/interface/type-tag-severity';
-// type TagSeverity = { tag: string; severity: string };
-@Injectable({ providedIn: 'root' })
+ @Injectable({ providedIn: 'root' })
 export class UserModel {
   users: User[] = [];
   user!: User;
