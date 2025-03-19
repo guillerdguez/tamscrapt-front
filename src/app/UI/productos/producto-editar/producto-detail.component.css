@@ -194,3 +194,11 @@ h1 {
     flex-direction: column;
   }
 }
+@media (min-width: 1171px) {
+  
+  small.text-red-500 {
+    display: block;         
+    text-align: right;      
+    margin-right: 0;       
+  }
+}
