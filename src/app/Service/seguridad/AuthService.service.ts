@@ -39,12 +39,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.currentUserSubject.next(response.user);
-            setTimeout(() => {
-            this.router.navigate(['/home']).then(() => {
-              this.genericModel.element = [];
-              window.location.reload();
-            });
-            }, 500);  
+          
         }
         return response.user;
       })
