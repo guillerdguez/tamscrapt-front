@@ -30,9 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap({
         next: (event) => {
-          if (event instanceof HttpResponse) {
-            // Aquí puedes manejar respuestas exitosas, si es necesario
-          }
+       
         },
         error: (err) => {
           console.error('Error en la solicitud:', err);

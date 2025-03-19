@@ -63,13 +63,11 @@
               role="button"
               (click)="alternarMenu('user'); $event.stopPropagation()"
             >
-              @if(genericModel.element){
               <div class="user-image-container me-2">
                 <p alt="Imagen del usuario" class="text-center font-bold">
-                 cuenta
+                  cuenta
                 </p>
               </div>
-              }
             </a>
             <ul
               *ngIf="menuOpen"
