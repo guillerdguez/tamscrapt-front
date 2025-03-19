@@ -35,7 +35,6 @@ export class PedidoDAO {
     return this.http.get<Pedido>(urlMod);
   }
 
-  // Solo ejemplo de búsqueda
   findByName(term: string): Observable<Pedido[]> {
     if (!term.trim()) {
       return of([]);

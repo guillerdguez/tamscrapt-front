@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MenuItem, SelectItem } from 'primeng/api';
+import { MenuItem } from 'primeng/api';
 import { ContextMenu } from 'primeng/contextmenu';
 import { GenericModel } from '../../Model/Views/Dynamic/GenericModel';
 import { ProductoService } from '../../Service/producto/Producto.service';
@@ -41,17 +41,7 @@ export class EsquemaListaComponent implements OnInit {
   headers: any[] = [];
   private currentTipo: string | null = null;
 
-  // Propiedades para el ordenamiento
-  sortOptions!: SelectItem[];
-  sortOrder!: number;
-  sortField!: string;
-  selectedSortOption: any;
-
   get paramsTemporal(): User[] | Producto[] {
-    if (this.selectedSortOption) {
-      this.onSortChange({ value: this.selectedSortOption });
-    }
-
     return this.genericModel.elements;
   }
 
@@ -79,17 +69,6 @@ export class EsquemaListaComponent implements OnInit {
     this.layout = this.authService.hasAuthority(UserAuthority.ADMIN)
       ? 'list'
       : 'grid';
-
-    // Inicializar opciones de ordenamiento
-    //factoria segun el tipo?
-    this.sortOptions = [
-      { label: 'Nombre Ascendente', value: 'nombre' },
-      { label: 'Nombre Descendente', value: '!nombre' },
-      { label: 'Precio Ascendente', value: 'precio' },
-      { label: 'Precio Descendente', value: '!precio' },
-      { label: 'Con Descuento Primero', value: '!descuento' },
-      { label: 'Más Stock', value: '!cantidad' },
-    ];
   }
 
   onselectedTable(event: MouseEvent, item: any) {
@@ -107,6 +86,7 @@ export class EsquemaListaComponent implements OnInit {
       }
     }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params']?.currentValue) {
       this.genericModel.elements = [];
@@ -117,16 +97,13 @@ export class EsquemaListaComponent implements OnInit {
     if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
       event.preventDefault();
 
-      // A) Agregamos el item a la selección si no está ya
       if (!this.genericModel.elementsSeleccionados.includes(item)) {
         this.genericModel.elementsSeleccionados.push(item);
         this.TableSelected.emit(this.genericModel.elementsSeleccionados);
       }
 
-      // B) Obtenemos los items para el menú contextual
       this.items = item.getMenuItems(this.genericModel.elementsSeleccionados);
 
-      // C) Mostramos el menú en la posición del ratón
       this.menu.show(event);
     }
   }
@@ -145,51 +122,6 @@ export class EsquemaListaComponent implements OnInit {
     this.firstItem[0].command();
   }
 
-  // Evento para cambiar el criterio de ordenamiento
-  onSortChange(event: any) {
-    const value = event.value;
-    if (value.startsWith('!')) {
-      this.sortOrder = -1;
-      this.sortField = value.substring(1);
-    } else {
-      this.sortOrder = 1;
-      this.sortField = value;
-    }
-    this.sortElements();
-  }
-  //los cambios que hace el admin no son automaticos porque vuelve a llamar la lista y esa no esta ordenada de primeras
-  // Ordenar los elementos localmente sin mutar el array original
-  sortElements() {
-    const sorted = [...this.genericModel.elements].sort((a: any, b: any) => {
-      let valA = a[this.sortField];
-      let valB = b[this.sortField];
-
-      // Manejar campos numéricos
-      if (
-        this.sortField === 'precio' ||
-        this.sortField === 'descuento' ||
-        this.sortField === 'cantidad'
-      ) {
-        valA = a[this.sortField] != null ? Number(a[this.sortField]) : 0;
-        valB = b[this.sortField] != null ? Number(b[this.sortField]) : 0;
-
-        // Asegurar que NaN se trate como 0
-        valA = isNaN(valA) ? 0 : valA;
-        valB = isNaN(valB) ? 0 : valB;
-
-        return (valA - valB) * this.sortOrder;
-      }
-
-      // Manejar campos de texto
-      return String(valA).localeCompare(String(valB)) * this.sortOrder;
-    });
-    console.log(sorted, '        ', this.sortField);
-    // Asignar el array ordenado para que Angular detecte el cambio
-    this.genericModel.elements = sorted;
-
-    // // Emitir los cambios si es necesario
-    // this.paramsChange.emit(this.genericModel.elements);
-  }
   onPageChange(event: any): void {
     this.topElement.nativeElement.scrollIntoView();
   }

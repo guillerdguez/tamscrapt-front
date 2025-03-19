@@ -79,7 +79,6 @@ export class CartService {
     });
   }
 
-  // es bueno que sea uno o es simplemente mas confusio y peor que dividirlo?
   agregarOActualizarProductoCarrito(
     producto: Producto,
     cantidadAgregada: number = 1,
@@ -155,8 +154,7 @@ export class CartService {
     });
   }
 
-  // este se usa al cambiar la cantidad en el carrito
-
+ 
   clearCart(): void {
     this.cartDAO.clearCart().subscribe({
       next: () => {
@@ -168,8 +166,7 @@ export class CartService {
       },
     });
   }
-
-  // Mostrar mensaje de éxito
+ //no se usa
   private showSuccessMessage(detail: string): void {
     this.messageService.add({
       severity: 'success',
@@ -177,8 +174,7 @@ export class CartService {
       detail,
     });
   }
-
-  // Manejo de errores
+ 
 
   private handleError(error: any): void {
     let detalleError = error;

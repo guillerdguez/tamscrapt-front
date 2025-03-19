@@ -37,8 +37,7 @@ export class UserService {
         this.userModel.users.push(user);
         this.genericModel.elements.push(user);
         this.users.push(user);
-
-        // this.usersSubject.next(this.users);
+ 
         if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
           this.getUsers();
           this.showSuccessMessage('Usuario agregado correctamente.');
@@ -55,8 +54,7 @@ export class UserService {
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
         this.genericModel.elements = usersCreados;
-        this.users = usersCreados;
-        // this.usersSubject.next(usersCreados);
+        this.users = usersCreados; 
       },
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
@@ -68,7 +66,7 @@ export class UserService {
     this.userDAO.getUsers().subscribe({
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
-        // this.usersSubject.next(usersCreados);
+ 
         this.userModel.users = usersCreados;
         this.genericModel.elements = usersCreados;
       },
@@ -82,24 +80,21 @@ export class UserService {
       next: (user: User) => {
         if (user != this.userModel.user || this.userModel.user == undefined) {
           this.userModel.user = user;
-          this.genericModel.element = user;
-          // this.cargarFavoritos(this.userId);
+          this.genericModel.element = user; 
         }
       },
       error: () => this.handleError('Error al obtener usuario'),
     });
   }
   private resetUser(): void {
-    this.genericModel.element = null;
-    // this.userModel.user = {} as User;
+    this.genericModel.element = null; 
   }
 
   findByName(term: string): void {
     this.userDAO.findByName(term).subscribe({
       next: (users: User[]) => {
         const usersCreados = this.userModel.crearUsers(users);
-        this.genericModel.elements = usersCreados;
-        // this.usersSubject.next(usersCreados);
+        this.genericModel.elements = usersCreados; 
       },
       error: (error) => {
         console.error('Error al buscar usuarios:', error);
@@ -125,8 +120,7 @@ export class UserService {
     this.userDAO.deleteUser(id).subscribe({
       next: () => {
         this.userModel.users = this.users;
-        this.genericModel.elements = this.users;
-        // this.usersSubject.next(this.users);
+        this.genericModel.elements = this.users; 
         this.getUsers();
       },
       error: (error) => {

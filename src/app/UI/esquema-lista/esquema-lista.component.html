@@ -12,13 +12,10 @@
     [paginator]="true"
     [rows]="9"
     [rowsPerPageOptions]="[9, 20]"
-    styleClass="custom-paginator "
+    styleClass="custom-paginator"
     (onPage)="onPageChange($event)"
   >
-    >
     <ng-template pTemplate="header">
-      <!-- <div class="flex align-items-center justify-content-between mb-3"> -->
-      <!-- tiene sentido ponerlo en pedido? -->
       <div class="flex align-items-center justify-content-end mb-3">
         @if(authService.hasAuthority(userAuthority.ADMIN) || title=="Pedidos"){
         <p-button (click)="getCreate()" label="+ Create"></p-button>
@@ -67,17 +64,17 @@
                   [style.top.px]="4"
                 />
               </div>
-              }}@else {
-                <div class="relative no-image-container"> 
-                  <div class="pedido-container p-5 m-5">Pedido</div>
-                  <p-tag
-                    [value]="item.tag"
-                    [severity]="item.severity"
-                    class="absolute"
-                    [style.left.px]="4"
-                    [style.top.px]="4"
-                  />
-                </div>
+              } }@else {
+              <div class="relative no-image-container">
+                <div class="pedido-container p-5 m-5">Pedido</div>
+                <p-tag
+                  [value]="item.tag"
+                  [severity]="item.severity"
+                  class="absolute"
+                  [style.left.px]="4"
+                  [style.top.px]="4"
+                />
+              </div>
               }
             </a>
 
@@ -114,7 +111,7 @@
                     aria-label="{{ menuItem.label }}"
                   ></p-button>
                 </div>
-                } @else {
+                }@else {
                 <div class="cart">
                   <i
                     class="pi pi-cart-plus"
@@ -142,7 +139,6 @@
     </ng-template>
 
     <!-- Plantilla para cuadrícula -->
-
     <ng-template pTemplate="grid" let-items>
       <div
         class="grid justify-content-around gap-3 pt-4 align-content-center fondo-card"
@@ -189,18 +185,19 @@
                   [style.top.px]="4"
                 />
               </div>
-              } </a
-            >}@else {
-              <div class="relative no-image-container">
-                 <div class="pedido-container p-3 m-5">Pedido</div>
-                <p-tag
-                  [value]="item.tag"
-                  [severity]="item.severity"
-                  class="absolute"
-                  [style.left.px]="4"
-                  [style.top.px]="4"
-                />
-              </div>
+              }
+            </a>
+            }@else {
+            <div class="relative no-image-container">
+              <div class="pedido-container p-3 m-5">Pedido</div>
+              <p-tag
+                [value]="item.tag"
+                [severity]="item.severity"
+                class="absolute"
+                [style.left.px]="4"
+                [style.top.px]="4"
+              />
+            </div>
             }
             <div
               class="detalles-producto flex flex-column align-items-start mt-3"
@@ -219,7 +216,7 @@
             </div>
 
             @if (authService.hasAuthority(userAuthority.ADMIN) ||
-            title=="Pedidos" ) {
+            title=="Pedidos") {
             <div
               class="flex justify-content-center gap-2 mt-3 flex flex-wrap justify-content-around"
             >
@@ -233,9 +230,7 @@
                 aria-label="{{ menuItem.label }}"
               ></p-button>
             </div>
-
-            } @else {
-
+            }@else {
             <div
               class="icon-container mt-3 flex flex-row justify-content-around align-content-center gap-7"
             >

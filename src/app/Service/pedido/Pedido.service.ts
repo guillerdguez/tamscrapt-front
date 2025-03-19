@@ -105,7 +105,7 @@ export class PedidoService {
     });
   }
 
-  // NUEVO: Actualizar SOLO el estado
+  // Actualizar solo estado
   updateEstadoPedido(id: number, nuevoEstado: string): void {
     this.pedidoDAO.updateEstado(id, nuevoEstado).subscribe({
       next: (pedido: Pedido) => {

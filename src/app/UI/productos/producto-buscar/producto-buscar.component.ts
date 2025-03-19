@@ -46,8 +46,7 @@ export class ProductoBuscarComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string) => this.productoService.buscarProductos(term))
     );
-  }
-  //el usar el buscador buguea todo,tenga o no el servicio
+  } 
   rellenar(producto: Producto): void {
     this.router.navigate(['/detail/Productos/', producto.id]);
     this.productoService.getProducto(producto.id);

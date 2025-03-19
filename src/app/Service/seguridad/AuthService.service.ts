@@ -39,7 +39,7 @@ export class AuthService {
           localStorage.setItem('token', response.token);
           localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.currentUserSubject.next(response.user);
-          // mirar
+          // mirar, poner un delay
           // this.router.navigate(['/home']).then(() => {
           // this.genericModel.element = [];
           // window.location.reload();
@@ -80,10 +80,5 @@ export class AuthService {
     return currentUser ? currentUser.id : undefined;
   }
 
-  // private getAuthHeaders(): HttpHeaders {
-  //   const token = this.getToken();
-  //   return new HttpHeaders({
-  //     Authorization: `Bearer ${token}`,
-  //   });
-  // }
+ 
 }

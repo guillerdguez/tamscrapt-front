@@ -116,10 +116,7 @@ export class ProductoService {
   getProductoPedido(id: number): void {
     this.productoDAO.getProducto(id).subscribe({
       next: (producto: any) => {
-        this.productoModel.producto = producto;
-        // return producto;
-        // const productosCreado = this.productoModel.crearProductos([producto]);
-        // this.genericModel.element = productosCreado[0];
+        this.productoModel.producto = producto; 
       },
       error: (error) => this.handleError(error),
     });
@@ -168,8 +165,7 @@ export class ProductoService {
         this.alternarOferta(item, 0);
         item.precioOriginal = undefined;
       }
-    });
-    // this.genericModel.elementsSeleccionados.length = 0;
+    }); 
   }
 
   alternarOfertas(selectedItems: any[]) {

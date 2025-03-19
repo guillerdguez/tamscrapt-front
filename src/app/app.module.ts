@@ -16,7 +16,6 @@ import { FormularioComponentProducto } from './UI/productos/formularioProductos/
 import { InputSwitchComponent } from './UI/layout/input-switch/input-switch.component';
 import { EsquemaListaComponent } from './UI/esquema-lista/esquema-lista.component';
 
-// PrimeNG Modules
 import { CheckboxModule } from 'primeng/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownModule } from 'primeng/dropdown';
@@ -53,7 +52,7 @@ import { StepsModule } from 'primeng/steps';
 import { MessageService } from 'primeng/api';
 import { DialagoOfertaComponent } from './UI/productos/dialago-oferta/dialago-oferta.component';
 import { LoginComponent } from './UI/clientes/seguridad/login/login.component';
- import { CartComponent } from './UI/compra/cart/cart.component';
+import { CartComponent } from './UI/compra/cart/cart.component';
 import { CheckoutComponent } from './UI/compra/checkout/checkout.component';
 import { AuthInterceptor } from './Service/seguridad/AuthInterceptor';
 import { CartService } from './Service/carrito/CartService';
@@ -70,22 +69,18 @@ import { ProductoBuscarComponent } from './UI/productos/producto-buscar/producto
 
 @NgModule({
   declarations: [
-    // Componentes principales
     AppComponent,
     NavbarComponent,
     FooterComponent,
     HomeComponent,
-    // Componentes de administración
 
     ProductoDetailComponent,
     UserDetailComponent,
     FormularioComponentProducto,
-    // OfertaDialogComponent,
-    // Otros componentes
     InputSwitchComponent,
     EsquemaListaComponent,
     DialagoOfertaComponent,
-    LoginComponent, 
+    LoginComponent,
     FormularioComponentUser,
     CheckoutComponent,
     CartComponent,
@@ -95,7 +90,6 @@ import { ProductoBuscarComponent } from './UI/productos/producto-buscar/producto
   ],
   imports: [
     AnimateOnScrollModule,
-    // Angular Core Modules
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
@@ -103,7 +97,6 @@ import { ProductoBuscarComponent } from './UI/productos/producto-buscar/producto
     ReactiveFormsModule,
     BrowserAnimationsModule,
 
-    // PrimeNG Modules
     CheckboxModule,
     DropdownModule,
     ButtonModule,

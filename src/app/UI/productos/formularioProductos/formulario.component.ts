@@ -5,7 +5,7 @@ import { ProductoService } from '../../../Service/producto/Producto.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ProductoDetails } from '../../../Model/Domain/interface/ProductoDetails';
 import { Location } from '@angular/common';
-//si tiene descuento automaticamente esta en
+ 
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
