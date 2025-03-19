@@ -315,21 +315,15 @@
         Back
       </button>
       <button
-        *ngIf="i < params.length - 1"
-        type="button"
-        class="p-button p-button-primary"
-        (click)="nextCB ? nextCB.emit() : null"
-      >
-        Next
-      </button>
-      <!-- <button
-        *ngIf="i === params.length - 1"
-        type="button"
-        class="p-button p-button-success"
-        (click)="save()"
-      >
-        Guardar
-      </button> -->
+      *ngIf="i < params.length - 1"
+      type="button"
+      class="p-button p-button-primary"
+      [disabled]="nombreInput.invalid || descripcionInput.invalid"
+      (click)="nextCB ? nextCB.emit() : null"
+    >
+      Next
+    </button>
+    
       <button
       *ngIf="i === params.length - 1"
       type="button"

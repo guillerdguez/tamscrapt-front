@@ -149,7 +149,7 @@ img {
 }
 .btn-añadir-carrito:hover {
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
-} 
+}
 h1 {
   color: #88c0d0 !important;
 }
@@ -180,7 +180,8 @@ h1 {
   .descripcion,
   .nombre,
   .precio,
-  .cantidad ,h1{
+  .cantidad,
+  h1 {
     text-align: center;
   }
   .nombre {
