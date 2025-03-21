@@ -32,6 +32,9 @@ export class LoginComponent {
         if (user.id) {
           this.userService.getUser(user.id);
         }
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       },
       error: (error) => {
         this.errorMessage = error.error || 'Credenciales inválidas';

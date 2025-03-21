@@ -20,7 +20,18 @@ export class CartComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const hasReloaded = localStorage.getItem('hasReloaded');
+    if (!hasReloaded) {
+      localStorage.setItem('hasReloaded', 'true');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
     this.loadCart();
+  }
+
+  ngOnDestroy(): void {
+    localStorage.removeItem('hasReloaded');
   }
 
   loadCart(): void {
