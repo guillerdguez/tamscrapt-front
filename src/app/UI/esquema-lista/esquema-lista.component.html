@@ -17,7 +17,9 @@
   >
     <ng-template pTemplate="header">
       <div class="flex align-items-center justify-content-end mb-3">
-        @if(authService.hasAuthority(userAuthority.ADMIN) || title=="Pedidos"){
+        @if((authService.hasAuthority(userAuthority.ADMIN) && title !==
+        "Pedidos") || (!authService.hasAuthority(userAuthority.ADMIN) && title
+        === "Pedidos")){
         <p-button (click)="getCreate()" label="+ Create"></p-button>
         }
         <p-dataViewLayoutOptions [layout]="layout"></p-dataViewLayoutOptions>
@@ -94,12 +96,16 @@
                   </ng-container>
                 </div>
               </div>
- 
+
               <div class="flex flex-wrap justify-content-center gap-2">
                 @if(authService.hasAuthority(userAuthority.ADMIN) ||
                 title=="Pedidos"){
                 <div
-                  *ngFor="let menuItem of item.menuItems.slice(1)"
+                  *ngFor="
+                    let menuItem of title === 'Pedidos'
+                      ? item.menuItems
+                      : item.menuItems.slice(1)
+                  "
                   class="botones"
                 >
                   <p-button
@@ -136,7 +142,7 @@
         </div>
       </div>
     </ng-template>
- 
+
     <ng-template pTemplate="grid" let-items>
       <div
         class="grid justify-content-around gap-3 pt-4 align-content-center fondo-card"

@@ -72,7 +72,7 @@ export class EsquemaListaComponent implements OnInit {
       ? 'list'
       : 'grid';
   }
-//selecciona los elementos de la tabla
+  //selecciona los elementos de la tabla
   onselectedTable(event: MouseEvent, item: any) {
     if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
       if (event.button !== 2 && event.button !== 1) {
@@ -114,16 +114,19 @@ export class EsquemaListaComponent implements OnInit {
     item[field] = newValue;
     this.paramsChange.emit(item.setDetails(item));
   }
-//hace que no salga el create donde no debe
+  //hace que no salga el create donde no debe
   getCreate() {
-    this.items = this.paramsTemporal[0].getMenuItems(
-      this.genericModel.elementsSeleccionados
-    );
-    this.itemsCopy = [...this.items];
-    this.firstItem = [this.itemsCopy[0]];
-    this.firstItem[0].command();
+    if (this.title !== 'Pedidos') {
+      this.items = this.paramsTemporal[0].getMenuItems(
+        this.genericModel.elementsSeleccionados
+      );
+      this.itemsCopy = [...this.items];
+      this.firstItem = [this.itemsCopy[0]];
+      this.firstItem[0].command();
+    }
   }
-//pone el scroll en la parte de arriba
+  
+  //pone el scroll en la parte de arriba
   onPageChange(event: any): void {
     this.topElement.nativeElement.scrollIntoView();
   }

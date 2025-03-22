@@ -23,7 +23,8 @@
         inputId="precio"
         [(ngModel)]="precio"
         min="0"
-        required
+        required      
+        step="0.01"
       ></p-inputNumber>
       <div *ngIf="precio <= 0" class="text-danger">
         El precio del producto es obligatorio.

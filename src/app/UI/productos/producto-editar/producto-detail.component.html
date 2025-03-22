@@ -136,9 +136,28 @@
           <small
             *ngIf="nombreInput.invalid && nombreInput.touched"
             class="text-red-500"
-            >No puede estar vacia</small
+            >El nombre no puede estar vacio</small
           >
         </div>
+
+        <div class="mb-6 w-full" *ngIf="authService.hasAuthority(userAuthority.ADMIN)">
+          <label for="producto-precio-{{ i }}" class="block text-lg font-medium mb-2">Producto Precio:</label>
+          <input
+            id="producto-precio-{{ i }}"
+            [(ngModel)]="param.precio"
+            placeholder="Precio del producto"
+            class="p-inputtext w-full"
+            required
+            #precioInput="ngModel"
+            type="number"
+            min="0"
+            step="0.01"
+          />
+          <small *ngIf="precioInput.invalid && precioInput.touched" class="text-red-500">
+            El precio es obligatorio y debe ser mayor o igual a 0
+          </small>
+        </div>
+        
         <div
           class="mb-4 w-full"
           *ngIf="authService.hasAuthority(userAuthority.ADMIN)"

@@ -107,12 +107,16 @@ export class PedidoService {
 
   // Actualizar solo estado
   updateEstadoPedido(id: number, nuevoEstado: string): void {
+
+ 
     this.pedidoDAO.updateEstado(id, nuevoEstado).subscribe({
       next: (pedido: Pedido) => {
          const index = this.pedidoModel.pedidos.findIndex((p) => p.id === id);
         if (index >= 0) {
           this.pedidoModel.pedidos[index].estado = nuevoEstado;
         }
+        this.genericModel.elementsSeleccionados.length = 0;
+
          this.genericModel.elements = [...this.pedidoModel.pedidos];
          this.getPedidos();
       },
@@ -144,7 +148,8 @@ export class PedidoService {
         this.pedidoModel.pedido = pedido;
         this.genericModel.elements = this.genericModel.elements.filter(
           (p: Pedido) => p.id !== id
-        );
+        );        this.genericModel.elementsSeleccionados.length = 0;
+
       },
       error: (error) => {
         console.error(error);
