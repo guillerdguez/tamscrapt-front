@@ -40,7 +40,7 @@ export class CartService {
     return this.cartItems;
   }
 
-  private inicializarCart(userId?: number): void {
+  public inicializarCart(userId?: number): void {
     this.cartDAO.getCarrito(userId).subscribe({
       next: (response) => {
         if (response?.productos) {
@@ -56,15 +56,14 @@ export class CartService {
               acc[productoId] = {
                 product: {
                   ...item.producto,
-                  cantidad: item.cantidad,
                   imagen: item.producto['imagenes'] || [],
                 } as ProductoDetails,
                 quantity: item.cantidad,
               };
             } else {
               acc[productoId].quantity += item.cantidad;
-              acc[productoId].product.cantidad += item.cantidad;
             }
+            
             return acc;
           }, {} as { [key: number]: { product: ProductoDetails; quantity: number } });
 
@@ -87,30 +86,48 @@ export class CartService {
     const articuloExistente = this.cartItems.find(
       (item) => item.product.id === producto.id
     );
-
+  
     let cantidadFinal = cantidadAgregada;
     if (!esActualizacion && articuloExistente) {
       cantidadFinal = articuloExistente.quantity + cantidadAgregada;
     }
-
-    if (producto.cantidad <= 0 || producto.cantidad < cantidadFinal) {
+  
+    // Verifica si no hay stock disponible
+    if (producto.cantidad <= 0) {
       this.messageService.add({
         severity: 'error',
         summary: 'Cantidad Insuficiente',
-        detail: esActualizacion
-          ? 'El producto no tiene suficiente cantidad, pondremos el máximo disponible.'
-          : 'El producto no tiene suficiente cantidad disponible.',
+        detail: 'El producto no tiene cantidad disponible.',
       });
       return;
     }
-
+  
+    // Si la cantidad solicitada supera el stock disponible
+    if (producto.cantidad < cantidadFinal) {
+      if (esActualizacion) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Cantidad ajustada',
+          detail: 'El producto no tiene suficiente cantidad, se ha ajustado al máximo disponible.',
+        });
+        cantidadFinal = producto.cantidad;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Cantidad Insuficiente',
+          detail: 'El producto no tiene suficiente cantidad disponible.',
+        });
+        return;
+      }
+    }
+  
     this.cartDAO.addProductoCarrito(producto.id, cantidadFinal).subscribe({
       next: (resServidor) => {
         const { productId, quantity: cantidadActualizada } = resServidor || {
           productId: producto.id,
           quantity: cantidadFinal,
         };
-
+  
         if (articuloExistente) {
           articuloExistente.quantity = cantidadActualizada;
           if (articuloExistente.quantity <= 0) {
@@ -127,7 +144,7 @@ export class CartService {
             });
           }
         }
-
+  
         this.cartItemsSubject.next(this.cartItems);
       },
       error: () => {
@@ -139,6 +156,7 @@ export class CartService {
       },
     });
   }
+  
 
   removeProduct(productId: number): void {
     this.cartDAO.deleteCarrito(productId).subscribe({
