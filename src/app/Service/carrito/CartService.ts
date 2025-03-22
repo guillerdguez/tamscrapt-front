@@ -47,7 +47,7 @@ export class CartService {
           response.productos.forEach((item) => {
             if (item.producto['cantidad'] == 0) {
               this.removeProduct(item.producto.id);
-              this.handleError(`Se acabo el producto ${item.producto.nombre}`);
+              this.handleError(`Se acabó el producto ${item.producto.nombre}`);
             }
           });
           const agrupados = response.productos.reduce((acc, item) => {
@@ -63,7 +63,6 @@ export class CartService {
             } else {
               acc[productoId].quantity += item.cantidad;
             }
-            
             return acc;
           }, {} as { [key: number]: { product: ProductoDetails; quantity: number } });
 
@@ -86,13 +85,13 @@ export class CartService {
     const articuloExistente = this.cartItems.find(
       (item) => item.product.id === producto.id
     );
-  
+
     let cantidadFinal = cantidadAgregada;
     if (!esActualizacion && articuloExistente) {
       cantidadFinal = articuloExistente.quantity + cantidadAgregada;
     }
-  
-    // Verifica si no hay stock disponible
+
+    // Verificar si el producto tiene stock disponible
     if (producto.cantidad <= 0) {
       this.messageService.add({
         severity: 'error',
@@ -101,14 +100,15 @@ export class CartService {
       });
       return;
     }
-  
+
     // Si la cantidad solicitada supera el stock disponible
     if (producto.cantidad < cantidadFinal) {
       if (esActualizacion) {
         this.messageService.add({
           severity: 'warn',
           summary: 'Cantidad ajustada',
-          detail: 'El producto no tiene suficiente cantidad, se ha ajustado al máximo disponible.',
+          detail:
+            'El producto no tiene suficiente cantidad, se ha ajustado al máximo disponible.',
         });
         cantidadFinal = producto.cantidad;
       } else {
@@ -120,32 +120,12 @@ export class CartService {
         return;
       }
     }
-  
+
     this.cartDAO.addProductoCarrito(producto.id, cantidadFinal).subscribe({
       next: (resServidor) => {
-        const { productId, quantity: cantidadActualizada } = resServidor || {
-          productId: producto.id,
-          quantity: cantidadFinal,
-        };
-  
-        if (articuloExistente) {
-          articuloExistente.quantity = cantidadActualizada;
-          if (articuloExistente.quantity <= 0) {
-            this.cartItems = this.cartItems.filter(
-              (item) => item.product.id !== productId
-            );
-          }
-        } else {
-          if (cantidadActualizada > 0) {
-            const copiaProducto: ProductoDetails = producto.getProductoData();
-            this.cartItems.push({
-              product: copiaProducto,
-              quantity: cantidadActualizada,
-            });
-          }
-        }
-  
-        this.cartItemsSubject.next(this.cartItems);
+        // En lugar de modificar localmente el carrito, recargamos el estado actualizado desde el servidor
+        const userId = this.authService.getCurrentUserId();
+        this.inicializarCart(userId);
       },
       error: () => {
         this.messageService.add({
@@ -156,15 +136,13 @@ export class CartService {
       },
     });
   }
-  
 
   removeProduct(productId: number): void {
     this.cartDAO.deleteCarrito(productId).subscribe({
       next: () => {
-        this.cartItems = this.cartItems.filter(
-          (item: any) => item.product.id !== productId
-        );
-        this.cartItemsSubject.next(this.cartItems);
+        // Recargar el carrito desde el servidor después de eliminar el producto
+        const userId = this.authService.getCurrentUserId();
+        this.inicializarCart(userId);
       },
       error: (error) => {
         console.error('Error al eliminar el producto del carrito:', error);
@@ -172,7 +150,6 @@ export class CartService {
     });
   }
 
- 
   clearCart(): void {
     this.cartDAO.clearCart().subscribe({
       next: () => {
@@ -184,7 +161,7 @@ export class CartService {
       },
     });
   }
- //no se usa
+
   private showSuccessMessage(detail: string): void {
     this.messageService.add({
       severity: 'success',
@@ -192,7 +169,6 @@ export class CartService {
       detail,
     });
   }
- 
 
   private handleError(error: any): void {
     let detalleError = error;

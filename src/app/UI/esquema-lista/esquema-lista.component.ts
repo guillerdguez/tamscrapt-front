@@ -41,6 +41,10 @@ export class EsquemaListaComponent implements OnInit {
   headers: any[] = [];
   private currentTipo: string | null = null;
 
+  // NUEVAS PROPIEDADES PARA ACUMULAR CLICKS
+  private accumulatedCartClicks: { [productId: number]: number } = {};
+  private clickTimers: { [productId: number]: any } = {};
+
   get paramsTemporal(): User[] | Producto[] {
     return this.genericModel.elements;
   }
@@ -55,7 +59,7 @@ export class EsquemaListaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //parte clave para rellenar la tabla en funcion de la url
+    // Parte clave para rellenar la tabla en función de la URL
     this.route.paramMap.subscribe((params) => {
       const tipo = params.get('tipo');
       if (tipo !== this.currentTipo) {
@@ -67,12 +71,12 @@ export class EsquemaListaComponent implements OnInit {
     this.pasarInformacionTablaService.title.subscribe((title) => {
       this.title = title;
     });
-    //si entra como admin se le muestra un vista mas profesional
+    // Si entra como admin se le muestra una vista más profesional
     this.layout = this.authService.hasAuthority(UserAuthority.ADMIN)
       ? 'list'
       : 'grid';
   }
-  //selecciona los elementos de la tabla
+  // Selecciona los elementos de la tabla
   onselectedTable(event: MouseEvent, item: any) {
     if (this.authService.hasAuthority(UserAuthority.ADMIN)) {
       if (event.button !== 2 && event.button !== 1) {
@@ -114,7 +118,7 @@ export class EsquemaListaComponent implements OnInit {
     item[field] = newValue;
     this.paramsChange.emit(item.setDetails(item));
   }
-  //hace que no salga el create donde no debe
+  // Hace que no salga el create donde no debe
   getCreate() {
     if (this.title !== 'Pedidos') {
       this.items = this.paramsTemporal[0].getMenuItems(
@@ -126,8 +130,38 @@ export class EsquemaListaComponent implements OnInit {
     }
   }
   
-  //pone el scroll en la parte de arriba
+  // Pone el scroll en la parte de arriba
   onPageChange(event: any): void {
     this.topElement.nativeElement.scrollIntoView();
+  }
+
+  /**
+   * Método para acumular clics rápidos en el botón de "añadir al carrito"
+   * y enviarlos de forma agrupada al servicio.
+   */
+  accumulatedAddCart(item: Producto): void {
+    const productId = item.id;
+    if (!this.accumulatedCartClicks[productId]) {
+      this.accumulatedCartClicks[productId] = 0;
+    }
+    // Acumula un clic (o la cantidad que se desee sumar por clic, en este caso 1)
+    this.accumulatedCartClicks[productId]++;
+
+    // Si ya existe un timer, se reinicia
+    if (this.clickTimers[productId]) {
+      clearTimeout(this.clickTimers[productId]);
+    }
+    // Se establece un timer para agrupar clics durante 500ms
+    this.clickTimers[productId] = setTimeout(() => {
+      const totalClicks = this.accumulatedCartClicks[productId];
+      // Aquí llamamos al servicio tantas veces como clics se hayan acumulado.
+      // Si tu servicio permite enviar un parámetro de cantidad, podrías enviar totalClicks directamente.
+      for (let i = 0; i < totalClicks; i++) {
+        this.callbacksProductoService.alternarCart([item]);
+      }
+      // Se reinician el acumulador y el timer para ese producto
+      this.accumulatedCartClicks[productId] = 0;
+      this.clickTimers[productId] = null;
+    }, 500);
   }
 }

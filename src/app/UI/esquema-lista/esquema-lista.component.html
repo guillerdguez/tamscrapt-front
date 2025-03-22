@@ -117,13 +117,14 @@
                   ></p-button>
                 </div>
                 }@else {
-                <div class="cart">
-                  <i
-                    class="pi pi-cart-plus"
-                    (click)="callbacksProductoService.alternarCart([item])"
-                    tabindex="-1"
-                  ></i>
-                </div>
+                  <div class="cart">
+                    <i
+                      class="pi pi-cart-plus"
+                      (click)="accumulatedAddCart(item)"
+                      tabindex="-1"
+                    ></i>
+                  </div>
+                  
                 <div class="heart pr-8 pl-7">
                   <i
                     (click)="callbacksProductoService.alternarFavorito([item])"
@@ -252,10 +253,11 @@
               <div class="cart">
                 <i
                   class="pi pi-cart-plus"
-                  (click)="callbacksProductoService.alternarCart([item])"
-                  tabindex="0"
+                  (click)="accumulatedAddCart(item)"
+                  tabindex="-1"
                 ></i>
               </div>
+              
             </div>
             }
           </div>

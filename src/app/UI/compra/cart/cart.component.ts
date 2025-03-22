@@ -14,18 +14,15 @@ export class CartComponent implements OnInit {
   total: number = 0;
   activo: boolean = this.cartItems.length === 0;
   cantidad: number = 1;
+
   constructor(
     public cartService: CartService,
     public authService: AuthService
   ) {}
 
   ngOnInit(): void {
- 
-    this.loadCart();  this.cartService.inicializarCart(this.authService.getCurrentUserId());
-
+    this.loadCart();
   }
-
- 
 
   loadCart(): void {
     this.cartService.cartItems$.subscribe((items) => {
