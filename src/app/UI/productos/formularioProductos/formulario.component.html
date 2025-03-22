@@ -40,7 +40,21 @@
         [(ngModel)]="imagen"
       />
     </div>
- 
+    <div class="form-group">
+      <label for="descripcion">Descripción del Producto: </label>
+      <textarea
+        class="form-control"
+        id="descripcion"
+        name="descripcion"
+        required
+        [(ngModel)]="descripcion"
+        placeholder="Ingrese una descripción detallada"
+      ></textarea>
+      <div *ngIf="!descripcion?.trim()" class="text-danger">
+        La descripción del producto es obligatoria.
+      </div>
+    </div>
+    
     <div class="form-group">
       <label for="oferta">¿Está en oferta?</label>
       <p-checkbox
@@ -111,7 +125,7 @@
             precio,
             imagen,
             descuento,
-            cantidad,
+            cantidad,descripcion,
             lettering,
             scrapbooking,
             oferta

@@ -5,7 +5,7 @@ import { ProductoService } from '../../../Service/producto/Producto.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ProductoDetails } from '../../../Model/Domain/interface/ProductoDetails';
 import { Location } from '@angular/common';
- 
+
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
@@ -21,6 +21,7 @@ export class FormularioComponentProducto implements OnInit {
   scrapbooking?: boolean;
   oferta?: boolean;
   cantidad: number = 1;
+  descripcion: string = '';
 
   constructor(
     private productoService: ProductoService,
@@ -36,6 +37,7 @@ export class FormularioComponentProducto implements OnInit {
     imagen: string,
     descuento: number,
     cantidad: number,
+    descripcion: string,
     lettering?: boolean,
     scrapbooking?: boolean,
     oferta?: boolean
@@ -56,6 +58,7 @@ export class FormularioComponentProducto implements OnInit {
       imagen,
       lettering,
       scrapbooking,
+      descripcion,
       oferta,
       cantidad,
       descuento,
