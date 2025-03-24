@@ -1,17 +1,17 @@
  
 import { Injectable } from '@angular/core';
-import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
+import { TipoManejador } from '../../Model/Domain/interface/TipoHandler';
 import { ProductoService } from '../producto/Producto.service';
 
 @Injectable()
-export class ScrapbookingHandler implements TipoHandler {
+export class ScrapbookingHandler implements TipoManejador {
   constructor(private productoService: ProductoService) {}
 
-  execute(): void {
+  ejecutar(): void {
     this.productoService.getProductos('scrapbooking'); 
   }
 
-  getTitle(): string {
+  getTitulo(): string {
     return 'Scrapbooking';
   }
 }

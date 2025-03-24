@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
+import { TipoManejador } from '../../Model/Domain/interface/TipoHandler';
 import { Router } from '@angular/router';
 import { AuthService } from '../seguridad/AuthService.service';
 import { UserService } from '../user/User.service';
 import { ProductoService } from '../producto/Producto.service';
 
 @Injectable()
-export class FavoritoHandler implements TipoHandler {
+export class FavoritoHandler implements TipoManejador {
   constructor(
     private router: Router,
      private productService: ProductoService,
     public authService: AuthService
   ) {}
 
-  execute(): void {
+  ejecutar(): void {
     if (this.authService.getCurrentUserId()) {
       this.productService.cargarFavoritos(this.authService.getCurrentUserId());
     } else {
@@ -21,7 +21,7 @@ export class FavoritoHandler implements TipoHandler {
     }
   }
 
-  getTitle(): string {
+  getTitulo(): string {
     return 'Favoritos';
   }
 }

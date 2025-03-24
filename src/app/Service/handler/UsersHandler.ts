@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
+import { TipoManejador } from '../../Model/Domain/interface/TipoHandler';
 import { UserService } from '../user/User.service';
 
 @Injectable()
-export class UsersHandler implements TipoHandler {
+export class UsersHandler implements TipoManejador {
   constructor(private userService: UserService) {}
 
-  execute(): void {
+  ejecutar(): void {
     this.userService.getUsersArray();
   }
 
-  getTitle(): string {
+  getTitulo(): string {
     return 'Users';
   }
 }

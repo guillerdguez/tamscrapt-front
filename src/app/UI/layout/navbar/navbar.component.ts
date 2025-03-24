@@ -17,19 +17,19 @@ export class NavbarComponent implements OnInit {
   userAuthority = UserAuthority;
 
   constructor(
-    public authService: AuthService, 
+    public authService: AuthService,
     private userService: UserService,
     public genericModel: GenericModel,
     public userModel: UserModel
   ) {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.userId = this.authService.getCurrentUserId();
     if (this.userId) {
       this.userService.getUser(this.userId);
     }
   }
- 
+
   alternarMenu(menu: 'admin' | 'user') {
     if (menu === 'admin') {
       this.dropdownMenu = !this.dropdownMenu;
@@ -48,6 +48,9 @@ export class NavbarComponent implements OnInit {
   logout() {
     // window.location.reload();
     this.authService.logout();
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
     // this.router.navigate(['/home']);
   }
 }

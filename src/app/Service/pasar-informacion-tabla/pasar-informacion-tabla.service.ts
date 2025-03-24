@@ -5,7 +5,7 @@ import { ProductoService } from '../producto/Producto.service';
 import { ProductoModel } from '../../Model/Views/Dynamic/ProductoModel';
 import { UserModel } from '../../Model/Views/Dynamic/UserModel';
 import { UserService } from '../user/User.service';
-import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
+import { TipoManejador } from '../../Model/Domain/interface/TipoHandler';
 import { TipoFactory } from './TipoFactory';
 
 @Injectable({
@@ -30,10 +30,10 @@ export class PasarInformacionTablaService {
       return;
     }
 
-    const handler: TipoHandler | null = this.tipoFactory.getHandler(tipo);
-    if (handler) {
-      handler.execute(params);
-      this.title.next(handler.getTitle());
+    const manejador: TipoManejador | null = this.tipoFactory.getManejador(tipo);
+    if (manejador) {
+      manejador.ejecutar(params);
+      this.title.next(manejador.getTitulo());
     } else {
       this.title.next(`"${tipo}" no existe`);
       this.genericModel.elements = [];
@@ -54,3 +54,5 @@ export class PasarInformacionTablaService {
     }
   }
 }
+
+

@@ -91,18 +91,16 @@ export class CartService {
       cantidadFinal = articuloExistente.quantity + cantidadAgregada;
     }
 
-    // Verificar si el producto tiene stock disponible
-    if (producto.cantidad <= 0) {
+     if (producto.cantidad <= 0) {
       this.messageService.add({
-        severity: 'error',
+        severity: 'warn',
         summary: 'Cantidad Insuficiente',
         detail: 'El producto no tiene cantidad disponible.',
       });
       return;
     }
 
-    // Si la cantidad solicitada supera el stock disponible
-    if (producto.cantidad < cantidadFinal) {
+     if (producto.cantidad < cantidadFinal) {
       if (esActualizacion) {
         this.messageService.add({
           severity: 'warn',
@@ -113,7 +111,7 @@ export class CartService {
         cantidadFinal = producto.cantidad;
       } else {
         this.messageService.add({
-          severity: 'error',
+          severity: 'warn',
           summary: 'Cantidad Insuficiente',
           detail: 'El producto no tiene suficiente cantidad disponible.',
         });
@@ -123,11 +121,18 @@ export class CartService {
 
     this.cartDAO.addProductoCarrito(producto.id, cantidadFinal).subscribe({
       next: (resServidor) => {
-        // En lugar de modificar localmente el carrito, recargamos el estado actualizado desde el servidor
-        const userId = this.authService.getCurrentUserId();
+         const userId = this.authService.getCurrentUserId();
         this.inicializarCart(userId);
       },
       error: () => {
+        if (!this.authService.isAuthenticated()) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Autenticación requerida',
+            detail: 'Necesitas iniciar sesión.',
+          });
+          return;
+        }
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -140,8 +145,7 @@ export class CartService {
   removeProduct(productId: number): void {
     this.cartDAO.deleteCarrito(productId).subscribe({
       next: () => {
-        // Recargar el carrito desde el servidor después de eliminar el producto
-        const userId = this.authService.getCurrentUserId();
+         const userId = this.authService.getCurrentUserId();
         this.inicializarCart(userId);
       },
       error: (error) => {

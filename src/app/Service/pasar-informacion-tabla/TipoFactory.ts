@@ -1,43 +1,54 @@
 import { Injectable } from '@angular/core';
-import { TipoHandler } from '../../Model/Domain/interface/TipoHandler';
-import { LetteringHandler } from '../handler/LetteringHandler';
-import { OfertasHandler } from '../handler/OfertasHandler';
-import { ProductosHandler } from '../handler/ProductosHandler';
-import { ScrapbookingHandler } from '../handler/ScrapbookingHandler';
-import { UsersHandler } from '../handler/UsersHandler';
-import { PedidosHandler } from '../handler/PedidosHandler';
-import { PedidoHandler } from '../handler/PedidoHandler';
-import { FavoritoHandler } from '../handler/FavoritoHandler';
+import { TipoManejador } from '../../Model/Domain/interface/TipoHandler';
+import { LetteringHandler as LetteringManejador } from '../handler/LetteringHandler';
+import { OfertasHandler as OfertasManejador } from '../handler/OfertasHandler';
+import { ProductosHandler as ProductosManejador } from '../handler/ProductosHandler';
+import { ScrapbookingHandler as ScrapbookingManejador } from '../handler/ScrapbookingHandler';
+import { UsersHandler as UsersManejador } from '../handler/UsersHandler';
+import { PedidosHandler as PedidosManejador } from '../handler/PedidosHandler';
+import { PedidoHandler as PedidoManejador } from '../handler/PedidoHandler';
+import { FavoritoHandler as FavoritoManejador } from '../handler/FavoritoHandler';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TipoFactory {
-  private handlerRegistry: { [key: string]: TipoHandler };
+  private manejadorRegistry: { [key: string]: TipoManejador };
 
   constructor(
-    productosHandler: ProductosHandler,
-    scrapbookingHandler: ScrapbookingHandler,
-    favoritoHandler: FavoritoHandler,
-    letteringHandler: LetteringHandler,
-    ofertasHandler: OfertasHandler,
-    usersHandler: UsersHandler,
-    pedidosHandler: PedidosHandler,
-    pedidoHandler: PedidoHandler
+    productosManejador: ProductosManejador,
+    scrapbookingManejador: ScrapbookingManejador,
+    favoritoManejador: FavoritoManejador,
+    letteringManejador: LetteringManejador,
+    ofertasManejador: OfertasManejador,
+    usersManejador: UsersManejador,
+    pedidosManejador: PedidosManejador,
+    pedidoManejador: PedidoManejador
   ) { 
-    this.handlerRegistry = {
-      productos: productosHandler,
-      scrapbooking: scrapbookingHandler,
-      favorito: favoritoHandler,
-      lettering: letteringHandler,
-      ofertas: ofertasHandler,
-      users: usersHandler,
-      pedidos: pedidosHandler,
-      pedidosCliente: pedidoHandler,
+    this.manejadorRegistry = {
+      productos: productosManejador,
+      scrapbooking: scrapbookingManejador,
+      favorito: favoritoManejador,
+      lettering: letteringManejador,
+      ofertas: ofertasManejador,
+      users: usersManejador,
+      pedidos: pedidosManejador,
+      pedidosCliente: pedidoManejador,
     };
   }
 
-  getHandler(tipo: string): TipoHandler | null { 
-    return this.handlerRegistry[tipo] || null;
+  getManejador(tipo: string): TipoManejador | null { 
+    return this.manejadorRegistry[tipo] || null;
   }
 } 
+
+
+
+
+
+
+
+
+
+
+

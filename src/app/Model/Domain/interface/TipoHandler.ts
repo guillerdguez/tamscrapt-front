@@ -1,5 +1,10 @@
  
-export interface TipoHandler {
-  execute(params?: any): void;
-  getTitle(): string;
+export interface TipoManejador {
+  ejecutar(params?: any): void;
+  getTitulo(): string;
 }
+
+
+
+
+
